@@ -23,6 +23,8 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
+    
+//    [self performSegueWithIdentifier:@"fromLoadingVCToMainFeedVC" sender:self];
 }
 
 
