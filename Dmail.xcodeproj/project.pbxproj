@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
 		9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AF71B2AEB64008F3C8E /* main.m */; };
 		9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */; };
-		9C9E2AFE1B2AEB64008F3C8E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFD1B2AEB64008F3C8E /* ViewController.m */; };
 		9C9E2B011B2AEB64008F3C8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */; };
 		9C9E2B031B2AEB64008F3C8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2B021B2AEB64008F3C8E /* Images.xcassets */; };
 		9C9E2B061B2AEB64008F3C8E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2B041B2AEB64008F3C8E /* LaunchScreen.xib */; };
 		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
 		9C9E2B1C1B2AEB86008F3C8E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2B1B1B2AEB86008F3C8E /* Podfile */; };
+		9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B1F1B2AF905008F3C8E /* MessageService.m */; };
+		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
+		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
+		9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */; };
+		9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B301B2B0384008F3C8E /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,13 +33,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2AF61B2AEB64008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C9E2AF71B2AEB64008F3C8E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9C9E2AF91B2AEB64008F3C8E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9C9E2AFC1B2AEB64008F3C8E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9C9E2AFD1B2AEB64008F3C8E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9C9E2B001B2AEB64008F3C8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9C9E2B021B2AEB64008F3C8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9C9E2B051B2AEB64008F3C8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -42,6 +46,17 @@
 		9C9E2B101B2AEB65008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C9E2B111B2AEB65008F3C8E /* DmailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DmailTests.m; sourceTree = "<group>"; };
 		9C9E2B1B1B2AEB86008F3C8E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		9C9E2B1E1B2AF905008F3C8E /* MessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageService.h; sourceTree = "<group>"; };
+		9C9E2B1F1B2AF905008F3C8E /* MessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageService.m; sourceTree = "<group>"; };
+		9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9C9E2B291B2B02B2008F3C8E /* Configurations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Configurations.h; sourceTree = "<group>"; };
+		9C9E2B2B1B2B0364008F3C8E /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
+		9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
+		9C9E2B2F1B2B0384008F3C8E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		9C9E2B301B2B0384008F3C8E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
+		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +64,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */,
+				9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */,
+				4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +86,8 @@
 				9C9E2AF41B2AEB64008F3C8E /* Dmail */,
 				9C9E2B0E1B2AEB65008F3C8E /* DmailTests */,
 				9C9E2AF31B2AEB64008F3C8E /* Products */,
+				EFAF3DA5F47E99AF4EA39098 /* Pods */,
+				D83BFC4667FC4E4708232089 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,11 +105,12 @@
 			children = (
 				9C9E2AF91B2AEB64008F3C8E /* AppDelegate.h */,
 				9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */,
-				9C9E2AFC1B2AEB64008F3C8E /* ViewController.h */,
-				9C9E2AFD1B2AEB64008F3C8E /* ViewController.m */,
+				9C9E2B291B2B02B2008F3C8E /* Configurations.h */,
+				9C9E2B251B2AFD94008F3C8E /* ViewControllers */,
+				9C9E2B1D1B2AF8E7008F3C8E /* Services */,
 				9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */,
-				9C9E2B021B2AEB64008F3C8E /* Images.xcassets */,
 				9C9E2B041B2AEB64008F3C8E /* LaunchScreen.xib */,
+				9C9E2B021B2AEB64008F3C8E /* Images.xcassets */,
 				9C9E2AF51B2AEB64008F3C8E /* Supporting Files */,
 			);
 			path = Dmail;
@@ -122,6 +143,61 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9C9E2B1D1B2AF8E7008F3C8E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E2B1E1B2AF905008F3C8E /* MessageService.h */,
+				9C9E2B1F1B2AF905008F3C8E /* MessageService.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9C9E2B251B2AFD94008F3C8E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E2B2A1B2B0364008F3C8E /* Loading */,
+				9C9E2B2E1B2B0371008F3C8E /* Login */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9C9E2B2A1B2B0364008F3C8E /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E2B2B1B2B0364008F3C8E /* LoadingViewController.h */,
+				9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		9C9E2B2E1B2B0371008F3C8E /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E2B2F1B2B0384008F3C8E /* LoginViewController.h */,
+				9C9E2B301B2B0384008F3C8E /* LoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		D83BFC4667FC4E4708232089 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */,
+				9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */,
+				5914951D3488C2D289EEE715 /* libPods-Dmail.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EFAF3DA5F47E99AF4EA39098 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */,
+				E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,9 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C9E2B151B2AEB65008F3C8E /* Build configuration list for PBXNativeTarget "Dmail" */;
 			buildPhases = (
+				E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */,
 				9C9E2AEE1B2AEB64008F3C8E /* Sources */,
 				9C9E2AEF1B2AEB64008F3C8E /* Frameworks */,
 				9C9E2AF01B2AEB64008F3C8E /* Resources */,
+				61A43B1D1C486FF6CA330822 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,14 +296,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		61A43B1D1C486FF6CA330822 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9C9E2AEE1B2AEB64008F3C8E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C9E2AFE1B2AEB64008F3C8E /* ViewController.m in Sources */,
+				9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
+				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
+				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +462,7 @@
 		};
 		9C9E2B161B2AEB65008F3C8E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Dmail/Info.plist;
@@ -359,6 +473,7 @@
 		};
 		9C9E2B171B2AEB65008F3C8E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Dmail/Info.plist;
