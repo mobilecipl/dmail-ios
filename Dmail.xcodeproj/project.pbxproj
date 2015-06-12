@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
+		58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E815FD1B2B2A3900401520 /* InboxViewController.m */; };
+		58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */; };
 		9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AF71B2AEB64008F3C8E /* main.m */; };
 		9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */; };
 		9C9E2B011B2AEB64008F3C8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */; };
@@ -33,6 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58E815FC1B2B2A3900401520 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxViewController.h; path = Inbox/InboxViewController.h; sourceTree = "<group>"; };
+		58E815FD1B2B2A3900401520 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxViewController.m; path = Inbox/InboxViewController.m; sourceTree = "<group>"; };
+		58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CALayer+UIColorToCGColor.h"; path = "Categories/CALayer+UIColorToCGColor.h"; sourceTree = "<group>"; };
+		58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CALayer+UIColorToCGColor.m"; path = "Categories/CALayer+UIColorToCGColor.m"; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2AF61B2AEB64008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +86,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58E815FF1B2B2A4A00401520 /* Inbox */ = {
+			isa = PBXGroup;
+			children = (
+				58E815FC1B2B2A3900401520 /* InboxViewController.h */,
+				58E815FD1B2B2A3900401520 /* InboxViewController.m */,
+			);
+			name = Inbox;
+			sourceTree = "<group>";
+		};
+		58E816001B2B32F200401520 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */,
+				58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		9C9E2AE91B2AEB64008F3C8E = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +127,7 @@
 		9C9E2AF41B2AEB64008F3C8E /* Dmail */ = {
 			isa = PBXGroup;
 			children = (
+				58E816001B2B32F200401520 /* Categories */,
 				9C9E2B041B2AEB64008F3C8E /* LaunchScreen.xib */,
 				9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */,
 				9C9E2AF91B2AEB64008F3C8E /* AppDelegate.h */,
@@ -155,6 +180,7 @@
 		9C9E2B251B2AFD94008F3C8E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				58E815FF1B2B2A4A00401520 /* Inbox */,
 				9C9E2B2A1B2B0364008F3C8E /* Loading */,
 				9C9E2B2E1B2B0371008F3C8E /* Login */,
 			);
@@ -335,10 +361,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */,
+				58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
+				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
