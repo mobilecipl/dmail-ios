@@ -7,31 +7,76 @@
 //
 
 #import "LoginViewController.h"
+#import <GoogleSignIn/GoogleSignIn.h>
+#import "UserService.h"
 
-@interface LoginViewController ()
+
+@interface LoginViewController ()<GIDSignInDelegate>
 
 @end
 
 @implementation LoginViewController
 
+
+#pragma mark - Class Methods
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - IBAction Methods
+- (IBAction)gmailLoginClicked:(id)sender {
+    
+    [GIDSignInButton class];
+    
+    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+    googleSignIn.shouldFetchBasicProfile = YES;
+    googleSignIn.allowsSignInWithWebView = NO;
+    googleSignIn.delegate = self;
+    
+    [googleSignIn signIn];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Private Methods
+- (void)presentSignInViewController:(UIViewController *)viewController {
+    
+    [self.navigationController pushViewController:viewController animated:YES];
 }
-*/
+
+
+#pragma mark - GIDSignInDelegate Methods
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    [self hideLoadingView];
+    if (error) {
+        // TO DO Handle error
+        return;
+    }
+    else {
+        [[UserService sharedInstance] updateUserDetails:user];
+        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+    }
+}
+
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    if (error) {
+        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Failed to disconnect: %@", error];
+    } else {
+        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Disconnected"];
+    }
+    //    [self reportAuthStatus];
+    //    [self updateButtons];
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    
+}
 
 @end

@@ -22,6 +22,8 @@
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
 		9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */; };
 		9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B301B2B0384008F3C8E /* LoginViewController.m */; };
+		9CF619C31B2C1AD4009A210C /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C21B2C1AD4009A210C /* UserService.m */; };
+		9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C61B2C1BA6009A210C /* BaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,10 @@
 		9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
 		9C9E2B2F1B2B0384008F3C8E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		9C9E2B301B2B0384008F3C8E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		9CF619C11B2C1AD4009A210C /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
+		9CF619C21B2C1AD4009A210C /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
+		9CF619C51B2C1BA6009A210C /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		9CF619C61B2C1BA6009A210C /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +179,8 @@
 			children = (
 				9C9E2B1E1B2AF905008F3C8E /* MessageService.h */,
 				9C9E2B1F1B2AF905008F3C8E /* MessageService.m */,
+				9CF619C11B2C1AD4009A210C /* UserService.h */,
+				9CF619C21B2C1AD4009A210C /* UserService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -180,9 +188,10 @@
 		9C9E2B251B2AFD94008F3C8E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				58E815FF1B2B2A4A00401520 /* Inbox */,
+				9CF619C41B2C1B96009A210C /* BaseViewController */,
 				9C9E2B2A1B2B0364008F3C8E /* Loading */,
 				9C9E2B2E1B2B0371008F3C8E /* Login */,
+				58E815FF1B2B2A4A00401520 /* Inbox */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -203,6 +212,15 @@
 				9C9E2B301B2B0384008F3C8E /* LoginViewController.m */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		9CF619C41B2C1B96009A210C /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CF619C51B2C1BA6009A210C /* BaseViewController.h */,
+				9CF619C61B2C1BA6009A210C /* BaseViewController.m */,
+			);
+			path = BaseViewController;
 			sourceTree = "<group>";
 		};
 		D83BFC4667FC4E4708232089 /* Frameworks */ = {
@@ -360,6 +378,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CF619C31B2C1AD4009A210C /* UserService.m in Sources */,
+				9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */,
 				9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */,
 				58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,

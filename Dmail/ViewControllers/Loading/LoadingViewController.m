@@ -7,6 +7,8 @@
 //
 
 #import "LoadingViewController.h"
+#import "UserService.h"
+#import "LoginViewController.h"
 
 @interface LoadingViewController ()
 
@@ -24,7 +26,12 @@
     
     [self.indicator startAnimating];
     
-//    [self performSegueWithIdentifier:@"fromLoadingVCToMainFeedVC" sender:self];
+    if ([[UserService sharedInstance] userID]) {
+        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
+    }
 }
 
 
