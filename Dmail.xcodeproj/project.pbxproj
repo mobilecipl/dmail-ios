@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
+		58D9E3131B2EC2380046B154 /* InboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D9E3121B2EC2380046B154 /* InboxCell.m */; };
 		58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E815FD1B2B2A3900401520 /* InboxViewController.m */; };
 		58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */; };
 		9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58D9E3111B2EC2380046B154 /* InboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxCell.h; path = Views/Cells/InboxCell.h; sourceTree = "<group>"; };
+		58D9E3121B2EC2380046B154 /* InboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxCell.m; path = Views/Cells/InboxCell.m; sourceTree = "<group>"; };
 		58E815FC1B2B2A3900401520 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxViewController.h; path = Inbox/InboxViewController.h; sourceTree = "<group>"; };
 		58E815FD1B2B2A3900401520 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxViewController.m; path = Inbox/InboxViewController.m; sourceTree = "<group>"; };
 		58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CALayer+UIColorToCGColor.h"; path = "Categories/CALayer+UIColorToCGColor.h"; sourceTree = "<group>"; };
@@ -99,6 +102,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58D9E3141B2EC24B0046B154 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				58D9E3151B2EC2540046B154 /* Cells */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		58D9E3151B2EC2540046B154 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				58D9E3111B2EC2380046B154 /* InboxCell.h */,
+				58D9E3121B2EC2380046B154 /* InboxCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		58E815FF1B2B2A4A00401520 /* Inbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +188,7 @@
 				9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */,
 				9C9E2B291B2B02B2008F3C8E /* Configurations.h */,
 				9C9E2B251B2AFD94008F3C8E /* ViewControllers */,
+				58D9E3141B2EC24B0046B154 /* Views */,
 				9C9E2B1D1B2AF8E7008F3C8E /* Services */,
 				9C9E2B021B2AEB64008F3C8E /* Images.xcassets */,
 				9C9E2AF51B2AEB64008F3C8E /* Supporting Files */,
@@ -412,6 +433,7 @@
 				58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
+				58D9E3131B2EC2380046B154 /* InboxCell.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
 				9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */,
 				9C7646A91B2E02C700DA5116 /* UIColor+AppColors.m in Sources */,

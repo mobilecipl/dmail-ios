@@ -8,6 +8,24 @@
 
 #import "InboxViewController.h"
 
+@interface InboxViewController ()
+
+@property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
+
+@end
+
 @implementation InboxViewController
+
+- (void)viewDidLoad {
+    
+}
+
+- (IBAction)buttonHandlerMenu:(id)sender {
+    NSLog(@"Menu selected");
+}
+
+- (IBAction)buttonHandlerCompose:(id)sender {
+    NSLog(@"Compose selected");
+}
 
 @end
