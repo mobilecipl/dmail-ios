@@ -8,6 +8,8 @@
 
 #import "InboxViewController.h"
 
+#import "Configurations.h"
+
 @interface InboxViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
@@ -22,6 +24,9 @@
 
 - (IBAction)buttonHandlerMenu:(id)sender {
     NSLog(@"Menu selected");
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:kNotificationMenuButton
+     object:nil];
 }
 
 - (IBAction)buttonHandlerCompose:(id)sender {

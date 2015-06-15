@@ -11,4 +11,7 @@
 
 static NSString * const kClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
 
+//Notifications
+static NSString * const kNotificationMenuButton = @"kNotificationMenuButton";
+
 #endif
