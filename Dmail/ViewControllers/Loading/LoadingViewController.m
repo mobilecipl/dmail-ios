@@ -26,12 +26,13 @@
     
     [self.indicator startAnimating];
     
-    if ([[UserService sharedInstance] userID]) {
-        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
-    }
-    else {
-        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
-    }
+    [self performSegueWithIdentifier:@"toInboxMessage" sender:self];
+//    if ([[UserService sharedInstance] userID]) {
+//        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+//    }
+//    else {
+//        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
+//    }
 }
 
 

@@ -10,4 +10,20 @@
 
 @implementation MessageService
 
++ (MessageService *)sharedInstance {
+    static MessageService *sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[MessageService alloc] init];
+    });
+    
+    return sharedInstance;
+}
+
+#pragma mark - Public Methods
+- (void)getMessageUniqueIDsFromDmailWithUserId:(NSString *)userID WithCompletionBlock:(void (^)(BOOL success, NSError *error))completion {
+    
+    
+}
+
 @end

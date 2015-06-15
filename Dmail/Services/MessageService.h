@@ -10,4 +10,10 @@
 
 @interface MessageService : NSObject
 
+
++ (MessageService *)sharedInstance;
+
+#pragma mark - Public Methods
+- (void)getMessageUniqueIDsFromDmailWithUserId:(NSString *)userID WithCompletionBlock:(void (^)(BOOL success, NSError *error))completion;
+
 @end

@@ -10,6 +10,8 @@
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
 		58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E815FD1B2B2A3900401520 /* InboxViewController.m */; };
 		58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */; };
+		9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */; };
+		9C7646A91B2E02C700DA5116 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7646A81B2E02C700DA5116 /* UIColor+AppColors.m */; };
 		9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AF71B2AEB64008F3C8E /* main.m */; };
 		9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */; };
 		9C9E2B011B2AEB64008F3C8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */; };
@@ -42,6 +44,11 @@
 		58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CALayer+UIColorToCGColor.h"; path = "Categories/CALayer+UIColorToCGColor.h"; sourceTree = "<group>"; };
 		58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CALayer+UIColorToCGColor.m"; path = "Categories/CALayer+UIColorToCGColor.m"; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C76469E1B2DE27000DA5116 /* ProximaNova-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.otf"; sourceTree = "<group>"; };
+		9C7646A41B2DEBDC00DA5116 /* InboxMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxMessageViewController.h; sourceTree = "<group>"; };
+		9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxMessageViewController.m; sourceTree = "<group>"; };
+		9C7646A71B2E02C700DA5116 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColors.h"; sourceTree = "<group>"; };
+		9C7646A81B2E02C700DA5116 /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColors.m"; sourceTree = "<group>"; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2AF61B2AEB64008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C9E2AF71B2AEB64008F3C8E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,6 +104,8 @@
 			children = (
 				58E815FC1B2B2A3900401520 /* InboxViewController.h */,
 				58E815FD1B2B2A3900401520 /* InboxViewController.m */,
+				9C7646A41B2DEBDC00DA5116 /* InboxMessageViewController.h */,
+				9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */,
 			);
 			name = Inbox;
 			sourceTree = "<group>";
@@ -106,8 +115,26 @@
 			children = (
 				58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */,
 				58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */,
+				9C7646A71B2E02C700DA5116 /* UIColor+AppColors.h */,
+				9C7646A81B2E02C700DA5116 /* UIColor+AppColors.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		9C7646941B2DE22700DA5116 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9C7646951B2DE22700DA5116 /* Fonts */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		9C7646951B2DE22700DA5116 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9C76469E1B2DE27000DA5116 /* ProximaNova-Regular.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		9C9E2AE91B2AEB64008F3C8E = {
@@ -133,6 +160,7 @@
 		9C9E2AF41B2AEB64008F3C8E /* Dmail */ = {
 			isa = PBXGroup;
 			children = (
+				9C7646941B2DE22700DA5116 /* Assets */,
 				58E816001B2B32F200401520 /* Categories */,
 				9C9E2B041B2AEB64008F3C8E /* LaunchScreen.xib */,
 				9C9E2AFF1B2AEB64008F3C8E /* Main.storyboard */,
@@ -385,6 +413,8 @@
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
+				9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */,
+				9C7646A91B2E02C700DA5116 /* UIColor+AppColors.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
 				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
 			);
