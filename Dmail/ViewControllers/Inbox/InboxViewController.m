@@ -19,7 +19,7 @@
 @implementation InboxViewController
 
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
 }
 
 - (IBAction)buttonHandlerMenu:(id)sender {

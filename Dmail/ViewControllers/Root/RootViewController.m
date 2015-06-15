@@ -36,7 +36,7 @@
 }
 
 - (void)setupMenu {
-    [self.view layoutIfNeeded];
+//    [self.view layoutIfNeeded];
     self.constraintMenuWidth.constant = self.view.frame.size.width * 0.6; // 60%
     self.screenWidthMenu = self.constraintMenuWidth.constant;
     
@@ -79,7 +79,8 @@
     //    self.constraintMain.constant = self.screenWidthContainerView;
     
     [self.view layoutIfNeeded];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     self.menuOpened = YES;
 }
 
@@ -88,7 +89,8 @@
     //    self.constraintMain.constant = 0;
     
     [self.view layoutIfNeeded];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.menuOpened = NO;
 }
 
@@ -97,7 +99,7 @@
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:
         {
-            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
             break;
         }
         case UIGestureRecognizerStateChanged:

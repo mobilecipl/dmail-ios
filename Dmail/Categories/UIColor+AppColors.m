@@ -20,4 +20,9 @@
     return [UIColor colorWithRed:207.0/255.0 green:221/255.0 blue:231.0/255.0 alpha:1];
 }
 
++ (UIColor *)unreadColor {
+    
+    return [UIColor colorWithRed:75.0/255.0 green:184.0/255.0 blue:178.0/255.0 alpha:1];
+}
+
 @end
