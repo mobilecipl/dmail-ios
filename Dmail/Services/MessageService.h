@@ -14,6 +14,8 @@
 + (MessageService *)sharedInstance;
 
 #pragma mark - Public Methods
-- (void)getMessageUniqueIDsFromDmailWithUserId:(NSString *)userID WithCompletionBlock:(void (^)(BOOL success, NSError *error))completion;
+- (void)getMessageUniqueIDsFromDmailWithUserId:(NSString *)userID withCompletionBlock:(void (^)(NSArray *arrayIDs, NSError *error))completion;
+- (void)getMessageFromGmailWithGmailUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(void (^)(BOOL success, NSError *error))completion;
+- (void)getMessageFromDmailWithGmailUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(void (^)(BOOL success, NSError *error))completion;
 
 @end

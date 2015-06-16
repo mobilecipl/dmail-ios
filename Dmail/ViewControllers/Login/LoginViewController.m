@@ -28,13 +28,14 @@
 #pragma mark - IBAction Methods
 - (IBAction)gmailLoginClicked:(id)sender {
     
+    [self showLoadingView];
+
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
     googleSignIn.shouldFetchBasicProfile = YES;
     googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
-    
     [googleSignIn signIn];
 }
 

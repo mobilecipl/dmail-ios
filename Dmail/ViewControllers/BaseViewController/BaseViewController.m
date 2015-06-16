@@ -42,6 +42,7 @@
         [self.view addSubview:self.viewLoading];
         
         self.indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        self.indicatorView.center = CGPointMake(self.view.center.x, self.view.center.y);
         [self.viewLoading addSubview:self.indicatorView];
         [self.indicatorView startAnimating];
     }

@@ -9,8 +9,9 @@
 #import "LoadingViewController.h"
 #import "UserService.h"
 #import "LoginViewController.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface LoadingViewController ()
+@interface LoadingViewController ()<GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
 
@@ -26,16 +27,58 @@
     
     [self.indicator startAnimating];
     
-    [self performSegueWithIdentifier:@"toInboxMessage" sender:self];
-//    if ([[UserService sharedInstance] userID]) {
-//        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
-//    }
-//    else {
-//        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
-//    }
+    if ([[UserService sharedInstance] userID]) {
+        [self autoSignIn];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
+    }
 }
 
 
 #pragma mark - Private Methods
+- (void)autoSignIn {
+    
+    [GIDSignInButton class];
+    
+    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+    googleSignIn.shouldFetchBasicProfile = YES;
+    googleSignIn.allowsSignInWithWebView = NO;
+    googleSignIn.delegate = self;
+    [googleSignIn signInSilently];
+}
+
+
+#pragma mark - GIDSignInDelegate Methods
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    [self.indicator stopAnimating];
+    if (error) {
+        // TO DO Handle error
+        return;
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+    }
+}
+
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    if (error) {
+        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Failed to disconnect: %@", error];
+    } else {
+        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Disconnected"];
+    }
+    //    [self reportAuthStatus];
+    //    [self updateButtons];
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    
+}
 
 @end
