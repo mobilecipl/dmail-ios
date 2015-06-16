@@ -7,6 +7,7 @@
 //
 
 #import "ComposeViewController.h"
+#import "MessageService.h"
 
 @interface ComposeViewController ()
 
@@ -32,18 +33,36 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+}
+
+- (void)dealloc {
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buttonHandlerMenu) name:kNotificationMenuButton object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Action Methods
 - (IBAction)sendClicked:(id)sender {
     
-    
+    [[MessageService sharedInstance] sendMessageToGmailWithTo:self.textFieldTo.text messageSubject:self.textFieldSubject.text messageBody:self.textViewMessageBody.text withCompletionBlock:^(BOOL success, NSError *error) {
+        
+    }];
 }
 
 
 #pragma mark - Private Methods
 
+
+#pragma mark - UItextFieldDelegate Methods
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if (textField.text.length > 0) {
+        self.buttonSend.enabled = YES;
+    }
+    else {
+        self.buttonSend.enabled = NO;
+    }
+    
+    return YES;
+}
 
 @end
