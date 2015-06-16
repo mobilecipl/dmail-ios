@@ -19,17 +19,18 @@
 @implementation InboxViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 }
 
 - (IBAction)buttonHandlerMenu:(id)sender {
+    
     NSLog(@"Menu selected");
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:kNotificationMenuButton
-     object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMenuButton object:nil];
 }
 
 - (IBAction)buttonHandlerCompose:(id)sender {
+    
     NSLog(@"Compose selected");
 }
 

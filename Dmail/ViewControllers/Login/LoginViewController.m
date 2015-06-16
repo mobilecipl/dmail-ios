@@ -57,7 +57,7 @@
     }
     else {
         [[UserService sharedInstance] updateUserDetails:user];
-        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+        [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
     }
 }
 

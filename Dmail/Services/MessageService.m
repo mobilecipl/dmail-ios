@@ -9,6 +9,7 @@
 #import "MessageService.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 #import "Configurations.h"
+#import "MessageParseService.h"
 
 @implementation MessageService
 
@@ -28,7 +29,7 @@
     
 }
 
-- (void)getMessageFromGmailWithGmailUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(void (^)(BOOL success, NSError *error))completion {
+- (void)getMessageFromGmailWithGmailUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(void (^)(NSString *messageId, NSError *error))completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject
@@ -45,8 +46,6 @@
     
     [urlRequest setHTTPMethod:@"GET"];
     [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-//    [urlRequest addValue:@"8D52D70F-8EC8-4F44-B584-E69F4837F85A@science-inc.com" forHTTPHeaderField:@"metadataHeaders"];
-    //[urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     NSLog(@"%s URL %@ \n SENDING PARAMS",__PRETTY_FUNCTION__,urlmulr);
@@ -57,10 +56,12 @@
                                                             NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
                                                             
                                                             NSLog(@"requestReply :: %@ \n requestStatusCode :: %ld", [JSONData description],(long)statusCode);
+                                                            NSString *messageId;
                                                             switch (statusCode) {
                                                                 case 200: {
-                                                                    NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                                                    NSDictionary *object = nil;
+                                                                    messageId = [[MessageParseService sharedInstance] gmailMessageId:JSONData];
+//                                                                    NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//                                                                    NSDictionary *object = nil;
                                                                 }
                                                                     break;
                                                                 case 0: {
@@ -73,6 +74,7 @@
                                                                 }
                                                                     break;
                                                             }
+                                                            completion(messageId, error);
                                                         }];
     [dataTask resume];
 

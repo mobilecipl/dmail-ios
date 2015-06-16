@@ -60,10 +60,15 @@
     }
     else {
         NSString *gmailUniqueId = @"7BC73A54-84F6-4C09-B5C1-ECE268C44DD5@science-inc.com";
-        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(BOOL success, NSError *error) {
-            
+        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(NSString *messageId, NSError *error) {
+            if (error) {
+                
+            }
+            else {
+                NSLog(@"messageId ==== %@", messageId);
+            }
         }];
-//        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+        [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }
 
