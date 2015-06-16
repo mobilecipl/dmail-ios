@@ -51,7 +51,7 @@
     UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
     gesture.minimumNumberOfTouches = 1;
     gesture.maximumNumberOfTouches = 1;
-    [self.view addGestureRecognizer:gesture];
+    [self.viewMain addGestureRecognizer:gesture];
 }
 
 - (void)setupNotificationHandlers {
@@ -104,7 +104,7 @@
         }
         case UIGestureRecognizerStateChanged:
         {
-            CGPoint translation = [pan translationInView:self.view];
+            CGPoint translation = [pan translationInView:self.viewMain];
             NSLog(@"%f",translation.x);
             
             CGFloat check = self.constraintHorizontalSpaceing.constant + translation.x;
@@ -126,7 +126,7 @@
             self.constraintHorizontalSpaceing.constant += translation.x;
             //            self.constraintMain.constant += translation.x;
             
-            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
+            [pan setTranslation:CGPointMake(0, 0) inView:self.viewMain];
             
             break;
         }
@@ -155,13 +155,13 @@
             [UIView animateWithDuration:velocity * 0.3 animations:^{
                 
                 if (self.menuOpened) {
-                    if( self.viewMain.frame.origin.x > self.screenWidthMenu - 10) {
+                    if( self.viewMain.frame.origin.x > self.screenWidthMenu - 20) {
                         [self openMenu];
                     } else {
                         [self hideMenu];
                     }
                 } else {
-                    if( self.viewMain.frame.origin.x > 10) {
+                    if( self.viewMain.frame.origin.x > 20) {
                         [self openMenu];
                     } else {
                         [self hideMenu];

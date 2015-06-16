@@ -344,6 +344,8 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableVIewInbox" destination="xWv-Fm-RwW" id="9Zp-4o-2ys"/>
+                        <segue destination="y8g-Vk-ppM" kind="push" identifier="fromInboxToInboxMessage" id="HrS-Sg-X06"/>
+                        <segue destination="zbx-z7-Gyx" kind="push" identifier="fromInboxToCompose" id="szA-Vv-gNz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jps-3i-7ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -390,28 +392,6 @@
                                     <constraint firstAttribute="height" constant="1" id="VtV-vw-MQL"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePower" translatesAutoresizingMaskIntoConstraints="NO" id="erK-90-M1z">
-                                <rect key="frame" x="17" y="621" width="20" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="CAk-UQ-RSu"/>
-                                    <constraint firstAttribute="width" constant="20" id="E1L-xr-LNc"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ttm-Xe-CIN">
-                                <rect key="frame" x="49" y="623" width="60" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="dsu-ag-aDb"/>
-                                    <constraint firstAttribute="height" constant="18" id="iQa-rL-bTX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="15"/>
-                                <state key="normal" title="Log out">
-                                    <color key="titleColor" red="0.47058823529411764" green="0.51764705882352935" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="logOutButtonHandler:" destination="IWv-50-gMB" eventType="touchUpInside" id="qAC-6u-Qyr"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="58" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ju2-7U-oMR">
                                 <rect key="frame" x="0.0" y="76" width="250" height="500"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -422,7 +402,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LG8-X4-e51" id="H5D-1E-OUQ">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7F0-6u-FaB">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7F0-6u-FaB">
                                                     <rect key="frame" x="15" y="19" width="25" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="9qB-qg-dQ2"/>
@@ -454,24 +434,37 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ttm-Xe-CIN">
+                                <rect key="frame" x="18" y="621" width="81" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="LLR-KN-85q"/>
+                                    <constraint firstAttribute="width" constant="81" id="pzB-wL-JKy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="15"/>
+                                <state key="normal" backgroundImage="buttonLogout">
+                                    <color key="titleColor" red="0.47058823529411764" green="0.51764705882352935" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logOutButtonHandler:" destination="IWv-50-gMB" eventType="touchUpInside" id="qAC-6u-Qyr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.18823529411764706" green="0.2196078431372549" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Sck-wC-o0b" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" id="2hH-oa-za9"/>
                             <constraint firstItem="Ju2-7U-oMR" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" id="45g-Nm-Uct"/>
+                            <constraint firstItem="Ttm-Xe-CIN" firstAttribute="top" secondItem="Ju2-7U-oMR" secondAttribute="bottom" constant="45" id="68A-Bp-gg0"/>
                             <constraint firstAttribute="trailing" secondItem="eoh-Lg-uMw" secondAttribute="trailing" constant="30" id="6Nr-Ne-AiA"/>
                             <constraint firstItem="eoh-Lg-uMw" firstAttribute="centerY" secondItem="gQO-h5-d4r" secondAttribute="centerY" id="OkN-e8-HDx"/>
-                            <constraint firstItem="Ttm-Xe-CIN" firstAttribute="leading" secondItem="erK-90-M1z" secondAttribute="trailing" constant="12" id="S5O-lI-I48"/>
                             <constraint firstItem="eoh-Lg-uMw" firstAttribute="leading" secondItem="gQO-h5-d4r" secondAttribute="trailing" constant="9" id="TBL-jU-Ftb"/>
+                            <constraint firstItem="Ttm-Xe-CIN" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" constant="18" id="W8N-o2-MgS"/>
                             <constraint firstAttribute="trailing" secondItem="Ju2-7U-oMR" secondAttribute="trailing" id="YP3-v0-u4E"/>
                             <constraint firstItem="Sck-wC-o0b" firstAttribute="top" secondItem="gQO-h5-d4r" secondAttribute="bottom" constant="10" id="cN4-RN-FzP"/>
-                            <constraint firstItem="erK-90-M1z" firstAttribute="top" secondItem="Ju2-7U-oMR" secondAttribute="bottom" constant="45" id="evK-WJ-pAi"/>
                             <constraint firstItem="gQO-h5-d4r" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" constant="15" id="g79-Dh-Oqy"/>
-                            <constraint firstItem="erK-90-M1z" firstAttribute="centerY" secondItem="Ttm-Xe-CIN" secondAttribute="centerY" id="ghg-qR-iPm"/>
                             <constraint firstAttribute="trailing" secondItem="Sck-wC-o0b" secondAttribute="trailing" id="hUM-We-4Ih"/>
                             <constraint firstItem="gQO-h5-d4r" firstAttribute="top" secondItem="Q9k-Fk-VZ4" secondAttribute="top" constant="10" id="o7J-Hv-1Yt"/>
-                            <constraint firstItem="erK-90-M1z" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" constant="17" id="oaA-A7-hmX"/>
-                            <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="erK-90-M1z" secondAttribute="bottom" constant="25" id="u7Y-eg-2hc"/>
+                            <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="Ttm-Xe-CIN" secondAttribute="bottom" constant="25" id="w4G-cf-Swc"/>
                             <constraint firstItem="Ju2-7U-oMR" firstAttribute="top" secondItem="Sck-wC-o0b" secondAttribute="bottom" constant="25" id="wfn-TE-qbq"/>
                         </constraints>
                     </view>
@@ -771,7 +764,7 @@
                                             <constraint firstAttribute="height" constant="21" id="8RD-Y8-kHZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-gB-No7">
@@ -792,7 +785,7 @@
                                             <constraint firstAttribute="width" constant="77" id="Ot3-Wr-6ln"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MLx-Tp-NJx">
@@ -813,7 +806,7 @@
                                             <constraint firstAttribute="width" constant="77" id="uI8-sz-VgN"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JVJ-bS-SXK">
@@ -912,6 +905,7 @@
                             <constraint firstItem="87E-ZO-k0b" firstAttribute="leading" secondItem="a2z-zk-htA" secondAttribute="leading" constant="9" id="hnB-5G-raE"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="seA-yN-S1C"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="buttonSend" destination="htY-Uv-rlo" id="VER-n4-O4F"/>
@@ -930,13 +924,13 @@
         <image name="backgroundLoading" width="375" height="667"/>
         <image name="buttonCompose" width="22" height="22"/>
         <image name="buttonGoogleSignIn" width="293" height="53"/>
+        <image name="buttonLogout" width="81" height="21"/>
         <image name="buttonMenu" width="24" height="11"/>
         <image name="buttonNavigationBack" width="9" height="16"/>
         <image name="buttonReply" width="60" height="43"/>
         <image name="iconDmail" width="25" height="25"/>
         <image name="iconDmailLoading" width="206" height="61"/>
         <image name="iconKey" width="30" height="30"/>
-        <image name="imagePower" width="20" height="21"/>
         <image name="imageProfile1" width="25" height="25"/>
         <image name="imageProfile2" width="30" height="30"/>
     </resources>
