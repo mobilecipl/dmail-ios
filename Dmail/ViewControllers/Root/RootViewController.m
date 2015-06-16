@@ -12,7 +12,7 @@
 
 @interface RootViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *viewMenu;
+@property (weak, nonatomic) IBOutlet UIView *viewMenu;// not used
 @property (weak, nonatomic) IBOutlet UIView *viewMain;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintHorizontalSpaceing;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintMenuWidth;
@@ -24,27 +24,19 @@
 @implementation RootViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     [self setupMenu];
     [self setupNotificationHandlers];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)setupMenu {
-//    [self.view layoutIfNeeded];
+
     self.constraintMenuWidth.constant = self.view.frame.size.width * 0.6; // 60%
     self.screenWidthMenu = self.constraintMenuWidth.constant;
     
-    
     self.constraintHorizontalSpaceing.constant = 0;
-    //    self.constraintMain.constant = 0;
-    
-    //    self.constraintMenuWidth.constant = self.screenWidthContainerView;
     self.menuOpened = NO;
     [self.view layoutIfNeeded];
     
@@ -76,83 +68,62 @@
 
 - (void)openMenu {
     self.constraintHorizontalSpaceing.constant = self.screenWidthMenu;
-    //    self.constraintMain.constant = self.screenWidthContainerView;
-    
     [self.view layoutIfNeeded];
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     self.menuOpened = YES;
 }
 
 - (void)hideMenu {
-    self.constraintHorizontalSpaceing.constant = 0;
-    //    self.constraintMain.constant = 0;
     
+    self.constraintHorizontalSpaceing.constant = 0;
     [self.view layoutIfNeeded];
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.menuOpened = NO;
 }
 
-- (void)panGestureRecognizerAction:(UIPanGestureRecognizer*)pan//----------------------------------PAN Gesture Action----------------
-{
+
+#pragma mark UIGestureRecognizer
+- (void)panGestureRecognizerAction:(UIPanGestureRecognizer*)pan {
+    
     switch (pan.state) {
-        case UIGestureRecognizerStateBegan:
-        {
+        case UIGestureRecognizerStateBegan: {
+            
             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
             break;
         }
-        case UIGestureRecognizerStateChanged:
-        {
+        case UIGestureRecognizerStateChanged: {
+            
             CGPoint translation = [pan translationInView:self.viewMain];
-            NSLog(@"%f",translation.x);
             
             CGFloat check = self.constraintHorizontalSpaceing.constant + translation.x;
             if (check > self.screenWidthMenu || check < 0) {
                 break;
             }
             
-            
-//            if (self.menuOpened && self.constraintHorizontalSpaceing.constant > self.screenWidthMenu ) {
-//                self.constraintHorizontalSpaceing.constant = 0;
-//                break;
-//            }
-//            
-//            if (!self.menuOpened && self.constraintHorizontalSpaceing.constant < 0 ) {
-//                self.constraintHorizontalSpaceing.constant = 0;
-//                break;
-//            }
-            
             self.constraintHorizontalSpaceing.constant += translation.x;
-            //            self.constraintMain.constant += translation.x;
             
             [pan setTranslation:CGPointMake(0, 0) inView:self.viewMain];
-            
             break;
         }
-        case UIGestureRecognizerStateEnded:
-        {
+        case UIGestureRecognizerStateEnded: {
          
-            CGFloat velocity = ( self.viewMain.frame.origin.x * 100 ) / self.screenWidthMenu ;
-            velocity *= 0.01;
+            // find animation velocity
+            CGFloat velocity = self.viewMain.frame.origin.x / self.screenWidthMenu ;
             if (self.menuOpened) {
-                if( self.viewMain.frame.origin.x > self.screenWidthMenu - 10) {
-//                    [self openMenu];
+                if( self.viewMain.frame.origin.x > self.screenWidthMenu - 20) {
                     velocity = 1 - velocity;
-                } else {
-//                    [self hideMenu];
                 }
             } else {
-                if( self.viewMain.frame.origin.x > 10) {
-//                    [self openMenu];
+                if( self.viewMain.frame.origin.x > 20) {
                     velocity = 1 - velocity;
-                } else {
-//                    [self hideMenu];
                 }
             }
-
             
-            [UIView animateWithDuration:velocity * 0.3 animations:^{
+            NSLog(@"VELOCITY %f ", velocity);
+            
+            [UIView animateWithDuration:velocity*1 animations:^{
                 
                 if (self.menuOpened) {
                     if( self.viewMain.frame.origin.x > self.screenWidthMenu - 20) {
@@ -167,7 +138,6 @@
                         [self hideMenu];
                     }
                 }
-                
             } completion:nil];
             break;
         }
@@ -176,14 +146,12 @@
     }
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer { // Check for horizontal gesture
+    
     UIView *cell = [gestureRecognizer view];
     CGPoint translation = [gestureRecognizer translationInView:[cell superview]];
     
-    // Check for horizontal gesture
-    if (fabs(translation.x) > fabs(translation.y))
-    {
+    if (fabs(translation.x) > fabs(translation.y)) {
         return YES;
     }
     
@@ -193,15 +161,5 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
