@@ -10,6 +10,7 @@
 #import "UserService.h"
 #import "LoginViewController.h"
 #import <GoogleSignIn/GoogleSignIn.h>
+#import "MessageService.h"
 
 @interface LoadingViewController ()<GIDSignInDelegate>
 
@@ -58,19 +59,21 @@
         return;
     }
     else {
-        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
+        NSString *gmailUniqueId = @"7BC73A54-84F6-4C09-B5C1-ECE268C44DD5@science-inc.com";
+        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(BOOL success, NSError *error) {
+            
+        }];
+//        [self performSegueWithIdentifier:@"fromLoadingToInbox" sender:self];
     }
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
     
     if (error) {
-        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Failed to disconnect: %@", error];
+        
     } else {
-        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Disconnected"];
+        
     }
-    //    [self reportAuthStatus];
-    //    [self updateButtons];
 }
 
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
