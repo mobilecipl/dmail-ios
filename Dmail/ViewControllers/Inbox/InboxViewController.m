@@ -7,8 +7,9 @@
 //
 
 #import "InboxViewController.h"
-
 #import "Configurations.h"
+#import "ComposeViewController.h"
+
 
 @interface InboxViewController ()
 
@@ -31,7 +32,7 @@
 
 - (IBAction)buttonHandlerCompose:(id)sender {
     
-    NSLog(@"Compose selected");
+    [self performSegueWithIdentifier:@"fromInboxToCompose" sender:self];
 }
 
 @end

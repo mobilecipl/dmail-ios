@@ -85,4 +85,63 @@
     
 }
 
+- (void)sendMessageToGmailWithTo:(NSString *)to messageSubject:(NSString *)messageSubject messageBody:(NSString *)messageBody withCompletionBlock:(void (^)(BOOL success, NSError *error))completion {
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *requestBody = [NSString stringWithFormat:@"From: <%@>\nTo: <%@>\nSubject: %@\n\n%@",[[[GIDSignIn sharedInstance].currentUser profile] email], to, messageSubject, messageBody];
+    NSString *base64EncodedMessage = [self base64Encoding:requestBody];
+    
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/send?key=%@",userID, kClientSecret];
+    NSURL * url = [NSURL URLWithString:urlmulr];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+    [urlRequest setHTTPMethod:@"POST"];
+    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    
+    NSDictionary *rawDict = @{@"raw" : base64EncodedMessage};
+    NSData *dataRaw = [NSJSONSerialization dataWithJSONObject:rawDict options:NSJSONWritingPrettyPrinted error:nil];
+    [urlRequest setHTTPBody:dataRaw];
+    [urlRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
+                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+                                                            
+                                                            NSLog(@"requestReply :: %@ \n requestStatusCode :: %ld", [JSONData description],(long)statusCode);
+                                                            NSString *messageId;
+                                                            switch (statusCode) {
+                                                                case 200: {
+                                                                    messageId = [[MessageParseService sharedInstance] gmailMessageId:JSONData];
+                                                                }
+                                                                    break;
+                                                                case 0: {
+                                                                    
+                                                                }
+                                                                    break;
+                                                                    
+                                                                default: {
+                                                                    
+                                                                }
+                                                                    break;
+                                                            }
+                                                            completion(messageId, error);
+                                                        }];
+    [dataTask resume];
+
+}
+
+#pragma mark - Private Methods
+- (NSString *)base64Encoding:(NSString *)requestBody {
+    
+    NSString *encodedMessage;
+    
+    NSData *data = [requestBody dataUsingEncoding:NSUTF8StringEncoding];
+    encodedMessage = [data base64EncodedStringWithOptions:0];
+
+    return encodedMessage;
+}
+
 @end

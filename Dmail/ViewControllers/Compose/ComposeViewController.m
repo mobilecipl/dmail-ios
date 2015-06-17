@@ -27,7 +27,7 @@
     
     [super viewDidLoad];
     
-    self.buttonSend.enabled = NO;
+//    self.buttonSend.enabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -43,7 +43,7 @@
 #pragma mark - Action Methods
 - (IBAction)sendClicked:(id)sender {
     
-    [[MessageService sharedInstance] sendMessageToGmailWithTo:self.textFieldTo.text messageSubject:self.textFieldSubject.text messageBody:self.textViewMessageBody.text withCompletionBlock:^(BOOL success, NSError *error) {
+    [[MessageService sharedInstance] sendMessageToGmailWithTo:@"kpetrosyan@science-inc.com" messageSubject:@"Barev" messageBody:@"aaaaa bbbbb ccccc" withCompletionBlock:^(BOOL success, NSError *error) {
         
     }];
 }
@@ -55,12 +55,12 @@
 #pragma mark - UItextFieldDelegate Methods
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    if (textField.text.length > 0) {
-        self.buttonSend.enabled = YES;
-    }
-    else {
-        self.buttonSend.enabled = NO;
-    }
+//    if (textField.text.length > 0) {
+//        self.buttonSend.enabled = YES;
+//    }
+//    else {
+//        self.buttonSend.enabled = NO;
+//    }
     
     return YES;
 }
