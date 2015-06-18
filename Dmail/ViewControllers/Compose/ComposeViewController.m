@@ -43,8 +43,20 @@
 #pragma mark - Action Methods
 - (IBAction)sendClicked:(id)sender {
     
-    [[MessageService sharedInstance] sendMessageToGmailWithTo:@"kpetrosyan@science-inc.com" messageSubject:@"Barev" messageBody:@"aaaaa bbbbb ccccc" withCompletionBlock:^(BOOL success, NSError *error) {
-        
+    [[MessageService sharedInstance] sendMessageToDmailWithEncriptedMessage:self.textViewMessageBody.text senderEmail:[[UserService sharedInstance] email] completionBlock:^(NSString *messageId, NSInteger statusCode) {
+        if (messageId) {
+            [[MessageService sharedInstance] sendMessageToGmailWithTo:self.textFieldTo.text messageSubject:self.textFieldSubject.text messageBody:self.textViewMessageBody.text withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
+                if (gmailMessageId) {
+                    [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSString *messageUniqueId, NSInteger statusCode) {
+                        if (messageUniqueId) {
+                            [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:messageId gmailUniqueId:messageUniqueId senderEmail:[[UserService sharedInstance] email] withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
+                                
+                            }];
+                        }
+                    }];
+                }
+            }];
+        }
     }];
 }
 

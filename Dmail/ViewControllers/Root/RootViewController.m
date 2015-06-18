@@ -23,6 +23,7 @@
 
 @implementation RootViewController
 
+#pragma mark - Class Methods
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -31,6 +32,8 @@
     [self setupNotificationHandlers];
 }
 
+
+#pragma mark - Private Methods
 - (void)setupMenu {
 
     self.constraintMenuWidth.constant = self.view.frame.size.width * 0.6; // 60%
@@ -84,7 +87,7 @@
 }
 
 
-#pragma mark UIGestureRecognizer
+#pragma mark - UIGestureRecognizer
 - (void)panGestureRecognizerAction:(UIPanGestureRecognizer*)pan {
     
     switch (pan.state) {

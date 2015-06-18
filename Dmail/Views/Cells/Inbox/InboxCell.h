@@ -10,4 +10,6 @@
 
 @interface InboxCell : UITableViewCell
 
+- (void)configureCell:(NSDictionary *)dictInboxCell;
+
 @end

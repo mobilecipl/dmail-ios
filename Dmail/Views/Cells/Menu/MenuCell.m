@@ -17,12 +17,12 @@
 
 @implementation MenuCell
 
+
+#pragma mark - Publioc Methods
 - (void)configureCell:(NSDictionary *)viewModel {
+
     self.imageViewType.image = [[UIImage imageNamed:[viewModel objectForKey:@"image"]] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    
-    
     [self.imageViewType setTintColor:[viewModel objectForKey:@"color"]];
-    
     self.labelText.text = [viewModel objectForKey:@"text"];
     self.labelText.textColor = [viewModel objectForKey:@"color"];
 }

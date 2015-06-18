@@ -6,11 +6,12 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
+#import <GoogleSignIn/GoogleSignIn.h>
 #import "LoadingViewController.h"
 #import "UserService.h"
 #import "LoginViewController.h"
-#import <GoogleSignIn/GoogleSignIn.h>
 #import "MessageService.h"
+#import "NetworkManager.h"
 
 @interface LoadingViewController ()<GIDSignInDelegate>
 
@@ -59,15 +60,15 @@
         return;
     }
     else {
-        NSString *gmailUniqueId = @"7BC73A54-84F6-4C09-B5C1-ECE268C44DD5@science-inc.com";
-        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(NSString *messageId, NSError *error) {
-            if (error) {
-                
-            }
-            else {
-                NSLog(@"messageId ==== %@", messageId);
-            }
-        }];
+//        NSString *gmailUniqueId = @"7BC73A54-84F6-4C09-B5C1-ECE268C44DD5@science-inc.com";
+//        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(NSString *messageId, NSError *error) {
+//            if (error) {
+//                
+//            }
+//            else {
+//                NSLog(@"messageId ==== %@", messageId);
+//            }
+//        }];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

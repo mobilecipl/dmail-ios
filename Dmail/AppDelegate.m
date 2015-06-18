@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import <GoogleSignIn/GoogleSignIn.h>
 #import "Configurations.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
 
 @interface AppDelegate ()
@@ -54,7 +54,7 @@
 #pragma mark - Private Methods
 - (void)setupGoogleSignIn {
     
-    [GIDSignIn sharedInstance].clientID = kClientID;
+    [GIDSignIn sharedInstance].clientID = kGoogleClientID;
     [[GIDSignIn sharedInstance] setScopes:[NSArray arrayWithObject:@"https://mail.google.com/"]];
 }
 

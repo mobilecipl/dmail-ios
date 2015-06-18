@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserService.h"
+#import "Constants.h"
+
 
 @interface BaseViewController : UIViewController
 

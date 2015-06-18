@@ -7,9 +7,7 @@
 //
 
 #import "MenuViewController.h"
-
 #import "MenuCell.h"
-
 #import "UIColor+AppColors.h"
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -24,6 +22,7 @@
 
 @implementation MenuViewController
 
+#pragma mark - Class Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -40,7 +39,15 @@
                               ];
 }
 
-#pragma mark TableView DataSource & Delegate
+
+#pragma mark - Action Methods
+- (IBAction)logOutButtonHandler:(id)sender {
+    
+    NSLog(@"Log out");
+}
+
+
+#pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     return self.dataTableViewMenu.count;
@@ -67,10 +74,6 @@
         default:
             break;
     }
-}
-
-- (IBAction)logOutButtonHandler:(id)sender {
-    NSLog(@"Log out");
 }
 
 @end

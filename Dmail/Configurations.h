@@ -9,12 +9,14 @@
 #ifndef Dmail_Configurations_h
 #define Dmail_Configurations_h
 
+
 #pragma mark - Google Keys
-static NSString * const kClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
-static NSString * const kClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
+static NSString * const kGoogleClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
+static NSString * const kGoogleClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
 
 
 #pragma mark - Notifications
 static NSString * const kNotificationMenuButton = @"kNotificationMenuButton";
+
 
 #endif

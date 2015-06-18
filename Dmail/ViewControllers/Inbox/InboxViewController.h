@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface InboxViewController : UIViewController
+@interface InboxViewController : BaseViewController
 
 @end

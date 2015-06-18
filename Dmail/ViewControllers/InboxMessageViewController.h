@@ -12,5 +12,6 @@
 
 @interface InboxMessageViewController : BaseViewController
 
+@property (nonatomic, strong) NSDictionary *dictionaryMessage;
 
 @end

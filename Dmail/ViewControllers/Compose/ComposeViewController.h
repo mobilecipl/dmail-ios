@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ComposeViewController : UIViewController
+@interface ComposeViewController : BaseViewController
 
 @end
