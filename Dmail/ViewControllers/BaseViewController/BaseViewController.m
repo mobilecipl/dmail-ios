@@ -37,6 +37,7 @@
     
     if (!self.viewLoading) {
         self.viewLoading = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.viewLoading.userInteractionEnabled = NO;
         self.viewLoading.backgroundColor = [UIColor blackColor];
         self.viewLoading.alpha = 0.4;
         [self.view addSubview:self.viewLoading];

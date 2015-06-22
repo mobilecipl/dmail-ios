@@ -8,10 +8,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="ProximaNova-Light.otf">
+        <mutableArray key="ProximaNova-Light.ttf">
             <string>ProximaNova-Light</string>
         </mutableArray>
-        <mutableArray key="ProximaNova-Regular.otf">
+        <mutableArray key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
@@ -22,7 +22,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
         </mutableArray>
-        <mutableArray key="ProximaNova-Semibold.otf">
+        <mutableArray key="ProximaNova-Semibold.ttf">
             <string>ProximaNova-Semibold</string>
         </mutableArray>
     </customFonts>
@@ -166,11 +166,12 @@
                         <outlet property="constraintMenuWidth" destination="E9k-ta-Zdw" id="m7m-cM-8mk"/>
                         <outlet property="viewMain" destination="8mZ-fq-daH" id="UYl-VJ-reU"/>
                         <outlet property="viewMenu" destination="PgL-wn-OBj" id="oEB-zY-km9"/>
+                        <segue destination="v9c-Rf-4OL" kind="push" identifier="fromRootToLogin" id="msd-Ig-8Lo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9J1-8j-waU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1120.5" y="377.5"/>
+            <point key="canvasLocation" x="1061.5" y="445.5"/>
         </scene>
         <!--Inbox View Controller-->
         <scene sceneID="hB6-MG-qnQ">
@@ -245,10 +246,10 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URv-1U-B5Z" userLabel="Main : View">
-                                                            <rect key="frame" x="0.0" y="3" width="375" height="75"/>
+                                                            <rect key="frame" x="0.0" y="1" width="375" height="79"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ccy-Zg-AcK" userLabel="Border : View">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="75"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="79"/>
                                                                     <color key="backgroundColor" red="0.29411764705882354" green="0.72156862745098038" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="5" id="AuY-3D-mFb"/>
@@ -311,10 +312,10 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.92156862750000001" green="0.93725490199999995" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="URv-1U-B5Z" firstAttribute="top" secondItem="X8P-pa-HAW" secondAttribute="top" constant="3" id="DtM-JW-Iwz"/>
+                                                        <constraint firstItem="URv-1U-B5Z" firstAttribute="top" secondItem="X8P-pa-HAW" secondAttribute="top" constant="1" id="DtM-JW-Iwz"/>
                                                         <constraint firstAttribute="trailing" secondItem="URv-1U-B5Z" secondAttribute="trailing" id="Gb2-7V-vtM"/>
                                                         <constraint firstItem="URv-1U-B5Z" firstAttribute="leading" secondItem="X8P-pa-HAW" secondAttribute="leading" id="Vpq-Fo-kNj"/>
-                                                        <constraint firstAttribute="bottom" secondItem="URv-1U-B5Z" secondAttribute="bottom" constant="3" id="nYF-5F-lEf"/>
+                                                        <constraint firstAttribute="bottom" secondItem="URv-1U-B5Z" secondAttribute="bottom" constant="1" id="nYF-5F-lEf"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
@@ -708,7 +709,7 @@
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="lXR-dm-GM5"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="15"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2h" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xVX-AC-ru9" userLabel="Label:Time">
@@ -744,9 +745,6 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hg6-fG-Dc0">
                                                 <rect key="frame" x="0.0" y="45" width="327" height="429"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Hi Herson,
-
-So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive that my own individuality was now merged in a joint stock company of two; that my free will had received a mortal wound; and that another's mistake or misfortune might plunge.</string>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="19"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -948,6 +946,7 @@ So strongly and metaphysically did I conceive of my situation then, that while e
                                         </state>
                                         <connections>
                                             <action selector="backClicked:" destination="y8g-Vk-ppM" eventType="touchUpInside" id="JH4-yd-gn5"/>
+                                            <action selector="backClicked:" destination="zbx-z7-Gyx" eventType="touchUpInside" id="Ok6-T2-2qU"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carol Black" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kj2-ej-2Hp">
@@ -1034,6 +1033,7 @@ So strongly and metaphysically did I conceive of my situation then, that while e
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3ji-Qa-bqI"/>
+        <segue reference="V8g-7x-DfO"/>
+        <segue reference="msd-Ig-8Lo"/>
     </inferredMetricsTieBreakers>
 </document>

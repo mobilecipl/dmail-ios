@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "Configurations.h"
 #import <GoogleSignIn/GoogleSignIn.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 
 @interface AppDelegate ()
@@ -20,6 +23,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [Fabric with:@[CrashlyticsKit]];
+
     [self setupGoogleSignIn];
     
     return YES;

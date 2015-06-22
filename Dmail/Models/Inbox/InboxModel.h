@@ -9,10 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
+@class MessageItem;
+
+@protocol InboxModelDelegate <NSObject>
+
+- (void)updateInboxScreen:(MessageItem *)messageItem;
+
+@end
+
 @interface InboxModel : NSObject
 
-- (id)initWithMessageType:(MessageType)messageType;
+@property (nonatomic, assign) id<InboxModelDelegate> delegate;
 
-- (void)getMessageListWithPosition:(NSInteger)position count:(NSInteger)count senderEmail:(NSString *)senderEmail withCompletionBlock:(void (^)(NSArray *arrayMessages, NSInteger statusCode))completion;
+- (id)initWithMessageType:(MessageType)messageType;
+- (NSMutableArray *)getArrayMessageItems;
+- (void)getNewMessages;
 
 @end

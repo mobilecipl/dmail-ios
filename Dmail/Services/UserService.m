@@ -7,6 +7,8 @@
 //
 
 #import "UserService.h"
+#import "CoreDataManager.h"
+#import "User.h"
 
 @implementation UserService
 
@@ -15,9 +17,11 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[UserService alloc] init];
-        sharedInstance.userID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
-        sharedInstance.name = [[NSUserDefaults standardUserDefaults] objectForKey:@"name"];
-        sharedInstance.email = [[NSUserDefaults standardUserDefaults] objectForKey:@"email"];
+        
+        User *user = [[CoreDataManager sharedCoreDataManager] getUserData];
+        sharedInstance.gmailId = user.gmailId;
+        sharedInstance.email = user.email;
+        sharedInstance.name = user.fullName;
     });
     
     return sharedInstance;
@@ -25,14 +29,11 @@
 
 - (void)updateUserDetails:(GIDGoogleUser *)user {
     
-    self.userID = user.userID;
+    self.gmailId = user.userID;
     self.name = user.profile.name;
     self.email = user.profile.email;
     
-    [[NSUserDefaults standardUserDefaults] setObject:user.userID forKey:@"userID"];
-    [[NSUserDefaults standardUserDefaults] setObject:user.profile.name forKey:@"name"];
-    [[NSUserDefaults standardUserDefaults] setObject:user.profile.email forKey:@"email"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[CoreDataManager sharedCoreDataManager] writeUserDataWith:self];
 }
 
 @end

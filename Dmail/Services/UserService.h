@@ -11,7 +11,7 @@
 
 @interface UserService : NSObject
 
-@property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong) NSString *gmailId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *email;
 

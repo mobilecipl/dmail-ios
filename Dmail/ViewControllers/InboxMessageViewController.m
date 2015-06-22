@@ -9,6 +9,8 @@
 #import "InboxMessageViewController.h"
 #import "UIColor+AppColors.h"
 #import "MessageService.h"
+#import "CoreDataManager.h"
+#import "DmailMessage.h"
 
 
 @interface InboxMessageViewController ()
@@ -60,23 +62,19 @@
 
 - (void)fillFields {
     
-    self.labelMessageSubject.text = self.dictionaryMessage[MessageSubject];
-    self.labelSenderName.text = self.dictionaryMessage[SenderName];
-    NSString *messageGmailUniqueId = self.dictionaryMessage[MessageGmailUniqueId];
-    BOOL messageExist = NO;
-    if (messageExist) {
-        // Need to fetch from local DB
+    self.labelMessageSubject.text = self.messageItem.subject;
+    self.labelSenderName.text = self.messageItem.senderName;
+    NSString *dmailMessageId = self.messageItem.dmailId;
+    DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getDmailMessageWithMessageId:dmailMessageId];
+    if (dmailMessage.body) {
+        self.textViewMessageBody.text = dmailMessage.body;
     }
     else {
         [self showLoadingView];
-        [[MessageService sharedInstance] getDecodedMessageWithGmailUniqueId:messageGmailUniqueId withCompletionBlock:^(NSString *message, NSInteger statusCode) {
+        [[MessageService sharedInstance] getDecodedMessageWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *message, NSInteger statusCode) {
             [self hideLoadingView];
-            if (statusCode == 200) {
-                self.textViewMessageBody.text = message;
-            }
-            else {
-                
-            }
+            self.textViewMessageBody.text = message;
+            [[CoreDataManager sharedCoreDataManager] changeMessageStatusWithMessageId:self.messageItem.dmailId messageStatus:MessageRead];
         }];
     }
 }

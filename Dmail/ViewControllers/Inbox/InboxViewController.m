@@ -12,13 +12,16 @@
 #import "InboxModel.h"
 #import "InboxCell.h"
 #import "InboxMessageViewController.h"
+#import "CoreDataManager.h"
+
+@class MessageItem;
 
 
-@interface InboxViewController ()
+@interface InboxViewController () <InboxModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
-@property (nonatomic, strong) NSArray *arrayMessgaes;
-@property (nonatomic, strong) NSDictionary *dictCurrentCellItem;
+@property (nonatomic, strong) NSMutableArray *arrayMessgaeItems;
+@property (nonatomic, strong) MessageItem *selectedMessageItem;
 @property (nonatomic, assign) MessageType messageType;
 
 @end
@@ -30,45 +33,62 @@
     [super viewDidLoad];
     
     self.messageType = Inbox;
-    
-//    [self showLoadingView];
-//    InboxModel *inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
-//    [inboxModel getMessageListWithPosition:0 count:100 senderEmail:[[UserService sharedInstance] email] withCompletionBlock:^(NSArray *arrayMessages, NSInteger statusCode) {
-//        [self hideLoadingView];
-//        if ([arrayMessages count] > 0) {
-//            [self.tableVIewInbox reloadData];
-//        }
-//        else {
-//            // Need to implement
-//            switch (statusCode) {
-//                case 0:
-//                    
-//                    break;
-//                    
-//                default:
-//                    break;
-//            }
-//        }
-//    }];
-
-    NSMutableArray *arrayMessageItems = [[NSMutableArray alloc] init];
-    for (NSInteger i = 1; i <= 10; ++i) {
-        NSDictionary *dictInboxItem = @{SenderName : [NSString stringWithFormat:@"Name %ld", (long)i],
-                                        MessageSubject : [NSString stringWithFormat:@"Message subject %ld", (long)i],
-                                        MessageDate : [NSString stringWithFormat:@"%ld", (long)i],
-                                        MessageGmailUniqueId : [NSString stringWithFormat:@"%ld", (long)i]};
-        [arrayMessageItems addObject:dictInboxItem];
-    }
-    
-    self.arrayMessgaes = [NSArray arrayWithArray:arrayMessageItems];
-    [self.tableVIewInbox reloadData];
+//    [self getMessages];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(inboxClicked)
+                                                 name:NotificationMessageInbox
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sentClicked)
+                                                 name:NotificationMessageSent
+                                               object:nil];
+    
+    [self getMessages];
+}
+
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+#pragma mark - Private Methods
+- (void)getMessages {
+    
+    [self showLoadingView];
+    InboxModel *inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
+    inboxModel.delegate = self;
+    self.arrayMessgaeItems = [inboxModel getArrayMessageItems];
+    if ([self.arrayMessgaeItems count] > 0) {
+        [self hideLoadingView];
+        [self.tableVIewInbox reloadData];
+    }
+    
+    [inboxModel getNewMessages];
+}
+
+- (void)inboxClicked {
+    
+    self.messageType = Inbox;
+    [self getMessages];
+}
+
+- (void)sentClicked {
+    
+    self.messageType = Sent;
+    [self getMessages];
+}
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerMenu:(id)sender {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationMenuButton object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMenuButton object:nil];
 }
 
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -85,20 +105,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.arrayMessgaes.count;
+    return self.arrayMessgaeItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     InboxCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InboxCellID"];
-    [cell configureCell:[self.arrayMessgaes objectAtIndex:indexPath.row]];
+    [cell configureCell:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.dictCurrentCellItem = [self.arrayMessgaes objectAtIndex:indexPath.row];
+    self.selectedMessageItem = [self.arrayMessgaeItems objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
 }
 
@@ -109,10 +129,18 @@
     if ([segue.identifier isEqualToString:@"fromInboxToInboxMessageView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-            inboxMessageViewController.dictionaryMessage = self.dictCurrentCellItem;
+            inboxMessageViewController.messageItem = self.selectedMessageItem;
         }
     }
 }
 
+- (void)updateInboxScreen:(MessageItem *)messageItem {
+    
+    [self hideLoadingView];
+    if (messageItem) {
+        [self.arrayMessgaeItems addObject:messageItem];
+        [self.tableVIewInbox reloadData];
+    }
+}
 
 @end

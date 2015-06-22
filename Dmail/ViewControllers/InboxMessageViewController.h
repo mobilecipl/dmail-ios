@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "MessageItem.h"
 
 
 @interface InboxMessageViewController : BaseViewController
 
-@property (nonatomic, strong) NSDictionary *dictionaryMessage;
+@property (nonatomic, strong) MessageItem *messageItem;
 
 @end

@@ -10,14 +10,9 @@
 
 static NSString * const getMessagesList = @"mobileClient/syncRecipients";
 static NSString * const sendMessage = @"api/message";
+static NSString * const sendRecipient = @"api/message";
+static NSString * const getMessage = @"api/message";
 static NSString * const messageSent = @"mobileClient/messageSent";
-
-#pragma mark - Request Keys
-static NSString * const Position = @"position";
-static NSString * const Count = @"count";
-static NSString * const RecipientEmail = @"recipient_email";
-static NSString * const EncryptedMessage = @"encrypted_message";
-static NSString * const SenderEmail = @"sender_email";
 
 @interface NetworkManager ()
 
@@ -63,13 +58,20 @@ static NSString * const SenderEmail = @"sender_email";
     return request;
 }
 
+- (NSMutableURLRequest *)constructGetRequestWithUrl:(NSString *)urlString {
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    return request;
+}
+
 
 #pragma mark - Public Methods
-- (void)getMessageListFromDmailWithPosition:(NSInteger)position count:(NSInteger)count senderEmail:(NSString *)senderEmail withCompletionBlock:(mainCompletionBlock)completion {
-    
-    NSDictionary *parameters = @{Position : [NSString stringWithFormat:@"%ld",(long)position],
-                                 Count : [NSString stringWithFormat:@"%ld",(long)count],
-                                 RecipientEmail : senderEmail,};
+- (void)getMessageListFromDmailWithPosition:(NSDictionary *)parameters withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionDataTask *dataTask = self.dictionaryTasks[getMessagesList];
     if (!dataTask) {
@@ -97,17 +99,22 @@ static NSString * const SenderEmail = @"sender_email";
     
 }
 
-- (void)getMessageFromGmailWithMessageUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
+- (void)getGmailMessageIdFromGmailWithMessageUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject
                                                                  delegate:nil
                                                             delegateQueue:[NSOperationQueue mainQueue]];
     
-    NSLog(@"token %@" , [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]);
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    //    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/",userID];
+//    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/",userID];
+//    gmailUniqueId = [gmailUniqueId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *queryString = [NSString stringWithFormat:@"rfc822msgid:%@",gmailUniqueId];
+    queryString = [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    queryString = [queryString stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
+    queryString = [queryString stringByReplacingOccurrencesOfString:@":" withString:@"%3A"];
+    queryString = [queryString stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
+
     NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages?q=%@&key=%@",userID, queryString, kGoogleClientSecret];
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -115,8 +122,6 @@ static NSString * const SenderEmail = @"sender_email";
     [urlRequest setHTTPMethod:@"GET"];
     [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    NSLog(@"%s URL %@ \n SENDING PARAMS",__PRETTY_FUNCTION__,urlmulr);
     
     NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
                                                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -136,7 +141,7 @@ static NSString * const SenderEmail = @"sender_email";
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/%@?format=metadata&key=%@",userID, messageId, kGoogleClientSecret];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/%@?key=%@",userID, messageId, kGoogleClientSecret];
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setHTTPMethod:@"GET"];
@@ -156,12 +161,51 @@ static NSString * const SenderEmail = @"sender_email";
     [dataTask resume];
 }
 
-- (void)getMessageFromDmailWithGmailUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
+- (void)getMessageFromDmailWithGmailUniqueId:(NSString *)dmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
     
-    
+    NSURLSessionDataTask *dataTask = self.dictionaryTasks[getMessage];
+    if (!dataTask) {
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[[GIDSignIn sharedInstance].currentUser profile] email]];
+        NSMutableURLRequest *request = [self constructGetRequestWithUrl:urlString];
+        
+        dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(JSONData, statusCode);
+            });
+            [self.dictionaryTasks removeObjectForKey:getMessage];
+        }];
+        self.dictionaryTasks[getMessage] = dataTask;
+        [dataTask resume];
+    }
+
 }
 
 
+- (void)sendRecipientsWithParameters:(NSDictionary *)parameters messageId:(NSString *)messageId completionBlock:(mainCompletionBlock)completion {
+    
+    NSURLSessionDataTask *dataTask = self.dictionaryTasks[sendRecipient];
+    if (!dataTask) {
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/",baseURL, sendRecipient, messageId];
+        NSMutableURLRequest *request = [self constructRequestWithUrl:urlString];
+        
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&error];
+        [request setHTTPBody:jsonData];
+        
+        dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(JSONData, statusCode);
+            });
+            [self.dictionaryTasks removeObjectForKey:sendRecipient];
+        }];
+        self.dictionaryTasks[sendRecipient] = dataTask;
+        [dataTask resume];
+    }
+}
 
 - (void)sendMessageToDmailWithEncriptedMessage:(NSString *)encriptedMessage senderEmail:(NSString *)senderEmail completionBlock:(mainCompletionBlock)completion {
     

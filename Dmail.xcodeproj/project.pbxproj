@@ -15,6 +15,8 @@
 		58D9E3281B2F08F40046B154 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D9E3271B2F08F40046B154 /* UIColor+AppColors.m */; };
 		58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E815FD1B2B2A3900401520 /* InboxViewController.m */; };
 		58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */; };
+		9C11A4CD1B34149A00EEED0E /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C11A4CC1B34149A00EEED0E /* CoreDataManager.m */; };
+		9C53AD8C1B3421EE0013E30C /* DMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C53AD8A1B3421EE0013E30C /* DMail.xcdatamodeld */; };
 		9C739DFF1B3048ED00775494 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C739DFE1B3048ED00775494 /* ComposeViewController.m */; };
 		9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */; };
 		9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2AF71B2AEB64008F3C8E /* main.m */; };
@@ -31,10 +33,22 @@
 		9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B301B2B0384008F3C8E /* LoginViewController.m */; };
 		9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD35E571B317D6200B2295A /* NetworkManager.m */; };
 		9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD35E5E1B31981900B2295A /* BaseNetwork.m */; };
+		9CD8EA0E1B37E02E0052210D /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA0D1B37E02E0052210D /* MessageItem.m */; };
+		9CD8EA111B37E0580052210D /* DmailEntityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA101B37E0580052210D /* DmailEntityItem.m */; };
+		9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA131B37F7F20052210D /* ComposeModel.m */; };
+		9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA161B37F8990052210D /* ComposeModelItem.m */; };
+		9CD8EA1A1B3823D50052210D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA191B3823D50052210D /* User.m */; };
+		9CD8EA1D1B3823D50052210D /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA1C1B3823D50052210D /* Profile.m */; };
+		9CD8EA231B3823D50052210D /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA221B3823D50052210D /* DmailMessage.m */; };
+		9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA251B3825FF0052210D /* ProfileItem.m */; };
+		9CD8EA291B38275C0052210D /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA281B38275C0052210D /* GmailMessage.m */; };
+		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
+		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CDA74881B36CCB100F71707 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA74871B36CCB100F71707 /* Message.m */; };
+		9CDA74B11B3750FC00F71707 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */; };
+		9CDA74B21B3750FC00F71707 /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */; };
+		9CDA74B31B3750FC00F71707 /* ProximaNova-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */; };
 		9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF0FF891B32BE870054366E /* InboxModel.m */; };
-		9CF0FF8D1B32E6CB0054366E /* ProximaNova-Regular.otf in Sources */ = {isa = PBXBuildFile; fileRef = 9C76469E1B2DE27000DA5116 /* ProximaNova-Regular.otf */; };
-		9CF0FF8E1B32E6CB0054366E /* ProximaNova-Semibold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 9CF0FF8B1B32CF860054366E /* ProximaNova-Semibold.otf */; };
-		9CF0FF8F1B32E6CB0054366E /* ProximaNova-Light.otf in Sources */ = {isa = PBXBuildFile; fileRef = 9CF0FF8C1B32E4760054366E /* ProximaNova-Light.otf */; };
 		9CF619C31B2C1AD4009A210C /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C21B2C1AD4009A210C /* UserService.m */; };
 		9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C61B2C1BA6009A210C /* BaseViewController.m */; };
 /* End PBXBuildFile section */
@@ -65,9 +79,11 @@
 		58E816011B2B337700401520 /* CALayer+UIColorToCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CALayer+UIColorToCGColor.h"; path = "Categories/CALayer+UIColorToCGColor.h"; sourceTree = "<group>"; };
 		58E816021B2B337700401520 /* CALayer+UIColorToCGColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CALayer+UIColorToCGColor.m"; path = "Categories/CALayer+UIColorToCGColor.m"; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C11A4CB1B34149A00EEED0E /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		9C11A4CC1B34149A00EEED0E /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		9C53AD8B1B3421EE0013E30C /* DMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DMail.xcdatamodel; sourceTree = "<group>"; };
 		9C739DFD1B3048ED00775494 /* ComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		9C739DFE1B3048ED00775494 /* ComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
-		9C76469E1B2DE27000DA5116 /* ProximaNova-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.otf"; sourceTree = "<group>"; };
 		9C7646A41B2DEBDC00DA5116 /* InboxMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxMessageViewController.h; sourceTree = "<group>"; };
 		9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxMessageViewController.m; sourceTree = "<group>"; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,10 +112,33 @@
 		9CD35E5C1B3181A100B2295A /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9CD35E5D1B31981900B2295A /* BaseNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetwork.h; sourceTree = "<group>"; };
 		9CD35E5E1B31981900B2295A /* BaseNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetwork.m; sourceTree = "<group>"; };
+		9CD8EA0C1B37E02E0052210D /* MessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageItem.h; sourceTree = "<group>"; };
+		9CD8EA0D1B37E02E0052210D /* MessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageItem.m; sourceTree = "<group>"; };
+		9CD8EA0F1B37E0580052210D /* DmailEntityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailEntityItem.h; sourceTree = "<group>"; };
+		9CD8EA101B37E0580052210D /* DmailEntityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailEntityItem.m; sourceTree = "<group>"; };
+		9CD8EA121B37F7F20052210D /* ComposeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModel.h; sourceTree = "<group>"; };
+		9CD8EA131B37F7F20052210D /* ComposeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModel.m; sourceTree = "<group>"; };
+		9CD8EA151B37F8990052210D /* ComposeModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModelItem.h; sourceTree = "<group>"; };
+		9CD8EA161B37F8990052210D /* ComposeModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModelItem.m; sourceTree = "<group>"; };
+		9CD8EA181B3823D50052210D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		9CD8EA191B3823D50052210D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		9CD8EA1B1B3823D50052210D /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		9CD8EA1C1B3823D50052210D /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		9CD8EA211B3823D50052210D /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
+		9CD8EA221B3823D50052210D /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
+		9CD8EA241B3825FF0052210D /* ProfileItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileItem.h; sourceTree = "<group>"; };
+		9CD8EA251B3825FF0052210D /* ProfileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileItem.m; sourceTree = "<group>"; };
+		9CD8EA271B38275C0052210D /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
+		9CD8EA281B38275C0052210D /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
+		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CDA74861B36CCB100F71707 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		9CDA74871B36CCB100F71707 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
+		9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
+		9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.ttf"; sourceTree = "<group>"; };
 		9CF0FF881B32BE870054366E /* InboxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxModel.h; sourceTree = "<group>"; };
 		9CF0FF891B32BE870054366E /* InboxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxModel.m; sourceTree = "<group>"; };
-		9CF0FF8B1B32CF860054366E /* ProximaNova-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.otf"; sourceTree = "<group>"; };
-		9CF0FF8C1B32E4760054366E /* ProximaNova-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.otf"; sourceTree = "<group>"; };
 		9CF619C11B2C1AD4009A210C /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9CF619C21B2C1AD4009A210C /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9CF619C51B2C1BA6009A210C /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -114,8 +153,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */,
+				9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */,
 				9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */,
 				4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */,
+				9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +245,26 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		9C11A4871B3410BE00EEED0E /* Data Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9CD8EA271B38275C0052210D /* GmailMessage.h */,
+				9CD8EA281B38275C0052210D /* GmailMessage.m */,
+				9CD8EA211B3823D50052210D /* DmailMessage.h */,
+				9CD8EA221B3823D50052210D /* DmailMessage.m */,
+				9CD8EA1B1B3823D50052210D /* Profile.h */,
+				9CD8EA1C1B3823D50052210D /* Profile.m */,
+				9CD8EA181B3823D50052210D /* User.h */,
+				9CD8EA191B3823D50052210D /* User.m */,
+				9CDA74861B36CCB100F71707 /* Message.h */,
+				9CDA74871B36CCB100F71707 /* Message.m */,
+				9C11A4CB1B34149A00EEED0E /* CoreDataManager.h */,
+				9C11A4CC1B34149A00EEED0E /* CoreDataManager.m */,
+				9C53AD8A1B3421EE0013E30C /* DMail.xcdatamodeld */,
+			);
+			path = "Data Manager";
+			sourceTree = "<group>";
+		};
 		9C739DFC1B30404E00775494 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,9 +285,9 @@
 		9C7646951B2DE22700DA5116 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				9C76469E1B2DE27000DA5116 /* ProximaNova-Regular.otf */,
-				9CF0FF8B1B32CF860054366E /* ProximaNova-Semibold.otf */,
-				9CF0FF8C1B32E4760054366E /* ProximaNova-Light.otf */,
+				9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */,
+				9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */,
+				9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -234,6 +295,8 @@
 		9C9E2AE91B2AEB64008F3C8E = {
 			isa = PBXGroup;
 			children = (
+				9CD8EA2A1B383DFB0052210D /* Fabric.framework */,
+				9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */,
 				9C9E2AF41B2AEB64008F3C8E /* Dmail */,
 				9C9E2B0E1B2AEB65008F3C8E /* DmailTests */,
 				9C9E2AF31B2AEB64008F3C8E /* Products */,
@@ -262,6 +325,7 @@
 				9CD35E5C1B3181A100B2295A /* Constants.h */,
 				9C7646941B2DE22700DA5116 /* Assets */,
 				58E816001B2B32F200401520 /* Categories */,
+				9CD8EA0B1B37E0070052210D /* Items */,
 				9CF0FF841B32BE450054366E /* Models */,
 				9C9E2B251B2AFD94008F3C8E /* ViewControllers */,
 				58D9E3141B2EC24B0046B154 /* Views */,
@@ -346,6 +410,7 @@
 		9CD35E541B317D4900B2295A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9C11A4871B3410BE00EEED0E /* Data Manager */,
 				9CD35E551B317D4900B2295A /* Network Manager */,
 			);
 			path = Managers;
@@ -362,11 +427,26 @@
 			path = "Network Manager";
 			sourceTree = "<group>";
 		};
+		9CD8EA0B1B37E0070052210D /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				9CD8EA0C1B37E02E0052210D /* MessageItem.h */,
+				9CD8EA0D1B37E02E0052210D /* MessageItem.m */,
+				9CD8EA0F1B37E0580052210D /* DmailEntityItem.h */,
+				9CD8EA101B37E0580052210D /* DmailEntityItem.m */,
+				9CD8EA151B37F8990052210D /* ComposeModelItem.h */,
+				9CD8EA161B37F8990052210D /* ComposeModelItem.m */,
+				9CD8EA241B3825FF0052210D /* ProfileItem.h */,
+				9CD8EA251B3825FF0052210D /* ProfileItem.m */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
 		9CF0FF841B32BE450054366E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9CF0FF851B32BE710054366E /* Compose */,
 				9CF0FF861B32BE710054366E /* Inbox */,
+				9CF0FF851B32BE710054366E /* Compose */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -374,6 +454,8 @@
 		9CF0FF851B32BE710054366E /* Compose */ = {
 			isa = PBXGroup;
 			children = (
+				9CD8EA121B37F7F20052210D /* ComposeModel.h */,
+				9CD8EA131B37F7F20052210D /* ComposeModel.m */,
 			);
 			path = Compose;
 			sourceTree = "<group>";
@@ -497,8 +579,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDA74B11B3750FC00F71707 /* ProximaNova-Light.ttf in Resources */,
 				9C9E2B011B2AEB64008F3C8E /* Main.storyboard in Resources */,
+				9CDA74B21B3750FC00F71707 /* ProximaNova-Regular.ttf in Resources */,
 				9C9E2B061B2AEB64008F3C8E /* LaunchScreen.xib in Resources */,
+				9CDA74B31B3750FC00F71707 /* ProximaNova-Semibold.ttf in Resources */,
 				9C9E2B1C1B2AEB86008F3C8E /* Podfile in Resources */,
 				9C9E2B031B2AEB64008F3C8E /* Images.xcassets in Resources */,
 			);
@@ -526,8 +611,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "./Fabric.framework/run a2b376170abea399baf96035d0ae31651a2aeee6 5618763dd27960a4ba84ecb8fc742ae1e8a4b1aae36184a5442dbcbd6e1f483a\n";
 		};
 		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -551,28 +635,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CF0FF8D1B32E6CB0054366E /* ProximaNova-Regular.otf in Sources */,
-				9CF0FF8E1B32E6CB0054366E /* ProximaNova-Semibold.otf in Sources */,
-				9CF0FF8F1B32E6CB0054366E /* ProximaNova-Light.otf in Sources */,
 				58D9E3251B2F08B30046B154 /* InboxCell.m in Sources */,
 				9CF619C31B2C1AD4009A210C /* UserService.m in Sources */,
 				9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */,
 				9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */,
 				58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */,
+				9CD8EA111B37E0580052210D /* DmailEntityItem.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
+				9C53AD8C1B3421EE0013E30C /* DMail.xcdatamodeld in Sources */,
+				9CD8EA231B3823D50052210D /* DmailMessage.m in Sources */,
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
+				9CD8EA291B38275C0052210D /* GmailMessage.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
 				9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */,
+				9C11A4CD1B34149A00EEED0E /* CoreDataManager.m in Sources */,
 				9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */,
+				9CD8EA0E1B37E02E0052210D /* MessageItem.m in Sources */,
+				9CDA74881B36CCB100F71707 /* Message.m in Sources */,
 				58D9E3191B2ECB4E0046B154 /* RootViewController.m in Sources */,
+				9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */,
 				58D9E3281B2F08F40046B154 /* UIColor+AppColors.m in Sources */,
 				9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */,
+				9CD8EA1D1B3823D50052210D /* Profile.m in Sources */,
+				9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */,
 				58D9E31D1B2EDE460046B154 /* MenuViewController.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
+				9CD8EA1A1B3823D50052210D /* User.m in Sources */,
 				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
 				58D9E3221B2F08890046B154 /* MenuCell.m in Sources */,
 				9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */,
 				9C739DFF1B3048ED00775494 /* ComposeViewController.m in Sources */,
+				9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,10 +792,15 @@
 			baseConfigurationReference = BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Dmail/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
 			};
 			name = Debug;
 		};
@@ -711,10 +809,15 @@
 			baseConfigurationReference = E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Dmail/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
 			};
 			name = Release;
 		};
@@ -783,6 +886,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9C53AD8A1B3421EE0013E30C /* DMail.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9C53AD8B1B3421EE0013E30C /* DMail.xcdatamodel */,
+			);
+			currentVersion = 9C53AD8B1B3421EE0013E30C /* DMail.xcdatamodel */;
+			path = DMail.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9C9E2AEA1B2AEB64008F3C8E /* Project object */;
 }

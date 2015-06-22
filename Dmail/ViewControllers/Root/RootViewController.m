@@ -53,9 +53,33 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(buttonHandlerMenu)
-                                                 name:kNotificationMenuButton
+                                                 name:NotificationMenuButton
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(inboxClicked)
+                                                 name:NotificationInbox
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sentClicked)
+                                                 name:NotificationSent
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(signOut)
+                                                 name:NotificationSignOut
                                                object:nil];
 
+}
+
+- (void)inboxClicked {
+    
+    [self hideMenu];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageInbox object:nil];
+}
+
+- (void)sentClicked {
+    
+    [self hideMenu];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageSent object:nil];
 }
 
 - (void)buttonHandlerMenu {
@@ -69,7 +93,13 @@
     }];
 }
 
+- (void)signOut {
+    
+//    [self performSegueWithIdentifier:@"fromRootToLogin" sender:self];
+}
+
 - (void)openMenu {
+    
     self.constraintHorizontalSpaceing.constant = self.screenWidthMenu;
     [self.view layoutIfNeeded];
     
@@ -162,6 +192,7 @@
 }
 
 - (void)dealloc {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

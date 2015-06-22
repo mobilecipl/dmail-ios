@@ -8,6 +8,7 @@
 
 #import "InboxCell.h"
 #import "Constants.h"
+#import "MessageItem.h"
 
 @interface InboxCell ()
 
@@ -22,10 +23,21 @@
 
 
 #pragma mark - Publioc Methods
-- (void)configureCell:(NSDictionary *)dictInboxCell {
+- (void)configureCell:(MessageItem *)messageItem {
     
-    self.labelSenderName.text = dictInboxCell[SenderName];
-    self.labelMessageSubject.text = dictInboxCell[MessageSubject];
+    self.labelSenderName.text = messageItem.senderName;
+    self.labelMessageSubject.text = messageItem.subject;
+    switch (messageItem.status) {
+        case MessageFetched:
+            self.viewBorder.hidden = NO;
+            break;
+        case MessageRead:
+            self.viewBorder.hidden = YES;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)awakeFromNib {

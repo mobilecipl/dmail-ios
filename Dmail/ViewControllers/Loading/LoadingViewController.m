@@ -29,7 +29,7 @@
     
     [self.indicator startAnimating];
     
-    if ([[UserService sharedInstance] userID]) {
+    if ([[UserService sharedInstance] gmailId]) {
         [self autoSignIn];
     }
     else {

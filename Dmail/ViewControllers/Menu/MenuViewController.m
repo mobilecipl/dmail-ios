@@ -9,6 +9,7 @@
 #import "MenuViewController.h"
 #import "MenuCell.h"
 #import "UIColor+AppColors.h"
+#import "CoreDataManager.h"
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -37,15 +38,24 @@
                                   @"text" : @"Sent",
                                   @"color" : [UIColor whiteColor]}
                               ];
+    
+    [self setupController];
 }
 
 
 #pragma mark - Action Methods
 - (IBAction)logOutButtonHandler:(id)sender {
     
-    NSLog(@"Log out");
+//    [[CoreDataManager sharedCoreDataManager] signOut];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSignOut object:nil];
 }
 
+
+#pragma mark - Private Methods
+- (void)setupController {
+    
+    self.labelName.text = [[UserService sharedInstance] name];
+}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -64,10 +74,12 @@
     
     switch (indexPath.row) {
         case 0: {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationInbox object:nil];
             NSLog(@"Inbox Selected");
             break;
         }
         case 1: {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSent object:nil];
             NSLog(@"Sent Selected");
             break;
         }
