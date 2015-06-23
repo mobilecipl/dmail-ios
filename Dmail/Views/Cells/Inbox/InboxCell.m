@@ -27,16 +27,21 @@
     
     self.labelSenderName.text = messageItem.senderName;
     self.labelMessageSubject.text = messageItem.subject;
-    switch (messageItem.status) {
-        case MessageFetched:
-            self.viewBorder.hidden = NO;
-            break;
-        case MessageRead:
-            self.viewBorder.hidden = YES;
-            break;
-            
-        default:
-            break;
+    if (messageItem.type == Sent) {
+        self.viewBorder.hidden = YES;
+    }
+    else {
+        switch (messageItem.status) {
+            case MessageFetched:
+                self.viewBorder.hidden = NO;
+                break;
+            case MessageRead:
+                self.viewBorder.hidden = YES;
+                break;
+                
+            default:
+                break;
+        }
     }
 }
 

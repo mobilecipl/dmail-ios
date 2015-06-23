@@ -17,7 +17,6 @@
 
 @interface InboxModel ()
 
-@property (nonatomic, assign) MessageType messageType;
 @property (nonatomic, strong) NSMutableArray *arrayMessages;
 
 @end
@@ -38,12 +37,12 @@
 - (MessageItem *)dmailMessageToMessageItem:(DmailMessage *)dmailMessage {
     
     MessageItem *messageItem = [[MessageItem alloc] init];
-    messageItem.type = dmailMessage.type;
+    messageItem.type = [dmailMessage.type integerValue];
     messageItem.identifier = dmailMessage.identifier;
     messageItem.dmailId = dmailMessage.dmailId;
     messageItem.subject = dmailMessage.subject;
     messageItem.senderName = dmailMessage.senderName;
-    messageItem.status = dmailMessage.status;
+    messageItem.status = [dmailMessage.status integerValue];
     
     return messageItem;
 }

@@ -22,5 +22,6 @@
 @dynamic status;
 @dynamic subject;
 @dynamic type;
+@dynamic internalDate;
 
 @end

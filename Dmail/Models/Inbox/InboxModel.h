@@ -19,6 +19,7 @@
 
 @interface InboxModel : NSObject
 
+@property (nonatomic, assign) MessageType messageType;
 @property (nonatomic, assign) id<InboxModelDelegate> delegate;
 
 - (id)initWithMessageType:(MessageType)messageType;

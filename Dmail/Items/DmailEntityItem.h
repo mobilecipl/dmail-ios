@@ -19,9 +19,10 @@
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSString * receiverEmail;
 
-@property (nonatomic) int16_t type;
-@property (nonatomic) int32_t position;
-@property (nonatomic) int16_t status;
+@property (nonatomic) NSInteger internalDate;
+@property (nonatomic) NSInteger position;
+@property (nonatomic) NSInteger status;
+@property (nonatomic) NSInteger type;
 
 - (instancetype)initWithClearObjects;
 

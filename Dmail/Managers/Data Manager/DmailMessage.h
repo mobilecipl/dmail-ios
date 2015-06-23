@@ -16,12 +16,13 @@
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSString * dmailId;
 @property (nonatomic, retain) NSString * identifier;
-@property (nonatomic) int32_t position;
+@property (nonatomic, retain) NSNumber * position;
 @property (nonatomic, retain) NSString * receiverEmail;
 @property (nonatomic, retain) NSString * senderEmail;
 @property (nonatomic, retain) NSString * senderName;
-@property (nonatomic) int16_t status;
+@property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * subject;
-@property (nonatomic) int16_t type;
+@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * internalDate;
 
 @end

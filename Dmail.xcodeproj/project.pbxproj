@@ -37,13 +37,13 @@
 		9CD8EA111B37E0580052210D /* DmailEntityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA101B37E0580052210D /* DmailEntityItem.m */; };
 		9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA131B37F7F20052210D /* ComposeModel.m */; };
 		9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA161B37F8990052210D /* ComposeModelItem.m */; };
-		9CD8EA1A1B3823D50052210D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA191B3823D50052210D /* User.m */; };
-		9CD8EA1D1B3823D50052210D /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA1C1B3823D50052210D /* Profile.m */; };
-		9CD8EA231B3823D50052210D /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA221B3823D50052210D /* DmailMessage.m */; };
 		9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA251B3825FF0052210D /* ProfileItem.m */; };
-		9CD8EA291B38275C0052210D /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA281B38275C0052210D /* GmailMessage.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CD8EA361B384EB80052210D /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA351B384EB80052210D /* GmailMessage.m */; };
+		9CD8EA391B384EB90052210D /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA381B384EB90052210D /* Profile.m */; };
+		9CD8EA3C1B384EB90052210D /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA3B1B384EB90052210D /* DmailMessage.m */; };
+		9CD8EA3F1B384EB90052210D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA3E1B384EB90052210D /* User.m */; };
 		9CDA74881B36CCB100F71707 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA74871B36CCB100F71707 /* Message.m */; };
 		9CDA74B11B3750FC00F71707 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */; };
 		9CDA74B21B3750FC00F71707 /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */; };
@@ -120,18 +120,18 @@
 		9CD8EA131B37F7F20052210D /* ComposeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModel.m; sourceTree = "<group>"; };
 		9CD8EA151B37F8990052210D /* ComposeModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModelItem.h; sourceTree = "<group>"; };
 		9CD8EA161B37F8990052210D /* ComposeModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModelItem.m; sourceTree = "<group>"; };
-		9CD8EA181B3823D50052210D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		9CD8EA191B3823D50052210D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		9CD8EA1B1B3823D50052210D /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
-		9CD8EA1C1B3823D50052210D /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
-		9CD8EA211B3823D50052210D /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
-		9CD8EA221B3823D50052210D /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA241B3825FF0052210D /* ProfileItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileItem.h; sourceTree = "<group>"; };
 		9CD8EA251B3825FF0052210D /* ProfileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileItem.m; sourceTree = "<group>"; };
-		9CD8EA271B38275C0052210D /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
-		9CD8EA281B38275C0052210D /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CD8EA341B384EB80052210D /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
+		9CD8EA351B384EB80052210D /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
+		9CD8EA371B384EB90052210D /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		9CD8EA381B384EB90052210D /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		9CD8EA3A1B384EB90052210D /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
+		9CD8EA3B1B384EB90052210D /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
+		9CD8EA3D1B384EB90052210D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		9CD8EA3E1B384EB90052210D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		9CDA74861B36CCB100F71707 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		9CDA74871B36CCB100F71707 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
@@ -248,14 +248,14 @@
 		9C11A4871B3410BE00EEED0E /* Data Manager */ = {
 			isa = PBXGroup;
 			children = (
-				9CD8EA271B38275C0052210D /* GmailMessage.h */,
-				9CD8EA281B38275C0052210D /* GmailMessage.m */,
-				9CD8EA211B3823D50052210D /* DmailMessage.h */,
-				9CD8EA221B3823D50052210D /* DmailMessage.m */,
-				9CD8EA1B1B3823D50052210D /* Profile.h */,
-				9CD8EA1C1B3823D50052210D /* Profile.m */,
-				9CD8EA181B3823D50052210D /* User.h */,
-				9CD8EA191B3823D50052210D /* User.m */,
+				9CD8EA3D1B384EB90052210D /* User.h */,
+				9CD8EA3E1B384EB90052210D /* User.m */,
+				9CD8EA3A1B384EB90052210D /* DmailMessage.h */,
+				9CD8EA3B1B384EB90052210D /* DmailMessage.m */,
+				9CD8EA371B384EB90052210D /* Profile.h */,
+				9CD8EA381B384EB90052210D /* Profile.m */,
+				9CD8EA341B384EB80052210D /* GmailMessage.h */,
+				9CD8EA351B384EB80052210D /* GmailMessage.m */,
 				9CDA74861B36CCB100F71707 /* Message.h */,
 				9CDA74871B36CCB100F71707 /* Message.m */,
 				9C11A4CB1B34149A00EEED0E /* CoreDataManager.h */,
@@ -548,6 +548,7 @@
 				TargetAttributes = {
 					9C9E2AF11B2AEB64008F3C8E = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 5PXSW8S5E4;
 					};
 					9C9E2B0A1B2AEB65008F3C8E = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -642,11 +643,12 @@
 				58E816031B2B337700401520 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CD8EA111B37E0580052210D /* DmailEntityItem.m in Sources */,
 				9C9E2AFB1B2AEB64008F3C8E /* AppDelegate.m in Sources */,
+				9CD8EA391B384EB90052210D /* Profile.m in Sources */,
 				9C53AD8C1B3421EE0013E30C /* DMail.xcdatamodeld in Sources */,
-				9CD8EA231B3823D50052210D /* DmailMessage.m in Sources */,
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
-				9CD8EA291B38275C0052210D /* GmailMessage.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
+				9CD8EA3F1B384EB90052210D /* User.m in Sources */,
+				9CD8EA361B384EB80052210D /* GmailMessage.m in Sources */,
 				9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */,
 				9C11A4CD1B34149A00EEED0E /* CoreDataManager.m in Sources */,
 				9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */,
@@ -656,15 +658,14 @@
 				9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */,
 				58D9E3281B2F08F40046B154 /* UIColor+AppColors.m in Sources */,
 				9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */,
-				9CD8EA1D1B3823D50052210D /* Profile.m in Sources */,
 				9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */,
 				58D9E31D1B2EDE460046B154 /* MenuViewController.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
-				9CD8EA1A1B3823D50052210D /* User.m in Sources */,
 				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
 				58D9E3221B2F08890046B154 /* MenuCell.m in Sources */,
 				9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */,
 				9C739DFF1B3048ED00775494 /* ComposeViewController.m in Sources */,
+				9CD8EA3C1B384EB90052210D /* DmailMessage.m in Sources */,
 				9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -792,6 +793,8 @@
 			baseConfigurationReference = BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -800,7 +803,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Debug;
 		};
@@ -809,6 +812,8 @@
 			baseConfigurationReference = E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -817,7 +822,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Release;
 		};

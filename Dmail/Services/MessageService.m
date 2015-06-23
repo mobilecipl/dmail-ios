@@ -51,6 +51,7 @@
     
     DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
     if ([[requestReply allKeys] containsObject:Payload]) {
+        dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
         NSDictionary *payload = requestReply[Payload];
         if ([[payload allKeys] containsObject:Headers]) {
             NSArray *headers = payload[Headers];
@@ -86,7 +87,12 @@
             dmailEntityItem.dmailId = dict[MessageId];
             dmailEntityItem.identifier = dict[MessageIdentifier];
             dmailEntityItem.position = [dict[Position] floatValue];
-            dmailEntityItem.type = [dict[Type] integerValue];
+            if ([dict[Type] isEqualToString:@"SENDER"]) {
+                dmailEntityItem.type = Sent;
+            }
+            else if([dict[Type] isEqualToString:@"TO"]) {
+                dmailEntityItem.type = Inbox;
+            }
             dmailEntityItem.status = MessageFetchedPartly;
             [arrayParsedItems addObject:dmailEntityItem];
         }
@@ -239,7 +245,7 @@
         fullMessageBody = [NSString stringWithFormat:@"From: %@ <%@>\nTo: %@ <%@>\nSubject: %@\n\n%@",[[UserService sharedInstance] name],[[[GIDSignIn sharedInstance].currentUser profile] email], @"Karen", receiverEmail, composeModelItem.subject, composeModelItem.body];
     }
     else {
-        fullMessageBody = [NSString stringWithFormat:@"From: %@ <%@>\nTo: <%@>\nSubject: %@\n\n%@",[[UserService sharedInstance] name],[[[GIDSignIn sharedInstance].currentUser profile] email], receiverEmail, composeModelItem.subject, composeModelItem.body];
+        fullMessageBody = [NSString stringWithFormat:@"From: %@ <%@>\nTo: Karen <%@>\nSubject: %@\n\n%@",[[UserService sharedInstance] name],[[[GIDSignIn sharedInstance].currentUser profile] email], receiverEmail, composeModelItem.subject, composeModelItem.body];
     }
     NSString *base64EncodedMessage = [self base64Encoding:fullMessageBody];
     [[NetworkManager sharedManager] sendMessageToGmailWithEncodedBody:base64EncodedMessage withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {

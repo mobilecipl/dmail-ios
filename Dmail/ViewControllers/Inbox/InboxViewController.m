@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
 @property (nonatomic, strong) NSMutableArray *arrayMessgaeItems;
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
+@property (nonatomic, strong) InboxModel *inboxModel;
 @property (nonatomic, assign) MessageType messageType;
 
 @end
@@ -49,7 +50,10 @@
                                                  name:NotificationMessageSent
                                                object:nil];
     
+    self.inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
+    self.inboxModel.delegate = self;
     [self getMessages];
+    [self.inboxModel getNewMessages];
 }
 
 - (void)dealloc {
@@ -62,26 +66,24 @@
 - (void)getMessages {
     
     [self showLoadingView];
-    InboxModel *inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
-    inboxModel.delegate = self;
-    self.arrayMessgaeItems = [inboxModel getArrayMessageItems];
+    self.arrayMessgaeItems = [self.inboxModel getArrayMessageItems];
     if ([self.arrayMessgaeItems count] > 0) {
         [self hideLoadingView];
-        [self.tableVIewInbox reloadData];
     }
-    
-    [inboxModel getNewMessages];
+    [self.tableVIewInbox reloadData];
 }
 
 - (void)inboxClicked {
     
     self.messageType = Inbox;
+    self.inboxModel.messageType = Inbox;
     [self getMessages];
 }
 
 - (void)sentClicked {
     
     self.messageType = Sent;
+    self.inboxModel.messageType = Sent;
     [self getMessages];
 }
 
@@ -137,10 +139,7 @@
 - (void)updateInboxScreen:(MessageItem *)messageItem {
     
     [self hideLoadingView];
-    if (messageItem) {
-        [self.arrayMessgaeItems addObject:messageItem];
-        [self.tableVIewInbox reloadData];
-    }
+    [self getMessages];
 }
 
 @end

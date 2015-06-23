@@ -162,8 +162,14 @@ static NSString * const EntityProfile = @"Profile";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type == %d",messageType];
     [fetchRequest setPredicate:predicate];
     
+    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:InternalDate ascending:NO selector:nil];
+    [fetchRequest setSortDescriptors:@[descendingSort]];
+    
     NSError *error = nil;
     NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    for (DmailMessage *message in fetchedMessages) {
+        NSLog(@"InternalDate === %@", message.internalDate);
+    }
     
     return fetchedMessages;
 }
@@ -246,14 +252,17 @@ static NSString * const EntityProfile = @"Profile";
         if (dmailEntityItem.receiverEmail) {
             dmailMessage.receiverEmail = dmailEntityItem.receiverEmail;
         }
-        if (dmailEntityItem.type != -1) {
-            dmailMessage.type = dmailEntityItem.type;
+        if (dmailEntityItem.type && dmailEntityItem.type!= -1) {
+            dmailMessage.type = [NSNumber numberWithInteger:dmailEntityItem.type];
         }
-        if (dmailEntityItem.position != -1) {
-            dmailMessage.position = dmailEntityItem.position;
+        if (dmailEntityItem.position && dmailEntityItem.position!= -1) {
+            dmailMessage.position = [NSNumber numberWithInteger:dmailEntityItem.position];
         }
-        if (dmailEntityItem.status != -1) {
-            dmailMessage.status = dmailEntityItem.status;
+        if (dmailEntityItem.internalDate && dmailEntityItem.internalDate!= -1) {
+            dmailMessage.internalDate = [NSNumber numberWithInteger:dmailEntityItem.internalDate];
+        }
+        if (dmailEntityItem.status && dmailEntityItem.status!= -1) {
+            dmailMessage.status = [NSNumber numberWithInteger:dmailEntityItem.status];
         }
         if (!messageExist && dmailEntityItem.identifier) {
             [arrayMessagesIdentifiers addObject:dmailEntityItem.identifier];
@@ -268,43 +277,6 @@ static NSString * const EntityProfile = @"Profile";
     [self saveContext];
     
     return [NSArray arrayWithArray:arrayMessagesIdentifiers];
-}
-
-- (void)writeSendMessageWithParameters:(NSDictionary *)parameters {
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    DmailMessage *dmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-    if ([[parameters allKeys] containsObject:Access]) {
-        dmailMessage.access = parameters[Access];
-    }
-    if ([[parameters allKeys] containsObject:MessageId]) {
-        dmailMessage.dmailId = parameters[MessageId];
-    }
-    if ([[parameters allKeys] containsObject:Access]) {
-        dmailMessage.access = parameters[Access];
-    }
-    if ([[parameters allKeys] containsObject:Position]) {
-        dmailMessage.position = [parameters[Position] floatValue];
-    }
-    if ([[parameters allKeys] containsObject:Type]) {
-        dmailMessage.type = [parameters[Type] integerValue];
-    }
-    if ([[parameters allKeys] containsObject:Status]) {
-        dmailMessage.status = [parameters[Status] integerValue];
-    }
-    if ([[parameters allKeys] containsObject:SenderName]) {
-        dmailMessage.senderName = parameters[SenderName];
-    }
-    if ([[parameters allKeys] containsObject:Status]) {
-        dmailMessage.senderEmail = parameters[SenderEmail];
-    }
-    if ([[parameters allKeys] containsObject:Subject]) {
-        dmailMessage.subject = parameters[Subject];
-    }
-    
-    [self saveContext];
 }
 
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus {
@@ -322,7 +294,7 @@ static NSString * const EntityProfile = @"Profile";
         DmailMessage *dmailMessage = nil;
         if ([fetchedMessages count] > 0) {
             dmailMessage = [fetchedMessages firstObject];
-            dmailMessage.status = messageStatus;
+            dmailMessage.status = [NSNumber numberWithInteger:messageStatus];
         }
     }
     

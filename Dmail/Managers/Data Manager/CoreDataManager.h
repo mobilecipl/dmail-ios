@@ -37,7 +37,6 @@
 - (DmailMessage *)getDmailMessageWithMessageId:(NSString *)messageId;
 - (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters;
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus;
-- (void)writeSendMessageWithParameters:(NSDictionary *)parameters;
 - (void)writeOrUpdateParticipantWith:(ProfileItem *)profileItem;
 - (void)writeMessageBodyWithDmailId:(NSString *)dmailId messageBody:(NSString *)messageBody;
 - (Profile *)getProfileWithEmail:(NSString *)email;
