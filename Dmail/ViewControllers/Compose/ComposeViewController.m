@@ -20,6 +20,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *textFieldTo;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewMessageBody;
+@property (nonatomic, weak) IBOutlet UILabel *labelNavigationName;
 
 @property (nonatomic, strong) ComposeModel *composeModel;
 
@@ -35,6 +36,7 @@
     
     self.buttonSend.enabled = NO;
     self.composeModel = [[ComposeModel alloc] init];
+    self.labelNavigationName.text = [[UserService sharedInstance] name];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
