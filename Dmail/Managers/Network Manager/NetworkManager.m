@@ -94,11 +94,6 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     }
 }
 
-- (void)getMessageUniqueIDsFromDmailWithUserId:(NSString *)userID withCompletionBlock:(void (^)(NSArray *arrayIDs, NSInteger statusCode))completion {
-    
-    
-}
-
 - (void)getGmailMessageIdFromGmailWithMessageUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -183,11 +178,11 @@ static NSString * const messageSent = @"mobileClient/messageSent";
 }
 
 
-- (void)sendRecipientsWithParameters:(NSDictionary *)parameters messageId:(NSString *)messageId completionBlock:(mainCompletionBlock)completion {
+- (void)sendRecipientsWithParameters:(NSDictionary *)parameters dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionDataTask *dataTask = self.dictionaryTasks[sendRecipient];
     if (!dataTask) {
-        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/",baseURL, sendRecipient, messageId];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/",baseURL, sendRecipient, dmailId];
         NSMutableURLRequest *request = [self constructRequestWithUrl:urlString];
         
         NSError *error;

@@ -32,10 +32,12 @@ static NSString * const NotificationSent = @"notificationSent";
 static NSString * const NotificationMessageInbox = @"notificationMessageInbox";
 static NSString * const NotificationMessageSent = @"notificationMessageSent";
 
+static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
+
 
 typedef NS_ENUM(NSInteger, MessageType) {
-    Inbox,
-    Sent
+    Inbox = 1,
+    Sent = 2
 };
 
 typedef NS_ENUM(NSInteger, MessageStatus) {
@@ -44,6 +46,7 @@ typedef NS_ENUM(NSInteger, MessageStatus) {
     MessageRead,
     MessageSentOnlyBody,
     MessageSentParticipants,
+    MessageSentToGmail,
     MessageSentFull,
     MessageRevoke
 };

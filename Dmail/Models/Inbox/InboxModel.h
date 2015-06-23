@@ -24,6 +24,5 @@
 
 - (id)initWithMessageType:(MessageType)messageType;
 - (NSMutableArray *)getArrayMessageItems;
-- (void)getNewMessages;
 
 @end

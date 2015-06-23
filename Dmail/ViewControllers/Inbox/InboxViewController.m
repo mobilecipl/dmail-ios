@@ -34,12 +34,25 @@
     [super viewDidLoad];
     
     self.messageType = Inbox;
-//    [self getMessages];
+    self.inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [self registerNotifications];
+    [self getMessages];
+}
+
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+#pragma mark - Private Methods
+- (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(inboxClicked)
@@ -50,19 +63,12 @@
                                                  name:NotificationMessageSent
                                                object:nil];
     
-    self.inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
-    self.inboxModel.delegate = self;
-    [self getMessages];
-    [self.inboxModel getNewMessages];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getMessages)
+                                                 name:NotificationNewMessageFetched
+                                               object:nil];
 }
 
-- (void)dealloc {
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-#pragma mark - Private Methods
 - (void)getMessages {
     
     [self showLoadingView];

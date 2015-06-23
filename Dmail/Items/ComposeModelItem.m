@@ -10,13 +10,15 @@
 
 @implementation ComposeModelItem
 
-- (instancetype)initWithReceiverEmails:(NSArray *)arrayEmails subject:(NSString *)subject body:(NSString *)body {
+- (instancetype)initWithSubject:(NSString *)subject body:(NSString *)body arrayTo:(NSArray *)to arrayCC:(NSArray *)CC arrayBCC:(NSArray *)BCC {
     
     self = [super init];
     if (self != nil) {
-        self.arrayReceiversEmail = [NSArray arrayWithArray:arrayEmails];
         self.subject = subject;
         self.body = body;
+        self.arrayTo = [NSArray arrayWithArray:to];
+        self.arrayCC = [NSArray arrayWithArray:CC];
+        self.arrayBCC = [NSArray arrayWithArray:BCC];
     }
     
     return  self;

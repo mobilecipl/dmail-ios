@@ -31,6 +31,7 @@
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
 		9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */; };
 		9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B301B2B0384008F3C8E /* LoginViewController.m */; };
+		9CAE4BE11B3958560006DAA7 /* SyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE4BE01B3958560006DAA7 /* SyncService.m */; };
 		9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD35E571B317D6200B2295A /* NetworkManager.m */; };
 		9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD35E5E1B31981900B2295A /* BaseNetwork.m */; };
 		9CD8EA0E1B37E02E0052210D /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA0D1B37E02E0052210D /* MessageItem.m */; };
@@ -107,6 +108,8 @@
 		9C9E2B2C1B2B0364008F3C8E /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
 		9C9E2B2F1B2B0384008F3C8E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		9C9E2B301B2B0384008F3C8E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		9CAE4BDF1B3958560006DAA7 /* SyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncService.h; sourceTree = "<group>"; };
+		9CAE4BE01B3958560006DAA7 /* SyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncService.m; sourceTree = "<group>"; };
 		9CD35E561B317D6200B2295A /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		9CD35E571B317D6200B2295A /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		9CD35E5C1B3181A100B2295A /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 				9C9E2B1F1B2AF905008F3C8E /* MessageService.m */,
 				9CF619C11B2C1AD4009A210C /* UserService.h */,
 				9CF619C21B2C1AD4009A210C /* UserService.m */,
+				9CAE4BDF1B3958560006DAA7 /* SyncService.h */,
+				9CAE4BE01B3958560006DAA7 /* SyncService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -658,6 +663,7 @@
 				9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */,
 				58D9E3281B2F08F40046B154 /* UIColor+AppColors.m in Sources */,
 				9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */,
+				9CAE4BE11B3958560006DAA7 /* SyncService.m in Sources */,
 				9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */,
 				58D9E31D1B2EDE460046B154 /* MenuViewController.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,

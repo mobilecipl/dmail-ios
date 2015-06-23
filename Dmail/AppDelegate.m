@@ -11,7 +11,8 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-
+#import "UserService.h"
+#import "SyncService.h"
 
 
 @interface AppDelegate ()
@@ -49,6 +50,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 
+    SyncService *syncService = [[SyncService alloc] init];
+    [syncService getNewMessages];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

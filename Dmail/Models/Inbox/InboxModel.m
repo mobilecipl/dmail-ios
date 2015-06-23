@@ -60,37 +60,6 @@
     return arrayMessageItems;
 }
 
-- (void)getNewMessages {
-    
-    NSDate *date = [NSDate date];
-    NSTimeInterval timeInterval = [date timeIntervalSince1970];
-    NSDictionary *parameters = @{Position : [NSString stringWithFormat:@"%ld",(long)timeInterval*1000],
-                                 Count : [NSString stringWithFormat:@"%ld",(long)100],
-                                 RecipientEmail : [[UserService sharedInstance] email],
-                                 Bottom : @YES};
-    
-    [[MessageService sharedInstance] getMessageListFromDmailWithPosition:parameters withCompletionBlock:^(NSArray *arrayMessagesIdentifiers, NSInteger statusCode) {
-        if ([arrayMessagesIdentifiers count] > 0) {
-            for (NSString *identifier in arrayMessagesIdentifiers) {
-                [[MessageService sharedInstance] getGmailMessageIdFromGmailWithIdentifier:identifier withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
-                    if (gmailMessageId) {
-                        [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSInteger statusCode) {
-                            if (statusCode == 200) {
-                                DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getMessageWithMessageIdentifier:identifier];
-                                MessageItem *messageItem = [self dmailMessageToMessageItem:dmailMessage];
-                                [self updateInboxScreen:messageItem];
-                            }
-                        }];
-                    }
-                }];
-            }
-        }
-        else {
-            [self updateInboxScreen:nil];
-        }
-    }];
-}
-
 
 #pragma mark - Delegate Methods
 - (void)updateInboxScreen:(MessageItem *)messageItem {

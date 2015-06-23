@@ -10,10 +10,13 @@
 
 @interface ComposeModelItem : NSObject
 
-@property (nonatomic, strong) NSArray *arrayReceiversEmail;
 @property (nonatomic, strong) NSString *subject;
 @property (nonatomic, strong) NSString *body;
+@property (nonatomic, strong) NSArray *arrayTo;
+@property (nonatomic, strong) NSArray *arrayCC;
+@property (nonatomic, strong) NSArray *arrayBCC;
 
-- (instancetype)initWithReceiverEmails:(NSArray *)arrayEmails subject:(NSString *)subject body:(NSString *)body;
+
+- (instancetype)initWithSubject:(NSString *)subject body:(NSString *)body arrayTo:(NSArray *)to arrayCC:(NSArray *)CC arrayBCC:(NSArray *)BCC;
 
 @end

@@ -167,9 +167,6 @@ static NSString * const EntityProfile = @"Profile";
     
     NSError *error = nil;
     NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    for (DmailMessage *message in fetchedMessages) {
-        NSLog(@"InternalDate === %@", message.internalDate);
-    }
     
     return fetchedMessages;
 }
@@ -191,93 +188,153 @@ static NSString * const EntityProfile = @"Profile";
 
 - (DmailMessage *)getDmailMessageWithMessageId:(NSString *)messageId {
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",messageId];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     DmailMessage *dmailMessage = nil;
-    if ([fetchedMessages count] > 0) {
-        dmailMessage = [fetchedMessages firstObject];
+    if (messageId) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",messageId];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if ([fetchedMessages count] > 0) {
+            dmailMessage = [fetchedMessages firstObject];
+        }
     }
     
     return dmailMessage;
 }
 
-- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters {
+
+- (void)writeMessageWithparameters:(DmailEntityItem *)item {
     
-    NSMutableArray *arrayMessagesIdentifiers = [[NSMutableArray alloc] init];
-    for (DmailEntityItem *dmailEntityItem in arrayParameters) {
-        NSString *identifier = dmailEntityItem.identifier;
-        BOOL messageExist = YES;
-        DmailMessage *dmailMessage;
-        if (identifier) {
-            dmailMessage = [self getMessageWithMessageIdentifier:identifier];
-        }
-        if (!dmailMessage && dmailEntityItem.dmailId) {
-            dmailMessage = [self getDmailMessageWithMessageId:dmailEntityItem.dmailId];
-        }
-        if (!dmailMessage) {
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-            [fetchRequest setEntity:entityDescription];
-            dmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-            messageExist = NO;
-        }
-        if (dmailEntityItem.dmailId) {
-            dmailMessage.dmailId = dmailEntityItem.dmailId;
-        }
-        if (dmailEntityItem.identifier) {
-            dmailMessage.identifier = dmailEntityItem.identifier;
-        }
-        if (dmailEntityItem.subject) {
-            dmailMessage.subject = dmailEntityItem.subject;
-        }
-        if (dmailEntityItem.senderName) {
-            dmailMessage.senderName = dmailEntityItem.senderName;
-        }
-        if (dmailEntityItem.access) {
-            dmailMessage.access = dmailEntityItem.access;
-        }
-        if (dmailEntityItem.senderEmail) {
-            dmailMessage.senderEmail = dmailEntityItem.senderEmail;
-        }
-        if (dmailEntityItem.body) {
-            dmailMessage.body = dmailEntityItem.body;
-        }
-        if (dmailEntityItem.receiverEmail) {
-            dmailMessage.receiverEmail = dmailEntityItem.receiverEmail;
-        }
-        if (dmailEntityItem.type && dmailEntityItem.type!= -1) {
-            dmailMessage.type = [NSNumber numberWithInteger:dmailEntityItem.type];
-        }
-        if (dmailEntityItem.position && dmailEntityItem.position!= -1) {
-            dmailMessage.position = [NSNumber numberWithInteger:dmailEntityItem.position];
-        }
-        if (dmailEntityItem.internalDate && dmailEntityItem.internalDate!= -1) {
-            dmailMessage.internalDate = [NSNumber numberWithInteger:dmailEntityItem.internalDate];
-        }
-        if (dmailEntityItem.status && dmailEntityItem.status!= -1) {
-            dmailMessage.status = [NSNumber numberWithInteger:dmailEntityItem.status];
-        }
-        if (!messageExist && dmailEntityItem.identifier) {
-            [arrayMessagesIdentifiers addObject:dmailEntityItem.identifier];
-        }
-        
-        if (dmailEntityItem.senderEmail) {
-            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.senderEmail name:dmailEntityItem.senderName];
-            [self writeOrUpdateParticipantWith:profileItem];
-        }
+    DmailMessage *dmailMessage;
+    if (item.dmailId) {
+        dmailMessage = [self getDmailMessageWithMessageId:item.dmailId];
+    }
+    if (!dmailMessage) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        dmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    }
+    if (item.dmailId) {
+        dmailMessage.dmailId = item.dmailId;
+    }
+    if (item.identifier) {
+        dmailMessage.identifier = item.identifier;
+    }
+    if (item.subject) {
+        dmailMessage.subject = item.subject;
+    }
+    if (item.senderName) {
+        dmailMessage.senderName = item.senderName;
+    }
+    if (item.access) {
+        dmailMessage.access = item.access;
+    }
+    if (item.senderEmail) {
+        dmailMessage.senderEmail = item.senderEmail;
+    }
+    if (item.body) {
+        dmailMessage.body = item.body;
+    }
+    if (item.receiverEmail) {
+        dmailMessage.receiverEmail = item.receiverEmail;
+    }
+    if (item.type && item.type!= -1) {
+        dmailMessage.type = [NSNumber numberWithInteger:item.type];
+    }
+    if (item.position && item.position!= -1) {
+        dmailMessage.position = [NSNumber numberWithInteger:item.position];
+    }
+    if (item.internalDate && item.internalDate!= -1) {
+        dmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
+    }
+    if (item.status && item.status!= -1) {
+        dmailMessage.status = [NSNumber numberWithInteger:item.status];
     }
     
     [self saveContext];
     
-    return [NSArray arrayWithArray:arrayMessagesIdentifiers];
+//    if (dmailEntityItem.senderEmail) {
+//        ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.senderEmail name:dmailEntityItem.senderName];
+//        [self writeOrUpdateParticipantWith:profileItem];
+//    }
 }
+
+//- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters {
+//    
+//    NSMutableArray *arrayMessagesIdentifiers = [[NSMutableArray alloc] init];
+//    for (DmailEntityItem *dmailEntityItem in arrayParameters) {
+//        NSString *identifier = dmailEntityItem.identifier;
+//        BOOL messageExist = YES;
+//        DmailMessage *dmailMessage;
+//        if (identifier) {
+//            dmailMessage = [self getMessageWithMessageIdentifier:identifier];
+//        }
+//        if (!dmailMessage && dmailEntityItem.dmailId) {
+//            dmailMessage = [self getDmailMessageWithMessageId:dmailEntityItem.dmailId];
+//        }
+//        if (!dmailMessage) {
+//            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+//            [fetchRequest setEntity:entityDescription];
+//            dmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+//            messageExist = NO;
+//        }
+//        if (dmailEntityItem.dmailId) {
+//            dmailMessage.dmailId = dmailEntityItem.dmailId;
+//        }
+//        if (dmailEntityItem.identifier) {
+//            dmailMessage.identifier = dmailEntityItem.identifier;
+//        }
+//        if (dmailEntityItem.subject) {
+//            dmailMessage.subject = dmailEntityItem.subject;
+//        }
+//        if (dmailEntityItem.senderName) {
+//            dmailMessage.senderName = dmailEntityItem.senderName;
+//        }
+//        if (dmailEntityItem.access) {
+//            dmailMessage.access = dmailEntityItem.access;
+//        }
+//        if (dmailEntityItem.senderEmail) {
+//            dmailMessage.senderEmail = dmailEntityItem.senderEmail;
+//        }
+//        if (dmailEntityItem.body) {
+//            dmailMessage.body = dmailEntityItem.body;
+//        }
+//        if (dmailEntityItem.receiverEmail) {
+//            dmailMessage.receiverEmail = dmailEntityItem.receiverEmail;
+//        }
+//        if (dmailEntityItem.type && dmailEntityItem.type!= -1) {
+//            dmailMessage.type = [NSNumber numberWithInteger:dmailEntityItem.type];
+//        }
+//        if (dmailEntityItem.position && dmailEntityItem.position!= -1) {
+//            dmailMessage.position = [NSNumber numberWithInteger:dmailEntityItem.position];
+//        }
+//        if (dmailEntityItem.internalDate && dmailEntityItem.internalDate!= -1) {
+//            dmailMessage.internalDate = [NSNumber numberWithInteger:dmailEntityItem.internalDate];
+//        }
+//        if (dmailEntityItem.status && dmailEntityItem.status!= -1) {
+//            dmailMessage.status = [NSNumber numberWithInteger:dmailEntityItem.status];
+//        }
+//        if (!messageExist && dmailEntityItem.identifier) {
+//            [arrayMessagesIdentifiers addObject:dmailEntityItem.identifier];
+//        }
+//        
+//        if (dmailEntityItem.senderEmail) {
+//            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.senderEmail name:dmailEntityItem.senderName];
+//            [self writeOrUpdateParticipantWith:profileItem];
+//        }
+//    }
+//    
+//    [self saveContext];
+//    
+//    return [NSArray arrayWithArray:arrayMessagesIdentifiers];
+//}
 
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus {
     

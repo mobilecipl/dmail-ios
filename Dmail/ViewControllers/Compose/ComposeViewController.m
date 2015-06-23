@@ -59,7 +59,7 @@
     
     [self showLoadingView];
     [self resignFields];
-    ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithReceiverEmails:@[self.textFieldTo.text] subject:self.textFieldSubject.text body:self.textViewMessageBody.text];
+    ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.textFieldSubject.text body:self.textViewMessageBody.text arrayTo:@[self.textFieldTo.text] arrayCC:nil arrayBCC:nil];
     [self.composeModel sendMessageWithItem:composeModelItem completionBlock:^(BOOL success) {
         [self hideLoadingView];
         NSString *alertMessage;

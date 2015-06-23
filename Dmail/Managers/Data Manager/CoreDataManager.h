@@ -16,6 +16,7 @@
 @class UserService;
 @class User;
 @class Profile;
+@class DmailEntityItem;
 
 @interface CoreDataManager : NSObject
 
@@ -35,7 +36,9 @@
 - (NSArray *)getMessagesWithType:(MessageType)messageType;
 - (DmailMessage *)getMessageWithMessageIdentifier:(NSString *)identifier;
 - (DmailMessage *)getDmailMessageWithMessageId:(NSString *)messageId;
-- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters;
+
+- (void)writeMessageWithparameters:(DmailEntityItem *)item;
+//- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters;
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus;
 - (void)writeOrUpdateParticipantWith:(ProfileItem *)profileItem;
 - (void)writeMessageBodyWithDmailId:(NSString *)dmailId messageBody:(NSString *)messageBody;

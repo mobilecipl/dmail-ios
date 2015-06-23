@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 #import "UserService.h"
+#import "SyncService.h"
 
 
 @interface LoginViewController ()<GIDSignInDelegate>
@@ -57,6 +58,8 @@
     }
     else {
         [[UserService sharedInstance] updateUserDetails:user];
+        SyncService *syncService = [[SyncService alloc] init];
+        [syncService getNewMessages];
         [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
     }
 }
