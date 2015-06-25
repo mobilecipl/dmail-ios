@@ -74,7 +74,7 @@
         [[MessageService sharedInstance] getDecodedMessageWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *message, NSInteger statusCode) {
             [self hideLoadingView];
             self.textViewMessageBody.text = message;
-            [[CoreDataManager sharedCoreDataManager] changeMessageStatusWithMessageId:self.messageItem.dmailId messageStatus:MessageRead];
+            [[CoreDataManager sharedCoreDataManager] changeMessageTypeWithMessageId:self.messageItem.dmailId messageType:Read];
         }];
     }
 }

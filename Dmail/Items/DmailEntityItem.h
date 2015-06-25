@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "Constants.h"
 
 @interface DmailEntityItem : NSObject
 
@@ -20,9 +22,10 @@
 @property (nonatomic, retain) NSString * receiverEmail;
 
 @property (nonatomic) NSInteger internalDate;
-@property (nonatomic) NSInteger position;
-@property (nonatomic) NSInteger status;
-@property (nonatomic) NSInteger type;
+@property (nonatomic) double position;
+@property (nonatomic) MessageStatus status;
+@property (nonatomic) MessageType type;
+@property (nonatomic) MessageLabel label;
 
 - (instancetype)initWithClearObjects;
 

@@ -35,21 +35,30 @@ static NSString * const NotificationMessageSent = @"notificationMessageSent";
 static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
 
 
-typedef NS_ENUM(NSInteger, MessageType) {
+typedef NS_ENUM(NSInteger, MessageLabel) {
     Inbox = 1,
-    Sent = 2
+    Sent
+};
+
+typedef NS_ENUM(NSInteger, MessageType) {
+    Unread = 1,
+    Read
 };
 
 typedef NS_ENUM(NSInteger, MessageStatus) {
-    MessageFetchedPartly,
-    MessageFetched,
-    MessageRead,
+    MessageFetchedOnlyIds = 1,
+    MessageFetchedFull,
     MessageSentOnlyBody,
     MessageSentParticipants,
     MessageSentToGmail,
     MessageSentFull,
-    MessageRevoke
+    MessageRevoke,
+    MessageRemovedFromGmail
 };
+
+static NSInteger kMessageUpdateTime = 10;
+static NSInteger kMessageGetCount = 30;
+
 
 
 #pragma mark - Request Keys
@@ -57,6 +66,7 @@ typedef NS_ENUM(NSInteger, MessageStatus) {
 static NSString * const Recipients = @"recipients";
 
 static NSString * const Count = @"count";
+static NSString * const RecipientType = @"recipient_type";
 static NSString * const RecipientEmail = @"recipient_email";
 static NSString * const EncryptedMessage = @"encrypted_message";
 static NSString * const SenderEmail = @"sender_email";
@@ -80,8 +90,5 @@ static NSString * const MessageIdentifier = @"messageIdentifier";
 static NSString * const Position = @"position";
 static NSString * const Type = @"type";
 
-
-#pragma mark - Compose Message
-static NSString * const RecipientType = @"recipient_type";
-
+static NSString * const AccessTypeGaranted = @"GRANTED";
 #endif

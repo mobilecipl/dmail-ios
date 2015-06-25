@@ -10,6 +10,8 @@
 
 @interface SyncService : NSObject
 
-- (void)getNewMessages;
++ (SyncService *)sharedInstance;
+
+- (void)getMessageIds;
 
 @end

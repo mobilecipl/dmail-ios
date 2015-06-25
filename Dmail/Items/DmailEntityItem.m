@@ -23,9 +23,10 @@
         self.body = nil;
         self.receiverEmail = nil;
         
-        self.type = -1;
+        self.type = 0;
+        self.label = 0;
         self.position = -1;
-        self.status = -1;
+        self.status = 0;
     }
     
     return  self;

@@ -13,6 +13,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "UserService.h"
 #import "SyncService.h"
+#import "GmailManager.h"
 
 
 @interface AppDelegate ()
@@ -50,8 +51,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 
-    SyncService *syncService = [[SyncService alloc] init];
-    [syncService getNewMessages];
+    [[GmailManager sharedInstance] getMessagesFromGmail];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

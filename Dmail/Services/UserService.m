@@ -22,6 +22,7 @@
         sharedInstance.gmailId = user.gmailId;
         sharedInstance.email = user.email;
         sharedInstance.name = user.fullName;
+        sharedInstance.signedIn = NO;
     });
     
     return sharedInstance;
@@ -32,6 +33,7 @@
     self.gmailId = user.userID;
     self.name = user.profile.name;
     self.email = user.profile.email;
+    self.signedIn = YES;
     
     [[CoreDataManager sharedCoreDataManager] writeUserDataWith:self];
 }

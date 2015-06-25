@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "Constants.h"
+#import <UIKit/UIKit.h>
 
 @class ProfileItem;
 @class DmailMessage;
@@ -33,15 +34,21 @@
 
 
 #pragma mark - Message
-- (NSArray *)getMessagesWithType:(MessageType)messageType;
+- (NSArray *)getGmailMessagesWithType:(MessageLabel)messageType;
 - (DmailMessage *)getMessageWithMessageIdentifier:(NSString *)identifier;
-- (DmailMessage *)getDmailMessageWithMessageId:(NSString *)messageId;
+- (DmailMessage *)getDmailMessageWithMessageId:(NSString *)dmailId;
+- (GmailMessage *)getGmailMessageWithMessageId:(NSString *)dmailId;
+- (DmailMessage *)getLastValidMessage;
 
-- (void)writeMessageWithparameters:(DmailEntityItem *)item;
-//- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters;
+- (void)writeMessageToDmailEntityWithparameters:(DmailEntityItem *)item;
+- (void)writeMessageToGmailEntityWithparameters:(DmailEntityItem *)item;
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus;
+- (void)changeMessageTypeWithMessageId:(NSString *)messageId messageType:(MessageType)messageType;
 - (void)writeOrUpdateParticipantWith:(ProfileItem *)profileItem;
 - (void)writeMessageBodyWithDmailId:(NSString *)dmailId messageBody:(NSString *)messageBody;
 - (Profile *)getProfileWithEmail:(NSString *)email;
+- (CGFloat)getLastPosition;
+- (void)removeDmailMessageWithDmailId:(NSString *)dmailId;
+- (void)removeGmailMessageWithDmailId:(NSString *)dmailId;
 
 @end

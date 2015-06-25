@@ -41,9 +41,7 @@
 		9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA251B3825FF0052210D /* ProfileItem.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
-		9CD8EA361B384EB80052210D /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA351B384EB80052210D /* GmailMessage.m */; };
 		9CD8EA391B384EB90052210D /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA381B384EB90052210D /* Profile.m */; };
-		9CD8EA3C1B384EB90052210D /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA3B1B384EB90052210D /* DmailMessage.m */; };
 		9CD8EA3F1B384EB90052210D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8EA3E1B384EB90052210D /* User.m */; };
 		9CDA74881B36CCB100F71707 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA74871B36CCB100F71707 /* Message.m */; };
 		9CDA74B11B3750FC00F71707 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */; };
@@ -52,6 +50,12 @@
 		9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF0FF891B32BE870054366E /* InboxModel.m */; };
 		9CF619C31B2C1AD4009A210C /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C21B2C1AD4009A210C /* UserService.m */; };
 		9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C61B2C1BA6009A210C /* BaseViewController.m */; };
+		9CF7C80B1B3BE04500D6D207 /* DmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C80A1B3BE04500D6D207 /* DmailManager.m */; };
+		9CF7C80E1B3BE2BB00D6D207 /* GmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C80D1B3BE2BB00D6D207 /* GmailManager.m */; };
+		9CF7C8261B3C2D4C00D6D207 /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C8251B3C2D4C00D6D207 /* DmailMessage.m */; };
+		9CF7C82C1B3C30F400D6D207 /* SentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C82B1B3C30F400D6D207 /* SentViewController.m */; };
+		9CF7C82F1B3C4D1500D6D207 /* CommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C82E1B3C4D1500D6D207 /* CommonMethods.m */; };
+		9CF7C8321B3C610100D6D207 /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C8311B3C610100D6D207 /* GmailMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,12 +131,8 @@
 		9CD8EA251B3825FF0052210D /* ProfileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileItem.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		9CD8EA341B384EB80052210D /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
-		9CD8EA351B384EB80052210D /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA371B384EB90052210D /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
 		9CD8EA381B384EB90052210D /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
-		9CD8EA3A1B384EB90052210D /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
-		9CD8EA3B1B384EB90052210D /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA3D1B384EB90052210D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		9CD8EA3E1B384EB90052210D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		9CDA74861B36CCB100F71707 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -146,6 +146,18 @@
 		9CF619C21B2C1AD4009A210C /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9CF619C51B2C1BA6009A210C /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		9CF619C61B2C1BA6009A210C /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		9CF7C8091B3BE04500D6D207 /* DmailManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailManager.h; sourceTree = "<group>"; };
+		9CF7C80A1B3BE04500D6D207 /* DmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailManager.m; sourceTree = "<group>"; };
+		9CF7C80C1B3BE2BB00D6D207 /* GmailManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailManager.h; sourceTree = "<group>"; };
+		9CF7C80D1B3BE2BB00D6D207 /* GmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailManager.m; sourceTree = "<group>"; };
+		9CF7C8241B3C2D4C00D6D207 /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
+		9CF7C8251B3C2D4C00D6D207 /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
+		9CF7C82A1B3C30F400D6D207 /* SentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentViewController.h; sourceTree = "<group>"; };
+		9CF7C82B1B3C30F400D6D207 /* SentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentViewController.m; sourceTree = "<group>"; };
+		9CF7C82D1B3C4D1500D6D207 /* CommonMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMethods.h; sourceTree = "<group>"; };
+		9CF7C82E1B3C4D1500D6D207 /* CommonMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonMethods.m; sourceTree = "<group>"; };
+		9CF7C8301B3C610100D6D207 /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
+		9CF7C8311B3C610100D6D207 /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,6 +245,8 @@
 				58E815FD1B2B2A3900401520 /* InboxViewController.m */,
 				9C7646A41B2DEBDC00DA5116 /* InboxMessageViewController.h */,
 				9C7646A51B2DEBDC00DA5116 /* InboxMessageViewController.m */,
+				9CF7C82A1B3C30F400D6D207 /* SentViewController.h */,
+				9CF7C82B1B3C30F400D6D207 /* SentViewController.m */,
 			);
 			name = Inbox;
 			sourceTree = "<group>";
@@ -251,14 +265,14 @@
 		9C11A4871B3410BE00EEED0E /* Data Manager */ = {
 			isa = PBXGroup;
 			children = (
+				9CF7C8301B3C610100D6D207 /* GmailMessage.h */,
+				9CF7C8311B3C610100D6D207 /* GmailMessage.m */,
+				9CF7C8241B3C2D4C00D6D207 /* DmailMessage.h */,
+				9CF7C8251B3C2D4C00D6D207 /* DmailMessage.m */,
 				9CD8EA3D1B384EB90052210D /* User.h */,
 				9CD8EA3E1B384EB90052210D /* User.m */,
-				9CD8EA3A1B384EB90052210D /* DmailMessage.h */,
-				9CD8EA3B1B384EB90052210D /* DmailMessage.m */,
 				9CD8EA371B384EB90052210D /* Profile.h */,
 				9CD8EA381B384EB90052210D /* Profile.m */,
-				9CD8EA341B384EB80052210D /* GmailMessage.h */,
-				9CD8EA351B384EB80052210D /* GmailMessage.m */,
 				9CDA74861B36CCB100F71707 /* Message.h */,
 				9CDA74871B36CCB100F71707 /* Message.m */,
 				9C11A4CB1B34149A00EEED0E /* CoreDataManager.h */,
@@ -326,6 +340,8 @@
 				9C9E2AFA1B2AEB64008F3C8E /* AppDelegate.m */,
 				9C9E2B291B2B02B2008F3C8E /* Configurations.h */,
 				9CD35E5C1B3181A100B2295A /* Constants.h */,
+				9CF7C82D1B3C4D1500D6D207 /* CommonMethods.h */,
+				9CF7C82E1B3C4D1500D6D207 /* CommonMethods.m */,
 				9C7646941B2DE22700DA5116 /* Assets */,
 				58E816001B2B32F200401520 /* Categories */,
 				9CD8EA0B1B37E0070052210D /* Items */,
@@ -415,6 +431,8 @@
 		9CD35E541B317D4900B2295A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9CF7C8071B3BE02900D6D207 /* Dmail Manager */,
+				9CF7C8081B3BE02900D6D207 /* Gmail Manager */,
 				9C11A4871B3410BE00EEED0E /* Data Manager */,
 				9CD35E551B317D4900B2295A /* Network Manager */,
 			);
@@ -481,6 +499,24 @@
 				9CF619C61B2C1BA6009A210C /* BaseViewController.m */,
 			);
 			path = BaseViewController;
+			sourceTree = "<group>";
+		};
+		9CF7C8071B3BE02900D6D207 /* Dmail Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9CF7C8091B3BE04500D6D207 /* DmailManager.h */,
+				9CF7C80A1B3BE04500D6D207 /* DmailManager.m */,
+			);
+			path = "Dmail Manager";
+			sourceTree = "<group>";
+		};
+		9CF7C8081B3BE02900D6D207 /* Gmail Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9CF7C80C1B3BE2BB00D6D207 /* GmailManager.h */,
+				9CF7C80D1B3BE2BB00D6D207 /* GmailManager.m */,
+			);
+			path = "Gmail Manager";
 			sourceTree = "<group>";
 		};
 		D83BFC4667FC4E4708232089 /* Frameworks */ = {
@@ -642,6 +678,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				58D9E3251B2F08B30046B154 /* InboxCell.m in Sources */,
+				9CF7C80B1B3BE04500D6D207 /* DmailManager.m in Sources */,
+				9CF7C82C1B3C30F400D6D207 /* SentViewController.m in Sources */,
 				9CF619C31B2C1AD4009A210C /* UserService.m in Sources */,
 				9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */,
 				9C9E2B201B2AF905008F3C8E /* MessageService.m in Sources */,
@@ -653,25 +691,27 @@
 				9C9E2B2D1B2B0364008F3C8E /* LoadingViewController.m in Sources */,
 				9C9E2AF81B2AEB64008F3C8E /* main.m in Sources */,
 				9CD8EA3F1B384EB90052210D /* User.m in Sources */,
-				9CD8EA361B384EB80052210D /* GmailMessage.m in Sources */,
 				9C7646A61B2DEBDC00DA5116 /* InboxMessageViewController.m in Sources */,
 				9C11A4CD1B34149A00EEED0E /* CoreDataManager.m in Sources */,
 				9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */,
 				9CD8EA0E1B37E02E0052210D /* MessageItem.m in Sources */,
 				9CDA74881B36CCB100F71707 /* Message.m in Sources */,
+				9CF7C82F1B3C4D1500D6D207 /* CommonMethods.m in Sources */,
 				58D9E3191B2ECB4E0046B154 /* RootViewController.m in Sources */,
 				9CD8EA141B37F7F20052210D /* ComposeModel.m in Sources */,
 				58D9E3281B2F08F40046B154 /* UIColor+AppColors.m in Sources */,
 				9CD35E5F1B31981900B2295A /* BaseNetwork.m in Sources */,
 				9CAE4BE11B3958560006DAA7 /* SyncService.m in Sources */,
 				9CD8EA171B37F8990052210D /* ComposeModelItem.m in Sources */,
+				9CF7C80E1B3BE2BB00D6D207 /* GmailManager.m in Sources */,
 				58D9E31D1B2EDE460046B154 /* MenuViewController.m in Sources */,
 				9C9E2B311B2B0384008F3C8E /* LoginViewController.m in Sources */,
 				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
+				9CF7C8261B3C2D4C00D6D207 /* DmailMessage.m in Sources */,
 				58D9E3221B2F08890046B154 /* MenuCell.m in Sources */,
+				9CF7C8321B3C610100D6D207 /* GmailMessage.m in Sources */,
 				9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */,
 				9C739DFF1B3048ED00775494 /* ComposeViewController.m in Sources */,
-				9CD8EA3C1B384EB90052210D /* DmailMessage.m in Sources */,
 				9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

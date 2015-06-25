@@ -58,6 +58,17 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     return request;
 }
 
+- (NSMutableURLRequest *)constructDeleteRequestWithUrl:(NSString *)urlString {
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    return request;
+}
+
 - (NSMutableURLRequest *)constructGetRequestWithUrl:(NSString *)urlString {
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -88,6 +99,7 @@ static NSString * const messageSent = @"mobileClient/messageSent";
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(JSONData, statusCode);
             });
+            [self.dictionaryTasks removeObjectForKey:getMessagesList];
         }];
         self.dictionaryTasks[getMessagesList] = dataTask;
         [dataTask resume];
@@ -97,9 +109,7 @@ static NSString * const messageSent = @"mobileClient/messageSent";
 - (void)getGmailMessageIdFromGmailWithMessageUniqueId:(NSString *)gmailUniqueId withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject
-                                                                 delegate:nil
-                                                            delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
 //    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/",userID];
@@ -109,6 +119,8 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     queryString = [queryString stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
     queryString = [queryString stringByReplacingOccurrencesOfString:@":" withString:@"%3A"];
     queryString = [queryString stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
+    queryString = [queryString stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
+
 
     NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages?q=%@&key=%@",userID, queryString, kGoogleClientSecret];
     NSURL * url = [NSURL URLWithString:urlmulr];
@@ -130,6 +142,34 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     
 }
 
+- (void)sendMessageToGmailWithEncodedBody:(NSString *)encodedBody withCompletionBlock:(void (^)(NSDictionary *requestData, NSInteger statusCode))completion {
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/send?key=%@",userID, kGoogleClientSecret];
+    NSURL * url = [NSURL URLWithString:urlmulr];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+    [urlRequest setHTTPMethod:@"POST"];
+    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    
+    NSDictionary *rawDict = @{@"raw" : encodedBody};
+    NSData *dataRaw = [NSJSONSerialization dataWithJSONObject:rawDict options:NSJSONWritingPrettyPrinted error:nil];
+    [urlRequest setHTTPBody:dataRaw];
+    [urlRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
+                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                completion(JSONData, statusCode);
+                                                            });
+                                                        }];
+    [dataTask resume];
+}
+
 - (void)getMessageFromGmailWithMessageId:(NSString *)messageId withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -149,9 +189,9 @@ static NSString * const messageSent = @"mobileClient/messageSent";
                                                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
                                                             NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
-                                                            dispatch_async(dispatch_get_main_queue(), ^{
+//                                                            dispatch_async(dispatch_get_main_queue(), ^{
                                                                 completion(JSONData, statusCode);
-                                                            });
+//                                                            });
                                                         }];
     [dataTask resume];
 }
@@ -176,7 +216,6 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     }
 
 }
-
 
 - (void)sendRecipientsWithParameters:(NSDictionary *)parameters dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion {
     
@@ -229,34 +268,6 @@ static NSString * const messageSent = @"mobileClient/messageSent";
     }
 }
 
-- (void)sendMessageToGmailWithEncodedBody:(NSString *)encodedBody withCompletionBlock:(void (^)(NSDictionary *requestData, NSInteger statusCode))completion {
-    
-    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    
-    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/send?key=%@",userID, kGoogleClientSecret];
-    NSURL * url = [NSURL URLWithString:urlmulr];
-    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
-    [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-    
-    NSDictionary *rawDict = @{@"raw" : encodedBody};
-    NSData *dataRaw = [NSJSONSerialization dataWithJSONObject:rawDict options:NSJSONWritingPrettyPrinted error:nil];
-    [urlRequest setHTTPBody:dataRaw];
-    [urlRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    
-    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
-                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
-                                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                                                completion(JSONData, statusCode);
-                                                            });
-                                                        }];
-    [dataTask resume];
-}
-
 - (void)sendMessageUniqueIdToDmailWithMessageDmailId:(NSString*)dmailId gmailUniqueId:(NSString *)gmailUniqueId senderEmail:(NSString *)senderEmail withCompletionBlock:(mainCompletionBlock)completion {
     
     NSDictionary *parameters = @{@"message_id" : dmailId,
@@ -281,6 +292,26 @@ static NSString * const messageSent = @"mobileClient/messageSent";
             [self.dictionaryTasks removeObjectForKey:messageSent];
         }];
         self.dictionaryTasks[messageSent] = dataTask;
+        [dataTask resume];
+    }
+}
+
+- (void)revokeUserWithEmail:(NSString *)email dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion {
+    
+    NSURLSessionDataTask *dataTask = self.dictionaryTasks[sendRecipient];
+    if (!dataTask) {
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, sendRecipient, dmailId, email];
+        NSMutableURLRequest *request = [self constructDeleteRequestWithUrl:urlString];
+        
+        dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(JSONData, statusCode);
+            });
+            [self.dictionaryTasks removeObjectForKey:sendRecipient];
+        }];
+        self.dictionaryTasks[sendRecipient] = dataTask;
         [dataTask resume];
     }
 }

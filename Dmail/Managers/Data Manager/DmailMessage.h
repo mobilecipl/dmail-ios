@@ -2,7 +2,7 @@
 //  DmailMessage.h
 //  Dmail
 //
-//  Created by Karen Petrosyan on 6/22/15.
+//  Created by Karen Petrosyan on 6/25/15.
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
@@ -17,12 +17,7 @@
 @property (nonatomic, retain) NSString * dmailId;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * position;
-@property (nonatomic, retain) NSString * receiverEmail;
-@property (nonatomic, retain) NSString * senderEmail;
-@property (nonatomic, retain) NSString * senderName;
 @property (nonatomic, retain) NSNumber * status;
-@property (nonatomic, retain) NSString * subject;
-@property (nonatomic, retain) NSNumber * type;
-@property (nonatomic, retain) NSNumber * internalDate;
+@property (nonatomic, retain) NSNumber * label;
 
 @end

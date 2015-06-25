@@ -35,6 +35,7 @@
     
     NSData *data = [requestBody dataUsingEncoding:NSUTF8StringEncoding];
     encodedMessage = [data base64EncodedStringWithOptions:0];
+    encodedMessage = [encodedMessage stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
     
     return encodedMessage;
 }
@@ -70,7 +71,7 @@
                 if ([dict[Name] isEqualToString:Message_Id]) {
                     dmailEntityItem.identifier = dict[Value];
                 }
-                dmailEntityItem.status = MessageFetched;
+                dmailEntityItem.status = MessageFetchedFull;
             }
         }
     }
@@ -90,12 +91,12 @@
             dmailEntityItem.identifier = dict[MessageIdentifier];
             dmailEntityItem.position = [dict[Position] floatValue];
             if ([dict[Type] isEqualToString:@"SENDER"]) {
-                dmailEntityItem.type = Sent;
+                dmailEntityItem.label = Sent;
             }
             else if([dict[Type] isEqualToString:@"TO"]) {
-                dmailEntityItem.type = Inbox;
+                dmailEntityItem.label = Inbox;
             }
-            dmailEntityItem.status = MessageFetchedPartly;
+            dmailEntityItem.status = MessageFetchedOnlyIds;
             [arrayParsedItems addObject:dmailEntityItem];
         }
     }
@@ -166,14 +167,10 @@
     }];
 }
 
-- (void)getMessageFromGmailWithMessageId:(NSString *)messageId withCompletionBlock:(void (^)(DmailEntityItem *itemFromGmail, NSInteger statusCode))completion {
+- (void)getMessageFromGmailWithMessageId:(NSString *)messageId withCompletionBlock:(void (^)(NSDictionary *requestData, NSInteger statusCode))completion {
     
     [[NetworkManager sharedManager] getMessageFromGmailWithMessageId:messageId withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
-        DmailEntityItem *itemFromGmail;
-        if (statusCode == 200) {
-            itemFromGmail = [self parseGmailMessageContent:requestData];
-        }
-        completion(itemFromGmail, statusCode);
+        completion(requestData, statusCode);
     }];
 }
 
@@ -201,7 +198,6 @@
 #pragma mark - Send Methods
 - (void)sendRecipientsWithParameters:(NSDictionary *)parameters dmailId:(NSString *)dmailId completionBlock:(void (^)(BOOL success))completion {
     
-    
     [[NetworkManager sharedManager] sendRecipientsWithParameters:parameters dmailId:dmailId completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         BOOL success = NO;
         if (statusCode == 200 || statusCode == 201) {
@@ -222,7 +218,7 @@
             dmailEntityItem.dmailId = dmailId;
             NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
             dmailEntityItem.position = timeInterval*1000;
-            dmailEntityItem.type = Sent;
+            dmailEntityItem.label = Sent;
             dmailEntityItem.status = MessageSentOnlyBody;
 //            [[CoreDataManager sharedCoreDataManager] writeDmailMessageParametersWith:@[dmailEntityItem]];
         }
@@ -259,6 +255,17 @@
 - (void)sendMessageUniqueIdToDmailWithMessageDmailId:(NSString*)dmailId gmailUniqueId:(NSString *)gmailUniqueId senderEmail:(NSString *)senderEmail withCompletionBlock:(void (^)(BOOL sucess))completion {
     
     [[NetworkManager sharedManager] sendMessageUniqueIdToDmailWithMessageDmailId:dmailId gmailUniqueId:gmailUniqueId senderEmail:senderEmail withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
+        BOOL success = NO;
+        if (statusCode == 200 || statusCode == 201) {
+            success = YES;
+        }
+        completion(success);
+    }];
+}
+
+- (void)revokeUserWithEmail:(NSString *)email dmailId:(NSString *)dmailId completionBlock:(void (^)(BOOL success))completion {
+    
+    [[NetworkManager sharedManager] revokeUserWithEmail:email dmailId:dmailId completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         BOOL success = NO;
         if (statusCode == 200 || statusCode == 201) {
             success = YES;

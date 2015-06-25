@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *gmailId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, assign) BOOL signedIn;
 
 + (UserService *)sharedInstance;
 

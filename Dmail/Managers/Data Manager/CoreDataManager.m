@@ -153,13 +153,13 @@ static NSString * const EntityProfile = @"Profile";
 
 
 #pragma mark - Messages
-- (NSArray *)getMessagesWithType:(MessageType)messageType {
+- (NSArray *)getGmailMessagesWithType:(MessageLabel)messageType {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type == %d",messageType];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"label == %d AND status == %d",messageType, MessageFetchedFull];
     [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:InternalDate ascending:NO selector:nil];
@@ -186,15 +186,15 @@ static NSString * const EntityProfile = @"Profile";
     return [fetchedMessages lastObject];
 }
 
-- (DmailMessage *)getDmailMessageWithMessageId:(NSString *)messageId {
+- (DmailMessage *)getDmailMessageWithMessageId:(NSString *)dmailId {
     
     DmailMessage *dmailMessage = nil;
-    if (messageId) {
+    if (dmailId) {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
         [fetchRequest setEntity:entityDescription];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",messageId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",dmailId];
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
@@ -207,8 +207,50 @@ static NSString * const EntityProfile = @"Profile";
     return dmailMessage;
 }
 
+- (GmailMessage *)getGmailMessageWithMessageId:(NSString *)dmailId {
+    
+    GmailMessage *gmailMessage = nil;
+    if (dmailId) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",dmailId];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if ([fetchedMessages count] > 0) {
+            gmailMessage = [fetchedMessages firstObject];
+        }
+    }
+    
+    return gmailMessage;
+}
 
-- (void)writeMessageWithparameters:(DmailEntityItem *)item {
+- (DmailMessage *)getLastValidMessage {
+    
+    DmailMessage *dmailMessage = nil;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"access like %@ AND status == %d",AccessTypeGaranted, MessageFetchedOnlyIds];
+    [fetchRequest setPredicate:predicate];
+    
+    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:Position ascending:NO selector:nil];
+    [fetchRequest setSortDescriptors:@[descendingSort]];
+    
+    NSError *error = nil;
+    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if ([fetchedMessages count] > 0) {
+        dmailMessage = [fetchedMessages firstObject];
+    }
+    
+    return dmailMessage;
+}
+
+- (void)writeMessageToDmailEntityWithparameters:(DmailEntityItem *)item {
     
     DmailMessage *dmailMessage;
     if (item.dmailId) {
@@ -226,115 +268,69 @@ static NSString * const EntityProfile = @"Profile";
     if (item.identifier) {
         dmailMessage.identifier = item.identifier;
     }
-    if (item.subject) {
-        dmailMessage.subject = item.subject;
-    }
-    if (item.senderName) {
-        dmailMessage.senderName = item.senderName;
-    }
     if (item.access) {
         dmailMessage.access = item.access;
-    }
-    if (item.senderEmail) {
-        dmailMessage.senderEmail = item.senderEmail;
     }
     if (item.body) {
         dmailMessage.body = item.body;
     }
-    if (item.receiverEmail) {
-        dmailMessage.receiverEmail = item.receiverEmail;
-    }
-    if (item.type && item.type!= -1) {
-        dmailMessage.type = [NSNumber numberWithInteger:item.type];
+    if (item.label && item.label!= 0) {
+        dmailMessage.label = [NSNumber numberWithInteger:item.label];
     }
     if (item.position && item.position!= -1) {
-        dmailMessage.position = [NSNumber numberWithInteger:item.position];
+        dmailMessage.position = [NSNumber numberWithDouble:item.position];
     }
-    if (item.internalDate && item.internalDate!= -1) {
-        dmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
-    }
-    if (item.status && item.status!= -1) {
+    if (item.status && item.status!= 0) {
         dmailMessage.status = [NSNumber numberWithInteger:item.status];
     }
     
     [self saveContext];
-    
-//    if (dmailEntityItem.senderEmail) {
-//        ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.senderEmail name:dmailEntityItem.senderName];
-//        [self writeOrUpdateParticipantWith:profileItem];
-//    }
 }
 
-//- (NSArray *)writeDmailMessageParametersWith:(NSArray *)arrayParameters {
-//    
-//    NSMutableArray *arrayMessagesIdentifiers = [[NSMutableArray alloc] init];
-//    for (DmailEntityItem *dmailEntityItem in arrayParameters) {
-//        NSString *identifier = dmailEntityItem.identifier;
-//        BOOL messageExist = YES;
-//        DmailMessage *dmailMessage;
-//        if (identifier) {
-//            dmailMessage = [self getMessageWithMessageIdentifier:identifier];
-//        }
-//        if (!dmailMessage && dmailEntityItem.dmailId) {
-//            dmailMessage = [self getDmailMessageWithMessageId:dmailEntityItem.dmailId];
-//        }
-//        if (!dmailMessage) {
-//            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-//            [fetchRequest setEntity:entityDescription];
-//            dmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-//            messageExist = NO;
-//        }
-//        if (dmailEntityItem.dmailId) {
-//            dmailMessage.dmailId = dmailEntityItem.dmailId;
-//        }
-//        if (dmailEntityItem.identifier) {
-//            dmailMessage.identifier = dmailEntityItem.identifier;
-//        }
-//        if (dmailEntityItem.subject) {
-//            dmailMessage.subject = dmailEntityItem.subject;
-//        }
-//        if (dmailEntityItem.senderName) {
-//            dmailMessage.senderName = dmailEntityItem.senderName;
-//        }
-//        if (dmailEntityItem.access) {
-//            dmailMessage.access = dmailEntityItem.access;
-//        }
-//        if (dmailEntityItem.senderEmail) {
-//            dmailMessage.senderEmail = dmailEntityItem.senderEmail;
-//        }
-//        if (dmailEntityItem.body) {
-//            dmailMessage.body = dmailEntityItem.body;
-//        }
-//        if (dmailEntityItem.receiverEmail) {
-//            dmailMessage.receiverEmail = dmailEntityItem.receiverEmail;
-//        }
-//        if (dmailEntityItem.type && dmailEntityItem.type!= -1) {
-//            dmailMessage.type = [NSNumber numberWithInteger:dmailEntityItem.type];
-//        }
-//        if (dmailEntityItem.position && dmailEntityItem.position!= -1) {
-//            dmailMessage.position = [NSNumber numberWithInteger:dmailEntityItem.position];
-//        }
-//        if (dmailEntityItem.internalDate && dmailEntityItem.internalDate!= -1) {
-//            dmailMessage.internalDate = [NSNumber numberWithInteger:dmailEntityItem.internalDate];
-//        }
-//        if (dmailEntityItem.status && dmailEntityItem.status!= -1) {
-//            dmailMessage.status = [NSNumber numberWithInteger:dmailEntityItem.status];
-//        }
-//        if (!messageExist && dmailEntityItem.identifier) {
-//            [arrayMessagesIdentifiers addObject:dmailEntityItem.identifier];
-//        }
-//        
-//        if (dmailEntityItem.senderEmail) {
-//            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.senderEmail name:dmailEntityItem.senderName];
-//            [self writeOrUpdateParticipantWith:profileItem];
-//        }
-//    }
-//    
-//    [self saveContext];
-//    
-//    return [NSArray arrayWithArray:arrayMessagesIdentifiers];
-//}
+- (void)writeMessageToGmailEntityWithparameters:(DmailEntityItem *)item {
+    
+    GmailMessage *gmailMessage;
+    if (item.dmailId) {
+        gmailMessage = [self getGmailMessageWithMessageId:item.dmailId];
+    }
+    if (!gmailMessage) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        gmailMessage = [NSEntityDescription insertNewObjectForEntityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+    }
+    if (item.dmailId) {
+        gmailMessage.dmailId = item.dmailId;
+    }
+    if (item.identifier) {
+        gmailMessage.identifier = item.identifier;
+    }
+    if (item.subject) {
+        gmailMessage.subject = item.subject;
+    }
+    if (item.senderName) {
+        gmailMessage.senderName = item.senderName;
+    }
+    if (item.senderEmail) {
+        gmailMessage.senderEmail = item.senderEmail;
+    }
+    if (item.receiverEmail) {
+        gmailMessage.receiverEmail = item.receiverEmail;
+    }
+    if (item.internalDate && item.internalDate!= -1) {
+        gmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
+    }
+    if (item.status && item.status!= 0) {
+        gmailMessage.status = [NSNumber numberWithInteger:item.status];
+    }
+    if (item.label && item.label!= 0) {
+        gmailMessage.label = [NSNumber numberWithInteger:item.label];
+    }
+    if (item.type && item.type!= 0) {
+        gmailMessage.type = [NSNumber numberWithInteger:item.type];
+    }
+    [self saveContext];
+}
 
 - (void)changeMessageStatusWithMessageId:(NSString *)messageId messageStatus:(MessageStatus)messageStatus {
     
@@ -352,6 +348,28 @@ static NSString * const EntityProfile = @"Profile";
         if ([fetchedMessages count] > 0) {
             dmailMessage = [fetchedMessages firstObject];
             dmailMessage.status = [NSNumber numberWithInteger:messageStatus];
+        }
+    }
+    
+    [self saveContext];
+}
+
+- (void)changeMessageTypeWithMessageId:(NSString *)messageId messageType:(MessageType)messageType {
+    
+    if (messageId) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",messageId];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        GmailMessage *gmailMessage = nil;
+        if ([fetchedMessages count] > 0) {
+            gmailMessage = [fetchedMessages firstObject];
+            gmailMessage.type = [NSNumber numberWithInteger:messageType];
         }
     }
     
@@ -399,6 +417,66 @@ static NSString * const EntityProfile = @"Profile";
     
     return profile;
 }
+
+- (CGFloat)getLastPosition {
+    
+    CGFloat lastPosition = 0;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:Position ascending:NO selector:nil];
+    [fetchRequest setSortDescriptors:@[descendingSort]];
+    
+    NSError *error = nil;
+    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if ([fetchedMessages count] > 0) {
+        DmailMessage *message = [fetchedMessages firstObject];
+        lastPosition = [message.position doubleValue];
+    }
+    
+    return lastPosition;
+}
+
+- (void)removeDmailMessageWithDmailId:(NSString *)dmailId {
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",dmailId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedContacts = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    for (DmailMessage *dmailMessage in fetchedContacts) {
+        [self.managedObjectContext deleteObject:dmailMessage];
+    }
+    
+    [self saveContext];
+
+}
+
+- (void)removeGmailMessageWithDmailId:(NSString *)dmailId {
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",dmailId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedContacts = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    for (GmailMessage *gmailMessage in fetchedContacts) {
+        [self.managedObjectContext deleteObject:gmailMessage];
+    }
+    
+    [self saveContext];
+    
+}
+
 
 #pragma mark - Core Data Saving support
 - (void)saveContext {

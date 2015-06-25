@@ -67,6 +67,36 @@
     return from;
 }
 
+- (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
+    
+    DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
+    if ([[requestReply allKeys] containsObject:Payload]) {
+        dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
+        NSDictionary *payload = requestReply[Payload];
+        if ([[payload allKeys] containsObject:Headers]) {
+            NSArray *headers = payload[Headers];
+            for (NSDictionary *dict in headers) {
+                if ([dict[Name] isEqualToString:From]) {
+                    NSArray *arraySubStrings = [dict[Value] componentsSeparatedByString:@"<"];
+                    NSString *name = [arraySubStrings firstObject];
+                    dmailEntityItem.senderName = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    NSString *email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
+                    dmailEntityItem.senderEmail = email;
+                }
+                if ([dict[Name] isEqualToString:Subject]) {
+                    dmailEntityItem.subject = dict[Value];
+                }
+                if ([dict[Name] isEqualToString:Message_Id]) {
+                    dmailEntityItem.identifier = dict[Value];
+                }
+                dmailEntityItem.status = MessageFetchedFull;
+            }
+        }
+    }
+    
+    return dmailEntityItem;
+}
+
 
 #pragma mark - Public Methods
 - (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem completionBlock:(void (^)(BOOL success))completion {
@@ -80,16 +110,18 @@
             item.body = composeModelItem.body;
             item.subject = composeModelItem.subject;
             item.senderEmail = [[UserService sharedInstance] email];
+            item.receiverEmail = [composeModelItem.arrayTo firstObject];
             item.status = MessageSentOnlyBody;
             
-            [[CoreDataManager sharedCoreDataManager] writeMessageWithparameters:item];
+            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
+            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
             
             NSDictionary *recipients = [self createRecipientsDictWithArrayTo:composeModelItem.arrayTo arrayCC:composeModelItem.arrayCC arrayBCC:composeModelItem.arrayBCC];
             //Send Participants to Dmail ========== Success --> MessageSentParticipants
             [[MessageService sharedInstance] sendRecipientsWithParameters:recipients dmailId:dmailId completionBlock:^(BOOL success) {
                 if (success) {
                     item.status = MessageSentParticipants;
-                    [[CoreDataManager sharedCoreDataManager] writeMessageWithparameters:item];
+                    [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                     NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:composeModelItem.arrayTo
                                                                                     arrayCC:composeModelItem.arrayCC
                                                                                    arrayBCC:composeModelItem.arrayBCC
@@ -99,17 +131,18 @@
                     [[MessageService sharedInstance] sendMessageToGmailWithMessageGmailBody:gmailMessageBody withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
                         if (gmailMessageId) {
                             item.status = MessageSentToGmail;
-                            [[CoreDataManager sharedCoreDataManager] writeMessageWithparameters:item];
+                            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                             //Get Message from Gmail for getting identifier
-                            [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(DmailEntityItem *item, NSInteger statusCode) {
+                            [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *dict , NSInteger statusCode) {
+                                DmailEntityItem *item = [self parseGmailMessageContent:dict];
                                 if(item.identifier) {
                                     //Send identifier to Dmail ========== Success --> MessageSentFull
                                     [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:dmailId gmailUniqueId:item.identifier senderEmail:[[UserService sharedInstance] email]  withCompletionBlock:^(BOOL success) {
                                         if (success) {
                                             item.status = MessageSentFull;
                                             item.dmailId = dmailId;
-                                            item.type = Sent;
-                                            [[CoreDataManager sharedCoreDataManager] writeMessageWithparameters:item];
+                                            item.label = Sent;
+                                            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                                             messageSendSuccessfuly = YES;
                                             completion(messageSendSuccessfuly);
                                         }

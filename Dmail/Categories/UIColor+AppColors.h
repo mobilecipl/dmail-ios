@@ -13,5 +13,6 @@
 + (UIColor *)navigationShadowColor;
 + (UIColor *)borderColor;
 + (UIColor *)unreadColor;
++ (UIColor *)participantsColor;
 
 @end

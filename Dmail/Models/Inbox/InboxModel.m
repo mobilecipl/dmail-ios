@@ -11,7 +11,7 @@
 #import "MessageService.h"
 #import "CoreDataManager.h"
 #import "MessageItem.h"
-#import "DmailMessage.h"
+#import "GmailMessage.h"
 #import "UserService.h"
 
 
@@ -23,26 +23,28 @@
 
 @implementation InboxModel
 
-- (id)initWithMessageType:(MessageType)messageType {
+- (id)initWithMessageLabel:(MessageLabel)messageLabel {
     
     self = [super init];
     if (self != nil) {
-        self.messageType = messageType;
+        self.messageLabel = messageLabel;
     }
     
     return  self;
 }
 
 #pragma mark - Private Methods
-- (MessageItem *)dmailMessageToMessageItem:(DmailMessage *)dmailMessage {
+- (MessageItem *)gmailMessageToMessageItem:(GmailMessage *)gmailMessage {
     
     MessageItem *messageItem = [[MessageItem alloc] init];
-    messageItem.type = [dmailMessage.type integerValue];
-    messageItem.identifier = dmailMessage.identifier;
-    messageItem.dmailId = dmailMessage.dmailId;
-    messageItem.subject = dmailMessage.subject;
-    messageItem.senderName = dmailMessage.senderName;
-    messageItem.status = [dmailMessage.status integerValue];
+    messageItem.identifier = gmailMessage.identifier;
+    messageItem.dmailId = gmailMessage.dmailId;
+    messageItem.subject = gmailMessage.subject;
+    messageItem.senderName = gmailMessage.senderName;
+    messageItem.senderEmail = gmailMessage.senderEmail;
+    messageItem.status = [gmailMessage.status integerValue];
+    messageItem.type = [gmailMessage.type integerValue];
+    messageItem.label = [gmailMessage.label integerValue];
     
     return messageItem;
 }
@@ -50,10 +52,10 @@
 #pragma mark - Public Methods
 - (NSMutableArray *)getArrayMessageItems {
     
-    NSArray *arrayDmailMessages = [[CoreDataManager sharedCoreDataManager] getMessagesWithType:self.messageType];
+    NSArray *arrayDmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:self.messageLabel];
     NSMutableArray *arrayMessageItems = [[NSMutableArray alloc] init];
-    for (DmailMessage *dmailMessage in arrayDmailMessages) {
-        MessageItem *messageItem = [self dmailMessageToMessageItem:dmailMessage];
+    for (GmailMessage *gmailMessage in arrayDmailMessages) {
+        MessageItem *messageItem = [self gmailMessageToMessageItem:gmailMessage];
         [arrayMessageItems addObject:messageItem];
     }
     

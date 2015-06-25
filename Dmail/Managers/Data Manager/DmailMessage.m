@@ -2,7 +2,7 @@
 //  DmailMessage.m
 //  Dmail
 //
-//  Created by Karen Petrosyan on 6/22/15.
+//  Created by Karen Petrosyan on 6/25/15.
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
@@ -16,12 +16,7 @@
 @dynamic dmailId;
 @dynamic identifier;
 @dynamic position;
-@dynamic receiverEmail;
-@dynamic senderEmail;
-@dynamic senderName;
 @dynamic status;
-@dynamic subject;
-@dynamic type;
-@dynamic internalDate;
+@dynamic label;
 
 @end

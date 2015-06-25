@@ -26,4 +26,6 @@
 - (void)sendMessageToGmailWithEncodedBody:(NSString *)encodedBody withCompletionBlock:(mainCompletionBlock)completion;
 - (void)sendMessageUniqueIdToDmailWithMessageDmailId:(NSString*)dmailId gmailUniqueId:(NSString *)gmailUniqueId senderEmail:(NSString *)senderEmail withCompletionBlock:(mainCompletionBlock)completion;
 
+- (void)revokeUserWithEmail:(NSString *)email dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion;
+
 @end

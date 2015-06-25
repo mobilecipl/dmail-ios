@@ -12,6 +12,7 @@
 #import "InboxModel.h"
 #import "InboxCell.h"
 #import "InboxMessageViewController.h"
+#import "SentViewController.h"
 #import "CoreDataManager.h"
 
 @class MessageItem;
@@ -23,7 +24,7 @@
 @property (nonatomic, strong) NSMutableArray *arrayMessgaeItems;
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
 @property (nonatomic, strong) InboxModel *inboxModel;
-@property (nonatomic, assign) MessageType messageType;
+@property (nonatomic, assign) MessageLabel messageType;
 
 @end
 
@@ -34,7 +35,7 @@
     [super viewDidLoad];
     
     self.messageType = Inbox;
-    self.inboxModel = [[InboxModel alloc] initWithMessageType:self.messageType];
+    self.inboxModel = [[InboxModel alloc] initWithMessageLabel:self.messageType];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,25 +72,21 @@
 
 - (void)getMessages {
     
-    [self showLoadingView];
     self.arrayMessgaeItems = [self.inboxModel getArrayMessageItems];
-    if ([self.arrayMessgaeItems count] > 0) {
-        [self hideLoadingView];
-    }
     [self.tableVIewInbox reloadData];
 }
 
 - (void)inboxClicked {
     
     self.messageType = Inbox;
-    self.inboxModel.messageType = Inbox;
+    self.inboxModel.messageLabel = Inbox;
     [self getMessages];
 }
 
 - (void)sentClicked {
     
     self.messageType = Sent;
-    self.inboxModel.messageType = Sent;
+    self.inboxModel.messageLabel = Sent;
     [self getMessages];
 }
 
@@ -127,7 +124,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     self.selectedMessageItem = [self.arrayMessgaeItems objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
+    if (self.selectedMessageItem.label == Inbox) {
+        [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromInboxToSentView" sender:self];
+    }
 }
 
 
@@ -138,6 +140,12 @@
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
             inboxMessageViewController.messageItem = self.selectedMessageItem;
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"fromInboxToSentView"]) {
+        SentViewController *sentViewController = (SentViewController *)segue.destinationViewController;
+        if ([sentViewController isKindOfClass:[sentViewController class]]) {
+            sentViewController.messageItem = self.selectedMessageItem;
         }
     }
 }

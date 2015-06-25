@@ -12,6 +12,8 @@
 #import "LoginViewController.h"
 #import "MessageService.h"
 #import "NetworkManager.h"
+#import "SyncService.h"
+
 
 @interface LoadingViewController ()<GIDSignInDelegate>
 
@@ -69,6 +71,7 @@
 //                NSLog(@"messageId ==== %@", messageId);
 //            }
 //        }];
+        [[SyncService sharedInstance] getMessageIds];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

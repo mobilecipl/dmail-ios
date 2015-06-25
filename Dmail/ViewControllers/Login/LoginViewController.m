@@ -58,8 +58,7 @@
     }
     else {
         [[UserService sharedInstance] updateUserDetails:user];
-        SyncService *syncService = [[SyncService alloc] init];
-        [syncService getNewMessages];
+        [[SyncService sharedInstance] getMessageIds];
         [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
     }
 }
