@@ -42,7 +42,7 @@
     messageItem.subject = gmailMessage.subject;
     messageItem.senderName = gmailMessage.senderName;
     messageItem.senderEmail = gmailMessage.senderEmail;
-    messageItem.status = [gmailMessage.status integerValue];
+    messageItem.receiverEmail = gmailMessage.receiverEmail;
     messageItem.type = [gmailMessage.type integerValue];
     messageItem.label = [gmailMessage.label integerValue];
     

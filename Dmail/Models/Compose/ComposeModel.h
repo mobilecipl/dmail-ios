@@ -13,6 +13,6 @@
 
 @interface ComposeModel : NSObject
 
-- (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem completionBlock:(void (^)(BOOL success))completion;
+- (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem;
 
 @end

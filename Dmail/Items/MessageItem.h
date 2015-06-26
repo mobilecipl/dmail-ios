@@ -17,9 +17,9 @@
 @property NSString *subject;
 @property NSString *senderName;
 @property NSString *senderEmail;
+@property NSString *receiverEmail;
 @property MessageType type;
 @property MessageLabel label;
-@property MessageStatus status;
 @property (nonatomic) CGFloat postDate;
 
 @end

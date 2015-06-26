@@ -18,7 +18,6 @@
         <attribute name="receiverName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderEmail" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="subject" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
@@ -33,7 +32,7 @@
     </entity>
     <elements>
         <element name="DmailMessage" positionX="-63" positionY="72" width="128" height="150"/>
-        <element name="GmailMessage" positionX="-54" positionY="81" width="128" height="210"/>
+        <element name="GmailMessage" positionX="-54" positionY="81" width="128" height="195"/>
         <element name="Profile" positionX="-45" positionY="153" width="128" height="75"/>
         <element name="User" positionX="-27" positionY="99" width="128" height="90"/>
     </elements>

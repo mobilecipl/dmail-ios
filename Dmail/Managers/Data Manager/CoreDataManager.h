@@ -39,6 +39,7 @@
 - (DmailMessage *)getDmailMessageWithMessageId:(NSString *)dmailId;
 - (GmailMessage *)getGmailMessageWithMessageId:(NSString *)dmailId;
 - (DmailMessage *)getLastValidMessage;
+- (DmailMessage *)getLastRevokedMessage;
 
 - (void)writeMessageToDmailEntityWithparameters:(DmailEntityItem *)item;
 - (void)writeMessageToGmailEntityWithparameters:(DmailEntityItem *)item;

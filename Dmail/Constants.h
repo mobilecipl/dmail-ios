@@ -31,8 +31,8 @@ static NSString * const NotificationInbox = @"notificationInbox";
 static NSString * const NotificationSent = @"notificationSent";
 static NSString * const NotificationMessageInbox = @"notificationMessageInbox";
 static NSString * const NotificationMessageSent = @"notificationMessageSent";
-
 static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
+static NSString * const NotificationNewMessageSent = @"notificationNewMessageSent";
 
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
@@ -91,4 +91,6 @@ static NSString * const Position = @"position";
 static NSString * const Type = @"type";
 
 static NSString * const AccessTypeGaranted = @"GRANTED";
+static NSString * const AccessTypeRevoked = @"REVOKED";
+
 #endif

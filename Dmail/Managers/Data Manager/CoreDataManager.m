@@ -133,8 +133,10 @@ static NSString * const EntityProfile = @"Profile";
 
 - (void)signOut {
     
-    [self clearEntityWithName:EntityUser];
     [self clearEntityWithName:EntityDmailMessage];
+    [self clearEntityWithName:EntityGmailMessage];
+    [self clearEntityWithName:EntityProfile];
+    [self clearEntityWithName:EntityUser];
 }
 
 - (void)clearEntityWithName:(NSString *)entityName {
@@ -152,6 +154,43 @@ static NSString * const EntityProfile = @"Profile";
 }
 
 
+#pragma mark - Profile
+- (Profile *)getProfileWithEmail:(NSString *)email {
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email like %@",email];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedProfiles = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    Profile *profile = nil;
+    if ([fetchedProfiles count] > 0) {
+        profile = [fetchedProfiles firstObject];
+    }
+    
+    return profile;
+}
+
+- (void)writeOrUpdateParticipantWith:(ProfileItem *)profileItem {
+    
+    Profile *profile = [self getProfileWithEmail:profileItem.email];
+    if (!profile) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        profile = [NSEntityDescription insertNewObjectForEntityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
+    }
+    profile.email = profileItem.email;
+    profile.name = profileItem.name;
+    
+    [self saveContext];
+}
+
+
+
 #pragma mark - Messages
 - (NSArray *)getGmailMessagesWithType:(MessageLabel)messageType {
     
@@ -159,7 +198,7 @@ static NSString * const EntityProfile = @"Profile";
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"label == %d AND status == %d",messageType, MessageFetchedFull];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"label == %d",messageType];
     [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:InternalDate ascending:NO selector:nil];
@@ -250,6 +289,28 @@ static NSString * const EntityProfile = @"Profile";
     return dmailMessage;
 }
 
+- (DmailMessage *)getLastRevokedMessage {
+    
+    DmailMessage *dmailMessage = nil;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"access like %@",AccessTypeRevoked];
+    [fetchRequest setPredicate:predicate];
+    
+    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:Position ascending:NO selector:nil];
+    [fetchRequest setSortDescriptors:@[descendingSort]];
+    
+    NSError *error = nil;
+    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if ([fetchedMessages count] > 0) {
+        dmailMessage = [fetchedMessages firstObject];
+    }
+    
+    return dmailMessage;
+}
+
 - (void)writeMessageToDmailEntityWithparameters:(DmailEntityItem *)item {
     
     DmailMessage *dmailMessage;
@@ -320,9 +381,6 @@ static NSString * const EntityProfile = @"Profile";
     if (item.internalDate && item.internalDate!= -1) {
         gmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
     }
-    if (item.status && item.status!= 0) {
-        gmailMessage.status = [NSNumber numberWithInteger:item.status];
-    }
     if (item.label && item.label!= 0) {
         gmailMessage.label = [NSNumber numberWithInteger:item.label];
     }
@@ -376,46 +434,12 @@ static NSString * const EntityProfile = @"Profile";
     [self saveContext];
 }
 
-- (void)writeOrUpdateParticipantWith:(ProfileItem *)profileItem {
-    
-    Profile *profile = [self getProfileWithEmail:profileItem.email];
-    if (!profile) {
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
-        [fetchRequest setEntity:entityDescription];
-        profile = [NSEntityDescription insertNewObjectForEntityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
-    }
-    profile.email = profileItem.email;
-    profile.name = profileItem.name;
-    
-    [self saveContext];
-}
-
 - (void)writeMessageBodyWithDmailId:(NSString *)dmailId messageBody:(NSString *)messageBody {
     
     DmailMessage *dmailMessage = [self getDmailMessageWithMessageId:dmailId];
     dmailMessage.body = messageBody;
     
     [self saveContext];
-}
-
-- (Profile *)getProfileWithEmail:(NSString *)email {
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email like %@",email];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *fetchedProfiles = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    Profile *profile = nil;
-    if ([fetchedProfiles count] > 0) {
-        profile = [fetchedProfiles firstObject];
-    }
-    
-    return profile;
 }
 
 - (CGFloat)getLastPosition {

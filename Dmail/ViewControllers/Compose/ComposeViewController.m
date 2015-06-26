@@ -61,23 +61,12 @@
     
     [self showLoadingView];
     [self resignFields];
-    ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.textFieldSubject.text body:self.textViewMessageBody.text arrayTo:@[self.textFieldTo.text] arrayCC:nil arrayBCC:nil];
-    [self.composeModel sendMessageWithItem:composeModelItem completionBlock:^(BOOL success) {
-        [self hideLoadingView];
-        NSString *alertMessage;
-        if (success) {
-            alertMessage = @"Email Sent";
-        }
-        else {
-            alertMessage = @"Error with sending Email";
-        }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                        message:alertMessage
-                                                       delegate:self
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-    }];
+    ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.textFieldSubject.text
+                                                                              body:self.textViewMessageBody.text
+                                                                           arrayTo:@[self.textFieldTo.text]
+                                                                           arrayCC:nil
+                                                                          arrayBCC:nil];
+    [self.composeModel sendMessageWithItem:composeModelItem];
 }
 
 - (IBAction)backClicked:(id)sender {

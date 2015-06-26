@@ -12,10 +12,9 @@
 #import "Constants.h"
 #import "Configurations.h"
 
-static NSString * const baseURL = @"http://52.8.148.81:8080/dmail/";//@"http://192.168.0.100:8080/dmail/";
+static NSString * const baseURL = @"http://52.8.148.81:8080/dmail/";
+//static NSString * const baseURL = @"http://192.168.0.100:8080/dmail/";
 
 @interface BaseNetwork : NSObject
-
-- (NSString *)getMessageForError:(NSError *)error;
 
 @end

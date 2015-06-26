@@ -12,6 +12,7 @@
 #import "CoreDataManager.h"
 #import "MessageService.h"
 #import "CommonMethods.h"
+#import "Profile.h"
 
 
 @interface SentViewController ()
@@ -97,9 +98,17 @@
     self.viewContainer.layer.borderColor = [[UIColor borderColor] CGColor];
     self.viewContainer.layer.borderWidth = 1;
     
-    self.senderName = self.messageItem.senderName;
-    if (self.senderName.length == 0) {
-        self.senderName = self.messageItem.senderEmail;
+    Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:self.messageItem.receiverEmail];
+    if(profile) {
+        if (profile.name.length == 0) {
+            self.senderName = profile.email;
+        }
+        else {
+            self.senderName = profile.name;
+        }
+    }
+    else {
+        self.senderName = self.messageItem.senderName;
     }
 }
 
@@ -130,7 +139,7 @@
             
             break;
         case 1: {
-            [[MessageService sharedInstance] revokeUserWithEmail:self.messageItem.senderEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
+            [[MessageService sharedInstance] revokeUserWithEmail:self.messageItem.receiverEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
                 if (success) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
                                                                     message:@"Participant revoked"

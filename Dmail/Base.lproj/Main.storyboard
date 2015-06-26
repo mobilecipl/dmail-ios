@@ -29,12 +29,15 @@
             <string>ProximaNova-Semibold</string>
             <string>ProximaNova-Semibold</string>
         </mutableArray>
+        <mutableArray key="ProximaNova-Thin.ttf">
+            <string>ProximaNova-Thin</string>
+        </mutableArray>
     </customFonts>
     <scenes>
         <!--Loading View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="LoadingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loadingView" id="vXZ-lx-hvc" customClass="LoadingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -175,7 +178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9J1-8j-waU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1061.5" y="445.5"/>
+            <point key="canvasLocation" x="1049.5" y="377.5"/>
         </scene>
         <!--Inbox View Controller-->
         <scene sceneID="hB6-MG-qnQ">
@@ -367,7 +370,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jps-3i-7ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1617.5" y="836.5"/>
+            <point key="canvasLocation" x="1543.5" y="1044.5"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="0sX-6T-PSR">
@@ -494,12 +497,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PSb-Xn-c28" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1555" y="-122.5"/>
+            <point key="canvasLocation" x="1481" y="-100.5"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="MEr-x4-Al5">
             <objects>
-                <viewController id="v9c-Rf-4OL" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginView" id="v9c-Rf-4OL" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O0h-Kq-Fj0"/>
                         <viewControllerLayoutGuide type="bottom" id="lj6-sr-VyV"/>
@@ -543,6 +546,23 @@
                                     <action selector="gmailLoginClicked:" destination="v9c-Rf-4OL" eventType="touchUpInside" id="kbp-vw-DWc"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsc-qv-rYr" userLabel="View: Spacer Yellow">
+                                <rect key="frame" x="137" y="185" width="100" height="35"/>
+                                <color key="backgroundColor" red="0.99607843139999996" green="0.85098039219999999" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="nKV-7k-fbE"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Self-Destructing Email Finally, email has a delete button" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuU-hf-ghK">
+                                <rect key="frame" x="62" y="220" width="250" height="61"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="VDG-OX-RC2"/>
+                                    <constraint firstAttribute="height" constant="61" id="hPk-uc-jSa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Thin" family="Proxima Nova" pointSize="16.5"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -551,14 +571,19 @@
                             <constraint firstItem="ruL-GU-Izi" firstAttribute="top" secondItem="YyD-0v-Ml0" secondAttribute="bottom" id="6N2-KV-epe"/>
                             <constraint firstAttribute="trailing" secondItem="6rb-JJ-cbF" secondAttribute="trailing" id="CWN-xg-p0l"/>
                             <constraint firstAttribute="height" secondItem="YyD-0v-Ml0" secondAttribute="height" multiplier="667/116" id="CYG-bQ-krY"/>
+                            <constraint firstAttribute="centerX" secondItem="tuU-hf-ghK" secondAttribute="centerX" id="Ihc-uv-eSo"/>
+                            <constraint firstItem="tuU-hf-ghK" firstAttribute="top" secondItem="xsc-qv-rYr" secondAttribute="bottom" id="J6o-gt-jll"/>
                             <constraint firstAttribute="centerX" secondItem="e1h-pD-XLH" secondAttribute="centerX" id="JSJ-SZ-Xj6"/>
                             <constraint firstItem="Ng4-X0-dOW" firstAttribute="top" secondItem="e1h-pD-XLH" secondAttribute="bottom" id="Mu5-gS-Rou"/>
                             <constraint firstAttribute="centerX" secondItem="YyD-0v-Ml0" secondAttribute="centerX" id="V4S-Ma-xJM"/>
                             <constraint firstAttribute="centerX" secondItem="Ng4-X0-dOW" secondAttribute="centerX" id="Wld-qH-s7k"/>
                             <constraint firstItem="6rb-JJ-cbF" firstAttribute="top" secondItem="oaA-R1-5Tw" secondAttribute="top" id="bwK-eP-QtP"/>
+                            <constraint firstAttribute="centerX" secondItem="xsc-qv-rYr" secondAttribute="centerX" id="cCU-Qu-C4E"/>
                             <constraint firstItem="Ng4-X0-dOW" firstAttribute="height" secondItem="oaA-R1-5Tw" secondAttribute="height" multiplier="181/667" id="d7T-Hf-c0c"/>
                             <constraint firstAttribute="centerX" secondItem="ruL-GU-Izi" secondAttribute="centerX" id="dNX-2T-4cA"/>
+                            <constraint firstItem="xsc-qv-rYr" firstAttribute="top" secondItem="ruL-GU-Izi" secondAttribute="bottom" constant="8" id="f7Q-Pp-tFq"/>
                             <constraint firstItem="6rb-JJ-cbF" firstAttribute="leading" secondItem="oaA-R1-5Tw" secondAttribute="leading" id="idE-L4-Pek"/>
+                            <constraint firstItem="xsc-qv-rYr" firstAttribute="height" secondItem="oaA-R1-5Tw" secondAttribute="height" multiplier="35/667" id="uT8-Iy-yLv"/>
                             <constraint firstAttribute="bottom" secondItem="Ng4-X0-dOW" secondAttribute="bottom" id="zYl-Gr-eik"/>
                         </constraints>
                     </view>
@@ -571,7 +596,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7n-qD-xEN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="516.5" y="902.5"/>
+            <point key="canvasLocation" x="544.5" y="1194.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eyq-xw-7AK">
@@ -834,7 +859,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncc-dZ-zZ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2108.5" y="116.5"/>
+            <point key="canvasLocation" x="2054.5" y="521.5"/>
         </scene>
         <!--Sent View Controller-->
         <scene sceneID="7bi-P8-z4y">
@@ -1040,7 +1065,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b9G-mU-IcO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2108.5" y="977.5"/>
+            <point key="canvasLocation" x="2054.5" y="1655.5"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="pOh-h8-cle">
@@ -1222,7 +1247,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kU4-xy-NvD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2108.5" y="1714.5"/>
+            <point key="canvasLocation" x="1543.5" y="1960.5"/>
         </scene>
     </scenes>
     <resources>
@@ -1246,6 +1271,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="V8g-7x-DfO"/>
-        <segue reference="msd-Ig-8Lo"/>
+        <segue reference="hho-Yr-fmt"/>
     </inferredMetricsTieBreakers>
 </document>

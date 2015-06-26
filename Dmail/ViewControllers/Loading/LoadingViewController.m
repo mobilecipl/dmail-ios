@@ -62,35 +62,9 @@
         return;
     }
     else {
-//        NSString *gmailUniqueId = @"7BC73A54-84F6-4C09-B5C1-ECE268C44DD5@science-inc.com";
-//        [[MessageService sharedInstance] getMessageFromGmailWithGmailUniqueId:gmailUniqueId withCompletionBlock:^(NSString *messageId, NSError *error) {
-//            if (error) {
-//                
-//            }
-//            else {
-//                NSLog(@"messageId ==== %@", messageId);
-//            }
-//        }];
         [[SyncService sharedInstance] getMessageIds];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
-}
-
-- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    if (error) {
-        
-    } else {
-        
-    }
-}
-
-- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-    
-}
-
-- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-    
 }
 
 @end

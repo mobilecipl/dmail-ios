@@ -12,7 +12,7 @@
 
 + (UIColor *)navigationShadowColor;
 + (UIColor *)borderColor;
-+ (UIColor *)unreadColor;
++ (UIColor *)cellSelected;
 + (UIColor *)participantsColor;
 
 @end

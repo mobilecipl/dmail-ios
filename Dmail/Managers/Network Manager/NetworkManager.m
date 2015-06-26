@@ -8,11 +8,12 @@
 
 #import "NetworkManager.h"
 
-static NSString * const getMessagesList = @"mobileClient/syncRecipients";
+static NSString * const getMessagesList = @"mobile/recipients/sync";
 static NSString * const sendMessage = @"api/message";
 static NSString * const sendRecipient = @"api/message";
 static NSString * const getMessage = @"api/message";
-static NSString * const messageSent = @"mobileClient/messageSent";
+static NSString * const messageSent = @"mobile/message/sent";
+static NSString * const Revoke = @"api/message";
 
 @interface NetworkManager ()
 
@@ -298,7 +299,7 @@ static NSString * const messageSent = @"mobileClient/messageSent";
 
 - (void)revokeUserWithEmail:(NSString *)email dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion {
     
-    NSURLSessionDataTask *dataTask = self.dictionaryTasks[sendRecipient];
+    NSURLSessionDataTask *dataTask = self.dictionaryTasks[Revoke];
     if (!dataTask) {
         NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, sendRecipient, dmailId, email];
         NSMutableURLRequest *request = [self constructDeleteRequestWithUrl:urlString];
@@ -309,9 +310,9 @@ static NSString * const messageSent = @"mobileClient/messageSent";
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(JSONData, statusCode);
             });
-            [self.dictionaryTasks removeObjectForKey:sendRecipient];
+            [self.dictionaryTasks removeObjectForKey:Revoke];
         }];
-        self.dictionaryTasks[sendRecipient] = dataTask;
+        self.dictionaryTasks[Revoke] = dataTask;
         [dataTask resume];
     }
 }

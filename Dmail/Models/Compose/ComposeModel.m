@@ -14,6 +14,7 @@
 #import "DmailMessage.h"
 #import "DmailEntityItem.h"
 #import "UserService.h"
+#import "ProfileItem.h"
 
 @interface ComposeModel ()
 
@@ -99,22 +100,16 @@
 
 
 #pragma mark - Public Methods
-- (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem completionBlock:(void (^)(BOOL success))completion {
+- (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem {
     
     //Send message body to Dmail ========== Success --> MessageSentOnlyBody
-    __block BOOL messageSendSuccessfuly = NO;
     [[MessageService sharedInstance] sendMessageToDmailWithEncriptedMessage:composeModelItem.body senderEmail:[[UserService sharedInstance] email] completionBlock:^(NSString *dmailId, NSInteger statusCode) {
         if (dmailId) {
             DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
             item.dmailId = dmailId;
             item.body = composeModelItem.body;
-            item.subject = composeModelItem.subject;
-            item.senderEmail = [[UserService sharedInstance] email];
-            item.receiverEmail = [composeModelItem.arrayTo firstObject];
             item.status = MessageSentOnlyBody;
-            
             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
             
             NSDictionary *recipients = [self createRecipientsDictWithArrayTo:composeModelItem.arrayTo arrayCC:composeModelItem.arrayCC arrayBCC:composeModelItem.arrayBCC];
             //Send Participants to Dmail ========== Success --> MessageSentParticipants
@@ -132,6 +127,7 @@
                         if (gmailMessageId) {
                             item.status = MessageSentToGmail;
                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
+                            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                             //Get Message from Gmail for getting identifier
                             [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *dict , NSInteger statusCode) {
                                 DmailEntityItem *item = [self parseGmailMessageContent:dict];
@@ -139,32 +135,40 @@
                                     //Send identifier to Dmail ========== Success --> MessageSentFull
                                     [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:dmailId gmailUniqueId:item.identifier senderEmail:[[UserService sharedInstance] email]  withCompletionBlock:^(BOOL success) {
                                         if (success) {
-                                            item.status = MessageSentFull;
+                                            item.subject = composeModelItem.subject;
+                                            item.senderEmail = [[UserService sharedInstance] email];
+                                            item.senderName = [[UserService sharedInstance] name];
+                                            item.receiverEmail = [composeModelItem.arrayTo firstObject];
+                                            item.type = Read;
                                             item.dmailId = dmailId;
+                                            item.body = composeModelItem.body;
                                             item.label = Sent;
+                                            item.status = MessageSentFull;
                                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-                                            messageSendSuccessfuly = YES;
-                                            completion(messageSendSuccessfuly);
+                                            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
+                                            
+//                                            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:item.receiverEmail name:item.receiverNA]
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Message Sent" : @"alert"}];
                                         }
                                     }];
                                 }
                                 else {
-                                    completion(messageSendSuccessfuly);
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Error with sending Email" : @"alert"}];
                                 }
                             }];
                         }
                         else {
-                            completion(messageSendSuccessfuly);
+                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Error with sending Email" : @"alert"}];
                         }
                     }];
                 }
                 else {
-                    completion(messageSendSuccessfuly);
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Error with sending Email" : @"alert"}];
                 }
             }];
         }
         else {
-            completion(messageSendSuccessfuly);
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Error with sending Email" : @"alert"}];
         }
     }];
 }

@@ -11,24 +11,4 @@
 
 @implementation BaseNetwork
 
-- (NSString *)getMessageForError:(NSError *)error {
-
-    NSLog(@"ERROR CODE           ----------- %ld", (long)error.code);
-    NSLog(@"ERROR DESCRIPTION    ----------- %@" , error.localizedDescription);
-    
-    NSString *errorMessage;
-    if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."] || [error.localizedDescription isEqualToString:@"The network connection was lost."]) {
-        
-        errorMessage = error.localizedDescription;
-    } else if ([error.localizedDescription isEqualToString:@"The request timed out."]) {
-        errorMessage = kGlobalAlertMessageRequestTimeOutReplaceler;
-    }
-    else {
-        errorMessage = kGlobalAlertMessageInvalidLoginCridentials;
-    }
-    
-    return errorMessage;
-}
-
-
 @end

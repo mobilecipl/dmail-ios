@@ -47,6 +47,7 @@
 		9CDA74B11B3750FC00F71707 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */; };
 		9CDA74B21B3750FC00F71707 /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */; };
 		9CDA74B31B3750FC00F71707 /* ProximaNova-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */; };
+		9CE7E51D1B3D1CF800C8E9CC /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE7E51C1B3D1CF800C8E9CC /* GmailMessage.m */; };
 		9CF0FF8A1B32BE870054366E /* InboxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF0FF891B32BE870054366E /* InboxModel.m */; };
 		9CF619C31B2C1AD4009A210C /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C21B2C1AD4009A210C /* UserService.m */; };
 		9CF619C71B2C1BA6009A210C /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF619C61B2C1BA6009A210C /* BaseViewController.m */; };
@@ -55,7 +56,6 @@
 		9CF7C8261B3C2D4C00D6D207 /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C8251B3C2D4C00D6D207 /* DmailMessage.m */; };
 		9CF7C82C1B3C30F400D6D207 /* SentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C82B1B3C30F400D6D207 /* SentViewController.m */; };
 		9CF7C82F1B3C4D1500D6D207 /* CommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C82E1B3C4D1500D6D207 /* CommonMethods.m */; };
-		9CF7C8321B3C610100D6D207 /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C8311B3C610100D6D207 /* GmailMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +140,9 @@
 		9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
 		9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
 		9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.ttf"; sourceTree = "<group>"; };
+		9CE7E51A1B3D17EA00C8E9CC /* ProximaNova-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Thin.ttf"; sourceTree = "<group>"; };
+		9CE7E51B1B3D1CF800C8E9CC /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
+		9CE7E51C1B3D1CF800C8E9CC /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CF0FF881B32BE870054366E /* InboxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxModel.h; sourceTree = "<group>"; };
 		9CF0FF891B32BE870054366E /* InboxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxModel.m; sourceTree = "<group>"; };
 		9CF619C11B2C1AD4009A210C /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
@@ -156,8 +159,6 @@
 		9CF7C82B1B3C30F400D6D207 /* SentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentViewController.m; sourceTree = "<group>"; };
 		9CF7C82D1B3C4D1500D6D207 /* CommonMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMethods.h; sourceTree = "<group>"; };
 		9CF7C82E1B3C4D1500D6D207 /* CommonMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonMethods.m; sourceTree = "<group>"; };
-		9CF7C8301B3C610100D6D207 /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
-		9CF7C8311B3C610100D6D207 /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,8 +266,8 @@
 		9C11A4871B3410BE00EEED0E /* Data Manager */ = {
 			isa = PBXGroup;
 			children = (
-				9CF7C8301B3C610100D6D207 /* GmailMessage.h */,
-				9CF7C8311B3C610100D6D207 /* GmailMessage.m */,
+				9CE7E51B1B3D1CF800C8E9CC /* GmailMessage.h */,
+				9CE7E51C1B3D1CF800C8E9CC /* GmailMessage.m */,
 				9CF7C8241B3C2D4C00D6D207 /* DmailMessage.h */,
 				9CF7C8251B3C2D4C00D6D207 /* DmailMessage.m */,
 				9CD8EA3D1B384EB90052210D /* User.h */,
@@ -302,6 +303,7 @@
 		9C7646951B2DE22700DA5116 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9CE7E51A1B3D17EA00C8E9CC /* ProximaNova-Thin.ttf */,
 				9CDA74AE1B3750FC00F71707 /* ProximaNova-Light.ttf */,
 				9CDA74AF1B3750FC00F71707 /* ProximaNova-Regular.ttf */,
 				9CDA74B01B3750FC00F71707 /* ProximaNova-Semibold.ttf */,
@@ -709,7 +711,7 @@
 				58E815FE1B2B2A3900401520 /* InboxViewController.m in Sources */,
 				9CF7C8261B3C2D4C00D6D207 /* DmailMessage.m in Sources */,
 				58D9E3221B2F08890046B154 /* MenuCell.m in Sources */,
-				9CF7C8321B3C610100D6D207 /* GmailMessage.m in Sources */,
+				9CE7E51D1B3D1CF800C8E9CC /* GmailMessage.m in Sources */,
 				9CD35E581B317D6200B2295A /* NetworkManager.m in Sources */,
 				9C739DFF1B3048ED00775494 /* ComposeViewController.m in Sources */,
 				9CD8EA261B3825FF0052210D /* ProfileItem.m in Sources */,

@@ -63,23 +63,4 @@
     }
 }
 
-- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    if (error) {
-        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Failed to disconnect: %@", error];
-    } else {
-        //        _signInAuthStatus.text = [NSString stringWithFormat:@"Status: Disconnected"];
-    }
-    //    [self reportAuthStatus];
-    //    [self updateButtons];
-}
-
-- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-    
-}
-
-- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-    
-}
-
 @end

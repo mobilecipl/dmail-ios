@@ -71,48 +71,76 @@
 }
 
 #pragma mark - Public Methods
-- (void)getMessagesFromGmail {
+- (void)getMessages {
+    
+    [self getGrantedMessagesFromGmail];
+    [self getRevokedMessages];
+}
+
+- (void)getGrantedMessagesFromGmail {
     
     self.dmailmessage = [[CoreDataManager sharedCoreDataManager] getLastValidMessage];
     if (self.dmailmessage.identifier && !self.getInProcess) {
-        self.getInProcess = YES;
-        [[MessageService sharedInstance] getGmailMessageIdFromGmailWithIdentifier:self.dmailmessage.identifier withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
-            if (gmailMessageId) {
-                [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
-                    if (statusCode == 200) {
-                        self.getInProcess = NO;
-                        DmailEntityItem *item = [self parseGmailMessageContent:requestData];
-                        item.dmailId = self.dmailmessage.dmailId;
-                        item.status = MessageFetchedFull;
-                        item.label = [self.dmailmessage.label integerValue];
-                        item.type = Unread;
-                        [self writeMessageToGmailEntityWith:item];
-                        [[CoreDataManager sharedCoreDataManager] changeMessageStatusWithMessageId:self.dmailmessage.dmailId messageStatus:MessageFetchedFull];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
-                        [self performSelector:@selector(getMessagesFromGmail) withObject:nil afterDelay:1.0];
-                    }
-                    else {
-                        self.getInProcess = NO;
-                        DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
-                        item.dmailId = self.dmailmessage.dmailId;
-                        item.status = MessageRemovedFromGmail;
-                        [self writeMessageToGmailEntityWith:item];
-                        [self performSelector:@selector(getMessagesFromGmail) withObject:nil afterDelay:1.0];
-                    }
-                }];
-            }
-            else {
-                self.getInProcess = NO;
-                DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
-                item.dmailId = self.dmailmessage.dmailId;
-                item.status = MessageRemovedFromGmail;
-                [self writeMessageToGmailEntityWith:item];
-                [self performSelector:@selector(getMessagesFromGmail) withObject:nil afterDelay:1.0];
-            }
-        }];
+        if ([self.dmailmessage.access isEqualToString:AccessTypeGaranted]) {
+            self.getInProcess = YES;
+            [[MessageService sharedInstance] getGmailMessageIdFromGmailWithIdentifier:self.dmailmessage.identifier withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
+                if (gmailMessageId) {
+                    [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
+                        if (statusCode == 200) {
+                            self.getInProcess = NO;
+                            DmailEntityItem *item = [self parseGmailMessageContent:requestData];
+                            item.dmailId = self.dmailmessage.dmailId;
+                            item.label = [self.dmailmessage.label integerValue];
+                            item.type = Unread;
+                            [self writeMessageToGmailEntityWith:item];
+                            [[CoreDataManager sharedCoreDataManager] changeMessageStatusWithMessageId:self.dmailmessage.dmailId messageStatus:MessageFetchedFull];
+                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+                            [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
+                        }
+                        else {
+                            self.getInProcess = NO;
+                            DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
+                            item.dmailId = self.dmailmessage.dmailId;
+                            [self writeMessageToGmailEntityWith:item];
+                            [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
+                        }
+                    }];
+                }
+                else {
+                    self.getInProcess = NO;
+                    DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
+                    item.status = MessageRemovedFromGmail;
+                    item.dmailId = self.dmailmessage.dmailId;
+                    [self writeMessageToGmailEntityWith:item];
+                    [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
+                }
+            }];
+        }
+        else {
+            [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:self.dmailmessage.dmailId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+        }
     }
     else {
-        [self performSelector:@selector(getMessagesFromGmail) withObject:nil afterDelay:1.0];
+        [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
+    }
+}
+
+- (void)getRevokedMessages {
+    
+    DmailMessage *revokedMessage = [[CoreDataManager sharedCoreDataManager] getLastRevokedMessage];
+    if (revokedMessage.identifier && !self.getInProcess) {
+        if ([revokedMessage.access isEqualToString:AccessTypeRevoked]) {
+            [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:revokedMessage.dmailId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+            [self performSelector:@selector(getRevokedMessages) withObject:nil afterDelay:1.0];
+        }
+        else {
+            [self performSelector:@selector(getRevokedMessages) withObject:nil afterDelay:1.0];
+        }
+    }
+    else {
+        [self performSelector:@selector(getRevokedMessages) withObject:nil afterDelay:1.0];
     }
 }
 

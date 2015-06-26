@@ -12,6 +12,6 @@
 
 + (GmailManager *)sharedInstance;
 
-- (void)getMessagesFromGmail;
+- (void)getMessages;
 
 @end

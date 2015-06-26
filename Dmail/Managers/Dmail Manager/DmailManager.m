@@ -32,12 +32,12 @@
     
     NSMutableArray *arrayParsedItems = [[NSMutableArray alloc] init];
     for (NSDictionary *dict in arrayRecipients) {
-        if ([[dict allKeys] containsObject:MessageIdentifier] && [dict[Access] isEqualToString:@"GRANTED"]) {
+        if ([[dict allKeys] containsObject:MessageIdentifier]) {
             DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
             dmailEntityItem.access = dict[Access];
             dmailEntityItem.dmailId = dict[MessageId];
             dmailEntityItem.identifier = dict[MessageIdentifier];
-            dmailEntityItem.position = [dict[Position] floatValue];
+            dmailEntityItem.position = [dict[Position] longValue];
             if ([dict[Type] isEqualToString:@"SENDER"]) {
                 dmailEntityItem.label = Sent;
             }
@@ -82,9 +82,10 @@
                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                         }
                         else {
-                            [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
-                            [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
-                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+                            item.access = AccessTypeRevoked;
+                            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
+//                            [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                         }
                     }
                 }
