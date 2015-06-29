@@ -4,8 +4,38 @@
 target 'Dmail' do
 
 pod 'Google/SignIn'
-pod 'AFNetworking', '~> 2.0'
 pod 'AFOAuth2Manager', '~>2.0'
+
+
+# view
+pod 'UICollectionViewEmptyState'
+pod 'TBAlertController'
+
+# images
+pod 'LBBlurredImage'
+pod 'SDWebImage', '~>3.7'
+
+# network
+pod 'AFNetworking', '~> 2.0'
+pod 'Reachability'
+
+# data
+pod 'JSONModel'
+pod 'Realm'
+
+# utils
+#pod 'SSKeychain'
+pod 'DateTools'
+pod 'libextobjc/EXTScope'
+#pod 'DeviceUtil', '~> 1.2'
+
+# analytics
+#pod 'GoogleAnalytics'
+#pod 'FlurrySDK/FlurrySDK', '~> 6.2'
+#pod 'Facebook-iOS-SDK'
+#pod 'AppsFlyer-SDK'
+#pod 'KahunaSDK'
+#pod 'apptentive-ios'
 
 end
 
