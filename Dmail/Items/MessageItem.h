@@ -19,6 +19,10 @@
 @property NSString *senderName;
 @property NSString *senderEmail;
 @property NSString *receiverEmail;
+@property NSString *fromEmail;
+@property NSArray *arrayTo;
+@property NSArray *arrayCc;
+@property NSArray *arrayBcc;
 @property MessageType type;
 @property MessageLabel label;
 @property (nonatomic) CGFloat postDate;

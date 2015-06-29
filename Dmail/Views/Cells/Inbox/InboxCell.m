@@ -9,6 +9,8 @@
 #import "InboxCell.h"
 #import "Constants.h"
 #import "MessageItem.h"
+#import "Profile.h"
+#import "CoreDataManager.h"
 
 @interface InboxCell ()
 
@@ -25,12 +27,27 @@
 #pragma mark - Publioc Methods
 - (void)configureCell:(MessageItem *)messageItem {
     
-    self.labelSenderName.text = messageItem.senderName;
     self.labelMessageSubject.text = messageItem.subject;
     if (messageItem.label == Sent) {
+        self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = YES;
+        self.labelMessageSubject.frame = CGRectMake(15, self.labelMessageSubject.frame.origin.y, self.labelMessageSubject.frame.size.width, self.labelMessageSubject.frame.size.height);
+        self.labelSenderName.translatesAutoresizingMaskIntoConstraints = YES;
+        self.labelSenderName.frame = CGRectMake(15, self.labelSenderName.frame.origin.y, self.labelSenderName.frame.size.width, self.labelSenderName.frame.size.height);
+        self.imageViewProfile.hidden = YES;
         self.viewBorder.hidden = YES;
+        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:[messageItem.arrayTo firstObject]];
+        if (profile.name.length > 0) {
+            self.labelSenderName.text = profile.name;
+        }
+        else {
+            self.labelSenderName.text = profile.email;
+        }
     }
     else {
+        self.imageViewProfile.hidden = NO;
+        self.labelSenderName.translatesAutoresizingMaskIntoConstraints = NO;
+        self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
+        self.labelSenderName.text = messageItem.fromEmail;
         switch (messageItem.type) {
             case Unread:
                 self.viewBorder.hidden = NO;

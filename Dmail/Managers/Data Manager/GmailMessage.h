@@ -19,13 +19,10 @@
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * internalDate;
 @property (nonatomic, retain) NSNumber * label;
-@property (nonatomic, retain) NSString * receiverEmail;
-@property (nonatomic, retain) NSString * receiverName;
-@property (nonatomic, retain) NSString * senderEmail;
-@property (nonatomic, retain) NSString * senderName;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain) NSString * to;
 @property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) NSString * publicKey;
+@property (nonatomic, retain) NSString * from;
 
 @end

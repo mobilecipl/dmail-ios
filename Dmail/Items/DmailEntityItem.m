@@ -19,7 +19,8 @@
         self.subject = nil;
         self.senderName = nil;
         self.access = nil;
-        self.senderEmail = nil;
+        self.fromEmail = nil;
+        self.fromName = nil;
         self.body = nil;
         self.publicKey = nil;
         self.receiverEmail = nil;
@@ -29,9 +30,9 @@
         self.position = -1;
         self.status = 0;
         
-        self.arrayTo = nil;
-        self.arrayCc = nil;
-        self.arrayBcc = nil;
+        self.arrayTo = [[NSMutableArray alloc] init];
+        self.arrayCc = [[NSMutableArray alloc] init];
+        self.arrayBcc = [[NSMutableArray alloc] init];
     }
     
     return  self;

@@ -61,4 +61,20 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    
+    if (textField == self.textFieldSubject) {
+        if ([self.delegate respondsToSelector:@selector(messageSubject:)]) {
+            [self.delegate messageSubject:self.textFieldSubject.text];
+        }
+    }
+    else {
+        if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
+            [self.delegate messageBody:self.textFieldBody.text];
+        }
+    }
+    return YES;
+}
+
+
 @end

@@ -216,6 +216,20 @@ CGFloat kfirstParticipantOriginX = 34;
     return YES;
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    
+    if (textField.text.length > 0) {
+        NSString *email = textField.text;
+        [self createParticipantWithEmail:textField.text];
+        [self determineTextFieldsFrame];
+        
+        if ([self.delegate respondsToSelector:@selector(addParticipantsEmail:row:)]) {
+            [self.delegate addParticipantsEmail:email row:self.row];
+        }
+    }
+    return YES;
+}
+
 
 #pragma mark - ParticipantViewDelegate Methods
 - (void)onCloseClicked:(id)participantView {

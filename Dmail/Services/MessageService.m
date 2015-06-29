@@ -70,7 +70,7 @@
                     NSString *name = [arraySubStrings firstObject];
                     dmailEntityItem.senderName = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                     NSString *email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
-                    dmailEntityItem.senderEmail = email;
+                    dmailEntityItem.fromEmail = email;
                 }
                 if ([dict[Name] isEqualToString:Subject]) {
                     dmailEntityItem.subject = dict[Value];

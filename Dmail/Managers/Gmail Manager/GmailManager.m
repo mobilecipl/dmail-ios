@@ -12,6 +12,8 @@
 #import "DmailMessage.h"
 #import "MessageService.h"
 #import "DmailEntityItem.h"
+#import "ProfileItem.h"
+#import "CommonMethods.h"
 
 @interface GmailManager ()
 
@@ -46,12 +48,35 @@
             NSArray *headers = payload[Headers];
             for (NSDictionary *dict in headers) {
                 if ([dict[Name] isEqualToString:From]) {
-                    NSArray *arraySubStrings = [dict[Value] componentsSeparatedByString:@"<"];
-                    NSString *name = [arraySubStrings firstObject];
-                    dmailEntityItem.senderName = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                    NSString *email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
-                    dmailEntityItem.senderEmail = email;
+                    NSLog(@"From ==== %@",dict[Value]);
+                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
+                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
+                    ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.fromEmail name:dmailEntityItem.fromName];
+                    [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
                 }
+                if ([dict[Name] isEqualToString:To]) {
+                    NSLog(@"To ==== %@",dict[Value]);
+                    NSArray *array = [dict[Value] componentsSeparatedByString:@","];
+                    for (NSString *string in array) {
+                        NSString *toEmail = [self getEmailFromValue:string];
+                        if (toEmail) {
+                            [dmailEntityItem.arrayTo addObject:toEmail];
+                        }
+                        NSString *toName = [self getNameFromvalue:string];
+                        ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:toEmail name:toName];
+                        [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
+                    }
+                }
+//                if ([dict[Name] isEqualToString:Cc]) {
+//                    NSArray *arrayCc = [dict[Value] componentsSeparatedByString:@","];
+//                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
+//                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
+//                }
+//                if ([dict[Name] isEqualToString:Bcc]) {
+//                    NSArray *arrayCc = [dict[Value] componentsSeparatedByString:@","];
+//                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
+//                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
+//                }
                 if ([dict[Name] isEqualToString:Subject]) {
                     dmailEntityItem.subject = dict[Value];
                 }
@@ -67,6 +92,35 @@
     }
     
     return dmailEntityItem;
+}
+
+- (NSString *)getEmailFromValue:(NSString *)value {
+    
+    NSString *email;
+    NSArray *arraySubStrings = [value componentsSeparatedByString:@"<"];
+    if ([arraySubStrings count] > 1) {
+        NSLog(@"arraySubStrings ==== %@", arraySubStrings);
+        email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
+    }
+    else {
+        email = value;
+    }
+    
+    return email;
+}
+
+- (NSString *)getNameFromvalue:(NSString *)value {
+    
+    NSString *name;
+    
+    NSArray *arraySubStrings = [value componentsSeparatedByString:@"<"];
+    if ([arraySubStrings count] > 1) {
+        NSLog(@"arraySubStrings ==== %@", arraySubStrings);
+        name = [arraySubStrings firstObject];
+        name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    
+    return name;
 }
 
 #pragma mark - Public Methods
@@ -87,7 +141,7 @@
                     [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
                         if (statusCode == 200) {
                             self.getInProcess = NO;
-                            DmailEntityItem *item = [self parseGmailMessageContent:requestData];
+                            DmailEntityItem *item = [[CommonMethods sharedInstance] parseGmailMessageContent:requestData];
                             item.dmailId = self.dmailmessage.dmailId;
                             item.label = [self.dmailmessage.label integerValue];
                             item.type = Unread;
@@ -132,6 +186,7 @@
     if (revokedMessage.identifier && !self.getInProcess) {
         if ([revokedMessage.access isEqualToString:AccessTypeRevoked]) {
             [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:revokedMessage.dmailId];
+            [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:revokedMessage.dmailId];
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
             [self performSelector:@selector(getRevokedMessages) withObject:nil afterDelay:1.0];
         }

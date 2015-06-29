@@ -41,10 +41,12 @@
     messageItem.dmailId = gmailMessage.dmailId;
     messageItem.gmailId = gmailMessage.gmailId;
     messageItem.subject = gmailMessage.subject;
-    messageItem.senderName = gmailMessage.senderName;
-    messageItem.senderEmail = gmailMessage.senderEmail;
-    messageItem.receiverEmail = gmailMessage.receiverEmail;
+    messageItem.senderEmail = gmailMessage.from;
     messageItem.type = [gmailMessage.type integerValue];
+    messageItem.fromEmail = gmailMessage.from;
+    messageItem.arrayTo = [gmailMessage.to componentsSeparatedByString:@","];
+    messageItem.arrayCc = [gmailMessage.cc componentsSeparatedByString:@","];
+    messageItem.arrayBcc = [gmailMessage.bcc componentsSeparatedByString:@","];
     messageItem.label = [gmailMessage.label integerValue];
     
     return messageItem;

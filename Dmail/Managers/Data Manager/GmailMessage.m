@@ -18,13 +18,10 @@
 @dynamic identifier;
 @dynamic internalDate;
 @dynamic label;
-@dynamic receiverEmail;
-@dynamic receiverName;
-@dynamic senderEmail;
-@dynamic senderName;
 @dynamic subject;
 @dynamic to;
 @dynamic type;
 @dynamic publicKey;
+@dynamic from;
 
 @end

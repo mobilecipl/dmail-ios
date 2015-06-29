@@ -21,6 +21,8 @@
 @interface InboxViewController () <InboxModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
+@property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
 @property (nonatomic, strong) NSMutableArray *arrayMessgaeItems;
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
 @property (nonatomic, strong) InboxModel *inboxModel;
@@ -81,6 +83,7 @@
     
     self.messageType = Inbox;
     self.inboxModel.messageLabel = Inbox;
+    [self setupController];
     [self getMessages];
 }
 
@@ -88,7 +91,20 @@
     
     self.messageType = Sent;
     self.inboxModel.messageLabel = Sent;
+    [self setupController];
     [self getMessages];
+}
+
+- (void)setupController {
+    
+    if (self.messageType == Inbox) {
+        self.imageViewNavigationIcon.hidden = NO;
+        self.labelNavigationTitle.hidden = YES;
+    }
+    else {
+        self.imageViewNavigationIcon.hidden = YES;
+        self.labelNavigationTitle.hidden = NO;
+    }
 }
 
 #pragma mark - Action Methods

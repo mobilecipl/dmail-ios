@@ -18,14 +18,15 @@
 @property (nonatomic, retain) NSString * access;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain) NSString * senderName;
-@property (nonatomic, retain) NSString * senderEmail;
+@property (nonatomic, retain) NSString * fromEmail;
+@property (nonatomic, retain) NSString * fromName;
 @property (nonatomic, retain) NSString * receiverEmail;
 @property (nonatomic, retain) NSString * receiverName;
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSString * publicKey;
-@property (nonatomic, retain) NSArray *arrayTo;
-@property (nonatomic, retain) NSArray *arrayCc;
-@property (nonatomic, retain) NSArray *arrayBcc;
+@property (nonatomic, retain) NSMutableArray *arrayTo;
+@property (nonatomic, retain) NSMutableArray *arrayCc;
+@property (nonatomic, retain) NSMutableArray *arrayBcc;
 
 @property (nonatomic) NSInteger internalDate;
 @property (nonatomic) double position;

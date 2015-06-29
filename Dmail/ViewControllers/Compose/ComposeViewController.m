@@ -32,6 +32,7 @@
 @property (nonatomic, assign) CGFloat ccCellHeight;
 @property (nonatomic, assign) CGFloat bccCellHeight;
 @property (nonatomic, assign) CGFloat messageContentCellHeight;
+@property (nonatomic, assign) BOOL backClicked;
 @property (nonatomic, strong) ComposeModel *composeModel;
 
 @end
@@ -59,6 +60,7 @@
                                              selector:@selector(messageSentError)
                                                  name:NotificationNewMessageSentError
                                                object:nil];
+    self.backClicked = NO;
 }
 
 - (void)dealloc {
@@ -70,17 +72,20 @@
 #pragma mark - Action Methods
 - (IBAction)sendClicked:(id)sender {
     
-    [self showLoadingView];
-    ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject
-                                                                              body:self.messageBody
-                                                                           arrayTo:self.arrayTo
-                                                                           arrayCC:self.arrayCc
-                                                                          arrayBCC:self.arrayBcc];
-    [self.composeModel sendMessageWithItem:composeModelItem];
+    if ([self.arrayTo count] > 0 && !self.backClicked) {
+        [self showLoadingView];
+        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject
+                                                                                  body:self.messageBody
+                                                                               arrayTo:self.arrayTo
+                                                                               arrayCC:self.arrayCc
+                                                                              arrayBCC:self.arrayBcc];
+        [self.composeModel sendMessageWithItem:composeModelItem];
+    }
 }
 
 - (IBAction)backClicked:(id)sender {
     
+    self.backClicked = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -329,6 +334,7 @@
 - (void)messageBody:(NSString *)body {
     
     self.messageBody = body;
+    [self sendClicked:nil];
 }
 
 @end

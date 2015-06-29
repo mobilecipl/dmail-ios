@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class DmailEntityItem;
 
 @interface CommonMethods : NSObject
 
 + (CommonMethods *)sharedInstance;
 - (CGFloat)textWidthWithText:(NSString *)text height:(CGFloat)height fontName:(NSString *)fontName fontSize:(CGFloat)fontSize;
+- (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply;
 
 @end

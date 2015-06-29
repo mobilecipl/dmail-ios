@@ -15,6 +15,7 @@
 #import "DmailEntityItem.h"
 #import "UserService.h"
 #import "ProfileItem.h"
+#import "CommonMethods.h"
 
 @interface ComposeModel ()
 
@@ -83,7 +84,7 @@
                     NSString *name = [arraySubStrings firstObject];
                     dmailEntityItem.senderName = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                     NSString *email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
-                    dmailEntityItem.senderEmail = email;
+                    dmailEntityItem.fromEmail= email;
                 }
                 if ([dict[Name] isEqualToString:Subject]) {
                     dmailEntityItem.subject = dict[Value];
@@ -127,13 +128,13 @@
                             [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                             //Get Message from Gmail for getting identifier
                             [[MessageService sharedInstance] getMessageFromGmailWithMessageId:gmailMessageId withCompletionBlock:^(NSDictionary *dict , NSInteger statusCode) {
-                                DmailEntityItem *item = [self parseGmailMessageContent:dict];
+                                DmailEntityItem *item = [[CommonMethods sharedInstance] parseGmailMessageContent:dict];
                                 if(item.identifier) {
                                     //Send identifier to Dmail ========== Success --> MessageSentFull
                                     [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:dmailId gmailUniqueId:item.identifier senderEmail:[[UserService sharedInstance] email]  withCompletionBlock:^(BOOL success) {
                                         if (success) {
                                             item.subject = composeModelItem.subject;
-                                            item.senderEmail = [[UserService sharedInstance] email];
+                                            item.fromEmail = [[UserService sharedInstance] email];
                                             item.senderName = [[UserService sharedInstance] name];
                                             item.receiverEmail = [composeModelItem.arrayTo firstObject];
                                             item.type = Read;
@@ -141,9 +142,9 @@
                                             item.body = composeModelItem.body;
                                             item.label = Sent;
                                             item.status = MessageSentFull;
-                                            item.arrayTo = composeModelItem.arrayTo;
-                                            item.arrayCc = composeModelItem.arrayCc;
-                                            item.arrayBcc = composeModelItem.arrayBcc;
+//                                            item.arrayTo = [[NSMutableArray alloc] initWithArray:composeModelItem.arrayTo];
+//                                            item.arrayCc = [[NSMutableArray alloc] initWithArray:composeModelItem.arrayCc];
+//                                            item.arrayBcc = [[NSMutableArray alloc] initWithArray:composeModelItem.arrayBcc];
                                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                                             [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                                             

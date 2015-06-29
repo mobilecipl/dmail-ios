@@ -374,14 +374,8 @@ static NSString * const EntityProfile = @"Profile";
     if (item.subject) {
         gmailMessage.subject = item.subject;
     }
-    if (item.senderName) {
-        gmailMessage.senderName = item.senderName;
-    }
-    if (item.senderEmail) {
-        gmailMessage.senderEmail = item.senderEmail;
-    }
-    if (item.receiverEmail) {
-        gmailMessage.receiverEmail = item.receiverEmail;
+    if (item.fromEmail) {
+        gmailMessage.from = item.fromEmail;
     }
     if (item.internalDate && item.internalDate!= -1) {
         gmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
@@ -397,15 +391,15 @@ static NSString * const EntityProfile = @"Profile";
     }
     if ([item.arrayTo count] > 0) {
         NSString *to = [item.arrayTo componentsJoinedByString:@","];
-        gmailMessage.to = @"111";
+        gmailMessage.to = to;
     }
     if ([item.arrayCc count] > 0) {
         NSString *cc = [item.arrayCc componentsJoinedByString:@","];
-        gmailMessage.cc = @"2222";
+        gmailMessage.cc = cc;
     }
     if ([item.arrayBcc count] > 0) {
         NSString *bcc = [item.arrayBcc componentsJoinedByString:@","];
-        gmailMessage.bcc = @"3333";
+        gmailMessage.bcc = bcc;
     }
     
     [self saveContext];
