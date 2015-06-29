@@ -13,6 +13,7 @@
 @interface MessageItem : NSObject
 
 @property NSString *dmailId;
+@property NSString *gmailId;
 @property NSString *identifier;
 @property NSString *subject;
 @property NSString *senderName;

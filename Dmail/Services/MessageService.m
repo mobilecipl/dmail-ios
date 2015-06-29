@@ -14,7 +14,14 @@
 #import "ComposeModelItem.h"
 #import "Profile.h"
 #import "DmailEntityItem.h"
+#import "NSString+AESCrypt.h"
 
+
+@interface MessageService ()
+
+@property (nonatomic, strong) NSString *publicKey;
+
+@end
 
 @implementation MessageService
 
@@ -79,7 +86,6 @@
     return dmailEntityItem;
 }
 
-
 - (NSMutableArray *)parseDmailMessageToItems:(NSArray *)arrayRecipients {
     
     NSMutableArray *arrayParsedItems = [[NSMutableArray alloc] init];
@@ -116,19 +122,61 @@
     return gmailMessageId;
 }
 
-- (NSString *)encodeMessage:(NSString *)decodedMessage {
+- (NSString *)createMessageBodyForGmailWithArrayTo:(NSArray *)arrayTO arrayCC:(NSArray *)arrayCC arrayBCC:(NSArray *)arrayBCC subject:(NSString *)subject dmailId:(NSString *)dmailId {
     
-    NSString *encodedMessage = decodedMessage;
+    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",[[UserService sharedInstance] name],[[UserService sharedInstance] email]];
+    for (NSString *to in arrayTO) {
+        NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
+        from = [from stringByAppendingString:stringTo];
+    }
+    //    for (NSString *cc in arrayCC) {
+    //        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
+    //        from = [from stringByAppendingString:stringCC];
+    //    }
+    //    for (NSString *bcc in arrayBCC) {
+    //        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
+    //        from = [from stringByAppendingString:stringBCC];
+    //    }
     
-    return encodedMessage;
+    NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n",subject];
+    from = [from stringByAppendingString:stringSubject];
+    
+    NSString *publicKey = [NSString stringWithFormat:@"PublicKey: %@\n",self.publicKey];
+    from = [from stringByAppendingString:publicKey];
+    
+    NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
+    from = [from stringByAppendingString:messageDmailId];
+    
+    from = [from stringByAppendingString:@"www.Dmail.com"];
+    
+    return from;
 }
 
-- (NSString *)decodeMessage:(NSString *)encodedMessage {
+- (NSString *)generatePublicKey {
     
-    NSString *decodedMessage = encodedMessage;
+    if (self.publicKey) {
+        self.publicKey = nil;
+    }
+    self.publicKey = @"123456";
     
-    return decodedMessage;
+    return self.publicKey;
 }
+
+- (NSString *)encodeMessage:(NSString *)message {
+    
+    NSString *publicKey = [self generatePublicKey];
+    NSString *encryptedText = [message AES256EncryptWithKey:publicKey];
+    
+    return encryptedText;
+}
+
+- (NSString *)decodeMessage:(NSString *)encodedMessage key:(NSString *)publicKey{
+    
+    NSString *decryptedText = [encodedMessage AES256DecryptWithKey:publicKey];
+    
+    return decryptedText;
+}
+
 
 
 #pragma mark - Public Methods
@@ -149,7 +197,8 @@
     [self getMessageFromDmailWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *encodedMessage, NSInteger statusCode) {
         NSString *decodedMessage;
         if (statusCode == 200) {
-            decodedMessage = [self decodeMessage:encodedMessage];
+            NSString *publicKey = [[CoreDataManager sharedCoreDataManager] getPublicKeyWithDmailId:dmailMessageId];
+            decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
             [[CoreDataManager sharedCoreDataManager] writeMessageBodyWithDmailId:dmailMessageId messageBody:decodedMessage];
         }
         completion(decodedMessage, statusCode);
@@ -207,36 +256,40 @@
     }];
 }
 
-- (void)sendMessageToDmailWithEncriptedMessage:(NSString *)encriptedMessage senderEmail:(NSString *)senderEmail completionBlock:(void (^)(NSString *messageId, NSInteger statusCode))completion {
+- (void)sendMessageToDmailWithMessageBody:(NSString *)messageBody senderEmail:(NSString *)senderEmail completionBlock:(void (^)(NSString *dmailId, NSInteger statusCode))completion {
     
+    NSString *encriptedMessage = [self encodeMessage:messageBody];
     [[NetworkManager sharedManager] sendMessageToDmailWithEncriptedMessage:encriptedMessage senderEmail:senderEmail completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         NSString *dmailId;
         if (statusCode == 201) {
             dmailId = requestData[@"message_id"];
-            DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
-            dmailEntityItem.access = @"GRANTED";
-            dmailEntityItem.dmailId = dmailId;
-            NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-            dmailEntityItem.position = timeInterval*1000;
-            dmailEntityItem.label = Sent;
-            dmailEntityItem.status = MessageSentOnlyBody;
-//            [[CoreDataManager sharedCoreDataManager] writeDmailMessageParametersWith:@[dmailEntityItem]];
+            DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
+            item.dmailId = dmailId;
+            item.access = @"GRANTED";
+            item.body = encriptedMessage;
+            item.status = MessageSentOnlyBody;
+            item.publicKey = self.publicKey;
+            item.label = Sent;
+            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
+            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
         }
-        completion(dmailId,statusCode);
+        completion(dmailId, statusCode);
     }];
 }
 
-- (void)sendMessageToGmailWithMessageGmailBody:(NSString *)gmailBody withCompletionBlock:(void (^)(NSString *gmailMessageId, NSInteger statusCode))completion {
+- (void)sendMessageToGmailWithArrayTo:(NSArray *)arrayTo
+                              arrayCc:(NSArray *)arrayCc
+                             arrayBcc:(NSArray *)arrayBcc
+                              subject:(NSString *)subject
+                              dmailId:(NSString *)dmailId
+                  withCompletionBlock:(void (^)(NSString *gmailMessageId, NSInteger statusCode))completion {
 
-//    Profile *receiverProfile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:receiverEmail];
-//    NSString *fullMessageBody;
-//    if (receiverProfile.name && ![[[[GIDSignIn sharedInstance].currentUser profile] email] isEqualToString:receiverEmail]) {
-//        fullMessageBody = [NSString stringWithFormat:@"From: %@ <%@>\nTo: %@ <%@>\nSubject: %@\n\n%@",[[UserService sharedInstance] name],[[[GIDSignIn sharedInstance].currentUser profile] email], @"Karen", receiverEmail, composeModelItem.subject, composeModelItem.body];
-//    }
-//    else {
-//        fullMessageBody = [NSString stringWithFormat:@"From: %@ <%@>\nTo: <%@>\nSubject: %@\n\n%@",[[UserService sharedInstance] name],[[[GIDSignIn sharedInstance].currentUser profile] email], receiverEmail, composeModelItem.subject, composeModelItem.body];
-//    }
-    NSString *base64EncodedMessage = [self base64Encoding:gmailBody];
+    NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:arrayTo
+                                                                    arrayCC:arrayCc
+                                                                   arrayBCC:arrayBcc
+                                                                    subject:subject
+                                                                    dmailId:dmailId];
+    NSString *base64EncodedMessage = [self base64Encoding:gmailMessageBody];
     [[NetworkManager sharedManager] sendMessageToGmailWithEncodedBody:base64EncodedMessage withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         NSString *messageId;
         if (statusCode == 200) {
@@ -268,6 +321,17 @@
     [[NetworkManager sharedManager] revokeUserWithEmail:email dmailId:dmailId completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         BOOL success = NO;
         if (statusCode == 200 || statusCode == 201) {
+            success = YES;
+        }
+        completion(success);
+    }];
+}
+
+- (void)deleteMessageWithGmailId:(NSString *)gmailId completionBlock:(void (^)(BOOL success))completion {
+    
+    [[NetworkManager sharedManager] deleteMessageWithGmailId:gmailId withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
+        BOOL success = NO;
+        if (statusCode == 200) {
             success = YES;
         }
         completion(success);

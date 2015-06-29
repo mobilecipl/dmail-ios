@@ -13,8 +13,8 @@
 @property (nonatomic, strong) NSString *subject;
 @property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSArray *arrayTo;
-@property (nonatomic, strong) NSArray *arrayCC;
-@property (nonatomic, strong) NSArray *arrayBCC;
+@property (nonatomic, strong) NSArray *arrayCc;
+@property (nonatomic, strong) NSArray *arrayBcc;
 
 
 - (instancetype)initWithSubject:(NSString *)subject body:(NSString *)body arrayTo:(NSArray *)to arrayCC:(NSArray *)CC arrayBCC:(NSArray *)BCC;

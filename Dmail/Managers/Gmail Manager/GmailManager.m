@@ -1,4 +1,4 @@
-//
+;//
 //  GmailManager.m
 //  Dmail
 //
@@ -38,6 +38,7 @@
 - (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
     
     DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
+//    dmailEntityItem.gmailId = requestReply[@"id"];
     if ([[requestReply allKeys] containsObject:Payload]) {
         dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
         NSDictionary *payload = requestReply[Payload];
@@ -57,17 +58,15 @@
                 if ([dict[Name] isEqualToString:Message_Id]) {
                     dmailEntityItem.identifier = dict[Value];
                 }
+                if ([dict[Name] isEqualToString:PublicKey]) {
+                    dmailEntityItem.publicKey = dict[Value];
+                }
                 dmailEntityItem.status = MessageFetchedFull;
             }
         }
     }
     
     return dmailEntityItem;
-}
-
-- (void)writeMessageToGmailEntityWith:(DmailEntityItem *)item {
-    
-    [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
 }
 
 #pragma mark - Public Methods
@@ -92,7 +91,8 @@
                             item.dmailId = self.dmailmessage.dmailId;
                             item.label = [self.dmailmessage.label integerValue];
                             item.type = Unread;
-                            [self writeMessageToGmailEntityWith:item];
+                            item.gmailId = gmailMessageId;
+                            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                             [[CoreDataManager sharedCoreDataManager] changeMessageStatusWithMessageId:self.dmailmessage.dmailId messageStatus:MessageFetchedFull];
                             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                             [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
@@ -101,7 +101,7 @@
                             self.getInProcess = NO;
                             DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
                             item.dmailId = self.dmailmessage.dmailId;
-                            [self writeMessageToGmailEntityWith:item];
+                            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                             [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
                         }
                     }];
@@ -111,7 +111,7 @@
                     DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
                     item.status = MessageRemovedFromGmail;
                     item.dmailId = self.dmailmessage.dmailId;
-                    [self writeMessageToGmailEntityWith:item];
+                    [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                     [self performSelector:@selector(getGrantedMessagesFromGmail) withObject:nil afterDelay:1.0];
                 }
             }];

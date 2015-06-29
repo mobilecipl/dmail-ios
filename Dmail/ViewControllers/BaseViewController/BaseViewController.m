@@ -24,27 +24,11 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = YES;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(newMessageSentWith:)
-                                                 name:NotificationNewMessageSent
-                                               object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)dealloc {
     
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark - Private Methods
-- (void)newMessageSentWith:(NSNotification *)notification {
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                    message:[notification.userInfo objectForKey:@"alert"]
-                                                   delegate:self
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil, nil];
-    [alert show];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

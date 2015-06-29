@@ -27,10 +27,16 @@
 
 #pragma mark - Send Methods
 - (void)sendRecipientsWithParameters:(NSDictionary *)parameters dmailId:(NSString *)dmailId completionBlock:(void (^)(BOOL success))completion;
-- (void)sendMessageToDmailWithEncriptedMessage:(NSString *)encriptedMessage senderEmail:(NSString *)senderEmail completionBlock:(void (^)(NSString *messageId, NSInteger statusCode))completion;
-- (void)sendMessageToGmailWithMessageGmailBody:(NSString *)gmailBody withCompletionBlock:(void (^)(NSString *gmailMessageId, NSInteger statusCode))completion;
+- (void)sendMessageToDmailWithMessageBody:(NSString *)messageBody senderEmail:(NSString *)senderEmail completionBlock:(void (^)(NSString *dmailId, NSInteger statusCode))completion;
+- (void)sendMessageToGmailWithArrayTo:(NSArray *)arrayTo
+                              arrayCc:(NSArray *)arrayCc
+                             arrayBcc:(NSArray *)arrayBcc
+                              subject:(NSString *)subject
+                              dmailId:(NSString *)dmailId
+                  withCompletionBlock:(void (^)(NSString *gmailMessageId, NSInteger statusCode))completion;
 - (void)sendMessageUniqueIdToDmailWithMessageDmailId:(NSString*)dmailId gmailUniqueId:(NSString *)gmailUniqueId senderEmail:(NSString *)senderEmail withCompletionBlock:(void (^)(BOOL sucess))completion;
 
 - (void)revokeUserWithEmail:(NSString *)email dmailId:(NSString *)dmailId completionBlock:(void (^)(BOOL success))completion;
+- (void)deleteMessageWithGmailId:(NSString *)gmailId completionBlock:(void (^)(BOOL success))completion;
 
 @end

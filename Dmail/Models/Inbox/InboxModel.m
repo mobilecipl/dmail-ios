@@ -39,6 +39,7 @@
     MessageItem *messageItem = [[MessageItem alloc] init];
     messageItem.identifier = gmailMessage.identifier;
     messageItem.dmailId = gmailMessage.dmailId;
+    messageItem.gmailId = gmailMessage.gmailId;
     messageItem.subject = gmailMessage.subject;
     messageItem.senderName = gmailMessage.senderName;
     messageItem.senderEmail = gmailMessage.senderEmail;
@@ -60,6 +61,15 @@
     }
     
     return arrayMessageItems;
+}
+
+- (void)deleteMessageWithMessageItem:(MessageItem *)item {
+    
+    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
+    [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
+    [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
+        
+    }];
 }
 
 
