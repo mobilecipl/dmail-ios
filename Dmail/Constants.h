@@ -26,13 +26,13 @@ static NSString * kGlobalAlertMessageInvalidLoginCridentials = @"Please check yo
 
 #pragma mark - Notifications
 static NSString * const NotificationMenuButton = @"notificationMenuButton";
-static NSString * const NotificationSignOut = @"notificationSignOut";
 static NSString * const NotificationInbox = @"notificationInbox";
 static NSString * const NotificationSent = @"notificationSent";
 static NSString * const NotificationMessageInbox = @"notificationMessageInbox";
 static NSString * const NotificationMessageSent = @"notificationMessageSent";
 static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
 static NSString * const NotificationNewMessageSent = @"notificationNewMessageSent";
+static NSString * const NotificationNewMessageSentError = @"notificationNewMessageSentError";
 
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
@@ -82,6 +82,8 @@ static NSString * const From = @"From";
 static NSString * const Email = @"email";
 static NSString * const Message_Id = @"Message-Id";
 static NSString * const Status = @"status";
+static NSString * const PublicKey = @"PublicKey";
+static NSString * const DmailId = @"DmailId";
 
 //Dmail Keys
 static NSString * const Access = @"access";

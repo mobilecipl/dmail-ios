@@ -14,6 +14,7 @@
 #import "UserService.h"
 #import "SyncService.h"
 #import "GmailManager.h"
+#import "NSString+AESCrypt.h"
 
 
 @interface AppDelegate ()

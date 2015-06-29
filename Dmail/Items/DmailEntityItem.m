@@ -21,12 +21,17 @@
         self.access = nil;
         self.senderEmail = nil;
         self.body = nil;
+        self.publicKey = nil;
         self.receiverEmail = nil;
         
         self.type = 0;
         self.label = 0;
         self.position = -1;
         self.status = 0;
+        
+        self.arrayTo = nil;
+        self.arrayCc = nil;
+        self.arrayBcc = nil;
     }
     
     return  self;

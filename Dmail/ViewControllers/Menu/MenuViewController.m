@@ -21,7 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMenuu;
 
-@property NSArray *arrayDataTableViewMenu;
+@property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
+@property (nonatomic, assign) NSInteger selectedCellIndex;
 
 @end
 
@@ -34,16 +35,18 @@
     self.tableViewMenuu.delegate = self;
     self.tableViewMenuu.dataSource = self;
     
-    self.arrayDataTableViewMenu = @[ @{@"image" : @"imageInbox",
-                                  @"text" : @"Inbox",
-                                  @"color" : [UIColor cellSelected]},
-                                
-                                @{@"image" : @"imageSent",
-                                  @"text" : @"Sent",
-                                  @"color" : [UIColor whiteColor]}
-                              ];
-    
+    self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:@{@"image" : @"imageInbox", @"text" : @"Inbox", @"color" : [UIColor cellSelected]},
+  @{@"image" : @"imageSent", @"text" : @"Sent", @"color" : [UIColor whiteColor]}, nil];
+//    self.arrayDataTableViewMenu = @[ @{@"image" : @"imageInbox",
+//                                  @"text" : @"Inbox",
+//                                  @"color" : [UIColor cellSelected]},
+//                                
+//                                @{@"image" : @"imageSent",
+//                                  @"text" : @"Sent",
+//                                  @"color" : [UIColor whiteColor]}
+//                              ];
     [self setupController];
+    self.selectedCellIndex = 0;
 }
 
 
@@ -59,6 +62,39 @@
 
 
 #pragma mark - Private Methods
+- (void)changeSelectedCellWith:(NSInteger)selecetdCell {
+    
+    NSDictionary *dict = [self.arrayDataTableViewMenu objectAtIndex:selecetdCell];
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    for (NSString *key in [dict allKeys]) {
+        if ([key isEqualToString:@"image"]) {
+            [dictionary setObject:dict[key] forKey:key];
+        }
+        if ([key isEqualToString:@"text"]) {
+            [dictionary setObject:dict[key] forKey:key];
+        }
+        if ([key isEqualToString:@"color"]) {
+            [dictionary setObject:[UIColor cellSelected] forKey:key];
+        }
+    }
+    [self.arrayDataTableViewMenu replaceObjectAtIndex:selecetdCell withObject:dictionary];
+    
+    dict = [self.arrayDataTableViewMenu objectAtIndex:self.selectedCellIndex];
+    dictionary = [[NSMutableDictionary alloc] init];
+    for (NSString *key in [dict allKeys]) {
+        if ([key isEqualToString:@"image"]) {
+            [dictionary setObject:dict[key] forKey:key];
+        }
+        if ([key isEqualToString:@"text"]) {
+            [dictionary setObject:dict[key] forKey:key];
+        }
+        if ([key isEqualToString:@"color"]) {
+            [dictionary setObject:[UIColor whiteColor] forKey:key];
+        }
+    }
+    [self.arrayDataTableViewMenu replaceObjectAtIndex:self.selectedCellIndex withObject:dictionary];
+}
+
 - (void)setupController {
     
     self.labelName.text = [[UserService sharedInstance] name];
@@ -73,13 +109,6 @@
     LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
     [self.navigationController setViewControllers:@[loadingViewController,loginViewController]];
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)deselectAllCellItems {
-    
-    for (NSMutableDictionary *dict in self.arrayDataTableViewMenu) {
-        dict[@"color"] = [UIColor whiteColor];
-    }
 }
 
 
@@ -98,9 +127,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    [self deselectAllCellItems];
-//    NSMutableDictionary *dict = [self.arrayDataTableViewMenu objectAtIndex:indexPath.row];
-//    dict[@"color"] = [UIColor cellSelected];
+    if (self.selectedCellIndex != indexPath.row) {
+        [self changeSelectedCellWith:indexPath.row];
+        NSIndexPath *indexPathSelected = [NSIndexPath indexPathForRow:self.selectedCellIndex inSection:0];
+        [self.tableViewMenuu beginUpdates];
+        [self.tableViewMenuu reloadRowsAtIndexPaths:@[indexPath, indexPathSelected] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableViewMenuu endUpdates];
+        self.selectedCellIndex = indexPath.row;
+    }
     switch (indexPath.row) {
         case 0: {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationInbox object:nil];

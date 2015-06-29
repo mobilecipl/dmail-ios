@@ -43,10 +43,10 @@
     self.menuOpened = NO;
     [self.view layoutIfNeeded];
     
-    UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
-    gesture.minimumNumberOfTouches = 1;
-    gesture.maximumNumberOfTouches = 1;
-    [self.viewMain addGestureRecognizer:gesture];
+//    UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
+//    gesture.minimumNumberOfTouches = 1;
+//    gesture.maximumNumberOfTouches = 1;
+//    [self.viewMain addGestureRecognizer:gesture];
 }
 
 - (void)setupNotificationHandlers {
@@ -63,11 +63,6 @@
                                              selector:@selector(sentClicked)
                                                  name:NotificationSent
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(signOut)
-                                                 name:NotificationSignOut
-                                               object:nil];
-
 }
 
 - (void)inboxClicked {
@@ -91,11 +86,6 @@
             [self hideMenu];
         }
     }];
-}
-
-- (void)signOut {
-    
-//    [self performSegueWithIdentifier:@"fromRootToLogin" sender:self];
 }
 
 - (void)openMenu {

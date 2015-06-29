@@ -157,18 +157,20 @@ static NSString * const EntityProfile = @"Profile";
 #pragma mark - Profile
 - (Profile *)getProfileWithEmail:(NSString *)email {
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email like %@",email];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *fetchedProfiles = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     Profile *profile = nil;
-    if ([fetchedProfiles count] > 0) {
-        profile = [fetchedProfiles firstObject];
+    if (email) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityProfile inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entityDescription];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email like %@",email];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedProfiles = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if ([fetchedProfiles count] > 0) {
+            profile = [fetchedProfiles firstObject];
+        }
     }
     
     return profile;
@@ -363,6 +365,9 @@ static NSString * const EntityProfile = @"Profile";
     if (item.dmailId) {
         gmailMessage.dmailId = item.dmailId;
     }
+    if (item.gmailId) {
+        gmailMessage.gmailId = item.gmailId;
+    }
     if (item.identifier) {
         gmailMessage.identifier = item.identifier;
     }
@@ -387,6 +392,22 @@ static NSString * const EntityProfile = @"Profile";
     if (item.type && item.type!= 0) {
         gmailMessage.type = [NSNumber numberWithInteger:item.type];
     }
+    if (item.publicKey) {
+        gmailMessage.publicKey = item.publicKey;
+    }
+    if ([item.arrayTo count] > 0) {
+        NSString *to = [item.arrayTo componentsJoinedByString:@","];
+        gmailMessage.to = @"111";
+    }
+    if ([item.arrayCc count] > 0) {
+        NSString *cc = [item.arrayCc componentsJoinedByString:@","];
+        gmailMessage.cc = @"2222";
+    }
+    if ([item.arrayBcc count] > 0) {
+        NSString *bcc = [item.arrayBcc componentsJoinedByString:@","];
+        gmailMessage.bcc = @"3333";
+    }
+    
     [self saveContext];
 }
 
@@ -463,6 +484,24 @@ static NSString * const EntityProfile = @"Profile";
     return lastPosition;
 }
 
+- (NSString *)getPublicKeyWithDmailId:(NSString *)dmailId {
+    
+    NSString *publicKey = nil;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entityDescription];
+    
+    NSError *error = nil;
+    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if ([fetchedMessages count] > 0) {
+        GmailMessage *message = [fetchedMessages firstObject];
+        publicKey = message.publicKey;
+    }
+    
+    return publicKey;
+}
+
 - (void)removeDmailMessageWithDmailId:(NSString *)dmailId {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -479,7 +518,6 @@ static NSString * const EntityProfile = @"Profile";
     }
     
     [self saveContext];
-
 }
 
 - (void)removeGmailMessageWithDmailId:(NSString *)dmailId {
@@ -498,7 +536,6 @@ static NSString * const EntityProfile = @"Profile";
     }
     
     [self saveContext];
-    
 }
 
 

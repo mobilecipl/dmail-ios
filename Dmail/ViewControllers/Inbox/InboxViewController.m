@@ -36,6 +36,7 @@
     
     self.messageType = Inbox;
     self.inboxModel = [[InboxModel alloc] initWithMessageLabel:self.messageType];
+    self.tableVIewInbox.allowsMultipleSelectionDuringEditing = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -130,6 +131,23 @@
     else {
         [self performSegueWithIdentifier:@"fromInboxToSentView" sender:self];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
+    [self.arrayMessgaeItems removeObjectAtIndex:indexPath.row];
+    [self.tableVIewInbox reloadData];
+//    [tableView beginUpdates];
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+//    }
+//    [tableView endUpdates];
 }
 
 

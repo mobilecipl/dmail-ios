@@ -49,6 +49,7 @@
 - (void)writeMessageBodyWithDmailId:(NSString *)dmailId messageBody:(NSString *)messageBody;
 - (Profile *)getProfileWithEmail:(NSString *)email;
 - (CGFloat)getLastPosition;
+- (NSString *)getPublicKeyWithDmailId:(NSString *)dmailId;
 - (void)removeDmailMessageWithDmailId:(NSString *)dmailId;
 - (void)removeGmailMessageWithDmailId:(NSString *)dmailId;
 

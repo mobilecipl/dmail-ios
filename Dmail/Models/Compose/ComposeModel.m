@@ -32,14 +32,14 @@
         [dict setObject:@"TO" forKey:@"recipient_type"];
         [dict setObject:to forKey:@"recipient_email"];
     }
-    for (NSString *cc in arrayCC) {
-        [dict setObject:@"CC" forKey:@"recipient_type"];
-        [dict setObject:cc forKey:@"recipient_email"];
-    }
-    for (NSString *bcc in arrayBCC) {
-        [dict setObject:@"BCC" forKey:@"recipient_type"];
-        [dict setObject:bcc forKey:@"recipient_email"];
-    }
+//    for (NSString *cc in arrayCC) {
+//        [dict setObject:@"CC" forKey:@"recipient_type"];
+//        [dict setObject:cc forKey:@"recipient_email"];
+//    }
+//    for (NSString *bcc in arrayBCC) {
+//        [dict setObject:@"BCC" forKey:@"recipient_type"];
+//        [dict setObject:bcc forKey:@"recipient_email"];
+//    }
     
     return [NSDictionary dictionaryWithDictionary:dict];
 }
@@ -51,14 +51,14 @@
         NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
         from = [from stringByAppendingString:stringTo];
     }
-    for (NSString *cc in arrayCC) {
-        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
-        from = [from stringByAppendingString:stringCC];
-    }
-    for (NSString *bcc in arrayBCC) {
-        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
-        from = [from stringByAppendingString:stringBCC];
-    }
+//    for (NSString *cc in arrayCC) {
+//        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
+//        from = [from stringByAppendingString:stringCC];
+//    }
+//    for (NSString *bcc in arrayBCC) {
+//        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
+//        from = [from stringByAppendingString:stringBCC];
+//    }
     
     NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n\n",subject];
     from = [from stringByAppendingString:stringSubject];
@@ -70,6 +70,7 @@
 
 - (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
     
+    NSLog(@"requestReply ==== %@", requestReply);
     DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
     if ([[requestReply allKeys] containsObject:Payload]) {
         dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
@@ -103,27 +104,23 @@
 - (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem {
     
     //Send message body to Dmail ========== Success --> MessageSentOnlyBody
-    [[MessageService sharedInstance] sendMessageToDmailWithEncriptedMessage:composeModelItem.body senderEmail:[[UserService sharedInstance] email] completionBlock:^(NSString *dmailId, NSInteger statusCode) {
+    [[MessageService sharedInstance] sendMessageToDmailWithMessageBody:composeModelItem.body senderEmail:[[UserService sharedInstance] email] completionBlock:^(NSString *dmailId, NSInteger statusCode) {
         if (dmailId) {
             DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
-            item.dmailId = dmailId;
-            item.body = composeModelItem.body;
-            item.status = MessageSentOnlyBody;
-            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-            
-            NSDictionary *recipients = [self createRecipientsDictWithArrayTo:composeModelItem.arrayTo arrayCC:composeModelItem.arrayCC arrayBCC:composeModelItem.arrayBCC];
+            item.dmailId = dmailId;            
+            NSDictionary *recipients = [self createRecipientsDictWithArrayTo:composeModelItem.arrayTo arrayCC:composeModelItem.arrayCc arrayBCC:composeModelItem.arrayBcc];
             //Send Participants to Dmail ========== Success --> MessageSentParticipants
             [[MessageService sharedInstance] sendRecipientsWithParameters:recipients dmailId:dmailId completionBlock:^(BOOL success) {
                 if (success) {
                     item.status = MessageSentParticipants;
                     [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-                    NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:composeModelItem.arrayTo
-                                                                                    arrayCC:composeModelItem.arrayCC
-                                                                                   arrayBCC:composeModelItem.arrayBCC
-                                                                                    subject:composeModelItem.subject
-                                                                                       body:composeModelItem.body];
                     //Send Message to Gmail ========== Success --> MessageSentToGmail
-                    [[MessageService sharedInstance] sendMessageToGmailWithMessageGmailBody:gmailMessageBody withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
+                    [[MessageService sharedInstance] sendMessageToGmailWithArrayTo:composeModelItem.arrayTo
+                                                                           arrayCc:composeModelItem.arrayCc
+                                                                          arrayBcc:composeModelItem.arrayBcc
+                                                                           subject:composeModelItem.subject
+                                                                           dmailId:(NSString *)dmailId
+                                                               withCompletionBlock:^(NSString *gmailMessageId, NSInteger statusCode) {
                         if (gmailMessageId) {
                             item.status = MessageSentToGmail;
                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
@@ -144,11 +141,15 @@
                                             item.body = composeModelItem.body;
                                             item.label = Sent;
                                             item.status = MessageSentFull;
+                                            item.arrayTo = composeModelItem.arrayTo;
+                                            item.arrayCc = composeModelItem.arrayCc;
+                                            item.arrayBcc = composeModelItem.arrayBcc;
                                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
                                             [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
                                             
-//                                            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:item.receiverEmail name:item.receiverNA]
-                                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:@{@"Message Sent" : @"alert"}];
+                                            ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:item.receiverEmail name:item.receiverName];
+                                            [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:nil];
                                         }
                                     }];
                                 }

@@ -7,6 +7,7 @@
 //
 
 #import "NetworkManager.h"
+#import "UserService.h"
 
 static NSString * const getMessagesList = @"mobile/recipients/sync";
 static NSString * const sendMessage = @"api/message";
@@ -201,7 +202,7 @@ static NSString * const Revoke = @"api/message";
     
     NSURLSessionDataTask *dataTask = self.dictionaryTasks[getMessage];
     if (!dataTask) {
-        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[[GIDSignIn sharedInstance].currentUser profile] email]];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[UserService sharedInstance] email]];
         NSMutableURLRequest *request = [self constructGetRequestWithUrl:urlString];
         
         dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -215,7 +216,6 @@ static NSString * const Revoke = @"api/message";
         self.dictionaryTasks[getMessage] = dataTask;
         [dataTask resume];
     }
-
 }
 
 - (void)sendRecipientsWithParameters:(NSDictionary *)parameters dmailId:(NSString *)dmailId completionBlock:(mainCompletionBlock)completion {
@@ -315,6 +315,31 @@ static NSString * const Revoke = @"api/message";
         self.dictionaryTasks[Revoke] = dataTask;
         [dataTask resume];
     }
+}
+
+- (void)deleteMessageWithGmailId:(NSString *)gmailId withCompletionBlock:(mainCompletionBlock)completion{
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/%@?key=%@",userID, gmailId, kGoogleClientSecret];
+    NSURL * url = [NSURL URLWithString:urlmulr];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+    
+    [urlRequest setHTTPMethod:@"GET"];
+    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
+                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                completion(JSONData, statusCode);
+                                                            });
+                                                        }];
+    [dataTask resume];
 }
 
 @end

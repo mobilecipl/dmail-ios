@@ -24,5 +24,6 @@
 
 - (id)initWithMessageLabel:(MessageLabel)messageLabel;
 - (NSMutableArray *)getArrayMessageItems;
+- (void)deleteMessageWithMessageItem:(MessageItem *)item;
 
 @end

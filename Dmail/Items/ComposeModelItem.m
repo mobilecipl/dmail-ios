@@ -17,8 +17,8 @@
         self.subject = subject;
         self.body = body;
         self.arrayTo = [NSArray arrayWithArray:to];
-        self.arrayCC = [NSArray arrayWithArray:CC];
-        self.arrayBCC = [NSArray arrayWithArray:BCC];
+        self.arrayCc = [NSArray arrayWithArray:CC];
+        self.arrayBcc = [NSArray arrayWithArray:BCC];
     }
     
     return  self;
