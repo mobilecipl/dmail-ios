@@ -36,8 +36,8 @@
 - (void)configureCell {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
                                                object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnLabelMessage)];
     [self.labelMessage addGestureRecognizer:tapGesture];
@@ -95,6 +95,9 @@
     
     self.labelMessage.hidden = YES;
     
+    self.textViewBody.translatesAutoresizingMaskIntoConstraints = YES;
+    self.textViewBody.frame = CGRectMake(self.textViewBody.frame.origin.x, self.textViewBody.frame.origin.y, self.textViewBody.frame.size.width, 210);
+    
     return YES;
 }
 
@@ -107,18 +110,10 @@
     return YES;
 }
 
-- (void)textViewDidChange:(UITextView *)textView {
+- (void)keyboardWillHide:(NSNotification *)notification {
     
-    
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-    
-    NSDictionary* keyboardInfo = [notification userInfo];
-    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
     self.textViewBody.translatesAutoresizingMaskIntoConstraints = YES;
-    self.textViewBody.frame = CGRectMake(self.textViewBody.frame.origin.x, self.textViewBody.frame.origin.y, self.textViewBody.frame.size.width, self.textViewBody.frame.size.height - keyboardFrameBeginRect.size.height + 50);
+    self.textViewBody.frame = CGRectMake(self.textViewBody.frame.origin.x, self.textViewBody.frame.origin.y, self.textViewBody.frame.size.width, self.heightTextViewBody);
 }
 
 @end

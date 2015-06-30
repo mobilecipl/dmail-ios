@@ -1397,7 +1397,7 @@
                                                                         <constraint firstAttribute="height" constant="30" id="jqu-nT-iXZ"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="15"/>
-                                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="WVa-E7-Skh"/>
                                                                     </connections>
@@ -1406,7 +1406,7 @@
                                                                     <rect key="frame" x="10" y="57" width="335" height="409"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="bIH-j6-hO5"/>
                                                                     </connections>

@@ -72,6 +72,7 @@
 #pragma mark - Action Methods
 - (IBAction)sendClicked:(id)sender {
     
+    [self.view endEditing:YES];
     if ([self.arrayTo count] > 0 && !self.backClicked) {
         [self showLoadingView];
         ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject
@@ -104,6 +105,11 @@
     self.arrayTo = [[NSMutableArray alloc] init];
     self.arrayCc = [[NSMutableArray alloc] init];
     self.arrayBcc = [[NSMutableArray alloc] init];
+}
+
+- (void)hideKeyboard {
+    
+
 }
 
 - (void)newMessageSent {

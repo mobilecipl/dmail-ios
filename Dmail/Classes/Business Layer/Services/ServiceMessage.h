@@ -31,7 +31,6 @@ messageIdentifier:(NSString *)messageIdentifier
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail
                     position:(NSString *)position
-                       count:(NSString *)count
              completionBlock:(CompletionBlock)completionBlock;
 
 @end

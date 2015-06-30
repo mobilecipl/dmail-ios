@@ -83,8 +83,9 @@ messageIdentifier:(NSString *)messageIdentifier
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail
                     position:(NSString *)position
-                       count:(NSString *)count
              completionBlock:(CompletionBlock)completionBlock {
+    
+    NSString *count = @"100";
     
     [self.daoMessage syncMessagesForEmail:recipientEmail
                                      position:position
