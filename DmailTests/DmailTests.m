@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface DmailTests : XCTestCase
+#import "NetworkMessage.h"
 
+@interface DmailTests : XCTestCase
+@property (nonatomic, strong) NetworkMessage *networkMessage;
 @end
 
 @implementation DmailTests
@@ -18,6 +20,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    _networkMessage = [[NetworkMessage alloc] init];
 }
 
 - (void)tearDown {
@@ -25,9 +28,30 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testSendEncryptedMessage {
     // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    
+    NSURL *URL = [NSURL URLWithString:@"http://nshipster.com/"];
+    NSString *description = [NSString stringWithFormat:@"GET %@", URL];
+    XCTestExpectation *expectation = [self expectationWithDescription:description];
+
+    
+    NSString *message = @"encrypted message";
+    NSString *senderEmail = @"senderEmail";
+    
+    [self.networkMessage sendEncryptedMessage:message senderEmail:senderEmail completionBlock:^(id data, ErrorDataModel *error) {
+        
+        NSLog(@"sendEncryptedMessage data : %@, error : %@", data, error);
+        XCTAssertNotNil(data, "data should not be nil");
+        XCTAssertNil(error, "error should be nil");
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:15 handler:^(NSError *error) {
+        if (error != nil) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)testPerformanceExample {

@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
-		58FB2B761B42C5EA005B9541 /* MessageNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* MessageNetwork.m */; };
+		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
+		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
 		9C2360A71B428B120020B348 /* Dmail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */; };
 		9C2360AA1B428CB50020B348 /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A91B428CB50020B348 /* GmailMessage.m */; };
 		9C2360AD1B428CB50020B348 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AC1B428CB50020B348 /* User.m */; };
@@ -19,6 +20,8 @@
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD11B42E0D800248B91 /* DAOMessage.m */; };
+		C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD41B42E22000248B91 /* ServiceMessage.m */; };
 		C08C2DAB1B41AB1C00295A94 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBA1B41AB1B00295A94 /* ProximaNova-Light.ttf */; };
 		C08C2DAC1B41AB1C00295A94 /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBB1B41AB1B00295A94 /* ProximaNova-Regular.ttf */; };
 		C08C2DAD1B41AB1C00295A94 /* ProximaNova-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBC1B41AB1B00295A94 /* ProximaNova-Semibold.ttf */; };
@@ -112,9 +115,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		58FB2B741B42C5EA005B9541 /* MessageNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageNetwork.h; sourceTree = "<group>"; };
-		58FB2B751B42C5EA005B9541 /* MessageNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetwork.m; sourceTree = "<group>"; };
+		0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.release.xcconfig"; sourceTree = "<group>"; };
+		58FB2B741B42C5EA005B9541 /* NetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkMessage.h; sourceTree = "<group>"; };
+		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DmailTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C2360A61B428B120020B348 /* Dmail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dmail.xcdatamodel; sourceTree = "<group>"; };
 		9C2360A81B428CB50020B348 /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
 		9C2360A91B428CB50020B348 /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
@@ -133,6 +138,10 @@
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
+		C05C0CD01B42E0D800248B91 /* DAOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOMessage.h; sourceTree = "<group>"; };
+		C05C0CD11B42E0D800248B91 /* DAOMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOMessage.m; sourceTree = "<group>"; };
+		C05C0CD31B42E22000248B91 /* ServiceMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceMessage.h; sourceTree = "<group>"; };
+		C05C0CD41B42E22000248B91 /* ServiceMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceMessage.m; sourceTree = "<group>"; };
 		C08C2CBA1B41AB1B00295A94 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
 		C08C2CBB1B41AB1B00295A94 /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
 		C08C2CBC1B41AB1B00295A94 /* ProximaNova-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.ttf"; sourceTree = "<group>"; };
@@ -289,6 +298,7 @@
 		C08C2DA91B41AB1C00295A94 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C08C2DAA1B41AB1C00295A94 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
+		ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +529,8 @@
 				C08C2CE91B41AB1C00295A94 /* SyncService.m */,
 				C08C2CEA1B41AB1C00295A94 /* UserService.h */,
 				C08C2CEB1B41AB1C00295A94 /* UserService.m */,
+				C05C0CD31B42E22000248B91 /* ServiceMessage.h */,
+				C05C0CD41B42E22000248B91 /* ServiceMessage.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -778,6 +791,8 @@
 		C08C2D651B41AB1C00295A94 /* DAO */ = {
 			isa = PBXGroup;
 			children = (
+				C05C0CD01B42E0D800248B91 /* DAOMessage.h */,
+				C05C0CD11B42E0D800248B91 /* DAOMessage.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -834,8 +849,8 @@
 		C08C2D771B41AB1C00295A94 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				58FB2B741B42C5EA005B9541 /* MessageNetwork.h */,
-				58FB2B751B42C5EA005B9541 /* MessageNetwork.m */,
+				58FB2B741B42C5EA005B9541 /* NetworkMessage.h */,
+				58FB2B751B42C5EA005B9541 /* NetworkMessage.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1020,6 +1035,7 @@
 				9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */,
 				9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */,
 				5914951D3488C2D289EEE715 /* libPods-Dmail.a */,
+				71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1029,6 +1045,8 @@
 			children = (
 				BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */,
 				E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */,
+				ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */,
+				0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1059,9 +1077,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C9E2B181B2AEB65008F3C8E /* Build configuration list for PBXNativeTarget "DmailTests" */;
 			buildPhases = (
+				FDBEB7512E05096DE4745B5E /* Check Pods Manifest.lock */,
 				9C9E2B071B2AEB65008F3C8E /* Sources */,
 				9C9E2B081B2AEB65008F3C8E /* Frameworks */,
 				9C9E2B091B2AEB65008F3C8E /* Resources */,
+				1DDA650C054AEE19D34FDEB1 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1137,6 +1157,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1DDA650C054AEE19D34FDEB1 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		61A43B1D1C486FF6CA330822 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1152,6 +1187,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
 		};
 		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FDBEB7512E05096DE4745B5E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1222,16 +1272,18 @@
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */,
+				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,
 				C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */,
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,
 				C08C2DD81B41AB1C00295A94 /* BaseButton.m in Sources */,
 				9C2360AD1B428CB50020B348 /* User.m in Sources */,
+				C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */,
 				C08C2DBD1B41AB1C00295A94 /* SyncService.m in Sources */,
 				C08C2DDD1B41AB1C00295A94 /* BaseScrollView.m in Sources */,
 				C08C2DEB1B41AB1C00295A94 /* ModalPopupTransitionAnimator.m in Sources */,
 				C08C2DCD1B41AB1C00295A94 /* BaseNetwork.m in Sources */,
 				C08C2DCB1B41AB1C00295A94 /* TableViewDataSource.m in Sources */,
-				58FB2B761B42C5EA005B9541 /* MessageNetwork.m in Sources */,
+				58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */,
 				C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */,
 				C08C2DE11B41AB1C00295A94 /* BaseTableViewCell.m in Sources */,
 				C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */,
@@ -1359,7 +1411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1379,7 +1431,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1395,6 +1447,7 @@
 		};
 		9C9E2B191B2AEB65008F3C8E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1414,6 +1467,7 @@
 		};
 		9C9E2B1A1B2AEB65008F3C8E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

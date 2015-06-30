@@ -1,14 +1,14 @@
 //
-//  MessageNetwork.h
+//  DAOMessage.h
 //  Dmail
 //
-//  Created by Gevorg Ghukasyan on 6/30/15.
+//  Created by Armen Mkrtchian on 6/30/15.
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import "BaseNetwork.h"
+#import "BaseDAO.h"
 
-@interface MessageNetwork : BaseNetwork
+@interface DAOMessage : BaseDAO
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
                  senderEmail:(NSString *)senderEmail
@@ -16,7 +16,7 @@
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail
                        key:(NSString *)key
-            reciipientType:(NSString *)recipientType
+            recipientType:(NSString *)recipientType
                  messageId:(NSString *)messageId
            completionBlock:(CompletionBlock)completionBlock;
 
@@ -24,10 +24,10 @@
                    messageId:(NSString *)messageId
              completionBlock:(CompletionBlock)completionBlock;
 
-- (void)sentEmailAlredy:(NSString *)senderEmail
-              messageId:(NSString *)messageId
-      messageIdentifier:(NSString *)messageIdentifier
-        completionBlock:(CompletionBlock)completionBlock;
+- (void)sentEmail:(NSString *)senderEmail
+        messageId:(NSString *)messageId
+messageIdentifier:(NSString *)messageIdentifier
+  completionBlock:(CompletionBlock)completionBlock;
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail
                     position:(NSString *)position
