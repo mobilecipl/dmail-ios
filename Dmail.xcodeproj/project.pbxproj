@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
+		58FB2B761B42C5EA005B9541 /* MessageNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* MessageNetwork.m */; };
 		9C2360A71B428B120020B348 /* Dmail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */; };
 		9C2360AA1B428CB50020B348 /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A91B428CB50020B348 /* GmailMessage.m */; };
 		9C2360AD1B428CB50020B348 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AC1B428CB50020B348 /* User.m */; };
@@ -111,6 +112,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58FB2B741B42C5EA005B9541 /* MessageNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageNetwork.h; sourceTree = "<group>"; };
+		58FB2B751B42C5EA005B9541 /* MessageNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetwork.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C2360A61B428B120020B348 /* Dmail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dmail.xcdatamodel; sourceTree = "<group>"; };
 		9C2360A81B428CB50020B348 /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
@@ -831,6 +834,8 @@
 		C08C2D771B41AB1C00295A94 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				58FB2B741B42C5EA005B9541 /* MessageNetwork.h */,
+				58FB2B751B42C5EA005B9541 /* MessageNetwork.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1226,6 +1231,7 @@
 				C08C2DEB1B41AB1C00295A94 /* ModalPopupTransitionAnimator.m in Sources */,
 				C08C2DCD1B41AB1C00295A94 /* BaseNetwork.m in Sources */,
 				C08C2DCB1B41AB1C00295A94 /* TableViewDataSource.m in Sources */,
+				58FB2B761B42C5EA005B9541 /* MessageNetwork.m in Sources */,
 				C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */,
 				C08C2DE11B41AB1C00295A94 /* BaseTableViewCell.m in Sources */,
 				C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */,

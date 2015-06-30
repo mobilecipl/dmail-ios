@@ -25,6 +25,8 @@ static NSString * kGlobalAlertMessageBasicFailure = @"Something went wrong\nPlea
 static NSString * kGlobalAlertMessageRequestTimeOutReplaceler = @"Looks like there's a bad connection. Please try again in a minute or so!";
 static NSString * kGlobalAlertMessageInvalidLoginCridentials = @"Please check your login information and try again.";
 
+static NSString * const kErrorMessageNoServer = @"Please try later\nWe are unable to connect to the server";
+
 
 #pragma mark - Notifications
 static NSString * const NotificationMenuButton = @"notificationMenuButton";
