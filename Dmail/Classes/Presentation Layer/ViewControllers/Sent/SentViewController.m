@@ -82,13 +82,22 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     
     [[MessageService sharedInstance] revokeUserWithEmail:[self.arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
         if (success) {
-            if (self.participantIndex == [self.arrayAllParticipants count] - 1) {
+            self.participantIndex ++;
+            if (self.participantIndex > [self.arrayAllParticipants count] - 1) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
                                                                 message:@"Participants are successfully destroyed"
                                                                delegate:self
                                                       cancelButtonTitle:@"Ok"
                                                       otherButtonTitles:nil, nil];
                 [alert show];
+            }
+            else {
+                [self destroyAllParticipants];
+            }
+        }
+        else {
+            if (self.participantIndex <= [self.arrayAllParticipants count] - 1) {
+                [self destroyAllParticipants];
             }
         }
     }];
@@ -160,10 +169,11 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     }
     if ([self.arrayCc count] > 0) {
         [self.arrayTableItems addObject:@"2"];
+        [self.arrayTableItems addObject:@"3"];
     }
     if ([self.arrayBcc count] > 0) {
         if ([self.arrayCc count] > 0) {
-            [self.arrayTableItems addObject:@"3"];
+//            [self.arrayTableItems addObject:@"3"];
         }
         else {
             [self.arrayTableItems addObject:@"2"];

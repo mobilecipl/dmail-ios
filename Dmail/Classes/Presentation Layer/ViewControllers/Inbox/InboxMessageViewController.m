@@ -17,7 +17,6 @@
 
 @property (nonatomic, weak) IBOutlet UIView *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIView *viewContainer;
-@property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 @property (nonatomic, weak) IBOutlet UILabel *labelSenderName;
 @property (nonatomic, weak) IBOutlet UILabel *labelMessageSubject;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
@@ -52,9 +51,6 @@
     self.viewNavigation.layer.shadowRadius = 0.5;
     self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 1);
     
-    self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
-    self.imageViewProfile.image = [UIImage imageNamed:@"imageProfile1"];
-    
     self.viewContainer.layer.cornerRadius = 5;
     self.viewContainer.layer.borderColor = [[UIColor borderColor] CGColor];
     self.viewContainer.layer.borderWidth = 1;
@@ -63,7 +59,7 @@
 - (void)fillFields {
     
     self.labelMessageSubject.text = self.messageItem.subject;
-    self.labelSenderName.text = self.messageItem.senderName;
+    self.labelSenderName.text = self.messageItem.fromEmail;
     NSString *dmailMessageId = self.messageItem.dmailId;
     DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getDmailMessageWithMessageId:dmailMessageId];
     if (dmailMessage.body) {

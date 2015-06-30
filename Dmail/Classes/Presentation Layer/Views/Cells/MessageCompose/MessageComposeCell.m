@@ -31,12 +31,16 @@
     [super setSelected:selected animated:animated];
 }
 
+
+#pragma mark - Public Methods
 - (void)configureCell {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnLabelMessage)];
+    [self.labelMessage addGestureRecognizer:tapGesture];
     self.labelMessage.userInteractionEnabled = YES;
     self.labelTime.hidden = YES;
     self.viewContainer.layer.cornerRadius = 5;
@@ -53,6 +57,13 @@
     self.textFieldSubject.text = subject;
 }
 
+
+#pragma mark - Private Methods 
+- (void)tapOnLabelMessage {
+    
+    self.labelMessage.hidden = YES;
+    [self.textViewBody becomeFirstResponder];
+}
 
 #pragma mark - UITextFieldDelegate Methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
