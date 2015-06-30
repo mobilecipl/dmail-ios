@@ -129,14 +129,14 @@
         NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
         from = [from stringByAppendingString:stringTo];
     }
-    //    for (NSString *cc in arrayCC) {
-    //        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
-    //        from = [from stringByAppendingString:stringCC];
-    //    }
-    //    for (NSString *bcc in arrayBCC) {
-    //        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
-    //        from = [from stringByAppendingString:stringBCC];
-    //    }
+    for (NSString *cc in arrayCC) {
+        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
+        from = [from stringByAppendingString:stringCC];
+    }
+    for (NSString *bcc in arrayBCC) {
+        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
+        from = [from stringByAppendingString:stringBCC];
+    }
     
     NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n",subject];
     from = [from stringByAppendingString:stringSubject];
@@ -166,6 +166,9 @@
     
     NSString *publicKey = [self generatePublicKey];
     NSString *encryptedText = [message AES256EncryptWithKey:publicKey];
+    if (!encryptedText) {
+        encryptedText = @"";
+    }
     
     return encryptedText;
 }

@@ -13,7 +13,7 @@
 @property (nonatomic, weak) IBOutlet UIView *viewContainer;
 @property (nonatomic, weak) IBOutlet UIView *viewContainer_;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
-@property (nonatomic, weak) IBOutlet UITextField *textFieldBody;
+@property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 
 @end
@@ -39,7 +39,7 @@
     
     self.viewContainer_.layer.cornerRadius = 5;
     self.labelTime.hidden = NO;
-    self.textFieldBody.text = body;
+    self.textViewBody.text = body;
     self.textFieldSubject.text = subject;
 }
 
@@ -47,14 +47,10 @@
 #pragma mark - UITextFieldDelegate Methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
+    [textField resignFirstResponder];
     if (textField == self.textFieldSubject) {
         if ([self.delegate respondsToSelector:@selector(messageSubject:)]) {
             [self.delegate messageSubject:self.textFieldSubject.text];
-        }
-    }
-    else {
-        if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
-            [self.delegate messageBody:self.textFieldBody.text];
         }
     }
     
@@ -68,12 +64,24 @@
             [self.delegate messageSubject:self.textFieldSubject.text];
         }
     }
-    else {
-        if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
-            [self.delegate messageBody:self.textFieldBody.text];
-        }
-    }
+    
     return YES;
+}
+
+
+#pragma mark - UITextViewDelegate Methods
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if ([self.delegate respondsToSelector:@selector(messageSubject:)]) {
+        [self.delegate messageBody:text];
+    }
+    
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    
+    
 }
 
 

@@ -18,6 +18,7 @@
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
@@ -1305,7 +1306,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Djp-pp-Aox" userLabel="View:Table Container">
                                 <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="57" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FWk-7J-RYY">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="57" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FWk-7J-RYY">
                                         <rect key="frame" x="10" y="0.0" width="355" height="553"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
@@ -1429,11 +1430,24 @@
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="RxO-m0-hma"/>
                                                                     </connections>
                                                                 </textField>
+                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiY-Aj-Oot">
+                                                                    <rect key="frame" x="10" y="57" width="335" height="409"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
+                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="PxQ-4r-VaR" id="bIH-j6-hO5"/>
+                                                                    </connections>
+                                                                </textView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="aiY-Aj-Oot" secondAttribute="bottom" constant="13" id="0Fo-0H-hG0"/>
+                                                                <constraint firstAttribute="trailing" secondItem="aiY-Aj-Oot" secondAttribute="trailing" constant="10" id="MbK-95-KmW"/>
                                                                 <constraint firstAttribute="trailing" secondItem="ssN-WU-XNu" secondAttribute="trailing" constant="14" id="NMP-Jq-zc6"/>
+                                                                <constraint firstItem="aiY-Aj-Oot" firstAttribute="top" secondItem="iwa-QI-CG1" secondAttribute="bottom" constant="15" id="Nr5-MD-NAq"/>
                                                                 <constraint firstItem="ssN-WU-XNu" firstAttribute="top" secondItem="iwa-QI-CG1" secondAttribute="bottom" constant="15" id="Sqg-8V-V8S"/>
+                                                                <constraint firstItem="aiY-Aj-Oot" firstAttribute="leading" secondItem="EKc-cm-7AS" secondAttribute="leading" constant="10" id="WVP-W9-ih2"/>
                                                                 <constraint firstAttribute="centerX" secondItem="ssN-WU-XNu" secondAttribute="centerX" id="YGY-cx-uWm"/>
                                                                 <constraint firstItem="iwa-QI-CG1" firstAttribute="width" secondItem="EKc-cm-7AS" secondAttribute="width" multiplier="327/355" id="b7Q-49-CN3"/>
                                                                 <constraint firstItem="ssN-WU-XNu" firstAttribute="leading" secondItem="EKc-cm-7AS" secondAttribute="leading" constant="14" id="kfS-nu-zzQ"/>
@@ -1452,8 +1466,8 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
-                                                    <outlet property="textFieldBody" destination="ssN-WU-XNu" id="fz1-6w-jhv"/>
                                                     <outlet property="textFieldSubject" destination="iwa-QI-CG1" id="0PK-Q5-I9i"/>
+                                                    <outlet property="textViewBody" destination="aiY-Aj-Oot" id="ZTJ-V4-b8a"/>
                                                     <outlet property="viewContainer" destination="EKc-cm-7AS" id="zYj-aB-HsA"/>
                                                 </connections>
                                             </tableViewCell>
@@ -1551,7 +1565,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kU4-xy-NvD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1360.5" y="1966.5"/>
+            <point key="canvasLocation" x="1543.5" y="1960.5"/>
         </scene>
     </scenes>
     <resources>

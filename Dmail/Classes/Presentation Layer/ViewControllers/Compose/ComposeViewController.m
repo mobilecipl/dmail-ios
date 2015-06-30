@@ -93,6 +93,7 @@
 #pragma mark - Private Methods
 - (void)setupController {
     
+    self.messageBody = @"";
     self.composeModel = [[ComposeModel alloc] init];
     
     self.arrayTableItems = [[NSMutableArray alloc] initWithObjects:@"1",@"4", nil];
@@ -331,10 +332,14 @@
     self.messageSubject = subject;
 }
 
-- (void)messageBody:(NSString *)body {
+- (void)messageBody:(NSString *)letter {
     
-    self.messageBody = body;
-    [self sendClicked:nil];
+    if ([letter isEqualToString:@""]) {
+        self.messageBody = [self.messageBody substringToIndex:self.messageBody.length - 1];
+    }
+    else {
+        self.messageBody = [self.messageBody stringByAppendingString:letter];
+    }
 }
 
 @end

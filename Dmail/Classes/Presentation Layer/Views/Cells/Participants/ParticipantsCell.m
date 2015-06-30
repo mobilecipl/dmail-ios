@@ -203,6 +203,7 @@ CGFloat kfirstParticipantOriginX = 34;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
+    [textField resignFirstResponder];
     if (textField.text.length > 0) {
         NSString *email = textField.text;
         [self createParticipantWithEmail:textField.text];

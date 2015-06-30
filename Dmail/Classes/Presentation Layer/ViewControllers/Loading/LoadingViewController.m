@@ -30,7 +30,6 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
-    
     if ([[UserService sharedInstance] gmailId]) {
         [self autoSignIn];
     }
