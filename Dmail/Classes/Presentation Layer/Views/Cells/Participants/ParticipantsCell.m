@@ -128,7 +128,7 @@ CGFloat kfirstParticipantOriginX = 34;
 - (void)createParticipantWithEmail:(NSString *)email {
     
     ParticipantView *participantView = [[ParticipantView alloc] initWithEmail:email];
-    [participantView create];
+    [participantView createForSent:self.sentScreen];
     if (!self.sentScreen) {
         participantView.frame = CGRectMake(self.textFieldParticipant.frame.origin.x, self.textFieldOriginY, participantView.frame.size.width, participantView.frame.size.height);
     }
@@ -136,6 +136,7 @@ CGFloat kfirstParticipantOriginX = 34;
     participantView.delegate = self;
     [self.arrayParticipantView addObject:participantView];
 }
+
 
 #pragma mark - Public Methods
 - (void)configureCell:(NSInteger)row hideCcBcc:(BOOL)hideCcBcc {
@@ -241,6 +242,14 @@ CGFloat kfirstParticipantOriginX = 34;
     
     [self arrangeParticipantViews];
     [self determineTextFieldsFrame];
+}
+
+- (void)onRevokeClicked:(id)participantView {
+    
+    ParticipantView *revokedParticipant = (ParticipantView *)participantView;
+    if ([self.delegate respondsToSelector:@selector(revokeParticipantWithEmail: name:)]) {
+        [self.delegate revokeParticipantWithEmail:revokedParticipant.email name:revokedParticipant.name];
+    }
 }
 
 @end

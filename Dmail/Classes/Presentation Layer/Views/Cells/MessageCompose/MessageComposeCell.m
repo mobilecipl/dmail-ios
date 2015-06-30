@@ -15,6 +15,8 @@
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
+@property (nonatomic, weak) IBOutlet UILabel *labelMessage;
+@property (nonatomic, assign) CGFloat heightTextViewBody;
 
 @end
 
@@ -31,12 +33,20 @@
 
 - (void)configureCell {
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    self.labelMessage.userInteractionEnabled = YES;
     self.labelTime.hidden = YES;
     self.viewContainer.layer.cornerRadius = 5;
+    self.heightTextViewBody = self.textViewBody.frame.size.height;
 }
 
 - (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject {
     
+    self.labelMessage.hidden = YES;
+    self.textViewBody.editable = NO;
     self.viewContainer_.layer.cornerRadius = 5;
     self.labelTime.hidden = NO;
     self.textViewBody.text = body;
@@ -70,6 +80,13 @@
 
 
 #pragma mark - UITextViewDelegate Methods
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    
+    self.labelMessage.hidden = YES;
+    
+    return YES;
+}
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     if ([self.delegate respondsToSelector:@selector(messageSubject:)]) {
@@ -84,5 +101,13 @@
     
 }
 
+- (void)keyboardWillShow:(NSNotification *)notification {
+    
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    self.textViewBody.translatesAutoresizingMaskIntoConstraints = YES;
+    self.textViewBody.frame = CGRectMake(self.textViewBody.frame.origin.x, self.textViewBody.frame.origin.y, self.textViewBody.frame.size.width, self.textViewBody.frame.size.height - keyboardFrameBeginRect.size.height + 50);
+}
 
 @end

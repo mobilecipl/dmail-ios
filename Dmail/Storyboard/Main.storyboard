@@ -1115,7 +1115,6 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="labelTime" destination="P7q-Di-1G2" id="qSX-Xj-4Jv"/>
-                                                    <outlet property="textFieldBody" destination="gm7-v0-Dv3" id="TyE-wx-Bgm"/>
                                                     <outlet property="textFieldSubject" destination="clW-aY-r4W" id="FOA-Mv-p3K"/>
                                                     <outlet property="viewContainer" destination="zg4-Pc-aLA" id="CDB-WX-y3i"/>
                                                     <outlet property="viewContainer_" destination="Taa-Rx-ctk" id="eB2-eY-8m9"/>
@@ -1419,38 +1418,29 @@
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="WVa-E7-Skh"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Message" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ssN-WU-XNu">
-                                                                    <rect key="frame" x="14" y="57" width="327" height="30"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="30" id="Uq2-IR-cP5"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" returnKeyType="send"/>
-                                                                    <connections>
-                                                                        <outlet property="delegate" destination="PxQ-4r-VaR" id="RxO-m0-hma"/>
-                                                                    </connections>
-                                                                </textField>
-                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiY-Aj-Oot">
+                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aiY-Aj-Oot">
                                                                     <rect key="frame" x="10" y="57" width="335" height="409"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="bIH-j6-hO5"/>
                                                                     </connections>
                                                                 </textView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nB-pn-djI">
+                                                                    <rect key="frame" x="14" y="60" width="66" height="21"/>
+                                                                    <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
+                                                                    <color key="textColor" red="0.75294117647058822" green="0.7803921568627451" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="aiY-Aj-Oot" secondAttribute="bottom" constant="13" id="0Fo-0H-hG0"/>
                                                                 <constraint firstAttribute="trailing" secondItem="aiY-Aj-Oot" secondAttribute="trailing" constant="10" id="MbK-95-KmW"/>
-                                                                <constraint firstAttribute="trailing" secondItem="ssN-WU-XNu" secondAttribute="trailing" constant="14" id="NMP-Jq-zc6"/>
                                                                 <constraint firstItem="aiY-Aj-Oot" firstAttribute="top" secondItem="iwa-QI-CG1" secondAttribute="bottom" constant="15" id="Nr5-MD-NAq"/>
-                                                                <constraint firstItem="ssN-WU-XNu" firstAttribute="top" secondItem="iwa-QI-CG1" secondAttribute="bottom" constant="15" id="Sqg-8V-V8S"/>
                                                                 <constraint firstItem="aiY-Aj-Oot" firstAttribute="leading" secondItem="EKc-cm-7AS" secondAttribute="leading" constant="10" id="WVP-W9-ih2"/>
-                                                                <constraint firstAttribute="centerX" secondItem="ssN-WU-XNu" secondAttribute="centerX" id="YGY-cx-uWm"/>
                                                                 <constraint firstItem="iwa-QI-CG1" firstAttribute="width" secondItem="EKc-cm-7AS" secondAttribute="width" multiplier="327/355" id="b7Q-49-CN3"/>
-                                                                <constraint firstItem="ssN-WU-XNu" firstAttribute="leading" secondItem="EKc-cm-7AS" secondAttribute="leading" constant="14" id="kfS-nu-zzQ"/>
                                                                 <constraint firstAttribute="centerX" secondItem="iwa-QI-CG1" secondAttribute="centerX" id="lHS-lJ-0F0"/>
                                                                 <constraint firstItem="iwa-QI-CG1" firstAttribute="top" secondItem="EKc-cm-7AS" secondAttribute="top" constant="12" id="mXS-T9-iWy"/>
                                                             </constraints>
@@ -1466,6 +1456,7 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
+                                                    <outlet property="labelMessage" destination="3nB-pn-djI" id="hiV-W1-yDy"/>
                                                     <outlet property="textFieldSubject" destination="iwa-QI-CG1" id="0PK-Q5-I9i"/>
                                                     <outlet property="textViewBody" destination="aiY-Aj-Oot" id="ZTJ-V4-b8a"/>
                                                     <outlet property="viewContainer" destination="EKc-cm-7AS" id="zYj-aB-HsA"/>

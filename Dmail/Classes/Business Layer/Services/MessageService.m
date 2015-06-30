@@ -147,7 +147,7 @@
     NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
     from = [from stringByAppendingString:messageDmailId];
     
-    from = [from stringByAppendingString:@"www.Dmail.com"];
+    from = [from stringByAppendingString:@"This secure message was sent using Dmail. Download the Chrome extention to see the message. To view this message you must have the Dmail Chrome Extension or iPhone application"];
     
     return from;
 }

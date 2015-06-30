@@ -17,6 +17,11 @@
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
 
+typedef NS_ENUM(NSInteger, AlertTags) {
+    Revoke = 1,
+    Destroy
+};
+
 
 @interface SentViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
 
@@ -32,12 +37,14 @@
 @property (nonatomic, assign) CGFloat bccCellHeight;
 @property (nonatomic, assign) CGFloat messageContentCellHeight;
 
-
 @property (nonatomic, weak) IBOutlet UIView *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 
-@property (nonatomic, strong) NSString *senderName;
+@property (nonatomic, strong) NSString *revokedEmail;
+@property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
 @property (nonatomic, strong) NSString *body;
+@property (nonatomic, assign) NSInteger participantIndex;
+
 
 @end
 
@@ -67,18 +74,40 @@
                                                   delegate:self
                                          cancelButtonTitle:@"Cancel"
                                          otherButtonTitles:@"Destroy", nil];
+    alert.tag = Destroy;
     [alert show];
 }
 
-- (void)revokeClicked {
+- (void)destroyAllParticipants {
     
-    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to revoke acces to %@",self.senderName];
-    UIAlertView *alert= [[UIAlertView alloc] initWithTitle:@"Revoke access"
-                                                   message:alertMessage
-                                                  delegate:self
-                                         cancelButtonTitle:@"Cancel"
-                                         otherButtonTitles:@"Revoke", nil];
-    [alert show];
+    [[MessageService sharedInstance] revokeUserWithEmail:[self.arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
+        if (success) {
+            if (self.participantIndex == [self.arrayAllParticipants count] - 1) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                message:@"Participants are successfully destroyed"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        }
+    }];
+}
+
+- (NSMutableArray *)getAllParticipants {
+    
+    self.arrayAllParticipants = [[NSMutableArray alloc] init];
+    for (NSString *to in self.messageItem.arrayTo) {
+        [self.arrayAllParticipants addObject:to];
+    }
+    for (NSString *cc in self.messageItem.arrayCc) {
+        [self.arrayAllParticipants addObject:cc];
+    }
+    for (NSString *bcc in self.messageItem.arrayBcc) {
+        [self.arrayAllParticipants addObject:bcc];
+    }
+    
+    return self.arrayAllParticipants;
 }
 
 
@@ -262,28 +291,59 @@
 }
 
 
+#pragma mark - ParticipantCellDelegate Methods
+- (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name {
+    
+    self.revokedEmail = email;
+    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to revoke acces to %@",name];
+    UIAlertView *alert= [[UIAlertView alloc] initWithTitle:@"Revoke access"
+                                                   message:alertMessage
+                                                  delegate:self
+                                         cancelButtonTitle:@"Cancel"
+                                         otherButtonTitles:@"Revoke", nil];
+    alert.tag = Revoke;
+    [alert show];
+}
+
 #pragma mark - UIAlertViewdelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    switch (buttonIndex) {
-        case 0:
-            
-            break;
-        case 1: {
-            [[MessageService sharedInstance] revokeUserWithEmail:self.messageItem.receiverEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
-                if (success) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                                    message:@"Participant revoked"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Ok"
-                                                          otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-            }];
+    if (alertView.tag == Revoke) {
+        switch (buttonIndex) {
+            case 0:
+                
+                break;
+            case 1: {
+                [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
+                    if (success) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                        message:@"Participant are evoked"
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"Ok"
+                                                              otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        default:
-            break;
+    }
+    else {
+        switch (buttonIndex) {
+            case 0:
+                
+                break;
+            case 1: {
+                self.participantIndex = 0;
+                [self getAllParticipants];
+                [self destroyAllParticipants];
+            }
+                break;
+            default:
+                break;
+        }
     }
 }
 

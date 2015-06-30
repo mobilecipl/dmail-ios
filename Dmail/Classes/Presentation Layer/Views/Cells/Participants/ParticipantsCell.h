@@ -15,6 +15,7 @@
 - (void)participantEmail:(NSString *)email;
 - (void)changeCellHeightWith:(CGFloat)height cellRow:(NSInteger)row;
 - (void)addParticipantsEmail:(NSString *)email row:(NSInteger)row;
+- (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name;
 
 @end
 

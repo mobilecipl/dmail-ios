@@ -12,6 +12,7 @@
 @protocol ParticipantViewDelegate <NSObject>
 
 - (void)onCloseClicked:(id)participantView;
+- (void)onRevokeClicked:(id)participantView;
 
 @end
 
@@ -22,6 +23,6 @@
 @property (nonatomic, strong) NSString *name;
 
 - (instancetype)initWithEmail:(NSString *)email;
-- (void)create;
+- (void)createForSent:(BOOL)forSent;
 
 @end

@@ -20,13 +20,19 @@ CGFloat kbuttonRevokeWidth = 25.0;
 CGFloat kLabelOriginX = 4;
 CGFloat fontSize = 12.5;
 
+@interface ParticipantView ()
+
+@property (nonatomic, assign) BOOL forSentScreen;
+
+@end
+
 @implementation ParticipantView
 
 - (instancetype)initWithEmail:(NSString *)email {
     
     self = [super init];
     if (self) {
-        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:email];
+//        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:email];
         self.email = email;
 //        if (profile && profile.name) {
 //            self.name = profile.name;
@@ -40,7 +46,9 @@ CGFloat fontSize = 12.5;
     return self;
 }
 
-- (void)create {
+- (void)createForSent:(BOOL)forSent {
+    
+    self.forSentScreen = forSent;
     
     UIImage *imageRevokeButton = [UIImage imageNamed:@"buttonRevoke.png"];
     
@@ -69,8 +77,15 @@ CGFloat fontSize = 12.5;
 
 - (void)closeClicked {
     
-    if ([self.delegate respondsToSelector:@selector(onCloseClicked:)]) {
-        [self.delegate onCloseClicked:self];
+    if(self.forSentScreen) {
+        if ([self.delegate respondsToSelector:@selector(onCloseClicked:)]) {
+            [self.delegate onRevokeClicked:self];
+        }
+    }
+    else {
+        if ([self.delegate respondsToSelector:@selector(onCloseClicked:)]) {
+            [self.delegate onCloseClicked:self];
+        }
     }
 }
 
