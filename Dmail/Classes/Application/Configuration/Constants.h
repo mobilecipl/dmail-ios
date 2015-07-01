@@ -90,6 +90,7 @@ static NSString * const Email = @"email";
 static NSString * const Message_Id = @"Message-Id";
 static NSString * const Status = @"status";
 static NSString * const PublicKey = @"PublicKey";
+static NSString * const Snippet = @"snippet";
 static NSString * const DmailId = @"DmailId";
 
 //Dmail Keys

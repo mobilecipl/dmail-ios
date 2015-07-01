@@ -23,6 +23,7 @@
 @property NSArray *arrayTo;
 @property NSArray *arrayCc;
 @property NSArray *arrayBcc;
+@property NSNumber *internalDate;
 @property MessageType type;
 @property MessageLabel label;
 @property (nonatomic) CGFloat postDate;

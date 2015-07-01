@@ -327,7 +327,7 @@ static NSString * const Revoke = @"api/message";
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
     
-    [urlRequest setHTTPMethod:@"GET"];
+    [urlRequest setHTTPMethod:@"DELETE"];
     [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
@@ -338,6 +338,39 @@ static NSString * const Revoke = @"api/message";
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 completion(JSONData, statusCode);
                                                             });
+                                                        }];
+    [dataTask resume];
+}
+
+- (void)getContacts {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+
+    NSString *urlmulr = [NSString stringWithFormat:@"http://www.google.com/m8/feeds/contacts/%@/full", [[UserService sharedInstance] email]];
+    NSURL * url = [NSURL URLWithString:urlmulr];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+    
+    [urlRequest setHTTPMethod:@"GET"];
+    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
+                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+//                                                            dispatch_async(dispatch_get_main_queue(), ^{
+//                                                                completion(JSONData, statusCode);
+//                                                            });
                                                         }];
     [dataTask resume];
 }

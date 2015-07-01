@@ -14,6 +14,7 @@
 #import "InboxMessageViewController.h"
 #import "SentViewController.h"
 #import "CoreDataManager.h"
+#import "NetworkManager.h"
 
 @class MessageItem;
 
@@ -39,6 +40,7 @@
     self.messageType = Inbox;
     self.inboxModel = [[InboxModel alloc] initWithMessageLabel:self.messageType];
     self.tableVIewInbox.allowsMultipleSelectionDuringEditing = NO;
+    [[NetworkManager sharedManager] getContacts];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -107,6 +109,7 @@
     }
 }
 
+
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerMenu:(id)sender {
     
@@ -159,11 +162,6 @@
     [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
     [self.arrayMessgaeItems removeObjectAtIndex:indexPath.row];
     [self.tableVIewInbox reloadData];
-//    [tableView beginUpdates];
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-//    }
-//    [tableView endUpdates];
 }
 
 

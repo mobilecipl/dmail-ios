@@ -40,6 +40,7 @@
     messageItem.identifier = gmailMessage.identifier;
     messageItem.dmailId = gmailMessage.dmailId;
     messageItem.gmailId = gmailMessage.gmailId;
+    messageItem.internalDate = gmailMessage.internalDate;
     messageItem.subject = gmailMessage.subject;
     messageItem.senderEmail = gmailMessage.from;
     messageItem.type = [gmailMessage.type integerValue];

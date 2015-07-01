@@ -377,7 +377,7 @@ static NSString * const EntityProfile = @"Profile";
         gmailMessage.from = item.fromEmail;
     }
     if (item.internalDate && item.internalDate!= -1) {
-        gmailMessage.internalDate = [NSNumber numberWithInteger:item.internalDate];
+        gmailMessage.internalDate = [NSNumber numberWithDouble:item.internalDate];
     }
     if (item.label && item.label!= 0) {
         gmailMessage.label = [NSNumber numberWithInteger:item.label];
@@ -484,6 +484,9 @@ static NSString * const EntityProfile = @"Profile";
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityGmailMessage inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dmailId like %@",dmailId];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
     NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];

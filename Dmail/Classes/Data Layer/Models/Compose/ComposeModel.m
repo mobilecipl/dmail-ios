@@ -71,37 +71,6 @@
     return from;
 }
 
-- (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
-    
-    NSLog(@"requestReply ==== %@", requestReply);
-    DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
-    if ([[requestReply allKeys] containsObject:Payload]) {
-        dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
-        NSDictionary *payload = requestReply[Payload];
-        if ([[payload allKeys] containsObject:Headers]) {
-            NSArray *headers = payload[Headers];
-            for (NSDictionary *dict in headers) {
-                if ([dict[Name] isEqualToString:From]) {
-                    NSArray *arraySubStrings = [dict[Value] componentsSeparatedByString:@"<"];
-                    NSString *name = [arraySubStrings firstObject];
-                    dmailEntityItem.senderName = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                    NSString *email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
-                    dmailEntityItem.fromEmail= email;
-                }
-                if ([dict[Name] isEqualToString:Subject]) {
-                    dmailEntityItem.subject = dict[Value];
-                }
-                if ([dict[Name] isEqualToString:Message_Id]) {
-                    dmailEntityItem.identifier = dict[Value];
-                }
-                dmailEntityItem.status = MessageFetchedFull;
-            }
-        }
-    }
-    
-    return dmailEntityItem;
-}
-
 
 #pragma mark - Public Methods
 - (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem {

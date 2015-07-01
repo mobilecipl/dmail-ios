@@ -60,7 +60,7 @@
     
     DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
     if ([[requestReply allKeys] containsObject:Payload]) {
-        dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
+        dmailEntityItem.internalDate = [requestReply[InternalDate] doubleValue];
         NSDictionary *payload = requestReply[Payload];
         if ([[payload allKeys] containsObject:Headers]) {
             NSArray *headers = payload[Headers];
@@ -147,7 +147,8 @@
     NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
     from = [from stringByAppendingString:messageDmailId];
     
-    from = [from stringByAppendingString:@"This secure message was sent using Dmail. Download the Chrome extention to see the message. To view this message you must have the Dmail Chrome Extension or iPhone application"];
+    NSString *publicKeyAndDmailId = [NSString stringWithFormat:@"DmailId=%@&PublicKey=%@", dmailId, self.publicKey];
+    from = [from stringByAppendingString:publicKeyAndDmailId];
     
     return from;
 }
@@ -157,7 +158,9 @@
     if (self.publicKey) {
         self.publicKey = nil;
     }
-    self.publicKey = @"123456";
+    NSDate *date = [NSDate date];
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    self.publicKey = [NSString stringWithFormat:@"%f", timeInterval];
     
     return self.publicKey;
 }

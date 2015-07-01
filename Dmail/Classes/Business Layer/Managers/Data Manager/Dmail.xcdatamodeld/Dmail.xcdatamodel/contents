@@ -16,7 +16,7 @@
         <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gmailId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="internalDate" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="internalDate" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="label" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="publicKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subject" optional="YES" attributeType="String" syncable="YES"/>

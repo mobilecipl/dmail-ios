@@ -28,7 +28,7 @@
 @property (nonatomic, retain) NSMutableArray *arrayCc;
 @property (nonatomic, retain) NSMutableArray *arrayBcc;
 
-@property (nonatomic) NSInteger internalDate;
+@property (nonatomic) double internalDate;
 @property (nonatomic) double position;
 @property (nonatomic) MessageStatus status;
 @property (nonatomic) MessageType type;

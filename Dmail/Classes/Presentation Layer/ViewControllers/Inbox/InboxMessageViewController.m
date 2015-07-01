@@ -11,6 +11,7 @@
 #import "MessageService.h"
 #import "CoreDataManager.h"
 #import "DmailMessage.h"
+#import <NSDate+DateTools.h>
 
 
 @interface InboxMessageViewController ()
@@ -60,6 +61,9 @@
     
     self.labelMessageSubject.text = self.messageItem.subject;
     self.labelSenderName.text = self.messageItem.fromEmail;
+    NSTimeInterval timeInterval = [self.messageItem.internalDate doubleValue];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timeInterval/1000];
+    self.labelTime.text = [NSDate timeAgoSinceDate:date];
     NSString *dmailMessageId = self.messageItem.dmailId;
     DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getDmailMessageWithMessageId:dmailMessageId];
     if (dmailMessage.body) {

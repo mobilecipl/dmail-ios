@@ -36,22 +36,22 @@
 - (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
     
     DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
-    //    dmailEntityItem.gmailId = requestReply[@"id"];
+    dmailEntityItem.publicKey = [self getPublicKeyFromSnippet:requestReply[Snippet]];
+    dmailEntityItem.gmailId = requestReply[@"id"];
+    NSLog(@"dmailEntityItem.gmailId === %@", requestReply);
     if ([[requestReply allKeys] containsObject:Payload]) {
-        dmailEntityItem.internalDate = [requestReply[InternalDate] integerValue];
+        dmailEntityItem.internalDate = [requestReply[InternalDate] doubleValue];
         NSDictionary *payload = requestReply[Payload];
         if ([[payload allKeys] containsObject:Headers]) {
             NSArray *headers = payload[Headers];
             for (NSDictionary *dict in headers) {
                 if ([dict[Name] isEqualToString:From]) {
-                    NSLog(@"From ==== %@",dict[Value]);
                     dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
                     dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
                     ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.fromEmail name:dmailEntityItem.fromName];
                     [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
                 }
                 if ([dict[Name] isEqualToString:To]) {
-                    NSLog(@"To ==== %@",dict[Value]);
                     NSArray *array = [dict[Value] componentsSeparatedByString:@","];
                     for (NSString *string in array) {
                         NSString *toEmail = [self getEmailFromValue:string];
@@ -79,15 +79,27 @@
                 if ([dict[Name] isEqualToString:Message_Id]) {
                     dmailEntityItem.identifier = dict[Value];
                 }
-                if ([dict[Name] isEqualToString:PublicKey]) {
-                    dmailEntityItem.publicKey = dict[Value];
-                }
+//                if ([dict[Name] isEqualToString:PublicKey]) {
+//                    dmailEntityItem.publicKey = dict[Value];
+//                }
                 dmailEntityItem.status = MessageFetchedFull;
             }
         }
     }
     
     return dmailEntityItem;
+}
+
+- (NSString *)getPublicKeyFromSnippet:(NSString *)snippet {
+    
+    NSString *publicKey = @"";
+    
+    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey="];
+    if([array count] > 1) {
+        publicKey = [array objectAtIndex:1];
+    }
+    
+    return publicKey;
 }
 
 - (NSString *)getEmailFromValue:(NSString *)value {
