@@ -62,6 +62,7 @@
     }
     else {
         [[SyncService sharedInstance] getMessageIds];
+//        [[NetworkManager sharedManager] getContacts];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

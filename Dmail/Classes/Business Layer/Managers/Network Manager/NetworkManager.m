@@ -341,37 +341,90 @@ static NSString * const Revoke = @"api/message";
                                                         }];
     [dataTask resume];
 }
+//
+//- (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
+//    if (error) {
+//        NSLog(@"%@",[NSString stringWithFormat:@"Status: Authentication error: %@", error]);
+//        return;
+//    }
+//    
+//    auth.clientID  =@"XXXX.apps.googleusercontent.com";
+//    auth.clientSecret  =@"xxxxxxxx-z7tmOqQCShgH3ax";
+//    
+//    
+//    NSString *urlStr = @"https://www.google.com/m8/feeds/contacts/default/full";
+//    NSURL *url = [NSURL URLWithString:urlStr];
+//    
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+//    [request setHTTPMethod:@"GET"];
+//    [request setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
+//    
+//    auth.scope= @"https://www.googleapis.com/auth/contacts.readonly";
+//    [auth authorizeRequest:request
+//     
+//         completionHandler:^(NSError *error) {
+//             NSString *output = nil;
+//             
+//             if (error) {
+//                 output = [error description];
+//             } else {
+//                 NSURLResponse *response = nil;
+//                 NSData *data = [NSURLConnection sendSynchronousRequest:request
+//                                                      returningResponse:&response
+//                                                                  error:&error];
+//                 if (data) {
+//                     // API fetch succeeded :Here I am getti
+//                     output = [[NSString alloc] initWithData:data
+//                                                    encoding:NSUTF8StringEncoding];
+//                     NSLog(@"%@", output);
+//                 } else {
+//                     // fetch failed
+//                     output = [error description];
+//                 }
+//             }
+//         }];
+//}
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)getContacts {
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
 
-    NSString *urlmulr = [NSString stringWithFormat:@"http://www.google.com/m8/feeds/contacts/%@/full", [[UserService sharedInstance] email]];
+//    NSString *urlmulr = @"https://www.google.com/m8/feeds/contacts/default/full";
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/kpetrosyan@science-inc.com/full"];
+    
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
     
     [urlRequest setHTTPMethod:@"GET"];
     [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
     
-    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest
-                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                                            NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
-//                                                            dispatch_async(dispatch_get_main_queue(), ^{
-//                                                                completion(JSONData, statusCode);
-//                                                            });
-                                                        }];
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+        NSLog(@"statusCode === %ld", (long)statusCode);
+        NSLog(@"JSONData === %@", JSONData);
+    }];
     [dataTask resume];
 }
 

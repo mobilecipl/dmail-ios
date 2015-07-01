@@ -10,6 +10,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import "UserService.h"
 #import "SyncService.h"
+#import "NetworkManager.h"
 
 
 @interface LoginViewController ()<GIDSignInDelegate>
@@ -34,6 +35,7 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+//    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/"];
     googleSignIn.shouldFetchBasicProfile = YES;
     googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
@@ -59,6 +61,7 @@
     else {
         [[UserService sharedInstance] updateUserDetails:user];
         [[SyncService sharedInstance] getMessageIds];
+//        [[NetworkManager sharedManager] getContacts];
         [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
     }
 }

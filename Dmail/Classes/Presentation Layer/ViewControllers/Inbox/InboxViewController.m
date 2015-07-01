@@ -40,7 +40,6 @@
     self.messageType = Inbox;
     self.inboxModel = [[InboxModel alloc] initWithMessageLabel:self.messageType];
     self.tableVIewInbox.allowsMultipleSelectionDuringEditing = NO;
-    [[NetworkManager sharedManager] getContacts];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

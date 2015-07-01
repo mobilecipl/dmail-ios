@@ -742,7 +742,7 @@
                                             <constraint firstItem="8qr-OQ-E95" firstAttribute="width" secondItem="vdw-YU-ITU" secondAttribute="width" multiplier="66/355" id="z9z-fj-fqz"/>
                                         </constraints>
                                     </view>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DKI-fU-6ZM">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKI-fU-6ZM">
                                         <rect key="frame" x="14" y="10" width="327" height="482"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gdY-NQ-9ED" userLabel="View : Subject">
