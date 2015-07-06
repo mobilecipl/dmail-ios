@@ -1,12 +1,12 @@
 //
-//  BaseService.m
-//  Core
+//  BaseContactsNetwork.m
+//  Dmail
 //
-//  Created by Armen on 3/28/14.
-//  Copyright (c) 2014 Armen Mkrtchian All rights reserved.
+//  Created by Gevorg Ghukasyan on 7/6/15.
+//  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import "BaseNetwork.h"
+#import "BaseContactsNetwork.h"
 //#import "Configuration.h"
 #import "Util.h"
 #import "GoogleSignIn.h"
@@ -16,47 +16,9 @@
 #define kStatusCode @"statusCode"
 #define kErrorMessage @"errorMessage"
 
-@implementation BaseNetwork
+@implementation BaseContactsNetwork
 
--(instancetype)init {
-    self = [super init];
-	if (self != nil)
-    {
-        //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseServerURL]];
-        NSOperationQueue *operationQueue = manager.operationQueue;
-//        [manager.reachabilityManager startMonitoring];
-        [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-//            UALog(@"AFNetworkReachabilityStatus: %li", status);
-            
-            switch (status) {
-                case AFNetworkReachabilityStatusReachableViaWWAN:
-                case AFNetworkReachabilityStatusReachableViaWiFi: {
-                    [operationQueue setSuspended:NO];                    
-                }                    
-                    break;
-                case AFNetworkReachabilityStatusNotReachable:
-                default:
-                    [operationQueue setSuspended:YES];
-                    break;
-            }
-        }];
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [requestSerializer setHTTPShouldHandleCookies:NO];
-        
-        manager.requestSerializer = requestSerializer;
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-//        cStore = [CredentialStore sharedInstance];
-	}
-    
-    return  self;
-}
-
-- (instancetype)initForGmailContacts {
+- (instancetype)init {
     self = [super init];
     if (self != nil)
     {
@@ -87,52 +49,11 @@
         
         manager.requestSerializer = requestSerializer;
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        //        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/atom+xml"];
-
+//        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/atom+xml"];
     }
     
     return  self;
 }
-
-- (instancetype)initForGmailMessage {
-    
-    self = [super init];
-    if (self != nil)
-    {
-        //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseServerURL]];
-        NSOperationQueue *operationQueue = manager.operationQueue;
-        //        [manager.reachabilityManager startMonitoring];
-        [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            //            UALog(@"AFNetworkReachabilityStatus: %li", status);
-            
-            switch (status) {
-                case AFNetworkReachabilityStatusReachableViaWWAN:
-                case AFNetworkReachabilityStatusReachableViaWiFi: {
-                    [operationQueue setSuspended:NO];
-                }
-                    break;
-                case AFNetworkReachabilityStatusNotReachable:
-                default:
-                    [operationQueue setSuspended:YES];
-                    break;
-            }
-        }];
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [requestSerializer setHTTPShouldHandleCookies:NO];
-        
-        manager.requestSerializer = requestSerializer;
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-        //        cStore = [CredentialStore sharedInstance];
-    }
-    
-    return  self;
-}
-
 
 -(void)preparingForRequests {
     
@@ -162,7 +83,7 @@
     //Preparing For request
     [self preparingForRequests];
     NSDictionary *newParams = [self prepareParams:params];
-
+    
     [manager POST:url parameters:newParams timeoutInterval:TimeOutInterval success:successBlock failure:failureBlock];
 }
 
@@ -170,7 +91,7 @@
     //Preparing For request
     [self preparingForRequests];
     NSDictionary *newParams = [self prepareParams:params];
-
+    
     [manager PUT:url parameters:newParams timeoutInterval:TimeOutInterval success:successBlock failure:failureBlock];
 }
 
@@ -178,7 +99,7 @@
     //Preparing For request
     [self preparingForRequests];
     NSDictionary *newParams = [self prepareParams:params];
-
+    
     [manager DELETE:url parameters:newParams timeoutInterval:TimeOutInterval success:successBlock failure:failureBlock];
 }
 
@@ -186,7 +107,7 @@
     //Preparing For request
     [self preparingForRequests];
     NSDictionary *newParams = [self prepareParams:params];
-
+    
     [manager GET:url parameters:newParams timeoutInterval:TimeOutInterval success:successBlock failure:failureBlock];
 }
 
@@ -194,7 +115,7 @@
     //Preparing For request
     [self preparingForRequests];
     NSDictionary *newParams = [self prepareParams:params];
-
+    
     [manager POST:url parameters:newParams timeoutInterval:TimeOutInterval constructingBodyWithBlock:constructingBlock success:successBlock failure:failureBlock];
 }
 
@@ -239,7 +160,7 @@
                     {
                         [blockDelegate errorResponse: errorObj];
                     }
-//                    [Util logout];
+                    //                    [Util logout];
                 }
                     break;
                 case 500: //Internal Error Response
@@ -346,7 +267,8 @@
 }
 
 -(void)cancellAllRequests {
-
+    
     [manager.operationQueue cancelAllOperations];
 }
+
 @end

@@ -10,6 +10,8 @@
 
 #import "Configurations.h"
 
+#import "NetworkGmailContacts.h"
+
 @interface RootViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *viewMenu;// not used
@@ -32,6 +34,13 @@
     [self setupNotificationHandlers];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    NetworkGmailContacts *gmailContacts = [[NetworkGmailContacts alloc] init];
+    [gmailContacts getGoogleContactsForEmail:@"ghukasyangevorg1@gmail.com" completionBlock:^(id data, ErrorDataModel *error) {
+        
+    }];
+}
 
 #pragma mark - Private Methods
 - (void)setupMenu {

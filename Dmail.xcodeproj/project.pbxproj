@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
+		58D9B73D1B4AA4DA00F5D2BE /* NetworkGmailContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D9B73C1B4AA4DA00F5D2BE /* NetworkGmailContacts.m */; };
+		58D9B7401B4AA94100F5D2BE /* BaseContactsNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D9B73F1B4AA94100F5D2BE /* BaseContactsNetwork.m */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
 		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
@@ -126,6 +128,10 @@
 
 /* Begin PBXFileReference section */
 		0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.release.xcconfig"; sourceTree = "<group>"; };
+		58D9B73B1B4AA4DA00F5D2BE /* NetworkGmailContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkGmailContacts.h; sourceTree = "<group>"; };
+		58D9B73C1B4AA4DA00F5D2BE /* NetworkGmailContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkGmailContacts.m; sourceTree = "<group>"; };
+		58D9B73E1B4AA94100F5D2BE /* BaseContactsNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseContactsNetwork.h; sourceTree = "<group>"; };
+		58D9B73F1B4AA94100F5D2BE /* BaseContactsNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseContactsNetwork.m; sourceTree = "<group>"; };
 		58FB2B741B42C5EA005B9541 /* NetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkMessage.h; sourceTree = "<group>"; };
 		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -709,6 +715,8 @@
 				C08C2D121B41AB1C00295A94 /* BaseNetwork.m */,
 				C08C2D131B41AB1C00295A94 /* ReachabilityManager.h */,
 				C08C2D141B41AB1C00295A94 /* ReachabilityManager.m */,
+				58D9B73E1B4AA94100F5D2BE /* BaseContactsNetwork.h */,
+				58D9B73F1B4AA94100F5D2BE /* BaseContactsNetwork.m */,
 			);
 			path = "Network Manager";
 			sourceTree = "<group>";
@@ -932,6 +940,8 @@
 				58FB2B751B42C5EA005B9541 /* NetworkMessage.m */,
 				9C21B8871B46A2DF0080B132 /* NetworkContacts.h */,
 				9C21B8881B46A2DF0080B132 /* NetworkContacts.m */,
+				58D9B73B1B4AA4DA00F5D2BE /* NetworkGmailContacts.h */,
+				58D9B73C1B4AA4DA00F5D2BE /* NetworkGmailContacts.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1266,7 +1276,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n./Fabric.framework/run a2b376170abea399baf96035d0ae31651a2aeee6 5618763dd27960a4ba84ecb8fc742ae1e8a4b1aae36184a5442dbcbd6e1f483a";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
 		};
 		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1319,6 +1329,7 @@
 				C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */,
 				C08C2DB11B41AB1C00295A94 /* CoreDataManager.m in Sources */,
 				C08C2DB91B41AB1C00295A94 /* GmailManager.m in Sources */,
+				58D9B73D1B4AA4DA00F5D2BE /* NetworkGmailContacts.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
 				C08C2DCF1B41AB1C00295A94 /* AutoDefaultsRMLObject.m in Sources */,
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,
@@ -1326,6 +1337,7 @@
 				C08C2DD71B41AB1C00295A94 /* BaseViewModel.m in Sources */,
 				C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */,
 				C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */,
+				58D9B7401B4AA94100F5D2BE /* BaseContactsNetwork.m in Sources */,
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
 				C08C2DCE1B41AB1C00295A94 /* ReachabilityManager.m in Sources */,
 				9C2360B01B428CB50020B348 /* Profile.m in Sources */,
@@ -1513,7 +1525,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "0ee5721d-9903-453b-b42c-3a14716335df";
 			};
 			name = Debug;
 		};
@@ -1533,7 +1545,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "0ee5721d-9903-453b-b42c-3a14716335df";
 			};
 			name = Release;
 		};
