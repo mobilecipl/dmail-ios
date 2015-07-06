@@ -97,7 +97,7 @@
 
 - (void)setupController {
     
-    self.labelName.text = [[UserService sharedInstance] name];
+    self.labelName.text = [[ProfileService sharedInstance] fullName];
 }
 
 - (void)clearAllDBAndRedirectInLoginScreen {

@@ -7,7 +7,8 @@
 //
 
 #import "NetworkManager.h"
-#import "UserService.h"
+#import "ProfileService.h"
+#import "XMLReader.h"
 
 static NSString * const getMessagesList = @"mobile/recipients/sync";
 static NSString * const sendMessage = @"api/message";
@@ -114,8 +115,6 @@ static NSString * const Revoke = @"api/message";
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-//    NSString *urlmulr = [NSString stringWithFormat:@"https://www.googleapis.com/gmail/v1/users/%@/messages/",userID];
-//    gmailUniqueId = [gmailUniqueId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *queryString = [NSString stringWithFormat:@"rfc822msgid:%@",gmailUniqueId];
     queryString = [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     queryString = [queryString stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
@@ -202,7 +201,7 @@ static NSString * const Revoke = @"api/message";
     
     NSURLSessionDataTask *dataTask = self.dictionaryTasks[getMessage];
     if (!dataTask) {
-        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[UserService sharedInstance] email]];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[ProfileService sharedInstance] email]];
         NSMutableURLRequest *request = [self constructGetRequestWithUrl:urlString];
         
         dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -317,7 +316,7 @@ static NSString * const Revoke = @"api/message";
     }
 }
 
-- (void)deleteMessageWithGmailId:(NSString *)gmailId withCompletionBlock:(mainCompletionBlock)completion{
+- (void)deleteMessageWithGmailId:(NSString *)gmailId withCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -341,74 +340,13 @@ static NSString * const Revoke = @"api/message";
                                                         }];
     [dataTask resume];
 }
-//
-//- (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
-//    if (error) {
-//        NSLog(@"%@",[NSString stringWithFormat:@"Status: Authentication error: %@", error]);
-//        return;
-//    }
-//    
-//    auth.clientID  =@"XXXX.apps.googleusercontent.com";
-//    auth.clientSecret  =@"xxxxxxxx-z7tmOqQCShgH3ax";
-//    
-//    
-//    NSString *urlStr = @"https://www.google.com/m8/feeds/contacts/default/full";
-//    NSURL *url = [NSURL URLWithString:urlStr];
-//    
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//    [request setHTTPMethod:@"GET"];
-//    [request setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
-//    
-//    auth.scope= @"https://www.googleapis.com/auth/contacts.readonly";
-//    [auth authorizeRequest:request
-//     
-//         completionHandler:^(NSError *error) {
-//             NSString *output = nil;
-//             
-//             if (error) {
-//                 output = [error description];
-//             } else {
-//                 NSURLResponse *response = nil;
-//                 NSData *data = [NSURLConnection sendSynchronousRequest:request
-//                                                      returningResponse:&response
-//                                                                  error:&error];
-//                 if (data) {
-//                     // API fetch succeeded :Here I am getti
-//                     output = [[NSString alloc] initWithData:data
-//                                                    encoding:NSUTF8StringEncoding];
-//                     NSLog(@"%@", output);
-//                 } else {
-//                     // fetch failed
-//                     output = [error description];
-//                 }
-//             }
-//         }];
-//}
-//
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- (void)getContacts {
+- (void)getContactsWithCompletionBlock:(mainCompletionBlock)completion {
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
 
-//    NSString *urlmulr = @"https://www.google.com/m8/feeds/contacts/default/full";
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/kpetrosyan@science-inc.com/full"];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ProfileService sharedInstance] email]];
     
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -421,9 +359,35 @@ static NSString * const Revoke = @"api/message";
     NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
-        NSLog(@"statusCode === %ld", (long)statusCode);
-        NSLog(@"JSONData === %@", JSONData);
+        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
+        NSLog(@"xmlData === %@",xmlData);
+        [self getContactPhoto];
+        completion(xmlData, statusCode);
+    }];
+    [dataTask resume];
+}
+
+- (void)getContactPhoto {
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/97d88210f382da2", [[ProfileService sharedInstance] email]];
+    
+    NSURL * url = [NSURL URLWithString:urlmulr];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+    
+    [urlRequest setHTTPMethod:@"GET"];
+    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
+    
+    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        UIImage *image = [UIImage imageWithData:data];
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
+        NSLog(@"xmlData === %@",xmlData);
     }];
     [dataTask resume];
 }

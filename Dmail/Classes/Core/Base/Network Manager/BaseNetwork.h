@@ -53,4 +53,5 @@ typedef void (^CompletionBlock)(id data, ErrorDataModel *error);
 -(AFFailureBlock)constructFailureBlockWithBlock:(CompletionBlock)completionBlock;
 
 -(void)cancellAllRequests;
+
 @end

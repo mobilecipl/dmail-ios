@@ -17,6 +17,8 @@
 
 @implementation DAOMessage
 
+
+#pragma mark - Intsance Methods
 - (instancetype)init {
     
     if (self) {
@@ -26,73 +28,41 @@
     return self;
 }
 
-- (void)sendEncryptedMessage:(NSString *)encryptedMessage
-                 senderEmail:(NSString *)senderEmail
-             completionBlock:(CompletionBlock)completionBlock {
+
+#pragma mark - Public Methods
+- (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage sendEncryptedMessage:encryptedMessage
-                                  senderEmail:senderEmail
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.networkMessage sendEncryptedMessage:encryptedMessage senderEmail:senderEmail completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)sendRecipientEmail:(NSString *)recipientEmail
-                       key:(NSString *)key
-             recipientType:(NSString *)recipientType
-                 messageId:(NSString *)messageId
-           completionBlock:(CompletionBlock)completionBlock {
+- (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage sendRecipientEmail:recipientEmail
-                                        key:key
-                              recipientType:recipientType
-                                  messageId:messageId
-                            completionBlock:^(id data, ErrorDataModel *error) {
-                                
-                                completionBlock(data, error);
-                            }];
+    [self.networkMessage sendRecipientEmail:recipientEmail key:key recipientType:recipientType messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)deleteRecipientEmail:(NSString *)recipientEmail
-                   messageId:(NSString *)messageId
-             completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
-    
-    [self.networkMessage deleteRecipientEmail:recipientEmail
-                                    messageId:messageId
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.networkMessage deleteRecipientEmail:recipientEmail messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)sentEmail:(NSString *)senderEmail
-        messageId:(NSString *)messageId
-messageIdentifier:(NSString *)messageIdentifier
-  completionBlock:(CompletionBlock)completionBlock {
+- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage sentEmail:senderEmail
-                         messageId:messageId
-                 messageIdentifier:messageIdentifier
-                   completionBlock:^(id data, ErrorDataModel *error) {
-                       
-                       completionBlock(data, error);
-                   }];
+    [self.networkMessage sentEmail:senderEmail messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail
-                    position:(NSString *)position
-                       count:(NSString *)count
-             completionBlock:(CompletionBlock)completionBlock {
+- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSString *)position count:(NSString *)count completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage syncMessagesForEmail:recipientEmail
-                                     position:position
-                                        count:count
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
 @end

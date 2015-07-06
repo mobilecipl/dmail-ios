@@ -26,74 +26,40 @@
     return self;
 }
 
-- (void)sendEncryptedMessage:(NSString *)encryptedMessage
-                 senderEmail:(NSString *)senderEmail
-             completionBlock:(CompletionBlock)completionBlock {
+- (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sendEncryptedMessage:encryptedMessage
-                                  senderEmail:senderEmail
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.daoMessage sendEncryptedMessage:encryptedMessage senderEmail:senderEmail completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)sendRecipientEmail:(NSString *)recipientEmail
-                       key:(NSString *)key
-             recipientType:(NSString *)recipientType
-                 messageId:(NSString *)messageId
-           completionBlock:(CompletionBlock)completionBlock {
+- (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sendRecipientEmail:recipientEmail
-                                        key:key
-                              recipientType:recipientType
-                                  messageId:messageId
-                            completionBlock:^(id data, ErrorDataModel *error) {
-                                
-                                completionBlock(data, error);
-                            }];
+    [self.daoMessage sendRecipientEmail:recipientEmail key:key recipientType:recipientType messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)deleteRecipientEmail:(NSString *)recipientEmail
-                   messageId:(NSString *)messageId
-             completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
-    
-    [self.daoMessage deleteRecipientEmail:recipientEmail
-                                    messageId:messageId
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.daoMessage deleteRecipientEmail:recipientEmail messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)sentEmail:(NSString *)senderEmail
-        messageId:(NSString *)messageId
-messageIdentifier:(NSString *)messageIdentifier
-  completionBlock:(CompletionBlock)completionBlock {
+- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sentEmail:senderEmail
-                         messageId:messageId
-                 messageIdentifier:messageIdentifier
-                   completionBlock:^(id data, ErrorDataModel *error) {
-                       
-                       completionBlock(data, error);
-                   }];
+    [self.daoMessage sentEmail:senderEmail messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail
-                    position:(NSString *)position
-             completionBlock:(CompletionBlock)completionBlock {
-    
+- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSString *)position completionBlock:(CompletionBlock)completionBlock {
+
     NSString *count = @"100";
-    
-    [self.daoMessage syncMessagesForEmail:recipientEmail
-                                     position:position
-                                        count:count
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+    [self.daoMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
 @end

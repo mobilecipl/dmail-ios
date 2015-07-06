@@ -10,16 +10,25 @@
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
 		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
+		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
+		9C21B8861B46A2780080B132 /* DAOContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8851B46A2780080B132 /* DAOContact.m */; };
+		9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8881B46A2DF0080B132 /* NetworkContacts.m */; };
 		9C2360A71B428B120020B348 /* Dmail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */; };
 		9C2360AD1B428CB50020B348 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AC1B428CB50020B348 /* User.m */; };
 		9C2360B01B428CB50020B348 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AF1B428CB50020B348 /* Profile.m */; };
 		9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360B21B428CB50020B348 /* DmailMessage.m */; };
+		9C73C7DC1B4555A60059DF46 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C73C7DB1B4555A60059DF46 /* XMLReader.m */; };
 		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
 		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
+		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
+		9CC2D0F61B46D47E00182C2B /* RealmContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RealmContactModel.m */; };
+		9CC2D0F91B46D49400182C2B /* RealmProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RealmProfile.m */; };
 		9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD873681B440BFE0021C44E /* GmailMessage.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
+		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
 		C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD11B42E0D800248B91 /* DAOMessage.m */; };
 		C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD41B42E22000248B91 /* ServiceMessage.m */; };
 		C08C2DAB1B41AB1C00295A94 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBA1B41AB1B00295A94 /* ProximaNova-Light.ttf */; };
@@ -35,7 +44,7 @@
 		C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE51B41AB1C00295A94 /* GmailService.m */; };
 		C08C2DBC1B41AB1C00295A94 /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE71B41AB1C00295A94 /* MessageService.m */; };
 		C08C2DBD1B41AB1C00295A94 /* SyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE91B41AB1C00295A94 /* SyncService.m */; };
-		C08C2DBE1B41AB1C00295A94 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* UserService.m */; };
+		C08C2DBE1B41AB1C00295A94 /* ProfileService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ProfileService.m */; };
 		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
 		C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */; };
@@ -120,6 +129,12 @@
 		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DmailTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C21B8811B46A1FF0080B132 /* ServiceContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceContact.h; sourceTree = "<group>"; };
+		9C21B8821B46A1FF0080B132 /* ServiceContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceContact.m; sourceTree = "<group>"; };
+		9C21B8841B46A2780080B132 /* DAOContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOContact.h; sourceTree = "<group>"; };
+		9C21B8851B46A2780080B132 /* DAOContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOContact.m; sourceTree = "<group>"; };
+		9C21B8871B46A2DF0080B132 /* NetworkContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkContacts.h; sourceTree = "<group>"; };
+		9C21B8881B46A2DF0080B132 /* NetworkContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkContacts.m; sourceTree = "<group>"; };
 		9C2360A61B428B120020B348 /* Dmail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dmail.xcdatamodel; sourceTree = "<group>"; };
 		9C2360AB1B428CB50020B348 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		9C2360AC1B428CB50020B348 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
@@ -127,16 +142,28 @@
 		9C2360AF1B428CB50020B348 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		9C2360B11B428CB50020B348 /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
 		9C2360B21B428CB50020B348 /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
+		9C73C7DA1B4555A60059DF46 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		9C73C7DB1B4555A60059DF46 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2B0B1B2AEB65008F3C8E /* DmailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DmailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2B101B2AEB65008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C9E2B111B2AEB65008F3C8E /* DmailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DmailTests.m; sourceTree = "<group>"; };
 		9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9CC2D0ED1B46CB8A00182C2B /* ContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModel.h; sourceTree = "<group>"; };
+		9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactModel.m; sourceTree = "<group>"; };
+		9CC2D0F41B46D47E00182C2B /* RealmContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmContactModel.h; sourceTree = "<group>"; };
+		9CC2D0F51B46D47E00182C2B /* RealmContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmContactModel.m; sourceTree = "<group>"; };
+		9CC2D0F71B46D49400182C2B /* RealmProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmProfile.h; sourceTree = "<group>"; };
+		9CC2D0F81B46D49400182C2B /* RealmProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmProfile.m; sourceTree = "<group>"; };
 		9CD873671B440BFE0021C44E /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
 		9CD873681B440BFE0021C44E /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfile.h; sourceTree = "<group>"; };
+		9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOProfile.m; sourceTree = "<group>"; };
+		9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileModel.h; sourceTree = "<group>"; };
+		9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileModel.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
 		C05C0CD01B42E0D800248B91 /* DAOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOMessage.h; sourceTree = "<group>"; };
 		C05C0CD11B42E0D800248B91 /* DAOMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOMessage.m; sourceTree = "<group>"; };
@@ -165,8 +192,8 @@
 		C08C2CE71B41AB1C00295A94 /* MessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageService.m; sourceTree = "<group>"; };
 		C08C2CE81B41AB1C00295A94 /* SyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncService.h; sourceTree = "<group>"; };
 		C08C2CE91B41AB1C00295A94 /* SyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncService.m; sourceTree = "<group>"; };
-		C08C2CEA1B41AB1C00295A94 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
-		C08C2CEB1B41AB1C00295A94 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
+		C08C2CEA1B41AB1C00295A94 /* ProfileService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileService.h; sourceTree = "<group>"; };
+		C08C2CEB1B41AB1C00295A94 /* ProfileService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileService.m; sourceTree = "<group>"; };
 		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
 		C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AESCrypt.m"; sourceTree = "<group>"; };
 		C08C2CF01B41AB1C00295A94 /* NSString+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AESCrypt.h"; sourceTree = "<group>"; };
@@ -325,6 +352,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C73C7D91B4555A60059DF46 /* XMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				9C73C7DA1B4555A60059DF46 /* XMLReader.h */,
+				9C73C7DB1B4555A60059DF46 /* XMLReader.m */,
+			);
+			path = XMLReader;
+			sourceTree = "<group>";
+		};
 		9C9E2AE91B2AEB64008F3C8E = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +409,35 @@
 				9C9E2B101B2AEB65008F3C8E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9CC2D0EC1B46CB7600182C2B /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				9CC2D0ED1B46CB8A00182C2B /* ContactModel.h */,
+				9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
+		9CC2D0F31B46D47E00182C2B /* Local Storage */ = {
+			isa = PBXGroup;
+			children = (
+				9CC2D0F41B46D47E00182C2B /* RealmContactModel.h */,
+				9CC2D0F51B46D47E00182C2B /* RealmContactModel.m */,
+				9CC2D0F71B46D49400182C2B /* RealmProfile.h */,
+				9CC2D0F81B46D49400182C2B /* RealmProfile.m */,
+			);
+			path = "Local Storage";
+			sourceTree = "<group>";
+		};
+		9CDD15551B4A6E7B00E54CE1 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */,
+				9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		C08C2CB71B41AB1B00295A94 /* Assets */ = {
@@ -527,10 +592,12 @@
 				C08C2CE71B41AB1C00295A94 /* MessageService.m */,
 				C08C2CE81B41AB1C00295A94 /* SyncService.h */,
 				C08C2CE91B41AB1C00295A94 /* SyncService.m */,
-				C08C2CEA1B41AB1C00295A94 /* UserService.h */,
-				C08C2CEB1B41AB1C00295A94 /* UserService.m */,
+				C08C2CEA1B41AB1C00295A94 /* ProfileService.h */,
+				C08C2CEB1B41AB1C00295A94 /* ProfileService.m */,
 				C05C0CD31B42E22000248B91 /* ServiceMessage.h */,
 				C05C0CD41B42E22000248B91 /* ServiceMessage.m */,
+				9C21B8811B46A1FF0080B132 /* ServiceContact.h */,
+				9C21B8821B46A1FF0080B132 /* ServiceContact.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -718,6 +785,7 @@
 		C08C2D4D1B41AB1C00295A94 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9C73C7D91B4555A60059DF46 /* XMLReader */,
 				C08C2D4E1B41AB1C00295A94 /* Base64 */,
 				C08C2D541B41AB1C00295A94 /* Location */,
 				C08C2D571B41AB1C00295A94 /* ModalTransitionAnimator */,
@@ -780,8 +848,8 @@
 			isa = PBXGroup;
 			children = (
 				C08C2D651B41AB1C00295A94 /* DAO */,
+				9CC2D0F31B46D47E00182C2B /* Local Storage */,
 				C08C2D661B41AB1C00295A94 /* Items */,
-				C08C2D6F1B41AB1C00295A94 /* Local Storage */,
 				C08C2D701B41AB1C00295A94 /* Models */,
 				C08C2D771B41AB1C00295A94 /* Network */,
 			);
@@ -793,6 +861,10 @@
 			children = (
 				C05C0CD01B42E0D800248B91 /* DAOMessage.h */,
 				C05C0CD11B42E0D800248B91 /* DAOMessage.m */,
+				9C21B8841B46A2780080B132 /* DAOContact.h */,
+				9C21B8851B46A2780080B132 /* DAOContact.m */,
+				9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */,
+				9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -812,16 +884,11 @@
 			path = Items;
 			sourceTree = "<group>";
 		};
-		C08C2D6F1B41AB1C00295A94 /* Local Storage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Local Storage";
-			sourceTree = "<group>";
-		};
 		C08C2D701B41AB1C00295A94 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9CDD15551B4A6E7B00E54CE1 /* Profile */,
+				9CC2D0EC1B46CB7600182C2B /* Contact */,
 				C08C2D711B41AB1C00295A94 /* Compose */,
 				C08C2D741B41AB1C00295A94 /* Inbox */,
 			);
@@ -851,6 +918,8 @@
 			children = (
 				58FB2B741B42C5EA005B9541 /* NetworkMessage.h */,
 				58FB2B751B42C5EA005B9541 /* NetworkMessage.m */,
+				9C21B8871B46A2DF0080B132 /* NetworkContacts.h */,
+				9C21B8881B46A2DF0080B132 /* NetworkContacts.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1184,7 +1253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n./Fabric.framework/run a2b376170abea399baf96035d0ae31651a2aeee6 5618763dd27960a4ba84ecb8fc742ae1e8a4b1aae36184a5442dbcbd6e1f483a";
 		};
 		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1223,6 +1292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */,
 				C08C2DE71B41AB1C00295A94 /* Base64.m in Sources */,
 				C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */,
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
@@ -1231,6 +1301,7 @@
 				C08C2DF41B41AB1C00295A94 /* InboxModel.m in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
+				9C73C7DC1B4555A60059DF46 /* XMLReader.m in Sources */,
 				9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */,
 				C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */,
 				C08C2DB11B41AB1C00295A94 /* CoreDataManager.m in Sources */,
@@ -1250,17 +1321,21 @@
 				C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */,
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
+				9CC2D0F91B46D49400182C2B /* RealmProfile.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
 				C08C2DFC1B41AB1C00295A94 /* RootViewController.m in Sources */,
 				C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
+				9CC2D0F61B46D47E00182C2B /* RealmContactModel.m in Sources */,
 				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,
 				C08C2DB81B41AB1C00295A94 /* DmailManager.m in Sources */,
 				C08C2DF31B41AB1C00295A94 /* ComposeModel.m in Sources */,
+				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
+				9C21B8861B46A2780080B132 /* DAOContact.m in Sources */,
 				C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */,
 				C08C2DDE1B41AB1C00295A94 /* BaseSearchBar.m in Sources */,
 				C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */,
@@ -1293,7 +1368,10 @@
 				C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */,
 				C08C2DFD1B41AB1C00295A94 /* SentViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
-				C08C2DBE1B41AB1C00295A94 /* UserService.m in Sources */,
+				9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */,
+				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
+				C08C2DBE1B41AB1C00295A94 /* ProfileService.m in Sources */,
+				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,
 				C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */,
 				C08C2DD91B41AB1C00295A94 /* BaseCollectionView.m in Sources */,
 				C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */,
@@ -1421,7 +1499,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Debug;
 		};
@@ -1441,7 +1519,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Release;
 		};

@@ -12,7 +12,7 @@
 #import "CoreDataManager.h"
 #import "MessageItem.h"
 #import "GmailMessage.h"
-#import "UserService.h"
+#import "ProfileService.h"
 
 
 @interface InboxModel ()

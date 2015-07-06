@@ -8,11 +8,12 @@
 
 #import <GoogleSignIn/GoogleSignIn.h>
 #import "LoadingViewController.h"
-#import "UserService.h"
+#import "ProfileService.h"
 #import "LoginViewController.h"
 #import "MessageService.h"
 #import "NetworkManager.h"
 #import "SyncService.h"
+#import "DAOContact.h"
 
 
 @interface LoadingViewController ()<GIDSignInDelegate>
@@ -30,7 +31,7 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
-    if ([[UserService sharedInstance] gmailId]) {
+    if ([[ProfileService sharedInstance] googleId]) {
         [self autoSignIn];
     }
     else {
@@ -45,6 +46,7 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/"];
     googleSignIn.shouldFetchBasicProfile = YES;
     googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
@@ -62,7 +64,9 @@
     }
     else {
         [[SyncService sharedInstance] getMessageIds];
-//        [[NetworkManager sharedManager] getContacts];
+        [[SyncService sharedInstance] syncGoogleContacts];
+        DAOContact *contact = [[DAOContact alloc] init];
+        [contact getContactsFromLocalDBWithName:@"A"];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

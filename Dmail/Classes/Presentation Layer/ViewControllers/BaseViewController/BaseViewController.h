@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserService.h"
+#import "ProfileService.h"
 #import "Constants.h"
 
 

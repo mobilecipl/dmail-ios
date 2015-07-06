@@ -7,7 +7,7 @@
 //
 
 #import "CoreDataManager.h"
-#import "UserService.h"
+#import "ProfileService.h"
 #import "Constants.h"
 #import "DmailEntityItem.h"
 #import "ProfileItem.h"
@@ -104,13 +104,13 @@ static NSString * const EntityProfile = @"Profile";
 #pragma mark - User
 - (void)writeUserDataWith:(UserService *)userService {
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityUser inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    User *user = [NSEntityDescription insertNewObjectForEntityForName:EntityUser inManagedObjectContext:self.managedObjectContext];
-    user.fullName = userService.name;
-    user.email = userService.email;
-    user.gmailId = userService.gmailId;
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityUser inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entityDescription];
+//    User *user = [NSEntityDescription insertNewObjectForEntityForName:EntityUser inManagedObjectContext:self.managedObjectContext];
+//    user.fullName = userService.name;
+//    user.email = userService.email;
+//    user.gmailId = userService.gmailId;
     
     [self saveContext];
 }

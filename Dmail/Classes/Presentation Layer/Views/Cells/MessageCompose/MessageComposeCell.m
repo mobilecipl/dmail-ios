@@ -35,10 +35,7 @@
 #pragma mark - Public Methods
 - (void)configureCell {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnLabelMessage)];
     [self.labelMessage addGestureRecognizer:tapGesture];
     self.labelMessage.userInteractionEnabled = YES;

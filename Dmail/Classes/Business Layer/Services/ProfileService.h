@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 
-@interface UserService : NSObject
+@interface ProfileService : NSObject
 
-@property (nonatomic, strong) NSString *gmailId;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *googleId;
+@property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, assign) BOOL signedIn;
 
-+ (UserService *)sharedInstance;
++ (ProfileService *)sharedInstance;
 
 - (void)updateUserDetails:(GIDGoogleUser *)user;
 

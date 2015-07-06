@@ -69,8 +69,7 @@
 
 -(void)prepareRequest {
     
-    NSString *appVersion = [NSString stringWithFormat:@"app_version=t.i.%@;",
-                            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    NSString *appVersion = [NSString stringWithFormat:@"app_version=t.i.%@;", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 }
 
 -(NSDictionary *)prepareParams:(NSDictionary *)params {
@@ -124,11 +123,9 @@
 -(AFFailureBlock)constructFailureBlockWithBlock:(CompletionBlock)completionBlock {
     __block __weak id blockDelegate = self.delegate;
     
-    AFFailureBlock failureBlock = ^(AFHTTPRequestOperation *operation, NSError *error)
-    {
+    AFFailureBlock failureBlock = ^(AFHTTPRequestOperation *operation, NSError *error) {
         //URL Loading System Error Codes
         //https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Constants/Reference/reference.html
-        
         NSLog(@"responseObject: %@", [operation responseObject]);
         id responseObject = [operation responseObject];
         if (responseObject) {

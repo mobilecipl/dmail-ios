@@ -11,7 +11,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "UserService.h"
+#import "ProfileService.h"
 #import "SyncService.h"
 #import "GmailManager.h"
 #import "NSString+AESCrypt.h"

@@ -36,8 +36,8 @@
     return sharedInstance;
 }
 
-#pragma mark - Private Methods
 
+#pragma mark - Private Methods
 - (NSString *)getEmailFromValue:(NSString *)value {
     
     NSString *email;

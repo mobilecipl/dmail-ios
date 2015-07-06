@@ -37,6 +37,7 @@ static NSString * const NotificationMessageSent = @"notificationMessageSent";
 static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
 static NSString * const NotificationNewMessageSent = @"notificationNewMessageSent";
 static NSString * const NotificationNewMessageSentError = @"notificationNewMessageSentError";
+static NSString * const NotificationUpdateContacts = @"notificationUpdateContacts";
 
 
 typedef NS_ENUM(NSInteger, MessageLabel) {

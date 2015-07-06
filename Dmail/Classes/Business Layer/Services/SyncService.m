@@ -9,6 +9,7 @@
 #import "SyncService.h"
 #import "Constants.h"
 #import "DmailManager.h"
+#import "ServiceContact.h"
 
 @implementation SyncService
 
@@ -30,6 +31,12 @@
 - (void)getMessageIds {
     
     [[DmailManager sharedInstance] getDmailIds];
+}
+
+- (void)syncGoogleContacts {
+    
+    ServiceContact *serviceContact = [[ServiceContact alloc] init];
+    [serviceContact getContactsFromGoogle];
 }
 
 @end

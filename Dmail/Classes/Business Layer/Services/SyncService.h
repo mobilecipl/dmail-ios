@@ -13,5 +13,6 @@
 + (SyncService *)sharedInstance;
 
 - (void)getMessageIds;
+- (void)syncGoogleContacts;
 
 @end
