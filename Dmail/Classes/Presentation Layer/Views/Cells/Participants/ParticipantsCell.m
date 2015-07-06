@@ -8,6 +8,8 @@
 
 #import "ParticipantsCell.h"
 #import "ParticipantView.h"
+#import "ContactModel.h"
+
 
 CGFloat kTextFieldMaxWidth = 70;
 CGFloat kSpaceBetweenParticipants = 5;
@@ -125,9 +127,9 @@ CGFloat kfirstParticipantOriginX = 34;
     }
 }
 
-- (void)createParticipantWithEmail:(NSString *)email {
+- (void)createParticipantWithEmail:(NSString *)email withName:(NSString *)name {
     
-    ParticipantView *participantView = [[ParticipantView alloc] initWithEmail:email];
+    ParticipantView *participantView = [[ParticipantView alloc] initWithEmail:email withName:name];
     [participantView createForSent:self.sentScreen];
     if (!self.sentScreen) {
         participantView.frame = CGRectMake(self.textFieldParticipant.frame.origin.x, self.textFieldOriginY, participantView.frame.size.width, participantView.frame.size.height);
@@ -141,6 +143,7 @@ CGFloat kfirstParticipantOriginX = 34;
 #pragma mark - Public Methods
 - (void)configureCell:(NSInteger)row hideCcBcc:(BOOL)hideCcBcc {
     
+    self.textFieldParticipant.tag = 1;
     self.row = row;
     switch (row) {
         case 0:
@@ -187,17 +190,24 @@ CGFloat kfirstParticipantOriginX = 34;
     }
     
     for (NSString *email in arrayParticipants) {
-        [self createParticipantWithEmail:email];
+        [self createParticipantWithEmail:email withName:nil];
     }
     [self arrangeParticipantViews];
+}
+
+- (void)addParticipantWithContactModel:(ContactModel *)contactModel {
+    
+    [self createParticipantWithEmail:contactModel.email withName:contactModel.fullName];
+    [self determineTextFieldsFrame];
 }
 
 
 #pragma mark - UITextFieldDelegate Methods
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
-    if ([self.delegate respondsToSelector:@selector(participantEmail:)]) {
-        [self.delegate participantEmail:textField.text];
+    self.participantSet = NO;
+    if ([self.delegate respondsToSelector:@selector(startEditparticipantName:)]) {
+        [self.delegate startEditparticipantName:self.row];
     }
     return YES;
 }
@@ -207,12 +217,15 @@ CGFloat kfirstParticipantOriginX = 34;
     [textField resignFirstResponder];
     if (textField.text.length > 0) {
         NSString *email = textField.text;
-        [self createParticipantWithEmail:textField.text];
+        [self createParticipantWithEmail:textField.text withName:nil];
         [self determineTextFieldsFrame];
         
         if ([self.delegate respondsToSelector:@selector(addParticipantsEmail:row:)]) {
             [self.delegate addParticipantsEmail:email row:self.row];
         }
+    }
+    if ([self.delegate respondsToSelector:@selector(changeTableOffsetY)]) {
+        [self.delegate changeTableOffsetY];
     }
     
     return YES;
@@ -220,14 +233,23 @@ CGFloat kfirstParticipantOriginX = 34;
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     
-    if (textField.text.length > 0) {
+    if (textField.text.length > 0 && !self.participantSet) {
+        self.participantSet = NO;
         NSString *email = textField.text;
-        [self createParticipantWithEmail:textField.text];
+        [self createParticipantWithEmail:textField.text withName:nil];
         [self determineTextFieldsFrame];
         
         if ([self.delegate respondsToSelector:@selector(addParticipantsEmail:row:)]) {
             [self.delegate addParticipantsEmail:email row:self.row];
         }
+    }
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if ([self.delegate respondsToSelector:@selector(participantEmail:)]) {
+        [self.delegate participantEmail:string];
     }
     return YES;
 }

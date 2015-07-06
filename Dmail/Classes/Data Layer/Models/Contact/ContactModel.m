@@ -7,6 +7,7 @@
 //
 
 #import "ContactModel.h"
+#import "RealmContactModel.h"
 
 @implementation ContactModel
 
@@ -17,6 +18,18 @@
         _email = email;
         _fullName = fullName;
         _contactId = contactId;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithRMModel:(RealmContactModel *)rmModel {
+    
+    self = [super init];
+    if (self) {
+        _email = rmModel.email;
+        _fullName = rmModel.fullName;
+        _contactId = rmModel.contactId;
     }
     
     return self;

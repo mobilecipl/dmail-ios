@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *name;
 
-- (instancetype)initWithEmail:(NSString *)email;
+- (instancetype)initWithEmail:(NSString *)email withName:(NSString *)name;
 - (void)createForSent:(BOOL)forSent;
 
 @end

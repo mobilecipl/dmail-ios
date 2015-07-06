@@ -14,24 +14,30 @@
 #import "ComposeModelItem.h"
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
+#import "ContactCell.h"
+#import "DAOContact.h"
 
 
 @interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UIButton *buttonSend;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 
 @property (nonatomic, strong) NSMutableArray *arrayTableItems;
+@property (nonatomic, strong) NSArray *arrayContacts;
 @property (nonatomic, strong) NSMutableArray *arrayTo;
 @property (nonatomic, strong) NSMutableArray *arrayCc;
 @property (nonatomic, strong) NSMutableArray *arrayBcc;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageBody;
+@property (nonatomic, strong) NSString *participantEmail;
 @property (nonatomic, assign) CGFloat toCellHeight;
 @property (nonatomic, assign) CGFloat ccCellHeight;
 @property (nonatomic, assign) CGFloat bccCellHeight;
 @property (nonatomic, assign) CGFloat messageContentCellHeight;
+@property (nonatomic, assign) NSInteger selectedRow;
 @property (nonatomic, assign) BOOL backClicked;
 @property (nonatomic, strong) ComposeModel *composeModel;
 
@@ -52,14 +58,10 @@
     
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(newMessageSent)
-                                                 name:NotificationNewMessageSent
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(messageSentError)
-                                                 name:NotificationNewMessageSentError
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageSent) name:NotificationNewMessageSent object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentError) name:NotificationNewMessageSentError object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
     self.backClicked = NO;
 }
 
@@ -75,11 +77,7 @@
     [self.view endEditing:YES];
     if ([self.arrayTo count] > 0 && !self.backClicked) {
         [self showLoadingView];
-        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject
-                                                                                  body:self.messageBody
-                                                                               arrayTo:self.arrayTo
-                                                                               arrayCC:self.arrayCc
-                                                                              arrayBCC:self.arrayBcc];
+        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject body:self.messageBody arrayTo:self.arrayTo arrayCC:self.arrayCc arrayBCC:self.arrayBcc];
         [self.composeModel sendMessageWithItem:composeModelItem];
     }
 }
@@ -92,9 +90,21 @@
 
 
 #pragma mark - Private Methods
+- (void)keyboardWillShow:(NSNotification*)notification {
+    
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    CGRect frame = self.tableViewContacts.frame;
+    self.tableViewContacts.translatesAutoresizingMaskIntoConstraints = YES;
+    self.tableViewContacts.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - frame.origin.y - keyboardFrameBeginRect.size.height);
+}
+
 - (void)setupController {
     
+    self.tableViewContacts.hidden = YES;
     self.messageBody = @"";
+    self.participantEmail = @"";
     self.composeModel = [[ComposeModel alloc] init];
     
     self.arrayTableItems = [[NSMutableArray alloc] initWithObjects:@"1",@"4", nil];
@@ -107,30 +117,17 @@
     self.arrayBcc = [[NSMutableArray alloc] init];
 }
 
-- (void)hideKeyboard {
-    
-
-}
-
 - (void)newMessageSent {
     
     [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                    message:@"Message Sent"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail" message:@"Message Sent" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
 }
 
 - (void)messageSentError {
     
     [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                    message:@"Error With Sending Message"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail" message:@"Error With Sending Message" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
 }
 
@@ -144,111 +141,139 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat rowHeight = 0;
-    if ([self.arrayTableItems count] == 2) {
-        if (indexPath.row == 0) {
-            rowHeight = self.toCellHeight;
+    if (tableView == self.tableView) {
+        if ([self.arrayTableItems count] == 2) {
+            if (indexPath.row == 0) {
+                rowHeight = self.toCellHeight;
+            }
+            else {
+                rowHeight = self.messageContentCellHeight;
+            }
         }
         else {
-            rowHeight = self.messageContentCellHeight;
+            switch (indexPath.row) {
+                case 0:
+                    rowHeight = self.toCellHeight;
+                    break;
+                case 1:
+                    rowHeight = self.ccCellHeight;
+                    break;
+                case 2:
+                    rowHeight = self.bccCellHeight;
+                    break;
+                case 3:
+                    rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     else {
-        switch (indexPath.row) {
-            case 0:
-                rowHeight = self.toCellHeight;
-                break;
-            case 1:
-                rowHeight = self.ccCellHeight;
-                break;
-            case 2:
-                rowHeight = self.bccCellHeight;
-                break;
-            case 3:
-                rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-                break;
-            default:
-                break;
-        }
+        rowHeight = 44;
     }
     return rowHeight;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.arrayTableItems.count;
+    if (tableView == self.tableView) {
+        return [self.arrayTableItems count];
+    }
+    else {
+        return [self.arrayContacts count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.arrayTableItems count] == 2) {
-        switch (indexPath.row) {
-            case 0: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
+    if (tableView == self.tableView) {
+        if ([self.arrayTableItems count] == 2) {
+            switch (indexPath.row) {
+                case 0: {
+                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                    participantsCell.delegate = self;
+                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
+                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return participantsCell;
+                }
+                    break;
+                case 1: {
+                    MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
+                    messageComposeCell.delegate = self;
+                    [messageComposeCell configureCell];
+                    messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return messageComposeCell;
+                }
+                    break;
+                default:
+                    break;
             }
-                break;
-            case 1: {
-                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                messageComposeCell.delegate = self;
-                [messageComposeCell configureCell];
-                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return messageComposeCell;
+        }
+        else {
+            switch (indexPath.row) {
+                case 0: {
+                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                    participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
+                    participantsCell.delegate = self;
+                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
+                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return participantsCell;
+                }
+                    break;
+                case 1: {
+                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                    participantsCell.delegate = self;
+                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
+                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return participantsCell;
+                }
+                    break;
+                case 2: {
+                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                    participantsCell.delegate = self;
+                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
+                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return participantsCell;
+                }
+                    break;
+                case 3: {
+                    MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
+                    messageComposeCell.delegate = self;
+                    [messageComposeCell configureCell];
+                    messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                    return messageComposeCell;
+                }
+                    break;
+                default:
+                    break;
             }
-                break;
-            default:
-                break;
         }
     }
     else {
-        switch (indexPath.row) {
-            case 0: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
-                participantsCell.delegate = self;
-                [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 1: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 2: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 3: {
-                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                messageComposeCell.delegate = self;
-                [messageComposeCell configureCell];
-                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return messageComposeCell;
-            }
-                break;
-            default:
-                break;
-        }
+        ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
+        [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row]];
+        
+        return contactCell;
     }
     
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
+    ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
+    participantCell.participantSet = YES;
+    [participantCell addParticipantWithContactModel:contactModel];
+    self.tableViewContacts.hidden = YES;
+    [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
 }
 
 
@@ -305,11 +330,45 @@
 
 - (void)participantEmail:(NSString *)email {
     
-    if (email.length > 0) {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
+//    if (email.length > 0) {
+//        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
+//    }
+//    else {
+//        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
+//    }
+    if ([email isEqualToString:@""]) {
+        self.participantEmail = [self.participantEmail substringToIndex:self.participantEmail.length - 1];
     }
     else {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
+        self.participantEmail = [self.participantEmail stringByAppendingString:email];
+    }
+    DAOContact *daoContact = [[DAOContact alloc] init];
+    self.arrayContacts = [daoContact getContactsFromLocalDBWithName:self.participantEmail];
+    if ([self.arrayContacts count] > 0) {
+        self.tableViewContacts.hidden = NO;
+        [self.tableViewContacts reloadData];
+    }
+    else {
+        self.tableViewContacts.hidden = YES;
+    }
+}
+
+- (void)startEditparticipantName:(NSInteger)cellRow {
+    
+    self.participantEmail = @"";
+    self.selectedRow = cellRow;
+    switch (cellRow) {
+        case 0:
+            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+            break;
+        case 1:
+            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, self.toCellHeight) animated:YES];
+            break;
+        case 2:
+            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, self.toCellHeight + self.ccCellHeight) animated:YES];
+            break;
+        default:
+            break;
     }
 }
 
@@ -329,6 +388,11 @@
         default:
             break;
     }
+}
+
+- (void)changeTableOffsetY {
+    
+    [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
 }
 
 

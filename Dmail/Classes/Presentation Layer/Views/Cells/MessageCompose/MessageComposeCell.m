@@ -100,7 +100,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
-    if ([self.delegate respondsToSelector:@selector(messageSubject:)]) {
+    if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
         [self.delegate messageBody:text];
     }
     

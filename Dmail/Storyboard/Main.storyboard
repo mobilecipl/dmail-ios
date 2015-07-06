@@ -33,13 +33,16 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.ttf">
             <string>ProximaNova-Semibold</string>
             <string>ProximaNova-Semibold</string>
             <string>ProximaNova-Semibold</string>
+            <string>ProximaNova-Semibold</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Thin.ttf">
+            <string>ProximaNova-Thin</string>
             <string>ProximaNova-Thin</string>
         </mutableArray>
     </customFonts>
@@ -1346,7 +1349,7 @@
                                                                         <constraint firstAttribute="height" constant="30" id="tBK-NM-BiY"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="done"/>
+                                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="done"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="ayB-Jl-R75" id="CeW-qX-zHS"/>
                                                                     </connections>
@@ -1515,13 +1518,58 @@
                                     <constraint firstItem="uGA-VU-aWP" firstAttribute="top" secondItem="BWr-gs-5Px" secondAttribute="bottom" constant="4" id="rAg-ot-iWv"/>
                                 </constraints>
                             </view>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="68V-jc-cHa" userLabel="Table View:Contacts">
+                                <rect key="frame" x="10" y="123" width="355" height="478"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCellID" id="gvW-Fi-8W9" customClass="ContactCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="355" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gvW-Fi-8W9" id="fSk-JE-qk8">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Karen Petrosyan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4R-Nz-JU0">
+                                                    <rect key="frame" x="8" y="0.0" width="339" height="21"/>
+                                                    <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="other" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZC-9W-alr">
+                                                    <rect key="frame" x="8" y="21" width="33" height="21"/>
+                                                    <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="13"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="kpetrosyan@science-inc.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShJ-eS-T1V">
+                                                    <rect key="frame" x="49" y="21" width="298" height="21"/>
+                                                    <fontDescription key="fontDescription" name="ProximaNova-Thin" family="Proxima Nova" pointSize="13"/>
+                                                    <color key="textColor" red="0.54509803921568623" green="0.54509803921568623" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelEmail" destination="ShJ-eS-T1V" id="6Jk-9b-hww"/>
+                                            <outlet property="labelFullName" destination="L4R-Nz-JU0" id="eDy-3T-qZh"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="zbx-z7-Gyx" id="h46-pr-Prk"/>
+                                    <outlet property="delegate" destination="zbx-z7-Gyx" id="yF2-zN-xsy"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="68V-jc-cHa" firstAttribute="top" secondItem="GU9-KL-6zF" secondAttribute="bottom" constant="58" id="0AT-jM-5Kq"/>
                             <constraint firstItem="Djp-pp-Aox" firstAttribute="top" secondItem="GU9-KL-6zF" secondAttribute="bottom" id="0uY-Xd-YTX"/>
                             <constraint firstItem="mMx-1u-6pT" firstAttribute="width" secondItem="a2z-zk-htA" secondAttribute="width" multiplier="355/375" id="BvK-0t-k1o"/>
+                            <constraint firstAttribute="trailing" secondItem="68V-jc-cHa" secondAttribute="trailing" constant="10" id="G4l-Y7-luT"/>
                             <constraint firstAttribute="trailing" secondItem="GU9-KL-6zF" secondAttribute="trailing" id="OSp-O9-iaE"/>
                             <constraint firstItem="Djp-pp-Aox" firstAttribute="leading" secondItem="a2z-zk-htA" secondAttribute="leading" id="Qo1-dJ-zQ3"/>
+                            <constraint firstItem="68V-jc-cHa" firstAttribute="leading" secondItem="a2z-zk-htA" secondAttribute="leading" constant="10" id="R0n-wj-fA4"/>
+                            <constraint firstItem="MQG-5Z-Cq7" firstAttribute="top" secondItem="68V-jc-cHa" secondAttribute="bottom" constant="66" id="SOo-Jx-KQe"/>
                             <constraint firstItem="GU9-KL-6zF" firstAttribute="leading" secondItem="a2z-zk-htA" secondAttribute="leading" id="aek-Pr-pr0"/>
                             <constraint firstAttribute="centerX" secondItem="mMx-1u-6pT" secondAttribute="centerX" id="ccH-XJ-xbS"/>
                             <constraint firstItem="MQG-5Z-Cq7" firstAttribute="top" secondItem="Djp-pp-Aox" secondAttribute="bottom" id="cql-n8-cg3"/>
@@ -1535,6 +1583,7 @@
                     <connections>
                         <outlet property="buttonSend" destination="htY-Uv-rlo" id="VER-n4-O4F"/>
                         <outlet property="tableView" destination="FWk-7J-RYY" id="bhz-8I-Y71"/>
+                        <outlet property="tableViewContacts" destination="68V-jc-cHa" id="WCU-vM-LdR"/>
                         <outlet property="viewSecure" destination="mMx-1u-6pT" id="XL4-H9-jMy"/>
                     </connections>
                 </viewController>

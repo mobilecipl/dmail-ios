@@ -56,7 +56,7 @@ static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/cont
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", email];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full?alt=json", email];
     
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];

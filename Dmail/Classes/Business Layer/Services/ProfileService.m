@@ -21,22 +21,6 @@
 
 @implementation ProfileService
 
-- (instancetype)init {
-    
-    self = [super init];
-    if (self) {
-        _daoProfile = [[DAOProfile alloc] init];
-        ProfileModel *model = [_daoProfile getProfile];
-        if (model) {
-            _email = model.email;
-            _fullName = model.fullName;
-            _googleId = model.googleId;
-        }
-    }
-    
-    return self;
-}
-
 + (ProfileService *)sharedInstance {
     static ProfileService *sharedInstance;
     static dispatch_once_t onceToken;
@@ -50,12 +34,6 @@
             sharedInstance.fullName = model.fullName;
             sharedInstance.googleId = model.googleId;
         }
-        
-//        User *user = [[CoreDataManager sharedCoreDataManager] getUserData];
-//        sharedInstance.gmailId = user.gmailId;
-//        sharedInstance.email = user.email;
-//        sharedInstance.name = user.fullName;
-//        sharedInstance.signedIn = NO;
     });
     
     return sharedInstance;
@@ -66,13 +44,6 @@
     self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID contactLastUpdateDate:nil];
     self.daoProfile = [[DAOProfile alloc] init];
     [self.daoProfile addProfileWithProfileModel:self.profileModel];
-    
-//    self.gmailId = user.userID;
-//    self.name = user.profile.name;
-//    self.email = user.profile.email;
-//    self.signedIn = YES;
-//    
-//    [[CoreDataManager sharedCoreDataManager] writeUserDataWith:self];
 }
 
 @end

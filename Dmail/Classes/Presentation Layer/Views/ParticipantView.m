@@ -28,19 +28,17 @@ CGFloat fontSize = 12.5;
 
 @implementation ParticipantView
 
-- (instancetype)initWithEmail:(NSString *)email {
+- (instancetype)initWithEmail:(NSString *)email withName:(NSString *)name {
     
     self = [super init];
     if (self) {
-//        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:email];
         self.email = email;
-//        if (profile && profile.name) {
-//            self.name = profile.name;
-//        }
-//        else {
-//            self.name = email;
-//        }
-        self.name = email;
+        if (name) {
+            self.name = name;
+        }
+        else {
+            self.name = email;
+        }
     }
     
     return self;
