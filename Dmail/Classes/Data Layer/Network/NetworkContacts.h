@@ -13,4 +13,6 @@
 
 - (void)getGoogleContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
 
+- (void)getContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
+
 @end

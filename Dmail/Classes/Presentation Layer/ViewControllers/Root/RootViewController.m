@@ -10,7 +10,9 @@
 
 #import "Configurations.h"
 
-#import "NetworkGmailContacts.h"
+
+//test
+#import "NetworkGmailMessage.h"
 
 @interface RootViewController ()
 
@@ -36,10 +38,32 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     
-    NetworkGmailContacts *gmailContacts = [[NetworkGmailContacts alloc] init];
-    [gmailContacts getGoogleContactsForEmail:@"ghukasyangevorg1@gmail.com" completionBlock:^(id data, ErrorDataModel *error) {
-        
-    }];
+//    NetworkGmailContacts *gmailContacts = [[NetworkGmailContacts alloc] init];
+//    [gmailContacts getGoogleContactsForEmail:@"ghukasyangevorg1@gmail.com" completionBlock:^(id data, ErrorDataModel *error) {
+//        
+//    }];
+    
+//    NetworkGmailMessage *gmailMessages = [[NetworkGmailMessage alloc] init];
+//    [gmailMessages getMessageWithMessageId:@"14e6496baff81611" userId:@"me" completionBlock:^(id data, ErrorDataModel *error) {
+//        
+//    }];
+    
+//    [gmailMessages getMessageIdWithUniqueId:@"<CALnt6JsyRfqDD1VNQ2m2-Tp-K8bW5Z8LOzTS+xhvjA1X9fro9Q@mail.gmail.com>" userId:@"me" completionBlock:^(id data, ErrorDataModel *error) {
+//        
+//    }];
+    
+//    [gmailMessages sendWithEncodedBody:@"RnJvbTogS2FyZW4gUGV0cm9zeWFuIDxnaHVrYXN5YW5nZXZvcmcxQGdtYWlsLmNvbT4gDQpUbzogRGF2aWQgWmFraGFyeWFuIDxnZ2h1a2FzeWFuQHNjaWVuY2UtaW5jLmNvbT4gDQpTdWJqZWN0OiBTYXlpbmcgSGVsbG8gDQoNClRoaXMgaXMgYSBtZXNzYWdlIGp1c3QgdG8gc2F5IGhlbGxvLiBTbywgIkhlbGxvIi4="
+//                                userId:@"me"
+//                       completionBlock:^(id data, ErrorDataModel *error) {
+//                                    
+//                                }];
+    
+//    [gmailMessages deleteWithGmailId:@"14e6496baff81611" userId:@"me" completionBlock:^(id data, ErrorDataModel *error) {
+//        
+//    }];
+    
+    
+    
 }
 
 #pragma mark - Private Methods

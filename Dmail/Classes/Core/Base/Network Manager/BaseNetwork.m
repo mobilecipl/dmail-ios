@@ -19,6 +19,7 @@
 @implementation BaseNetwork
 
 -(instancetype)init {
+    
     self = [super init];
 	if (self != nil)
     {
@@ -57,6 +58,7 @@
 }
 
 - (instancetype)initForGmailContacts {
+    
     self = [super init];
     if (self != nil)
     {
@@ -100,11 +102,9 @@
     if (self != nil)
     {
         //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseServerURL]];
+        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.googleapis.com/gmail/v1/users"]];
         NSOperationQueue *operationQueue = manager.operationQueue;
-        //        [manager.reachabilityManager startMonitoring];
         [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            //            UALog(@"AFNetworkReachabilityStatus: %li", status);
             
             switch (status) {
                 case AFNetworkReachabilityStatusReachableViaWWAN:
@@ -120,14 +120,15 @@
         }];
         AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
         
+        [requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+        
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
         [requestSerializer setHTTPShouldHandleCookies:NO];
         
         manager.requestSerializer = requestSerializer;
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-        //        cStore = [CredentialStore sharedInstance];
     }
     
     return  self;

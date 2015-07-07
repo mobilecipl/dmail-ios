@@ -12,8 +12,15 @@
 
 
 static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/contacts/";
+static NSString * const kUrlGetAll = @"%@/full";
 
 @implementation NetworkContacts
+
+- (instancetype)init
+{
+    self = [super initForGmailContacts];
+    return self;
+}
 
 - (void)getGoogleContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
     
@@ -75,6 +82,38 @@ static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/cont
         }
     }];
     [dataTask resume];
+}
+
+- (void)getContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GetContacts JSON: %@", responseObject);
+        switch (operation.response.statusCode) {
+            case 200: { //Success Response
+                
+                NSDictionary *xmlData = [XMLReader dictionaryForXMLData:responseObject error:nil];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                });
+            }
+                break;
+                
+            default: {
+                ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                error.statusCode = @(operation.response.statusCode);
+                completionBlock(nil, error);
+            }
+                break;
+        }
+    };
+    
+    [self makeGetRequest:[NSString stringWithFormat:kUrlGetAll, email]
+              withParams:nil
+                 success:successBlock
+                 failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 @end
