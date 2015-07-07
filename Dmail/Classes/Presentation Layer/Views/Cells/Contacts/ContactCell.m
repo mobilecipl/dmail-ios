@@ -31,23 +31,6 @@
 
 - (void)configureCellWithContactModel:(ContactModel *)contactModel searchText:(NSString *)searchtext{
     
-    self.labelFullName.text = contactModel.fullName;
-    self.labelEmail.text = contactModel.email;
-    
-//    NSString *boldFontName = [[UIFont boldSystemFontOfSize:12] fontName];
-//    NSString *yourString = contactModel.fullName;
-//    NSRange boldedRange = NSMakeRange(1, 2);
-//    
-//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
-//    
-//    [attrString beginEditing];
-//    [attrString addAttribute:kCTFontAttributeName value:boldFontName range:boldedRange];
-//    [attrString endEditing];
-//    
-//    NSString *myString = contactModel.fullName;
-//    NSAttributedString *myBoldString = [[NSAttributedString alloc] initWithString:myString attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:8.0] }];
-//    self.labelFullName.attributedText = myBoldString;
-    
     NSString * strEmail = contactModel.email;
     strEmail = [strEmail lowercaseString];
     if (strEmail.length > 1) {

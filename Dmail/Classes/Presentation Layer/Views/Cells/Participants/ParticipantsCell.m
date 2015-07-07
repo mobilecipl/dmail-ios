@@ -39,7 +39,7 @@ CGFloat kfirstParticipantOriginX = 34;
 
 - (void)awakeFromNib {
     
-    self.textFieldOriginY = self.labelTo.frame.origin.y;
+    self.textFieldOriginY = 14;
     self.defaultTextFieldWidth = self.buttonCcBcc.frame.origin.x - (self.labelTo.frame.origin.x + self.labelTo.frame.size.width + 2*kWidthBetweenParticipants);
     self.arrayParticipantView = [[NSMutableArray alloc] init];
 }
@@ -97,13 +97,13 @@ CGFloat kfirstParticipantOriginX = 34;
         [self.delegate changeCellHeightWith:self.textFieldOriginY + self.textFieldParticipant.frame.size.height + kSpaceBetweenParticipantViewAndCellBottom cellRow:self.row];
     }
     
-    self.textFieldParticipant.text = @"";
     [self.textFieldParticipant becomeFirstResponder];
+    self.textFieldParticipant.text = @"";
 }
 
 - (void)arrangeParticipantViews {
     
-    self.textFieldOriginY = self.labelTo.frame.origin.y;
+    self.textFieldOriginY = 14;
     NSMutableArray *arrayAddedViews = [[NSMutableArray alloc] init];
     for (ParticipantView *view in self.arrayParticipantView) {
         ParticipantView *lastView = [arrayAddedViews lastObject];

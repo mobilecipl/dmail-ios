@@ -63,7 +63,7 @@
     self.labelSenderName.text = self.messageItem.fromEmail;
     NSTimeInterval timeInterval = [self.messageItem.internalDate doubleValue];
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timeInterval/1000];
-    self.labelTime.text = [NSDate timeAgoSinceDate:date];
+    self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
     NSString *dmailMessageId = self.messageItem.dmailId;
     DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getDmailMessageWithMessageId:dmailMessageId];
     if (dmailMessage.body) {

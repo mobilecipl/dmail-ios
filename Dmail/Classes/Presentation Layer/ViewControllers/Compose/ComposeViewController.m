@@ -395,6 +395,7 @@
         [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
         self.buttonSend.enabled = NO;
     }
+    self.tableViewContacts.hidden = YES;
 }
 
 - (void)removeParticipantsEmail:(NSString *)email row:(NSInteger)row {
