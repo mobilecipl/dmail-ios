@@ -1,9 +1,9 @@
 //
-//  BaseNetwork.h
-//  Core
+//  BaseContactsNetwork.h
+//  Dmail
 //
-//  Created by Armen on 3/28/14.
-//  Copyright (c) 2014 Armen Mkrtchian All rights reserved.
+//  Created by Gevorg Ghukasyan on 7/6/15.
+//  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -21,29 +21,24 @@
 
 //#import "CredentialStore.h"
 
-@protocol BaseNetworkDelegate <NSObject>
-@optional
--(void)preparingForRequests;
--(void)errorResponse:(ErrorDataModel*) error;
--(void)successResponse:(NSString*) success;
-@end
+//@protocol BaseNetworkDelegate <NSObject>
+//@optional
+//-(void)preparingForRequests;
+//-(void)errorResponse:(ErrorDataModel*) error;
+//-(void)successResponse:(NSString*) success;
+//@end
 
 typedef void(^AFConstructingBlock)(id <AFMultipartFormData> formData);
 typedef void(^AFSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
 typedef void(^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error);
 typedef void (^CompletionBlock)(id data, ErrorDataModel *error);
 
-@interface BaseNetwork : NSObject {
+@interface BaseContactsNetwork : NSObject {
     AFHTTPRequestOperationManager *manager;
-//    CredentialStore *cStore;
+    //    CredentialStore *cStore;
 }
 
 @property(nonatomic,weak)id<BaseNetworkDelegate> delegate;
-
-//Init
-- (instancetype)init; //Dmail
-- (instancetype)initForGmailContacts; //GmailContacts
-- (instancetype)initForGmailMessage; //GmailMessage
 
 -(void)makePostRequest:(NSString *)url withParams:(NSDictionary*)params success:(AFSuccessBlock)successBlock failure:(AFFailureBlock)failureBlock;
 
