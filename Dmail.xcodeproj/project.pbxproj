@@ -21,6 +21,7 @@
 		9C2360B01B428CB50020B348 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AF1B428CB50020B348 /* Profile.m */; };
 		9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360B21B428CB50020B348 /* DmailMessage.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
+		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
 		9C73C7DC1B4555A60059DF46 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C73C7DB1B4555A60059DF46 /* XMLReader.m */; };
 		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
@@ -159,6 +160,8 @@
 		9C2360B21B428CB50020B348 /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
 		9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewPlaceHolder.m; sourceTree = "<group>"; };
+		9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 		9C73C7DA1B4555A60059DF46 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
@@ -386,6 +389,15 @@
 				9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */,
 			);
 			path = TextViewPlaceHolder;
+			sourceTree = "<group>";
+		};
+		9C4F23571B4C2A2B004F9AFC /* SlideOutMenuFiles */ = {
+			isa = PBXGroup;
+			children = (
+				9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */,
+				9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */,
+			);
+			path = SlideOutMenuFiles;
 			sourceTree = "<group>";
 		};
 		9C6CA55B1B4AA4F000679E67 /* Contacts */ = {
@@ -832,6 +844,7 @@
 		C08C2D4D1B41AB1C00295A94 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9C4F23571B4C2A2B004F9AFC /* SlideOutMenuFiles */,
 				9C4F23531B4BC652004F9AFC /* TextViewPlaceHolder */,
 				9C73C7D91B4555A60059DF46 /* XMLReader */,
 				C08C2D4E1B41AB1C00295A94 /* Base64 */,
@@ -1410,6 +1423,7 @@
 				C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
+				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RealmContactModel.m in Sources */,
 				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,

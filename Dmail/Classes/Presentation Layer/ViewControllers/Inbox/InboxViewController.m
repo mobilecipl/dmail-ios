@@ -7,6 +7,7 @@
 //
 
 #import "InboxViewController.h"
+#import "SWRevealViewController.h"
 
 // controller
 #import "ComposeViewController.h"
@@ -30,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 
@@ -93,15 +95,16 @@
 
 - (void)setupTableView {
     
+    [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
     // Initilaize collection view.
     TableViewCellBlock configureCell = ^(InboxCell *cell, MessageItem *item) {
         [cell configureCell:item];
     };
     
     
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
-                                                       cellIdentifier:InboxCellIdentifier
-                                                   configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
     
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
     

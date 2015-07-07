@@ -7,8 +7,9 @@
 //
 
 #import "RootViewController.h"
-
 #import "Configurations.h"
+#import "InboxViewController.h"
+#import "SentViewController.h"
 
 
 //test
@@ -84,30 +85,23 @@
 
 - (void)setupNotificationHandlers {
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(buttonHandlerMenu)
-                                                 name:NotificationMenuButton
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inboxClicked)
-                                                 name:NotificationInbox
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sentClicked)
-                                                 name:NotificationSent
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buttonHandlerMenu) name:NotificationMenuButton object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(inboxClicked) name:NotificationInbox object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sentClicked) name:NotificationSent object:nil];
 }
 
 - (void)inboxClicked {
     
     [self hideMenu];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageInbox object:nil];
+    InboxViewController *inboxViewController = [[InboxViewController alloc] initWithNibName:@"InboxViewController" bundle:nil];
+    [self addChildViewController:inboxViewController];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageInbox object:nil];
 }
 
 - (void)sentClicked {
     
     [self hideMenu];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageSent object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMessageSent object:nil];
 }
 
 - (void)buttonHandlerMenu {
@@ -133,7 +127,6 @@
 - (void)hideMenu {
     
     [UIView animateWithDuration:0.3 animations:^{
-        
         self.constraintHorizontalSpaceing.constant = 0;
         [self.view layoutIfNeeded];
     }];
@@ -148,14 +141,11 @@
     
     switch (pan.state) {
         case UIGestureRecognizerStateBegan: {
-            
             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
             break;
         }
         case UIGestureRecognizerStateChanged: {
-            
             CGPoint translation = [pan translationInView:self.viewMain];
-            
             CGFloat check = self.constraintHorizontalSpaceing.constant + translation.x;
             if (check > self.screenWidthMenu || check < 0) {
                 break;
@@ -167,7 +157,6 @@
             break;
         }
         case UIGestureRecognizerStateEnded: {
-         
             // find animation velocity
             CGFloat velocity = self.viewMain.frame.origin.x / self.screenWidthMenu ;
             if (self.menuOpened) {

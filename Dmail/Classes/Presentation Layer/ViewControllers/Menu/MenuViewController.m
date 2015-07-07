@@ -12,7 +12,7 @@
 #import "CoreDataManager.h"
 #import "LoadingViewController.h"
 #import "LoginViewController.h"
-#import <GoogleSignIn/GoogleSignIn.h>
+#import "SWRevealViewController.h"
 
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMenuu;
 
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
+@property (nonatomic, strong) NSArray *arrayCellIds;
 @property (nonatomic, assign) NSInteger selectedCellIndex;
 
 @end
@@ -37,14 +38,9 @@
     
     self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:@{@"image" : @"imageInbox", @"text" : @"Inbox", @"color" : [UIColor cellSelected]},
   @{@"image" : @"imageSent", @"text" : @"Sent", @"color" : [UIColor whiteColor]}, nil];
-//    self.arrayDataTableViewMenu = @[ @{@"image" : @"imageInbox",
-//                                  @"text" : @"Inbox",
-//                                  @"color" : [UIColor cellSelected]},
-//                                
-//                                @{@"image" : @"imageSent",
-//                                  @"text" : @"Sent",
-//                                  @"color" : [UIColor whiteColor]}
-//                              ];
+    
+    self.arrayCellIds = @[@"InboxCellID", @"SentCellID"];
+    
     [self setupController];
     self.selectedCellIndex = 0;
 }
@@ -120,7 +116,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuCellID"];
+    NSString *cellId = [self.arrayCellIds objectAtIndex:indexPath.row];
+    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     [cell configureCell:[self.arrayDataTableViewMenu objectAtIndex:indexPath.row]];
     return cell;
 }
@@ -135,20 +132,31 @@
         [self.tableViewMenuu endUpdates];
         self.selectedCellIndex = indexPath.row;
     }
-    switch (indexPath.row) {
-        case 0: {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationInbox object:nil];
-            break;
-        }
-        case 1: {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSent object:nil];
-            break;
-        }
-        default:
-            break;
-    }
+//    switch (indexPath.row) {
+//        case 0: {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationInbox object:nil];
+//            break;
+//        }
+//        case 1: {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSent object:nil];
+//            break;
+//        }
+//        default:
+//            break;
+//    }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
+        SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
+        swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
+            UINavigationController *navController = (UINavigationController *)self.revealViewController.frontViewController;
+            [navController setViewControllers:@[dvc] animated:NO];
+            [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        };
+    }
+}
 
 #pragma mark - GIDSignInDelegate Methods
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
