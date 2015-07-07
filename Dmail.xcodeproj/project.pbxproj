@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4597283497F7FA2F97D6A282 /* libPods-Dmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5914951D3488C2D289EEE715 /* libPods-Dmail.a */; };
 		58CFBBA71B4BCC79005DA506 /* NetworkGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */; };
+		58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */; };
+		58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
 		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
@@ -130,6 +132,10 @@
 		0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.release.xcconfig"; sourceTree = "<group>"; };
 		58CFBBA51B4BCC79005DA506 /* NetworkGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkGmailMessage.h; sourceTree = "<group>"; };
 		58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkGmailMessage.m; sourceTree = "<group>"; };
+		58CFBBA81B4BFC80005DA506 /* DAOGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOGmailMessage.h; sourceTree = "<group>"; };
+		58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOGmailMessage.m; sourceTree = "<group>"; };
+		58CFBBAB1B4BFF20005DA506 /* ServiceGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceGmailMessage.h; sourceTree = "<group>"; };
+		58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceGmailMessage.m; sourceTree = "<group>"; };
 		58FB2B741B42C5EA005B9541 /* NetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkMessage.h; sourceTree = "<group>"; };
 		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -625,6 +631,8 @@
 				C05C0CD41B42E22000248B91 /* ServiceMessage.m */,
 				9C21B8811B46A1FF0080B132 /* ServiceContact.h */,
 				9C21B8821B46A1FF0080B132 /* ServiceContact.m */,
+				58CFBBAB1B4BFF20005DA506 /* ServiceGmailMessage.h */,
+				58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -893,6 +901,8 @@
 				9C21B8851B46A2780080B132 /* DAOContact.m */,
 				9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */,
 				9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */,
+				58CFBBA81B4BFC80005DA506 /* DAOGmailMessage.h */,
+				58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -1344,6 +1354,7 @@
 				C08C2DD71B41AB1C00295A94 /* BaseViewModel.m in Sources */,
 				C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */,
 				C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */,
+				58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */,
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
 				C08C2DCE1B41AB1C00295A94 /* ReachabilityManager.m in Sources */,
 				9C2360B01B428CB50020B348 /* Profile.m in Sources */,
@@ -1402,6 +1413,7 @@
 				C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */,
 				C08C2DFD1B41AB1C00295A94 /* SentViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
+				58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */,
 				9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */,
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ProfileService.m in Sources */,

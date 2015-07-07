@@ -19,7 +19,6 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
 - (instancetype)init {
     
     self = [super initForGmailMessage];
-
     return self;
 }
 

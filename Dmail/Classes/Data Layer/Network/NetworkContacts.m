@@ -16,8 +16,8 @@ static NSString * const kUrlGetAll = @"%@/full";
 
 @implementation NetworkContacts
 
-- (instancetype)init
-{
+- (instancetype)init {
+    
     self = [super initForGmailContacts];
     return self;
 }
