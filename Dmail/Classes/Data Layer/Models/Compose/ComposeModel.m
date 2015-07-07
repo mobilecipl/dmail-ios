@@ -8,12 +8,12 @@
 
 #import "ComposeModel.h"
 #import "ComposeModelItem.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "MessageService.h"
 #import "CoreDataManager.h"
 #import "DmailMessage.h"
 #import "DmailEntityItem.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "ProfileItem.h"
 #import "CommonMethods.h"
 
@@ -49,7 +49,7 @@
 
 - (NSString *)createMessageBodyForGmailWithArrayTo:(NSArray *)arrayTO arrayCC:(NSArray *)arrayCC arrayBCC:(NSArray *)arrayBCC subject:(NSString *)subject body:(NSString *)body{
     
-    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",[[ProfileService sharedInstance] fullName],[[ProfileService sharedInstance] email]];
+    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",[[ServiceProfile sharedInstance] fullName],[[ServiceProfile sharedInstance] email]];
     for (NSString *to in arrayTO) {
         NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
         from = [from stringByAppendingString:stringTo];
@@ -76,7 +76,7 @@
 - (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem {
     
     //Send message body to Dmail ========== Success --> MessageSentOnlyBody
-    [[MessageService sharedInstance] sendMessageToDmailWithMessageBody:composeModelItem.body senderEmail:[[ProfileService sharedInstance] email] completionBlock:^(NSString *dmailId, NSInteger statusCode) {
+    [[MessageService sharedInstance] sendMessageToDmailWithMessageBody:composeModelItem.body senderEmail:[[ServiceProfile sharedInstance] email] completionBlock:^(NSString *dmailId, NSInteger statusCode) {
         if (dmailId) {
             self.dmailId = dmailId;
             DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
@@ -141,11 +141,11 @@
                                                                        DmailEntityItem *item = [[CommonMethods sharedInstance] parseGmailMessageContent:dict];
                                                                        if(item.identifier) {
                                                                            //Send identifier to Dmail ========== Success --> MessageSentFull
-                                                                           [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:self.dmailId gmailUniqueId:item.identifier senderEmail:[[ProfileService sharedInstance] email]  withCompletionBlock:^(BOOL success) {
+                                                                           [[MessageService sharedInstance] sendMessageUniqueIdToDmailWithMessageDmailId:self.dmailId gmailUniqueId:item.identifier senderEmail:[[ServiceProfile sharedInstance] email]  withCompletionBlock:^(BOOL success) {
                                                                                if (success) {
                                                                                    item.subject = composeModelItem.subject;
-                                                                                   item.fromEmail = [[ProfileService sharedInstance] email];
-                                                                                   item.senderName = [[ProfileService sharedInstance] fullName];
+                                                                                   item.fromEmail = [[ServiceProfile sharedInstance] email];
+                                                                                   item.senderName = [[ServiceProfile sharedInstance] fullName];
                                                                                    item.receiverEmail = [composeModelItem.arrayTo firstObject];
                                                                                    item.type = Read;
                                                                                    item.dmailId = self.dmailId;

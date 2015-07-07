@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 
 // service
-#import "ProfileService.h"
 #import "GmailManager.h"
 
 // google
@@ -22,6 +21,8 @@
 // util
 #import "NSString+AESCrypt.h"
 
+#import <Realm.h>
+
 @interface AppDelegate ()
 
 @end
@@ -33,9 +34,27 @@
     
     [Fabric with:@[CrashlyticsKit]];
 
+    //Realm
+    [self realmMigration];
+    
     [self setupGoogleSignIn];
     
     return YES;
+}
+
+- (void)realmMigration {
+    
+    [RLMRealm setSchemaVersion:1
+                forRealmAtPath:[RLMRealm defaultRealmPath]
+            withMigrationBlock:^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+                // We haven’t migrated anything yet, so oldSchemaVersion == 0
+                if (oldSchemaVersion < 1) {
+                    // Nothing to do!
+                    // Realm will automatically detect new properties and removed properties
+                    // And will update the schema on disk automatically
+                }
+            }];
+    NSLog(@"RLMRealm path: %@", [RLMRealm defaultRealm].path);
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

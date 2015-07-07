@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProfileService.h"
-#import "Constants.h"
-
 
 @interface BaseViewController : UIViewController
 

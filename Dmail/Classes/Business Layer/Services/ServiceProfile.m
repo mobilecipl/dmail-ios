@@ -6,26 +6,26 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 //#import "CoreDataManager.h"
 //#import "User.h"
 #import "ProfileModel.h"
 #import "DAOProfile.h"
 
-@interface ProfileService ()
+@interface ServiceProfile ()
 
 @property (nonatomic, strong) ProfileModel *profileModel;
 @property (nonatomic, strong) DAOProfile *daoProfile;
 
 @end
 
-@implementation ProfileService
+@implementation ServiceProfile
 
-+ (ProfileService *)sharedInstance {
-    static ProfileService *sharedInstance;
++ (ServiceProfile *)sharedInstance {
+    static ServiceProfile *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[ProfileService alloc] init];
+        sharedInstance = [[ServiceProfile alloc] init];
         
         DAOProfile *daoProfile = [[DAOProfile alloc] init];
         ProfileModel *model = [daoProfile getProfile];

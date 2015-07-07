@@ -7,7 +7,7 @@
 //
 
 #import "NetworkManager.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "XMLReader.h"
 
 static NSString * const getMessagesList = @"mobile/recipients/sync";
@@ -201,7 +201,7 @@ static NSString * const Revoke = @"api/message";
     
     NSURLSessionDataTask *dataTask = self.dictionaryTasks[getMessage];
     if (!dataTask) {
-        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[ProfileService sharedInstance] email]];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@/%@/recipient/%@",baseURL, getMessage, dmailUniqueId,[[ServiceProfile sharedInstance] email]];
         NSMutableURLRequest *request = [self constructGetRequestWithUrl:urlString];
         
         dataTask = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -346,7 +346,7 @@ static NSString * const Revoke = @"api/message";
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
 
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ProfileService sharedInstance] email]];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
     
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -372,7 +372,7 @@ static NSString * const Revoke = @"api/message";
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/97d88210f382da2", [[ProfileService sharedInstance] email]];
+    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/97d88210f382da2", [[ServiceProfile sharedInstance] email]];
     
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];

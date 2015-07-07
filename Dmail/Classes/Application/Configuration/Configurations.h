@@ -13,4 +13,8 @@
 #pragma mark - Google Keys
 static NSString * const kGoogleClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
 static NSString * const kGoogleClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
+
+#pragma mark - Server URL
+static NSString * kBaseServerURL = @"http://dmail-dev.elasticbeanstalk.com/";
+//static NSString * kBaseServerURL = @"http://dmail--dev-elasticbeanstalk-com-10gbknpbo1q1.runscope.net";
 #endif

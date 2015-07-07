@@ -14,7 +14,7 @@
 // service
 #import "ServiceSync.h"
 
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 
 // model
 
@@ -48,7 +48,7 @@
     [self.indicator startAnimating];
     
     // TODO: check if signed in
-    if ([[ProfileService sharedInstance] googleId]) {
+    if ([[ServiceProfile sharedInstance] googleId]) {
         
         [self autoSignIn];
     }

@@ -7,7 +7,7 @@
 //
 
 #import "CoreDataManager.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "Constants.h"
 #import "DmailEntityItem.h"
 #import "ProfileItem.h"

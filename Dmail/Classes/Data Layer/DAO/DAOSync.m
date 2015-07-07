@@ -12,7 +12,12 @@
 #import "NetworkMessage.h"
 
 // model
-#import "MessageItem.h"
+#import "ModelDmailMessage.h"
+
+
+// local
+#import <Realm.h>
+#import "RMModelDmailMessage.h"
 
 @interface DAOSync ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
@@ -31,9 +36,59 @@
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
+    [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+        
+        if (!error) {
+            
+            NSArray *recipients = data[@"recipients"];
+            
+            if ([recipients isKindOfClass:[NSArray class]]) {
+            
+                NSMutableArray *dataArray = [@[] mutableCopy];
+                
+                for (NSDictionary *dict in recipients) {
+                    
+                    ModelDmailMessage *message = [[ModelDmailMessage alloc] initWithDictionary:dict];
+                    if (message) {
+                        
+                        [dataArray addObject:message];
+                    }
+                }
+                
+                [self saveRecipientsInRealm:dataArray];
+            }
+            
+        } else {
+            
+            completionBlock(nil, error);
+        }
     }];
+}
+
+- (void)saveRecipientsInRealm:(NSArray *)dataArray {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    for (ModelDmailMessage *model in dataArray) {
+        
+        if ([model.access isEqualToString:@"GRANTED"]) {
+            
+            RMModelDmailMessage *realmModel = [[RMModelDmailMessage alloc] initWithModel:model];
+            // Add
+            [realm beginWriteTransaction];
+            [RMModelDmailMessage createOrUpdateInRealm:realm withValue:realmModel];
+            [realm commitWriteTransaction];
+        } else {
+            
+            RMModelDmailMessage *realmModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.messageId];
+            // Delete all object with a transaction
+            if (realmModel) {
+                [realm beginWriteTransaction];
+                [realm deleteObject:realmModel];
+                [realm commitWriteTransaction];
+            }
+        }
+    }
 }
 
 @end

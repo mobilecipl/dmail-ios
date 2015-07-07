@@ -14,7 +14,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Realm/Realm.h>
 #import <NSDate+DateTools.h>
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 
 const NSInteger contactsUpdateTime = 12;
 

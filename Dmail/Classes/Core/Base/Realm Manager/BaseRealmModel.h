@@ -19,4 +19,5 @@
 
 + (void)removeAllObjects;
 
+- (instancetype)initWithModel:(id)model;
 @end

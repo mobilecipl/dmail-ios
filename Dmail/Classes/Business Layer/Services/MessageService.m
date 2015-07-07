@@ -8,7 +8,7 @@
 
 #import "MessageService.h"
 #import "NetworkManager.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "CoreDataManager.h"
 #import "DmailEntityItem.h"
 #import "ComposeModelItem.h"
@@ -124,7 +124,7 @@
 
 - (NSString *)createMessageBodyForGmailWithArrayTo:(NSArray *)arrayTO arrayCC:(NSArray *)arrayCC arrayBCC:(NSArray *)arrayBCC subject:(NSString *)subject dmailId:(NSString *)dmailId {
     
-    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",[[ProfileService sharedInstance] fullName],[[ProfileService sharedInstance] email]];
+    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",[[ServiceProfile sharedInstance] fullName],[[ServiceProfile sharedInstance] email]];
     for (NSString *to in arrayTO) {
         NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
         from = [from stringByAppendingString:stringTo];

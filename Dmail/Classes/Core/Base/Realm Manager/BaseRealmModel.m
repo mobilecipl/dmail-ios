@@ -11,6 +11,16 @@
 
 @implementation BaseRealmModel
 
+- (instancetype)initWithModel:(id)model {
+    
+    self = [super init];
+    if (self) {
+        
+    }
+    
+    return self;
+}
+
 - (void)saveInDefaultRealm {
     RLMRealm *realm = [RLMRealm defaultRealm];
     [self saveInRealm:realm];

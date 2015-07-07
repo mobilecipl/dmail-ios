@@ -11,8 +11,6 @@
 
 typedef void(^mainCompletionBlock)(NSDictionary *requestData, NSInteger statusCode);
 
-static NSString * kBaseServerURL = @"http://ws3-qa1.iconapps.com:8080/tabloid";
-
 #pragma mark - Inbox Constants
 static NSString * SenderName = @"senderName";
 static NSString * MessageSubject = @"messageSubject";

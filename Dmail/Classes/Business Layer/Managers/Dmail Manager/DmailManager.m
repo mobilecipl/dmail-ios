@@ -7,7 +7,7 @@
 //
 
 #import "DmailManager.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "Constants.h"
 #import "CoreDataManager.h"
 #import "MessageService.h"
@@ -56,7 +56,7 @@
 #pragma mark - Public Methods
 - (void)getDmailIds {
     
-    if ([[ProfileService sharedInstance] email]) {
+    if ([[ServiceProfile sharedInstance] email]) {
         
         
         
@@ -68,13 +68,13 @@
             NSTimeInterval timeInterval = [date timeIntervalSince1970];
             parameters = @{Position : [NSString stringWithFormat:@"%ld",(long)timeInterval*1000],
                            Count : [NSString stringWithFormat:@"%ld",(long)kMessageGetCount],
-                           RecipientEmail : [[ProfileService sharedInstance] email],
+                           RecipientEmail : [[ServiceProfile sharedInstance] email],
                            Bottom : @YES};
         }
         else {
             parameters = @{Position : [NSString stringWithFormat:@"%ld",(long)position],
                            Count : [NSString stringWithFormat:@"%ld",(long)kMessageGetCount],
-                           RecipientEmail : [[ProfileService sharedInstance] email]};
+                           RecipientEmail : [[ServiceProfile sharedInstance] email]};
         }
         
         [[MessageService sharedInstance] getMessageListFromDmailWithPosition:parameters withCompletionBlock:^(NSDictionary *requestData, NSInteger statusCode) {

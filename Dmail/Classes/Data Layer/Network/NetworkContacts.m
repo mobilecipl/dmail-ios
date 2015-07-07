@@ -7,7 +7,7 @@
 //
 
 #import "NetworkContacts.h"
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 #import "XMLReader.h"
 
 

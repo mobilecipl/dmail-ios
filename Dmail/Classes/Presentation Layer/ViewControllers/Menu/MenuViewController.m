@@ -14,6 +14,9 @@
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
 
+#import "ServiceProfile.h"
+#import <GoogleSignIn.h>
+
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
 
@@ -93,7 +96,7 @@
 
 - (void)setupController {
     
-    self.labelName.text = [[ProfileService sharedInstance] fullName];
+    self.labelName.text = [[ServiceProfile sharedInstance] fullName];
 }
 
 - (void)clearAllDBAndRedirectInLoginScreen {

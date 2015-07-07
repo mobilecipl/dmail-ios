@@ -195,17 +195,12 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
-                    if (!responseObject[@"errorCode"] || (responseObject[@"errorCode"] && [responseObject[@"errorCode"] integerValue] == 0)) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (completionBlock) {
-                                completionBlock(responseObject, nil);
-                            }
-                        });
-                    }
-                    else {
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
-                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (completionBlock) {
+                            completionBlock(responseObject, nil);
+                        }
+                    });
+                    
                 } else {
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];
                     error.statusCode = @400;

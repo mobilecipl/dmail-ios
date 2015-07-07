@@ -12,7 +12,7 @@
 
 #import "ServiceContact.h"
 
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 
 // dao
 //#import "DAOSync.h"
@@ -53,7 +53,7 @@
 
 - (void)syncMessages {
     
-    NSString *email = [[ProfileService sharedInstance] email];
+    NSString *email = [[ServiceProfile sharedInstance] email];
     NSNumber *position = @100; //[[CoreDataManager sharedCoreDataManager] getLastPosition];
     NSNumber *count = @100;
     

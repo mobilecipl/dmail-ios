@@ -13,7 +13,7 @@
 // service
 #import "ServiceSync.h"
 
-#import "ProfileService.h"
+#import "ServiceProfile.h"
 
 // model
 
@@ -78,7 +78,8 @@
         return;
     }
     else {
-        [[ProfileService sharedInstance] updateUserDetails:user];
+        
+        [[ServiceProfile sharedInstance] updateUserDetails:user];
         
         // TODO: sync
         [self.serviceSync sync];
