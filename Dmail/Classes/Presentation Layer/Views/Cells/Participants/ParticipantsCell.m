@@ -197,6 +197,7 @@ CGFloat kfirstParticipantOriginX = 34;
 
 - (void)addParticipantWithContactModel:(ContactModel *)contactModel {
     
+    self.participantSet = YES;
     [self createParticipantWithEmail:contactModel.email withName:contactModel.fullName];
     [self determineTextFieldsFrame];
 }

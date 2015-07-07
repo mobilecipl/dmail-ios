@@ -16,6 +16,7 @@
 #import "MessageComposeCell.h"
 #import "ContactCell.h"
 #import "DAOContact.h"
+#import "ContactModel.h"
 
 
 @interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
@@ -26,7 +27,7 @@
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 
 @property (nonatomic, strong) NSMutableArray *arrayTableItems;
-@property (nonatomic, strong) NSArray *arrayContacts;
+@property (nonatomic, strong) NSMutableArray *arrayContacts;
 @property (nonatomic, strong) NSMutableArray *arrayTo;
 @property (nonatomic, strong) NSMutableArray *arrayCc;
 @property (nonatomic, strong) NSMutableArray *arrayBcc;
@@ -162,7 +163,7 @@
                     rowHeight = self.bccCellHeight;
                     break;
                 case 3:
-                    rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                    rowHeight = [UIScreen mainScreen].bounds.size.height - 65;//(65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
                     break;
                 default:
                     break;
@@ -268,12 +269,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
-    ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
-    participantCell.participantSet = YES;
-    [participantCell addParticipantWithContactModel:contactModel];
-    self.tableViewContacts.hidden = YES;
-    [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+    if (tableView == self.tableViewContacts) {
+        ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
+        if (contactModel.email) {
+            ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
+            participantCell.participantSet = YES;
+            [participantCell addParticipantWithContactModel:contactModel];
+            self.tableViewContacts.hidden = YES;
+            [self addParticipantsEmail:contactModel.email row:self.selectedRow];
+            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+        }
+    }
 }
 
 
@@ -330,12 +336,6 @@
 
 - (void)participantEmail:(NSString *)email {
     
-//    if (email.length > 0) {
-//        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
-//    }
-//    else {
-//        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
-//    }
     if ([email isEqualToString:@""]) {
         self.participantEmail = [self.participantEmail substringToIndex:self.participantEmail.length - 1];
     }
@@ -387,6 +387,14 @@
             
         default:
             break;
+    }
+    if ([self.arrayTo count] > 0 || [self.arrayCc count] > 0 || [self.arrayBcc count] > 0) {
+        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
+        self.buttonSend.enabled = YES;
+    }
+    else {
+        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
+        self.buttonSend.enabled = NO;
     }
 }
 

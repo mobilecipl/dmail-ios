@@ -53,7 +53,7 @@ const NSInteger contactsUpdateTime = 12;
     }
 }
 
-- (NSArray *)getContactsFromLocalDBWithName:(NSString *)name {
+- (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name {
     
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
     NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName BEGINSWITH %@ OR email BEGINSWITH %@", name, name];
@@ -63,7 +63,7 @@ const NSInteger contactsUpdateTime = 12;
         [arrayContacts addObject:model];
     }
     
-    return [NSArray arrayWithArray:arrayContacts];
+    return arrayContacts;
 }
 
 

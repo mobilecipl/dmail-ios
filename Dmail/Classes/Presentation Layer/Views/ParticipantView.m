@@ -33,7 +33,7 @@ CGFloat fontSize = 12.5;
     self = [super init];
     if (self) {
         self.email = email;
-        if (name) {
+        if (name && name.length > 0) {
             self.name = name;
         }
         else {

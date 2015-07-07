@@ -58,7 +58,6 @@
 #pragma mark - Private Methods 
 - (void)tapOnLabelMessage {
     
-    self.labelMessage.hidden = YES;
     [self.textViewBody becomeFirstResponder];
 }
 
@@ -90,8 +89,6 @@
 #pragma mark - UITextViewDelegate Methods
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     
-    self.labelMessage.hidden = YES;
-    
     self.textViewBody.translatesAutoresizingMaskIntoConstraints = YES;
     self.textViewBody.frame = CGRectMake(self.textViewBody.frame.origin.x, self.textViewBody.frame.origin.y, self.textViewBody.frame.size.width, 210);
     
@@ -99,6 +96,20 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    NSString *messageText = @"";
+    if ([text isEqualToString:@""]) {
+        messageText = [textView.text substringToIndex:textView.text.length - 1];
+    }
+    else {
+        messageText = [textView.text stringByAppendingString:text];
+    }
+    if (messageText.length > 0) {
+        self.labelMessage.hidden = YES;
+    }
+    else {
+        self.labelMessage.hidden = NO;
+    }
     
     if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
         [self.delegate messageBody:text];

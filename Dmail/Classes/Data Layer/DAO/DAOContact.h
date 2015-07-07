@@ -12,6 +12,7 @@
 @interface DAOContact : BaseDAO
 
 - (void)syncGoogleContacts;
-- (NSArray *)getContactsFromLocalDBWithName:(NSString *)name;
+
+- (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name;
 
 @end
