@@ -258,7 +258,7 @@
     }
     else {
         ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
-        [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row]];
+        [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row] searchText:self.participantEmail];
         
         return contactCell;
     }

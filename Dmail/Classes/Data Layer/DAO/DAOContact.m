@@ -57,7 +57,7 @@ const NSInteger contactsUpdateTime = 12;
     
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
     if(name.length > 0) {
-        NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName BEGINSWITH %@ OR email BEGINSWITH %@", name, name];
+        NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName CONTAINS [c] %@ OR email CONTAINS [c] %@", name, name];
         RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
         for (RealmContactModel *rmModel in result) {
             ContactModel *model = [[ContactModel alloc] initWithRMModel:rmModel];

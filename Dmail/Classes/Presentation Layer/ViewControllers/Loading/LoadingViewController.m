@@ -65,8 +65,6 @@
     else {
         [[SyncService sharedInstance] getMessageIds];
         [[SyncService sharedInstance] syncGoogleContacts];
-        DAOContact *contact = [[DAOContact alloc] init];
-        [contact getContactsFromLocalDBWithName:@"A"];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

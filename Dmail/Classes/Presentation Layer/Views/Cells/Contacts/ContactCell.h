@@ -12,6 +12,6 @@
 
 @interface ContactCell : UITableViewCell
 
-- (void)configureCellWithContactModel:(ContactModel *)contactModel;
+- (void)configureCellWithContactModel:(ContactModel *)contactModel searchText:(NSString *)searchtext;
 
 @end
