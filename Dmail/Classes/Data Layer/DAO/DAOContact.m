@@ -56,11 +56,13 @@ const NSInteger contactsUpdateTime = 12;
 - (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name {
     
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
-    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName BEGINSWITH %@ OR email BEGINSWITH %@", name, name];
-    RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
-    for (RealmContactModel *rmModel in result) {
-        ContactModel *model = [[ContactModel alloc] initWithRMModel:rmModel];
-        [arrayContacts addObject:model];
+    if(name.length > 0) {
+        NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName BEGINSWITH %@ OR email BEGINSWITH %@", name, name];
+        RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
+        for (RealmContactModel *rmModel in result) {
+            ContactModel *model = [[ContactModel alloc] initWithRMModel:rmModel];
+            [arrayContacts addObject:model];
+        }
     }
     
     return arrayContacts;

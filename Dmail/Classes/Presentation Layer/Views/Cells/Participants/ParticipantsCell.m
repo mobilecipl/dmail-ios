@@ -265,6 +265,9 @@ CGFloat kfirstParticipantOriginX = 34;
     
     [self arrangeParticipantViews];
     [self determineTextFieldsFrame];
+    if ([self.delegate respondsToSelector:@selector(removeParticipantsEmail:row:)]) {
+        [self.delegate removeParticipantsEmail:removdParticipant.email row:self.row];
+    }
 }
 
 - (void)onRevokeClicked:(id)participantView {

@@ -18,6 +18,7 @@
 - (void)startEditparticipantName:(NSInteger)cellRow;
 - (void)changeCellHeightWith:(CGFloat)height cellRow:(NSInteger)row;
 - (void)addParticipantsEmail:(NSString *)email row:(NSInteger)row;
+- (void)removeParticipantsEmail:(NSString *)email row:(NSInteger)row;
 - (void)changeTableOffsetY;
 - (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name;
 

@@ -121,8 +121,7 @@
 - (void)newMessageSent {
     
     [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail" message:@"Message Sent" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)messageSentError {
@@ -383,6 +382,32 @@
             break;
         case 2:
             [self.arrayBcc addObject:email];
+            break;
+            
+        default:
+            break;
+    }
+    if ([self.arrayTo count] > 0 || [self.arrayCc count] > 0 || [self.arrayBcc count] > 0) {
+        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
+        self.buttonSend.enabled = YES;
+    }
+    else {
+        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
+        self.buttonSend.enabled = NO;
+    }
+}
+
+- (void)removeParticipantsEmail:(NSString *)email row:(NSInteger)row {
+    
+    switch (row) {
+        case 0:
+            [self.arrayTo removeObject:email];
+            break;
+        case 1:
+            [self.arrayCc removeObject:email];
+            break;
+        case 2:
+            [self.arrayBcc removeObject:email];
             break;
             
         default:
