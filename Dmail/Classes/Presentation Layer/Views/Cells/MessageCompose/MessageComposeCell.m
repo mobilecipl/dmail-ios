@@ -15,7 +15,6 @@
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
-@property (nonatomic, weak) IBOutlet UILabel *labelMessage;
 @property (nonatomic, assign) CGFloat heightTextViewBody;
 
 @end
@@ -36,9 +35,6 @@
 - (void)configureCell {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnLabelMessage)];
-    [self.labelMessage addGestureRecognizer:tapGesture];
-    self.labelMessage.userInteractionEnabled = YES;
     self.labelTime.hidden = YES;
     self.viewContainer.layer.cornerRadius = 5;
     self.heightTextViewBody = self.textViewBody.frame.size.height;
@@ -46,7 +42,6 @@
 
 - (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject {
     
-    self.labelMessage.hidden = YES;
     self.textViewBody.editable = NO;
     self.viewContainer_.layer.cornerRadius = 5;
     self.labelTime.hidden = NO;
@@ -54,12 +49,6 @@
     self.textFieldSubject.text = subject;
 }
 
-
-#pragma mark - Private Methods 
-- (void)tapOnLabelMessage {
-    
-    [self.textViewBody becomeFirstResponder];
-}
 
 #pragma mark - UITextFieldDelegate Methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -96,20 +85,6 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-    NSString *messageText = @"";
-    if ([text isEqualToString:@""]) {
-        messageText = [textView.text substringToIndex:textView.text.length - 1];
-    }
-    else {
-        messageText = [textView.text stringByAppendingString:text];
-    }
-    if (messageText.length > 0) {
-        self.labelMessage.hidden = YES;
-    }
-    else {
-        self.labelMessage.hidden = NO;
-    }
     
     if ([self.delegate respondsToSelector:@selector(messageBody:)]) {
         [self.delegate messageBody:text];

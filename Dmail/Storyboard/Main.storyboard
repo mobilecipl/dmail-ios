@@ -17,7 +17,6 @@
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
-            <string>ProximaNova-Light</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
@@ -1414,12 +1413,6 @@
                                                                         <outlet property="delegate" destination="PxQ-4r-VaR" id="bIH-j6-hO5"/>
                                                                     </connections>
                                                                 </textView>
-                                                                <label hidden="YES" opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nB-pn-djI">
-                                                                    <rect key="frame" x="14" y="60" width="66" height="21"/>
-                                                                    <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="14"/>
-                                                                    <color key="textColor" red="0.75294117647058822" green="0.7803921568627451" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -1443,7 +1436,6 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
-                                                    <outlet property="labelMessage" destination="3nB-pn-djI" id="hiV-W1-yDy"/>
                                                     <outlet property="textFieldSubject" destination="iwa-QI-CG1" id="0PK-Q5-I9i"/>
                                                     <outlet property="textViewBody" destination="aiY-Aj-Oot" id="ZTJ-V4-b8a"/>
                                                     <outlet property="viewContainer" destination="EKc-cm-7AS" id="zYj-aB-HsA"/>
