@@ -132,8 +132,11 @@
 
 - (void)hideMenu {
     
-    self.constraintHorizontalSpaceing.constant = 0;
-    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.constraintHorizontalSpaceing.constant = 0;
+        [self.view layoutIfNeeded];
+    }];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.menuOpened = NO;

@@ -48,7 +48,6 @@
 		C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE21B41AB1C00295A94 /* NetworkManager.m */; };
 		C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE51B41AB1C00295A94 /* GmailService.m */; };
 		C08C2DBC1B41AB1C00295A94 /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE71B41AB1C00295A94 /* MessageService.m */; };
-		C08C2DBD1B41AB1C00295A94 /* SyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE91B41AB1C00295A94 /* SyncService.m */; };
 		C08C2DBE1B41AB1C00295A94 /* ProfileService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ProfileService.m */; };
 		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
@@ -106,8 +105,7 @@
 		C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D8A1B41AB1C00295A94 /* LoginViewController.m */; };
 		C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */; };
 		C08C2DFC1B41AB1C00295A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D901B41AB1C00295A94 /* RootViewController.m */; };
-		C08C2DFD1B41AB1C00295A94 /* SentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D931B41AB1C00295A94 /* SentViewController.m */; };
-		C08C2DFE1B41AB1C00295A94 /* InboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D981B41AB1C00295A94 /* InboxCell.m */; };
+		C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */; };
 		C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9B1B41AB1C00295A94 /* MenuCell.m */; };
 		C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9E1B41AB1C00295A94 /* MessageComposeCell.m */; };
 		C08C2E011B41AB1C00295A94 /* ParticipantsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DA11B41AB1C00295A94 /* ParticipantsCell.m */; };
@@ -116,6 +114,12 @@
 		C08C2E041B41AB1C00295A94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA61B41AB1C00295A94 /* Main.storyboard */; };
 		C08C2E051B41AB1C00295A94 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA91B41AB1C00295A94 /* Info.plist */; };
 		C08C2E061B41AB1C00295A94 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DAA1B41AB1C00295A94 /* main.m */; };
+		C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27B81B4BD3BB0067B7F2 /* MessageCell.m */; };
+		C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27BC1B4BD3D90067B7F2 /* InboxCell.m */; };
+		C09C27C11B4BD3FB0067B7F2 /* SentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27C01B4BD3FB0067B7F2 /* SentCell.m */; };
+		C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27C31B4BDE390067B7F2 /* SentViewController.m */; };
+		C09C27C71B4BEF700067B7F2 /* ServiceSync.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27C61B4BEF700067B7F2 /* ServiceSync.m */; };
+		C09C27CA1B4BFE440067B7F2 /* DAOSync.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27C91B4BFE440067B7F2 /* DAOSync.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,8 +209,6 @@
 		C08C2CE51B41AB1C00295A94 /* GmailService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailService.m; sourceTree = "<group>"; };
 		C08C2CE61B41AB1C00295A94 /* MessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageService.h; sourceTree = "<group>"; };
 		C08C2CE71B41AB1C00295A94 /* MessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageService.m; sourceTree = "<group>"; };
-		C08C2CE81B41AB1C00295A94 /* SyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncService.h; sourceTree = "<group>"; };
-		C08C2CE91B41AB1C00295A94 /* SyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncService.m; sourceTree = "<group>"; };
 		C08C2CEA1B41AB1C00295A94 /* ProfileService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileService.h; sourceTree = "<group>"; };
 		C08C2CEB1B41AB1C00295A94 /* ProfileService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileService.m; sourceTree = "<group>"; };
 		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
@@ -322,10 +324,8 @@
 		C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		C08C2D8F1B41AB1C00295A94 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C08C2D901B41AB1C00295A94 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		C08C2D921B41AB1C00295A94 /* SentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentViewController.h; sourceTree = "<group>"; };
-		C08C2D931B41AB1C00295A94 /* SentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentViewController.m; sourceTree = "<group>"; };
-		C08C2D971B41AB1C00295A94 /* InboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxCell.h; sourceTree = "<group>"; };
-		C08C2D981B41AB1C00295A94 /* InboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxCell.m; sourceTree = "<group>"; };
+		C08C2D921B41AB1C00295A94 /* SentMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageViewController.h; sourceTree = "<group>"; };
+		C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentMessageViewController.m; sourceTree = "<group>"; };
 		C08C2D9A1B41AB1C00295A94 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
 		C08C2D9B1B41AB1C00295A94 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
 		C08C2D9D1B41AB1C00295A94 /* MessageComposeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposeCell.h; sourceTree = "<group>"; };
@@ -339,6 +339,18 @@
 		C08C2DA81B41AB1C00295A94 /* dmail.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dmail.pch; sourceTree = "<group>"; };
 		C08C2DA91B41AB1C00295A94 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C08C2DAA1B41AB1C00295A94 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C09C27B71B4BD3BB0067B7F2 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		C09C27B81B4BD3BB0067B7F2 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		C09C27BB1B4BD3D90067B7F2 /* InboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxCell.h; sourceTree = "<group>"; };
+		C09C27BC1B4BD3D90067B7F2 /* InboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxCell.m; sourceTree = "<group>"; };
+		C09C27BF1B4BD3FB0067B7F2 /* SentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentCell.h; sourceTree = "<group>"; };
+		C09C27C01B4BD3FB0067B7F2 /* SentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentCell.m; sourceTree = "<group>"; };
+		C09C27C21B4BDE390067B7F2 /* SentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentViewController.h; sourceTree = "<group>"; };
+		C09C27C31B4BDE390067B7F2 /* SentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentViewController.m; sourceTree = "<group>"; };
+		C09C27C51B4BEF700067B7F2 /* ServiceSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceSync.h; sourceTree = "<group>"; };
+		C09C27C61B4BEF700067B7F2 /* ServiceSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceSync.m; sourceTree = "<group>"; };
+		C09C27C81B4BFE440067B7F2 /* DAOSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOSync.h; sourceTree = "<group>"; };
+		C09C27C91B4BFE440067B7F2 /* DAOSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOSync.m; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 		ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -623,8 +635,6 @@
 				C08C2CE51B41AB1C00295A94 /* GmailService.m */,
 				C08C2CE61B41AB1C00295A94 /* MessageService.h */,
 				C08C2CE71B41AB1C00295A94 /* MessageService.m */,
-				C08C2CE81B41AB1C00295A94 /* SyncService.h */,
-				C08C2CE91B41AB1C00295A94 /* SyncService.m */,
 				C08C2CEA1B41AB1C00295A94 /* ProfileService.h */,
 				C08C2CEB1B41AB1C00295A94 /* ProfileService.m */,
 				C05C0CD31B42E22000248B91 /* ServiceMessage.h */,
@@ -633,6 +643,8 @@
 				9C21B8821B46A1FF0080B132 /* ServiceContact.m */,
 				58CFBBAB1B4BFF20005DA506 /* ServiceGmailMessage.h */,
 				58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */,
+				C09C27C51B4BEF700067B7F2 /* ServiceSync.h */,
+				C09C27C61B4BEF700067B7F2 /* ServiceSync.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -903,6 +915,8 @@
 				9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */,
 				58CFBBA81B4BFC80005DA506 /* DAOGmailMessage.h */,
 				58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */,
+				C09C27C81B4BFE440067B7F2 /* DAOSync.h */,
+				C09C27C91B4BFE440067B7F2 /* DAOSync.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -1009,10 +1023,10 @@
 		C08C2D801B41AB1C00295A94 /* Inbox */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D811B41AB1C00295A94 /* InboxMessageViewController.h */,
-				C08C2D821B41AB1C00295A94 /* InboxMessageViewController.m */,
 				C08C2D831B41AB1C00295A94 /* InboxViewController.h */,
 				C08C2D841B41AB1C00295A94 /* InboxViewController.m */,
+				C08C2D811B41AB1C00295A94 /* InboxMessageViewController.h */,
+				C08C2D821B41AB1C00295A94 /* InboxMessageViewController.m */,
 			);
 			path = Inbox;
 			sourceTree = "<group>";
@@ -1056,8 +1070,10 @@
 		C08C2D911B41AB1C00295A94 /* Sent */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D921B41AB1C00295A94 /* SentViewController.h */,
-				C08C2D931B41AB1C00295A94 /* SentViewController.m */,
+				C09C27C21B4BDE390067B7F2 /* SentViewController.h */,
+				C09C27C31B4BDE390067B7F2 /* SentViewController.m */,
+				C08C2D921B41AB1C00295A94 /* SentMessageViewController.h */,
+				C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */,
 			);
 			path = Sent;
 			sourceTree = "<group>";
@@ -1075,22 +1091,13 @@
 		C08C2D951B41AB1C00295A94 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				C09C27B61B4BD3BB0067B7F2 /* Message */,
 				9C6CA55B1B4AA4F000679E67 /* Contacts */,
-				C08C2D961B41AB1C00295A94 /* Inbox */,
 				C08C2D991B41AB1C00295A94 /* Menu */,
 				C08C2D9C1B41AB1C00295A94 /* MessageCompose */,
 				C08C2D9F1B41AB1C00295A94 /* Participants */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		C08C2D961B41AB1C00295A94 /* Inbox */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2D971B41AB1C00295A94 /* InboxCell.h */,
-				C08C2D981B41AB1C00295A94 /* InboxCell.m */,
-			);
-			path = Inbox;
 			sourceTree = "<group>";
 		};
 		C08C2D991B41AB1C00295A94 /* Menu */ = {
@@ -1137,6 +1144,35 @@
 				C08C2DAA1B41AB1C00295A94 /* main.m */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C09C27B61B4BD3BB0067B7F2 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				C09C27B71B4BD3BB0067B7F2 /* MessageCell.h */,
+				C09C27B81B4BD3BB0067B7F2 /* MessageCell.m */,
+				C09C27BA1B4BD3D90067B7F2 /* Inbox */,
+				C09C27BD1B4BD3D90067B7F2 /* Outbox */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		C09C27BA1B4BD3D90067B7F2 /* Inbox */ = {
+			isa = PBXGroup;
+			children = (
+				C09C27BB1B4BD3D90067B7F2 /* InboxCell.h */,
+				C09C27BC1B4BD3D90067B7F2 /* InboxCell.m */,
+			);
+			path = Inbox;
+			sourceTree = "<group>";
+		};
+		C09C27BD1B4BD3D90067B7F2 /* Outbox */ = {
+			isa = PBXGroup;
+			children = (
+				C09C27BF1B4BD3FB0067B7F2 /* SentCell.h */,
+				C09C27C01B4BD3FB0067B7F2 /* SentCell.m */,
+			);
+			path = Outbox;
 			sourceTree = "<group>";
 		};
 		D83BFC4667FC4E4708232089 /* Frameworks */ = {
@@ -1345,6 +1381,7 @@
 				9C73C7DC1B4555A60059DF46 /* XMLReader.m in Sources */,
 				9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */,
 				C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */,
+				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				C08C2DB11B41AB1C00295A94 /* CoreDataManager.m in Sources */,
 				C08C2DB91B41AB1C00295A94 /* GmailManager.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
@@ -1352,6 +1389,7 @@
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,
 				C08C2DC81B41AB1C00295A94 /* AlphabetTableViewSectionDataSource.m in Sources */,
 				C08C2DD71B41AB1C00295A94 /* BaseViewModel.m in Sources */,
+				C09C27CA1B4BFE440067B7F2 /* DAOSync.m in Sources */,
 				C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */,
 				C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */,
 				58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */,
@@ -1364,12 +1402,14 @@
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RealmProfile.m in Sources */,
+				C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */,
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
 				C08C2DFC1B41AB1C00295A94 /* RootViewController.m in Sources */,
 				C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
+				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RealmContactModel.m in Sources */,
 				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,
@@ -1397,11 +1437,11 @@
 				C08C2DD81B41AB1C00295A94 /* BaseButton.m in Sources */,
 				9C2360AD1B428CB50020B348 /* User.m in Sources */,
 				C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */,
-				C08C2DBD1B41AB1C00295A94 /* SyncService.m in Sources */,
 				58CFBBA71B4BCC79005DA506 /* NetworkGmailMessage.m in Sources */,
 				C08C2DDD1B41AB1C00295A94 /* BaseScrollView.m in Sources */,
 				C08C2DEB1B41AB1C00295A94 /* ModalPopupTransitionAnimator.m in Sources */,
 				C08C2DCD1B41AB1C00295A94 /* BaseNetwork.m in Sources */,
+				C09C27C11B4BD3FB0067B7F2 /* SentCell.m in Sources */,
 				C08C2DCB1B41AB1C00295A94 /* TableViewDataSource.m in Sources */,
 				58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */,
 				C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */,
@@ -1409,15 +1449,15 @@
 				C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */,
 				C08C2DDF1B41AB1C00295A94 /* BaseSegmentedControl.m in Sources */,
 				C08C2DF91B41AB1C00295A94 /* LoadingViewController.m in Sources */,
-				C08C2DFE1B41AB1C00295A94 /* InboxCell.m in Sources */,
 				C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */,
-				C08C2DFD1B41AB1C00295A94 /* SentViewController.m in Sources */,
+				C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */,
 				9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */,
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ProfileService.m in Sources */,
 				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,
+				C09C27C71B4BEF700067B7F2 /* ServiceSync.m in Sources */,
 				C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */,
 				C08C2DD91B41AB1C00295A94 /* BaseCollectionView.m in Sources */,
 				C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */,

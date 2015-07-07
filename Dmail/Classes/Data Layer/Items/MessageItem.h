@@ -17,8 +17,6 @@
 @property NSString *identifier;
 @property NSString *subject;
 @property NSString *senderName;
-@property NSString *senderEmail;
-@property NSString *receiverEmail;
 @property NSString *fromEmail;
 @property NSArray *arrayTo;
 @property NSArray *arrayCc;

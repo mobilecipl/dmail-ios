@@ -12,15 +12,19 @@ typedef void (^TableViewCellBlock)(id cell, id item);
 
 @interface TableViewDataSource : NSObject <UITableViewDataSource>
 // property
-@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSMutableArray *items;
 
 // method
 - (instancetype)initWithItems:(NSArray *)anItems
                cellIdentifier:(NSString *)aCellIdentifier
            configureCellBlock:(TableViewCellBlock)configureCellBlock;
 
-- (void)setItems:(NSArray *)items;
+- (void)setItems:(NSMutableArray *)items;
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)removeItem:(id)item;
+
+- (void)removeItemAtIndex:(NSIndexPath *)indexPath;
 
 @end

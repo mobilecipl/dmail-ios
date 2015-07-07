@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MessageCell.h"
 
-@interface InboxCell : UITableViewCell
+extern NSString *const InboxCellIdentifier;
 
-- (void)configureCell:(NSDictionary *)dictInboxCell;
+@interface InboxCell : MessageCell
 
 @end

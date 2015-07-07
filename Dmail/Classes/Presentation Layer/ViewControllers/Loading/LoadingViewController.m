@@ -6,24 +6,39 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import <GoogleSignIn/GoogleSignIn.h>
 #import "LoadingViewController.h"
-#import "ProfileService.h"
+
+// controller
 #import "LoginViewController.h"
-#import "MessageService.h"
-#import "NetworkManager.h"
-#import "SyncService.h"
-#import "DAOContact.h"
 
+// service
+#import "ServiceSync.h"
 
-@interface LoadingViewController ()<GIDSignInDelegate>
+#import "ProfileService.h"
+
+// model
+
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+
+@interface LoadingViewController () <GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
+
+@property (nonatomic, strong) ServiceSync *serviceSync;
 
 @end
 
 @implementation LoadingViewController
-
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _serviceSync = [[ServiceSync alloc] init];
+    }
+    return self;
+}
 
 #pragma mark - Class Methods
 - (void)viewDidLoad {
@@ -31,10 +46,14 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
+    
+    // TODO: check if signed in
     if ([[ProfileService sharedInstance] googleId]) {
+        
         [self autoSignIn];
     }
     else {
+        
         [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
     }
 }
@@ -59,12 +78,13 @@
     
     [self.indicator stopAnimating];
     if (error) {
-        // TO DO Handle error
-        return;
+        // TODO: Handle error
+
     }
     else {
-        [[SyncService sharedInstance] getMessageIds];
-        [[SyncService sharedInstance] syncGoogleContacts];
+        
+        // TODO: sync
+        [self.serviceSync sync];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
 }

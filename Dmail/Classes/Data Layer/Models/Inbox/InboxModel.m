@@ -42,7 +42,7 @@
     messageItem.gmailId = gmailMessage.gmailId;
     messageItem.internalDate = gmailMessage.internalDate;
     messageItem.subject = gmailMessage.subject;
-    messageItem.senderEmail = gmailMessage.from;
+    messageItem.fromEmail = gmailMessage.from;
     messageItem.type = [gmailMessage.type integerValue];
     messageItem.fromEmail = gmailMessage.from;
     messageItem.arrayTo = [gmailMessage.to componentsSeparatedByString:@","];
@@ -73,15 +73,6 @@
     [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
         
     }];
-}
-
-
-#pragma mark - Delegate Methods
-- (void)updateInboxScreen:(MessageItem *)messageItem {
-    
-    if ([self.delegate respondsToSelector:@selector(updateInboxScreen:)]) {
-        [self.delegate updateInboxScreen:messageItem];
-    }
 }
 
 @end

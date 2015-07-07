@@ -11,6 +11,9 @@
 // network
 #import "NetworkMessage.h"
 
+// model
+#import "MessageItem.h"
+
 @interface DAOMessage ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
 @end
@@ -58,11 +61,31 @@
     }];
 }
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSString *)position count:(NSString *)count completionBlock:(CompletionBlock)completionBlock {
+- (NSArray *)getInboxMessages {
     
-    [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
-    }];
+    MessageItem *item = [[MessageItem alloc] init];
+    item.subject = @"hello dmail";
+    item.senderName = @"sender name";
+    item.fromEmail = @"armen@gmail.com";
+    item.arrayTo = @[@"armen@science.com"];
+    item.arrayCc = @[@"from.email@mail.com"];
+    item.internalDate = @0;
+//    item.postDate = @0;
+    
+    return @[item];
 }
 
+- (NSArray *)getSentMessages {
+    
+    MessageItem *item = [[MessageItem alloc] init];
+    item.subject = @"hello dmail";
+    item.senderName = @"sender name";
+    item.fromEmail = @"armen@gmail.com";
+    item.arrayTo = @[@"armen@science.com"];
+    item.arrayCc = @[@"from.email@mail.com"];
+    item.internalDate = @0;
+    //    item.postDate = @0;
+    
+    return @[item];
+}
 @end

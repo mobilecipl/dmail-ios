@@ -24,7 +24,7 @@
 {
     self = [super init];
     if (self) {
-        self.items = anItems;
+        self.items = [anItems mutableCopy];
         self.cellIdentifier = aCellIdentifier;
         self.configureCellBlock = [aConfigureCellBlock copy];
     }
@@ -33,7 +33,7 @@
 
 - (void)setItems:(NSArray *)items
 {
-    _items = items;
+    _items = [items mutableCopy];
 }
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath
@@ -43,6 +43,18 @@
         item = self.items[(NSUInteger) indexPath.row];
     }
     return item;
+}
+
+- (void)removeItem:(id)item {
+    if([self.items containsObject:item]){
+        [self.items removeObject:item];
+    }
+}
+
+- (void)removeItemAtIndex:(NSIndexPath *)indexPath {
+    if (indexPath.row < [self.items count]) {
+        [self.items removeObjectAtIndex:indexPath.row];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

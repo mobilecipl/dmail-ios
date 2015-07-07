@@ -7,39 +7,56 @@
 //
 
 #import "InboxViewController.h"
-#import "Configurations.h"
+
+// controller
 #import "ComposeViewController.h"
-#import "InboxModel.h"
-#import "InboxCell.h"
 #import "InboxMessageViewController.h"
-#import "SentViewController.h"
-#import "CoreDataManager.h"
-#import "NetworkManager.h"
+#import "SentMessageViewController.h"
 
-@class MessageItem;
+// service
+#import "ServiceMessage.h"
 
+// data source
+#import "TableViewDataSource.h"
 
-@interface InboxViewController () <InboxModelDelegate>
+// model
+#import "MessageItem.h"
 
-@property (weak, nonatomic) IBOutlet UITableView *tableVIewInbox;
+// view
+#import "InboxCell.h"
+
+@interface InboxViewController () <UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
-@property (nonatomic, strong) NSMutableArray *arrayMessgaeItems;
+
+@property (strong, nonatomic) ServiceMessage *serviceMessage;
+
+@property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
+
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
-@property (nonatomic, strong) InboxModel *inboxModel;
-@property (nonatomic, assign) MessageLabel messageType;
 
 @end
 
 @implementation InboxViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+
+        _serviceMessage = [[ServiceMessage alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    self.messageType = Inbox;
-    self.inboxModel = [[InboxModel alloc] initWithMessageLabel:self.messageType];
-    self.tableVIewInbox.allowsMultipleSelectionDuringEditing = NO;
+    [self setupTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -47,7 +64,7 @@
     [super viewWillAppear:animated];
     
     [self registerNotifications];
-    [self getMessages];
+    [self loadMessages];
 }
 
 - (void)dealloc {
@@ -69,43 +86,65 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getMessages)
+                                             selector:@selector(loadMessages)
                                                  name:NotificationNewMessageFetched
                                                object:nil];
 }
 
-- (void)getMessages {
+- (void)setupTableView {
     
-    self.arrayMessgaeItems = [self.inboxModel getArrayMessageItems];
-    [self.tableVIewInbox reloadData];
+    // Initilaize collection view.
+    TableViewCellBlock configureCell = ^(InboxCell *cell, MessageItem *item) {
+        [cell configureCell:item];
+    };
+    
+    
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
+                                                       cellIdentifier:InboxCellIdentifier
+                                                   configureCellBlock:configureCell];
+    
+    self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
+    
+    [self.tableViewInbox setDataSource:self.dataSourceInbox];
+    [self.tableViewInbox setDelegate:self];
+    self.tableViewInbox.scrollsToTop = NO;
+    
+    // creating refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.tableViewInbox addSubview:self.refreshControl];
+    [self.refreshControl addTarget:self action:@selector(loadMessages) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)loadMessages {
+    
+    [self.refreshControl endRefreshing];
+    
+    self.dataSourceInbox.items = [[self.serviceMessage getInboxMessages] mutableCopy];
+    [self.tableViewInbox reloadData];
 }
 
 - (void)inboxClicked {
     
-    self.messageType = Inbox;
-    self.inboxModel.messageLabel = Inbox;
     [self setupController];
-    [self getMessages];
+    [self loadMessages];
 }
 
 - (void)sentClicked {
     
-    self.messageType = Sent;
-    self.inboxModel.messageLabel = Sent;
     [self setupController];
-    [self getMessages];
+    [self loadMessages];
 }
 
 - (void)setupController {
     
-    if (self.messageType == Inbox) {
-        self.imageViewNavigationIcon.hidden = NO;
-        self.labelNavigationTitle.hidden = YES;
-    }
-    else {
-        self.imageViewNavigationIcon.hidden = YES;
-        self.labelNavigationTitle.hidden = NO;
-    }
+//    if (self.messageType == Inbox) {
+//        self.imageViewNavigationIcon.hidden = NO;
+//        self.labelNavigationTitle.hidden = YES;
+//    }
+//    else {
+//        self.imageViewNavigationIcon.hidden = YES;
+//        self.labelNavigationTitle.hidden = NO;
+//    }
 }
 
 
@@ -121,32 +160,16 @@
 }
 
 
-#pragma mark - TableView DataSource & Delegate Methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.arrayMessgaeItems.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    InboxCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InboxCellID"];
-    [cell configureCell:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
-    
-    return cell;
-}
-
+#pragma mark - Delegate Methods -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.selectedMessageItem = [self.arrayMessgaeItems objectAtIndex:indexPath.row];
+    self.selectedMessageItem = [self.dataSourceInbox itemAtIndexPath:indexPath];
     if (self.selectedMessageItem.label == Inbox) {
+        
         [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
     }
     else {
+        
         [self performSegueWithIdentifier:@"fromInboxToSentView" sender:self];
     }
 }
@@ -158,9 +181,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
-    [self.arrayMessgaeItems removeObjectAtIndex:indexPath.row];
-    [self.tableVIewInbox reloadData];
+    //TODO:
+//    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
+    [self.dataSourceInbox removeItemAtIndex:indexPath];
+    [self.tableViewInbox reloadData];
 }
 
 
@@ -174,9 +198,9 @@
         }
     }
     else if ([segue.identifier isEqualToString:@"fromInboxToSentView"]) {
-        SentViewController *sentViewController = (SentViewController *)segue.destinationViewController;
-        if ([sentViewController isKindOfClass:[sentViewController class]]) {
-            sentViewController.messageItem = self.selectedMessageItem;
+        SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
+        if ([SentMessageViewController isKindOfClass:[SentMessageViewController class]]) {
+            sentMessageVC.messageItem = self.selectedMessageItem;
         }
     }
 }
@@ -184,7 +208,7 @@
 - (void)updateInboxScreen:(MessageItem *)messageItem {
     
     [self hideLoadingView];
-    [self getMessages];
+    [self loadMessages];
 }
 
 @end

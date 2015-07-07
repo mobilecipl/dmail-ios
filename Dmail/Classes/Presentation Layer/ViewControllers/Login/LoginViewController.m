@@ -7,13 +7,22 @@
 //
 
 #import "LoginViewController.h"
-#import <GoogleSignIn/GoogleSignIn.h>
+
+// controller
+
+// service
+#import "ServiceSync.h"
+
 #import "ProfileService.h"
-#import "SyncService.h"
-#import "NetworkManager.h"
 
+// model
 
-@interface LoginViewController ()<GIDSignInDelegate>
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+
+@interface LoginViewController () <GIDSignInDelegate>
+
+@property (nonatomic, strong) ServiceSync *serviceSync;
 
 @end
 
@@ -21,6 +30,16 @@
 
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _serviceSync = [[ServiceSync alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -60,8 +79,10 @@
     }
     else {
         [[ProfileService sharedInstance] updateUserDetails:user];
-        [[SyncService sharedInstance] getMessageIds];
-        [[SyncService sharedInstance] syncGoogleContacts];
+        
+        // TODO: sync
+        [self.serviceSync sync];
+        
         [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
     }
 }

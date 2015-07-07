@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="gzo-a6-0Wx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="gzo-a6-0Wx">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -271,7 +271,7 @@
                                         <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InboxCellID" rowHeight="81" id="1oF-g1-eer" customClass="InboxCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InboxCellIdentifier" rowHeight="81" id="1oF-g1-eer" customClass="InboxCell">
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1oF-g1-eer" id="X8P-pa-HAW">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -388,7 +388,7 @@
                     <connections>
                         <outlet property="imageViewNavigationIcon" destination="Flb-zf-Pdm" id="TYf-SJ-kXJ"/>
                         <outlet property="labelNavigationTitle" destination="wai-Rv-5DE" id="LGs-Qj-FyH"/>
-                        <outlet property="tableVIewInbox" destination="xWv-Fm-RwW" id="9Zp-4o-2ys"/>
+                        <outlet property="tableViewInbox" destination="xWv-Fm-RwW" id="xIB-OV-iIS"/>
                         <segue destination="y8g-Vk-ppM" kind="push" identifier="fromInboxToInboxMessageView" id="HrS-Sg-X06"/>
                         <segue destination="zbx-z7-Gyx" kind="push" identifier="fromInboxToCompose" id="szA-Vv-gNz"/>
                         <segue destination="XUF-Ts-a6C" kind="push" identifier="fromInboxToSentView" id="Xkk-rd-6bJ"/>
@@ -878,10 +878,10 @@
             </objects>
             <point key="canvasLocation" x="2054.5" y="521.5"/>
         </scene>
-        <!--Sent View Controller-->
+        <!--Sent Message View Controller-->
         <scene sceneID="7bi-P8-z4y">
             <objects>
-                <viewController id="XUF-Ts-a6C" customClass="SentViewController" sceneMemberID="viewController">
+                <viewController id="XUF-Ts-a6C" customClass="SentMessageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ajX-RQ-d2w"/>
                         <viewControllerLayoutGuide type="bottom" id="2Ro-fy-gnY"/>

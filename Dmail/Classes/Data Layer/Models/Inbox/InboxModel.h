@@ -11,16 +11,9 @@
 
 @class MessageItem;
 
-@protocol InboxModelDelegate <NSObject>
-
-- (void)updateInboxScreen:(MessageItem *)messageItem;
-
-@end
-
 @interface InboxModel : NSObject
 
 @property (nonatomic, assign) MessageLabel messageLabel;
-@property (nonatomic, assign) id<InboxModelDelegate> delegate;
 
 - (id)initWithMessageLabel:(MessageLabel)messageLabel;
 - (NSMutableArray *)getArrayMessageItems;

@@ -29,9 +29,7 @@
 messageIdentifier:(NSString *)messageIdentifier
   completionBlock:(CompletionBlock)completionBlock;
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail
-                    position:(NSString *)position
-                       count:(NSString *)count
-             completionBlock:(CompletionBlock)completionBlock;
+- (NSArray *)getInboxMessages;
 
+- (NSArray *)getSentMessages;
 @end

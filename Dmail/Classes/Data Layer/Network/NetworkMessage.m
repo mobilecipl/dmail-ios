@@ -183,7 +183,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
     [self makePostRequest:kUrlMessageSent withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSString *)position count:(NSString *)count completionBlock:(CompletionBlock)completionBlock {
+- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock {
     
     NSDictionary *parameters = @{@"recipient_email" : recipientEmail,
                                  @"position" : position,

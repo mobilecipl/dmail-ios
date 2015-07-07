@@ -57,8 +57,12 @@
 - (void)getDmailIds {
     
     if ([[ProfileService sharedInstance] email]) {
+        
+        
+        
         NSInteger position = [[CoreDataManager sharedCoreDataManager] getLastPosition];
         NSDictionary *parameters;
+        
         if (position == 0) {
             NSDate *date = [NSDate date];
             NSTimeInterval timeInterval = [date timeIntervalSince1970];

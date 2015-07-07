@@ -7,15 +7,20 @@
 //
 
 #import "AppDelegate.h"
-#import "Configurations.h"
+
+// service
+#import "ProfileService.h"
+#import "GmailManager.h"
+
+// google
 #import <GoogleSignIn/GoogleSignIn.h>
+
+// fabric
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "ProfileService.h"
-#import "SyncService.h"
-#import "GmailManager.h"
-#import "NSString+AESCrypt.h"
 
+// util
+#import "NSString+AESCrypt.h"
 
 @interface AppDelegate ()
 

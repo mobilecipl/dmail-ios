@@ -8,7 +8,7 @@
 
 #import "ServiceMessage.h"
 
-// network
+// dao
 #import "DAOMessage.h"
 
 @interface ServiceMessage ()
@@ -54,12 +54,14 @@
     }];
 }
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSString *)position completionBlock:(CompletionBlock)completionBlock {
+- (NSArray *)getInboxMessages {
+    
+    return [self.daoMessage getInboxMessages];
+}
 
-    NSString *count = @"100";
-    [self.daoMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
-    }];
+- (NSArray *)getSentMessages {
+    
+    return [self.daoMessage getInboxMessages];
 }
 
 @end

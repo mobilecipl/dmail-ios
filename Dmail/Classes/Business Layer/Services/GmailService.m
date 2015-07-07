@@ -65,7 +65,7 @@
     //    [self updateButtons];
 }
 
-- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+- (void)signIn:(GIDSignIn *)signIn preSentMessageViewController:(UIViewController *)viewController {
     
     
 }
