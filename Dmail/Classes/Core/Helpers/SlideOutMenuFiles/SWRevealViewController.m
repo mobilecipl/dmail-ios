@@ -764,8 +764,13 @@ const int FrontViewPositionNone = 0xff;
 - (void)revealToggleAnimated:(BOOL)animated
 {
     FrontViewPosition toogledFrontViewPosition = FrontViewPositionLeft;
-    if (_frontViewPosition <= FrontViewPositionLeft)
+    if (_frontViewPosition <= FrontViewPositionLeft) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         toogledFrontViewPosition = FrontViewPositionRight;
+    }
+    else {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    }
     
     [self setFrontViewPosition:toogledFrontViewPosition animated:animated];
 }
@@ -859,8 +864,8 @@ const int FrontViewPositionNone = 0xff;
 
 #pragma mark - Provided acction methods
 
-- (IBAction)revealToggle:(id)sender
-{    
+- (IBAction)revealToggle:(id)sender {
+    
     [self revealToggleAnimated:YES];
 }
 
@@ -915,11 +920,13 @@ const int FrontViewPositionNone = 0xff;
 {
     CGFloat xLocation, dragProgress;
     [self _getDragLocation:&xLocation progress:&dragProgress];
-    if ( [_delegate respondsToSelector:@selector(revealController:panGestureEndedToLocation:progress:)] )
+    if ( [_delegate respondsToSelector:@selector(revealController:panGestureEndedToLocation:progress:)] ) {
         [_delegate revealController:self panGestureEndedToLocation:xLocation progress:dragProgress];
+    }
     
-    if ( [_delegate respondsToSelector:@selector(revealControllerPanGestureEnded:)] )
+    if ( [_delegate respondsToSelector:@selector(revealControllerPanGestureEnded:)] ) {
         [_delegate revealControllerPanGestureEnded:self];
+    }
 }
 
 

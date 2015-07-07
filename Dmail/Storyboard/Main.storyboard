@@ -252,9 +252,6 @@
                                                 <state key="normal" image="buttonMenu">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="buttonHandlerMenu:" destination="hjD-L2-TLR" eventType="touchUpInside" id="RB5-07-hJG"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yOj-g2-PVL" userLabel="Compose : Button">
                                                 <rect key="frame" x="325" y="22" width="50" height="40"/>
@@ -850,7 +847,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hg6-fG-Dc0">
                                                 <rect key="frame" x="0.0" y="45" width="327" height="429"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <mutableString key="text">AAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasd</mutableString>
+                                                <string key="text">AAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasdAAAaskjdhalskjdhklashdlkajshdlkajshdlkjashdkljasd</string>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="19"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -1677,9 +1674,6 @@
                                                 <state key="normal" image="buttonMenu">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="buttonHandlerMenu:" destination="odB-CN-ox3" eventType="touchUpInside" id="sH2-cE-9x2"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NDY-Qe-OSa" userLabel="Compose : Button">
                                                 <rect key="frame" x="325" y="22" width="50" height="40"/>
@@ -1826,6 +1820,7 @@
                     <navigationItem key="navigationItem" id="5pI-xj-Ki0"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="buttonRevealMenu" destination="00Z-3T-2cy" id="IU3-yA-Wwn"/>
                         <outlet property="labelNavigationTitle" destination="3bJ-bb-HwM" id="54n-lx-wMx"/>
                         <outlet property="tableViewInbox" destination="2MN-sQ-6QI" id="L0h-wN-Blc"/>
                     </connections>

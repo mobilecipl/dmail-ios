@@ -11,6 +11,8 @@
 #import "MessageItem.h"
 #import "Profile.h"
 
+NSString *const SentCellIdentifier = @"SentCellIdentifier";
+
 @interface SentCell ()
 
 @property (weak, nonatomic) IBOutlet UIView *viewBorder;

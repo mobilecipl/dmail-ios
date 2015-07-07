@@ -8,6 +8,8 @@
 
 #import "MessageCell.h"
 
+extern NSString *const SentCellIdentifier;
+
 @interface SentCell : MessageCell
 
 @end

@@ -11,6 +11,7 @@
 #import "ComposeViewController.h"
 #import "InboxMessageViewController.h"
 #import "SentMessageViewController.h"
+#import "SWRevealViewController.h"
 
 // service
 #import "ServiceMessage.h"
@@ -22,7 +23,7 @@
 #import "MessageItem.h"
 
 // view
-#import "InboxCell.h"
+#import "SentCell.h"
 
 // sdwebimage
 
@@ -32,7 +33,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 
@@ -59,6 +60,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    [self setupController];
     [self setupTableView];
 }
 
@@ -79,32 +82,24 @@
 #pragma mark - Private Methods
 - (void)registerNotifications {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inboxClicked)
-                                                 name:NotificationMessageInbox
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sentClicked)
-                                                 name:NotificationMessageSent
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationNewMessageFetched object:nil];
+}
+
+- (void)setupController {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(loadMessages)
-                                                 name:NotificationNewMessageFetched
-                                               object:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(InboxCell *cell, MessageItem *item) {
+    TableViewCellBlock configureCell = ^(SentCell *cell, MessageItem *item) {
         [cell configureCell:item];
     };
     
-    
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
-                                                       cellIdentifier:InboxCellIdentifier
-                                                   configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:SentCellIdentifier configureCellBlock:configureCell];
     
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
     
@@ -126,37 +121,8 @@
     [self.tableViewInbox reloadData];
 }
 
-- (void)inboxClicked {
-    
-    [self setupController];
-    [self loadMessages];
-}
-
-- (void)sentClicked {
-    
-    [self setupController];
-    [self loadMessages];
-}
-
-- (void)setupController {
-    
-    //    if (self.messageType == Inbox) {
-    //        self.imageViewNavigationIcon.hidden = NO;
-    //        self.labelNavigationTitle.hidden = YES;
-    //    }
-    //    else {
-    //        self.imageViewNavigationIcon.hidden = YES;
-    //        self.labelNavigationTitle.hidden = NO;
-    //    }
-}
-
 
 #pragma mark - Action Methods
-- (IBAction)buttonHandlerMenu:(id)sender {
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMenuButton object:nil];
-}
-
 - (IBAction)buttonHandlerCompose:(id)sender {
     
     [self performSegueWithIdentifier:@"fromInboxToCompose" sender:self];
