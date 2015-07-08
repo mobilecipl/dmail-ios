@@ -11,6 +11,7 @@
 		58CFBBA71B4BCC79005DA506 /* NetworkGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */; };
 		58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */; };
 		58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */; };
+		58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E4BC071B4D7E08003BDD52 /* ModelContact.m */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
 		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
@@ -145,6 +146,8 @@
 		58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOGmailMessage.m; sourceTree = "<group>"; };
 		58CFBBAB1B4BFF20005DA506 /* ServiceGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceGmailMessage.h; sourceTree = "<group>"; };
 		58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceGmailMessage.m; sourceTree = "<group>"; };
+		58E4BC061B4D7E08003BDD52 /* ModelContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelContact.h; sourceTree = "<group>"; };
+		58E4BC071B4D7E08003BDD52 /* ModelContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelContact.m; sourceTree = "<group>"; };
 		58FB2B741B42C5EA005B9541 /* NetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkMessage.h; sourceTree = "<group>"; };
 		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -485,6 +488,8 @@
 			children = (
 				9CC2D0ED1B46CB8A00182C2B /* ContactModel.h */,
 				9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */,
+				58E4BC061B4D7E08003BDD52 /* ModelContact.h */,
+				58E4BC071B4D7E08003BDD52 /* ModelContact.m */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -1480,6 +1485,7 @@
 				C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */,
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,
 				9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */,
+				58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */,
 				C08C2DD81B41AB1C00295A94 /* BaseButton.m in Sources */,
 				9C2360AD1B428CB50020B348 /* User.m in Sources */,
 				C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */,

@@ -10,9 +10,13 @@
 #import "ServiceProfile.h"
 #import "XMLReader.h"
 
+#import "ContactModel.h"
 
 static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/contacts/";
-static NSString * const kUrlGetAll = @"%@/full";
+static NSString * const kUrlGetAll = @"%@/full?alt=json";
+
+static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&max-results=%@";//&key=%@";
+static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
 
 @implementation NetworkContacts
 
@@ -91,8 +95,6 @@ static NSString * const kUrlGetAll = @"%@/full";
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 
-                NSDictionary *xmlData = [XMLReader dictionaryForXMLData:responseObject error:nil];
-                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (completionBlock) {
                         completionBlock(responseObject, nil);
@@ -114,6 +116,114 @@ static NSString * const kUrlGetAll = @"%@/full";
               withParams:nil
                  success:successBlock
                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+}
+
+
+- (void)getContactsWithPagingForEmail:(NSString *)email
+                           startIndex:(NSString *)startIndex
+                            maxResult:(NSString *)maxResult
+                      completionBlock:(CompletionBlock)completionBlock {
+    
+    
+       AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GetContacts JSON: %@", responseObject);
+        switch (operation.response.statusCode) {
+            case 200: { //Success Response
+                
+                NSArray *arr = [self parseContactsWithDictionary:responseObject];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                });
+            }
+                break;
+                
+            default: {
+                ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                error.statusCode = @(operation.response.statusCode);
+                completionBlock(nil, error);
+            }
+                break;
+        }
+    };
+    
+    NSString *urlRequest = [NSString stringWithFormat:kUrlGetWithPaging, email, startIndex, maxResult];
+    
+    [self makeGetRequest:urlRequest
+              withParams:nil
+                 success:successBlock
+                 failure:[self constructFailureBlockWithBlock:completionBlock]];
+}
+
+- (void)getUpdatedContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GetContacts JSON: %@", responseObject);
+        switch (operation.response.statusCode) {
+            case 200: { //Success Response
+                
+                NSArray *arr = [self parseContactsWithDictionary:responseObject];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                });
+            }
+                break;
+                
+            default: {
+                ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                error.statusCode = @(operation.response.statusCode);
+                completionBlock(nil, error);
+            }
+                break;
+        }
+    };
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"generationDate"];
+    
+    [self makeGetRequest:[NSString stringWithFormat:kUrlUpdate, email, @"2"]
+              withParams:nil
+                 success:successBlock
+                 failure:[self constructFailureBlockWithBlock:completionBlock]];
+}
+
+- (NSArray *)parseContactsWithDictionary:(NSDictionary *)dict {
+    
+    NSMutableArray *arrayModels = [[NSMutableArray alloc] init];
+    NSDictionary *dictFeed = dict[@"feed"];
+    NSArray *entryFeed = dictFeed[@"entry"];
+    for (NSDictionary *dict in entryFeed) {
+        NSString *email;
+        NSString *fullName;
+        NSString *contactId;
+        if ([[dict allKeys] containsObject:@"gd:email"]) {
+            NSDictionary *emailDict = dict[@"gd:email"];
+            email = emailDict[@"address"];
+            NSLog(@"email === %@", email);
+        }
+        if ([[dict allKeys] containsObject:@"gd:name"]) {
+            NSDictionary *emailDict = dict[@"gd:name"];
+            NSDictionary *fullNameDict = emailDict[@"gd:fullName"];
+            fullName = fullNameDict[@"text"];
+            NSLog(@"fullName === %@", fullName);
+        }
+        if ([[dict allKeys] containsObject:@"id"]) {
+            NSDictionary *idDict = dict[@"id"];
+            contactId = idDict[@"text"];
+            NSArray *array = [contactId componentsSeparatedByString:@"/"];
+            contactId = [array lastObject];
+            NSLog(@"contactId === %@", contactId);
+        }
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId];
+        [arrayModels addObject:model];
+        NSLog(@"============================================\n");
+    }
+    
+    return [NSArray arrayWithArray:arrayModels];
 }
 
 @end
