@@ -32,4 +32,8 @@ messageIdentifier:(NSString *)messageIdentifier
 - (NSArray *)getInboxMessages;
 
 - (NSArray *)getSentMessages;
+
+- (NSString *)getLastGmailUniqueId;
+
+- (NSString *)getLastGmailMessageId;
 @end

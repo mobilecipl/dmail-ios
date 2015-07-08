@@ -12,7 +12,7 @@
 
 @property NSString *serverId;
 @property NSString *access;
-@property NSString *dmailId;
+@property NSString *messageId;
 @property NSString *messageIdentifier;
 @property NSNumber *position;
 @property NSString *type;

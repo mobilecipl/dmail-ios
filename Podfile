@@ -5,6 +5,7 @@ target 'Dmail' do
 
 pod 'Google/SignIn'
 pod 'AFOAuth2Manager', '~>2.0'
+pod 'Google-API-Client/Gmail', '~> 1.0'
 
 
 # view

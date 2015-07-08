@@ -8,7 +8,7 @@
 
 #import "NetworkGmailMessage.h"
 
-#import "Configurations.h"
+#import <GoogleSignIn.h>
 
 static NSString * const kUrlMessagesWithId = @"%@/messages/%@?key=%@";
 static NSString * const kUrlMessagesWithQuery = @"%@/messages?q=%@&key=%@";
@@ -18,7 +18,10 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
 
 - (instancetype)init {
     
-    self = [super initForGmailMessage];
+    self = [super initWithUrl:@"https://www.googleapis.com/gmail/v1/users"];
+    if (self) {
+        
+    }
     return self;
 }
 
@@ -26,29 +29,31 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
                           userId:(NSString *)userID
                  completionBlock:(CompletionBlock)completionBlock {
     
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
         NSLog(@"getWithUniqueIdResponse JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 201: { //Success Response
+            case 200: {
+                
+                //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                    //TODO:
-                    if (!responseObject[@"errorCode"] || (responseObject[@"errorCode"] && [responseObject[@"errorCode"] integerValue] == 0)) {
-                        if (completionBlock) {
-                            completionBlock(responseObject, nil);
-                        }
-                    }
-                    else {
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
+
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
                     }
                 } else {
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];
                     error.statusCode = @400;
                     error.message = kErrorMessageNoServer;
-                    completionBlock(nil, error);
+                    if (completionBlock) {
+                        completionBlock(nil, error);
+                    }
                 }
             }
                 break;
+                
             default: {
                 ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
                 completionBlock(nil, error);
@@ -64,12 +69,15 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
     queryString = [queryString stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
     queryString = [queryString stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
     
-    [self makeGetRequest:[NSString stringWithFormat:kUrlMessagesWithQuery, userID, queryString, kGoogleClientSecret]
+    NSString *requestUrl = [NSString stringWithFormat:kUrlMessagesWithQuery, userID, queryString, kGoogleClientSecret];
+    
+    [self makeGetRequest:requestUrl
               withParams:nil
                  success:successBlock
                  failure:[self constructFailureBlockWithBlock:completionBlock]];
     
 }
+
 
 - (void)getMessageWithMessageId:(NSString *)messageId
                          userId:(NSString *)userID
@@ -81,14 +89,8 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
             case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
-                    if (!responseObject[@"errorCode"] || (responseObject[@"errorCode"] && [responseObject[@"errorCode"] integerValue] == 0)) {
-                        if (completionBlock) {
-                            completionBlock(responseObject, nil);
-                        }
-                    }
-                    else {
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
                     }
                 } else {
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];
@@ -122,14 +124,8 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
             case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
-                    if (!responseObject[@"errorCode"] || (responseObject[@"errorCode"] && [responseObject[@"errorCode"] integerValue] == 0)) {
-                        if (completionBlock) {
-                            completionBlock(responseObject, nil);
-                        }
-                    }
-                    else {
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
                     }
                 } else {
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];

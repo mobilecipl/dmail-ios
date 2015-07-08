@@ -22,11 +22,19 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
 
 - (instancetype)init {
     
-    self = [super initForGmailContacts];
+    self = [super initWithUrl:kUrlGetContacts];
+    
+    [manager.requestSerializer setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
+    [manager.requestSerializer setHTTPShouldHandleCookies:NO];
+    
     return self;
 }
 
 - (void)getGoogleContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+    
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    
     
 //    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
 //        NSLog(@"getEncryptedMessage JSON: %@", responseObject);

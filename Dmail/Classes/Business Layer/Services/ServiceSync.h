@@ -12,5 +12,4 @@
 
 - (void)sync;
 
-- (void)syncMessages;
 @end

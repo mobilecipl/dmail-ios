@@ -7,9 +7,6 @@
 //
 
 #import "BaseNetwork.h"
-//#import "Configuration.h"
-#import "Util.h"
-#import "GoogleSignIn.h"
 
 #define TimeOutInterval 15
 
@@ -18,23 +15,37 @@
 
 @implementation BaseNetwork
 
--(instancetype)init {
+- (instancetype)init {
+    
+    self = [self initWithUrl:nil];
+	if (self) {
+        
+    }
+    
+    return  self;
+}
+
+- (instancetype)initWithUrl:(NSString *)url {
     
     self = [super init];
-	if (self != nil)
-    {
+    if (self) {
+        
+        _baseServerUrl = url;
+        
+        _baseServerUrl = _baseServerUrl ? _baseServerUrl : kBaseServerURL;
         //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseServerURL]];
+        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:_baseServerUrl]];
         NSOperationQueue *operationQueue = manager.operationQueue;
 //        [manager.reachabilityManager startMonitoring];
+        
         [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 //            UALog(@"AFNetworkReachabilityStatus: %li", status);
             
             switch (status) {
                 case AFNetworkReachabilityStatusReachableViaWWAN:
                 case AFNetworkReachabilityStatusReachableViaWiFi: {
-                    [operationQueue setSuspended:NO];                    
-                }                    
+                    [operationQueue setSuspended:NO];
+                }
                     break;
                 case AFNetworkReachabilityStatusNotReachable:
                 default:
@@ -52,88 +63,10 @@
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
 //        cStore = [CredentialStore sharedInstance];
-	}
-    
-    return  self;
-}
-
-- (instancetype)initForGmailContacts {
-    
-    self = [super init];
-    if (self != nil)
-    {
-        //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.google.com/m8/feeds/contacts"]];
-        NSOperationQueue *operationQueue = manager.operationQueue;
-        [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            
-            switch (status) {
-                case AFNetworkReachabilityStatusReachableViaWWAN:
-                case AFNetworkReachabilityStatusReachableViaWiFi: {
-                    [operationQueue setSuspended:NO];
-                }
-                    break;
-                case AFNetworkReachabilityStatusNotReachable:
-                default:
-                    [operationQueue setSuspended:YES];
-                    break;
-            }
-        }];
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        
-        [requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-        [requestSerializer setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-Type"];
-        [requestSerializer setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
-        [requestSerializer setHTTPShouldHandleCookies:NO];
-        
-        manager.requestSerializer = requestSerializer;
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        //        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/atom+xml"];
-
     }
     
     return  self;
 }
-
-- (instancetype)initForGmailMessage {
-    
-    self = [super init];
-    if (self != nil)
-    {
-        //Init
-        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.googleapis.com/gmail/v1/users"]];
-        NSOperationQueue *operationQueue = manager.operationQueue;
-        [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            
-            switch (status) {
-                case AFNetworkReachabilityStatusReachableViaWWAN:
-                case AFNetworkReachabilityStatusReachableViaWiFi: {
-                    [operationQueue setSuspended:NO];
-                }
-                    break;
-                case AFNetworkReachabilityStatusNotReachable:
-                default:
-                    [operationQueue setSuspended:YES];
-                    break;
-            }
-        }];
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        [requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-        
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-        [requestSerializer setHTTPShouldHandleCookies:NO];
-        
-        manager.requestSerializer = requestSerializer;
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-    }
-    
-    return  self;
-}
-
 
 -(void)preparingForRequests {
     

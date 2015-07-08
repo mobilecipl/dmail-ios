@@ -126,6 +126,7 @@
 		C09C27CA1B4BFE440067B7F2 /* DAOSync.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27C91B4BFE440067B7F2 /* DAOSync.m */; };
 		C09C27CD1B4C201B0067B7F2 /* RMModelDmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27CC1B4C201B0067B7F2 /* RMModelDmailMessage.m */; };
 		C09C27D11B4C2B7C0067B7F2 /* ModelDmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27D01B4C2B7C0067B7F2 /* ModelDmailMessage.m */; };
+		C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27D31B4D7A140067B7F2 /* ModelGmailPayload.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -369,6 +370,8 @@
 		C09C27CC1B4C201B0067B7F2 /* RMModelDmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelDmailMessage.m; sourceTree = "<group>"; };
 		C09C27CF1B4C2B7C0067B7F2 /* ModelDmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelDmailMessage.h; sourceTree = "<group>"; };
 		C09C27D01B4C2B7C0067B7F2 /* ModelDmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelDmailMessage.m; sourceTree = "<group>"; };
+		C09C27D21B4D7A140067B7F2 /* ModelGmailPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailPayload.h; sourceTree = "<group>"; };
+		C09C27D31B4D7A140067B7F2 /* ModelGmailPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelGmailPayload.m; sourceTree = "<group>"; };
 		E52F5B53307CB9DB741108AB /* Pods-Dmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.release.xcconfig"; sourceTree = "<group>"; };
 		ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1217,6 +1220,8 @@
 				C09C27D01B4C2B7C0067B7F2 /* ModelDmailMessage.m */,
 				9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */,
 				9C7285801B4D15C000996A35 /* ModelGmailMessage.m */,
+				C09C27D21B4D7A140067B7F2 /* ModelGmailPayload.h */,
+				C09C27D31B4D7A140067B7F2 /* ModelGmailPayload.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1474,6 +1479,7 @@
 				C08C2DC31B41AB1C00295A94 /* CommonMethods.m in Sources */,
 				C08C2E011B41AB1C00295A94 /* ParticipantsCell.m in Sources */,
 				C08C2DCC1B41AB1C00295A94 /* TableViewSectionDataSource.m in Sources */,
+				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
 				9C72857E1B4D147700996A35 /* RMModelGmailMessage.m in Sources */,

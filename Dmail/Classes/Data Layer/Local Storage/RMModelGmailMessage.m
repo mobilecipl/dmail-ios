@@ -13,7 +13,7 @@
 
 + (NSString *)primaryKey {
     
-    return @"serverId";
+    return @"dmailId";
 }
 
 - (instancetype)initWithModel:(ModelGmailMessage *)model {

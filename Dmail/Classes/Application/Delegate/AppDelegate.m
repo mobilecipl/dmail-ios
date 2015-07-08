@@ -76,7 +76,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 
-    [[GmailManager sharedInstance] getMessages];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

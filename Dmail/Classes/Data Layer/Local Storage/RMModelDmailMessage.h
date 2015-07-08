@@ -13,7 +13,11 @@
 @property NSString *serverId;
 @property NSString *access;
 @property NSString *dmailId;
+
 @property NSString *messageIdentifier;
+
+@property NSString *gmailId;
+
 @property long long position;
 @property NSString *type;
 

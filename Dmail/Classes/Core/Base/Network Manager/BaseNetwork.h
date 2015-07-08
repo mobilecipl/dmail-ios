@@ -38,12 +38,13 @@ typedef void (^CompletionBlock)(id data, ErrorDataModel *error);
 //    CredentialStore *cStore;
 }
 
-@property(nonatomic,weak)id<BaseNetworkDelegate> delegate;
+@property (nonatomic, weak) id <BaseNetworkDelegate> delegate;
+
+@property (nonatomic, strong) NSString *baseServerUrl;
 
 //Init
-- (instancetype)init; //Dmail
-- (instancetype)initForGmailContacts; //GmailContacts
-- (instancetype)initForGmailMessage; //GmailMessage
+- (instancetype)init;
+- (instancetype)initWithUrl:(NSString *)url;
 
 -(void)makePostRequest:(NSString *)url withParams:(NSDictionary*)params success:(AFSuccessBlock)successBlock failure:(AFFailureBlock)failureBlock;
 

@@ -15,8 +15,9 @@
 #import "MessageItem.h"
 
 //RealmModel
-#import "RMModelGmailMessage.h"
 #import <Realm/Realm.h>
+#import "RMModelDmailMessage.h"
+#import "RMModelGmailMessage.h"
 
 @interface DAOMessage ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
@@ -70,17 +71,17 @@
     NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
     NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
     
-    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
-    for (RMModelGmailMessage *gmailMessage in messages) {
-        MessageItem *item = [[MessageItem alloc] init];
-        item.subject = @"hello dmail";
-        item.senderName = @"sender name";
-        item.fromEmail = @"armen@gmail.com";
-        item.arrayTo = @[@"armen@science.com"];
-        item.arrayCc = @[@"from.email@mail.com"];
-        item.internalDate = @0;
-        [arrayItems addObject:item];
-    }
+//    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
+//    for (RMModelGmailMessage *gmailMessage in messages) {
+//        MessageItem *item = [[MessageItem alloc] init];
+//        item.subject = @"hello dmail";
+//        item.senderName = @"sender name";
+//        item.fromEmail = @"armen@gmail.com";
+//        item.arrayTo = @[@"armen@science.com"];
+//        item.arrayCc = @[@"from.email@mail.com"];
+//        item.internalDate = @0;
+//        [arrayItems addObject:item];
+//    }
     
     return [NSArray arrayWithArray:arrayItems];
 }
@@ -97,5 +98,46 @@
     //    item.postDate = @0;
     
     return @[item];
+}
+
+- (NSString *)getLastGmailUniqueId {
+    
+    NSString *gmailUniqueId = nil;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"access = %@ AND type = %@", @"GRANTED", @"SENDER"];
+    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm withPredicate:predicate]
+                            sortedResultsUsingProperty:@"position" ascending:NO];
+    
+    for (RMModelDmailMessage *dmailMessage in messages) {
+        
+        // get first result
+        gmailUniqueId = dmailMessage.messageIdentifier;
+        break;
+    }
+
+    
+    return gmailUniqueId;
+}
+
+- (NSString *)getLastGmailMessageId {
+    
+    NSString *gmailMessageId = nil;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"gmailId != ''"];
+    
+    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"gmailId != ''"]
+                            sortedResultsUsingProperty:@"position" ascending:NO];
+    
+    for (RMModelDmailMessage *dmailMessage in messages) {
+        
+        // get first result
+        gmailMessageId = dmailMessage.gmailId;
+        break;
+    }
+    
+    
+    return gmailMessageId;
 }
 @end

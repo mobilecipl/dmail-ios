@@ -21,6 +21,7 @@
 - (instancetype)init {
     
     if (self) {
+        
         _daoGmailMessage = [[DAOGmailMessage alloc] init];
     }
     
@@ -32,11 +33,11 @@
                  completionBlock:(CompletionBlock)completionBlock {
     
     [self.daoGmailMessage getMessageIdWithUniqueId:uniqueId
-                                                userId:userID
-                                       completionBlock:^(id data, ErrorDataModel *error) {
-                                           
-                                           completionBlock(data, error);
-                                       }];
+                                            userId:userID
+                                   completionBlock:^(id data, ErrorDataModel *error) {
+                                       
+                                       completionBlock(data, error);
+                                   }];
 }
 
 - (void)getMessageWithMessageId:(NSString *)messageId
@@ -44,11 +45,11 @@
                 completionBlock:(CompletionBlock)completionBlock {
     
     [self.daoGmailMessage getMessageWithMessageId:messageId
-                                               userId:userID
-                                      completionBlock:^(id data, ErrorDataModel *error) {
-                                          
-                                          completionBlock(data, error);
-                                      }];
+                                           userId:userID
+                                  completionBlock:^(id data, ErrorDataModel *error) {
+                                      
+                                      completionBlock(data, error);
+                                  }];
 }
 
 - (void)sendWithEncodedBody:(NSString *)encodedBody

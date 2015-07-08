@@ -22,8 +22,9 @@
     self = [super init];
     if (self) {
         
+        _serverId = model.serverId;
         _access = model.access;
-        _dmailId = model.dmailId;
+        _dmailId = model.messageId;
         _messageIdentifier = model.messageIdentifier;
         _position = [model.position longLongValue];
         _type = model.type;
