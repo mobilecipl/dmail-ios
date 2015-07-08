@@ -23,6 +23,8 @@
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
+		9C72857E1B4D147700996A35 /* RMModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C72857D1B4D147700996A35 /* RMModelGmailMessage.m */; };
+		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
 		9C73C7DC1B4555A60059DF46 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C73C7DB1B4555A60059DF46 /* XMLReader.m */; };
 		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
 		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
@@ -166,6 +168,10 @@
 		9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
+		9C72857C1B4D147700996A35 /* RMModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelGmailMessage.h; sourceTree = "<group>"; };
+		9C72857D1B4D147700996A35 /* RMModelGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelGmailMessage.m; sourceTree = "<group>"; };
+		9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailMessage.h; sourceTree = "<group>"; };
+		9C7285801B4D15C000996A35 /* ModelGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelGmailMessage.m; sourceTree = "<group>"; };
 		9C73C7DA1B4555A60059DF46 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		9C73C7DB1B4555A60059DF46 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,6 +498,8 @@
 				9CC2D0F81B46D49400182C2B /* RealmProfile.m */,
 				C09C27CB1B4C201B0067B7F2 /* RMModelDmailMessage.h */,
 				C09C27CC1B4C201B0067B7F2 /* RMModelDmailMessage.m */,
+				9C72857C1B4D147700996A35 /* RMModelGmailMessage.h */,
+				9C72857D1B4D147700996A35 /* RMModelGmailMessage.m */,
 			);
 			path = "Local Storage";
 			sourceTree = "<group>";
@@ -1202,6 +1210,8 @@
 			children = (
 				C09C27CF1B4C2B7C0067B7F2 /* ModelDmailMessage.h */,
 				C09C27D01B4C2B7C0067B7F2 /* ModelDmailMessage.m */,
+				9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */,
+				9C7285801B4D15C000996A35 /* ModelGmailMessage.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1461,7 +1471,9 @@
 				C08C2DCC1B41AB1C00295A94 /* TableViewSectionDataSource.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
+				9C72857E1B4D147700996A35 /* RMModelGmailMessage.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
+				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,

@@ -42,8 +42,13 @@
 - (void)updateUserDetails:(GIDGoogleUser *)user {
     
     self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID contactLastUpdateDate:nil];
-    self.daoProfile = [[DAOProfile alloc] init];
-    [self.daoProfile addProfileWithProfileModel:self.profileModel];
+    if (self.profileModel) {
+        self.email = self.profileModel.email;
+        self.fullName = self.profileModel.fullName;
+        self.googleId = self.profileModel.googleId;
+        self.daoProfile = [[DAOProfile alloc] init];
+        [self.daoProfile addProfileWithProfileModel:self.profileModel];
+    }
 }
 
 @end

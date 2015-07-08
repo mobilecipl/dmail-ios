@@ -14,6 +14,10 @@
 // model
 #import "MessageItem.h"
 
+//RealmModel
+#import "RMModelGmailMessage.h"
+#import <Realm/Realm.h>
+
 @interface DAOMessage ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
 @end
@@ -63,16 +67,22 @@
 
 - (NSArray *)getInboxMessages {
     
-    MessageItem *item = [[MessageItem alloc] init];
-    item.subject = @"hello dmail";
-    item.senderName = @"sender name";
-    item.fromEmail = @"armen@gmail.com";
-    item.arrayTo = @[@"armen@science.com"];
-    item.arrayCc = @[@"from.email@mail.com"];
-    item.internalDate = @0;
-//    item.postDate = @0;
+    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
+    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
     
-    return @[item];
+    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
+    for (RMModelGmailMessage *gmailMessage in messages) {
+        MessageItem *item = [[MessageItem alloc] init];
+        item.subject = @"hello dmail";
+        item.senderName = @"sender name";
+        item.fromEmail = @"armen@gmail.com";
+        item.arrayTo = @[@"armen@science.com"];
+        item.arrayCc = @[@"from.email@mail.com"];
+        item.internalDate = @0;
+        [arrayItems addObject:item];
+    }
+    
+    return [NSArray arrayWithArray:arrayItems];
 }
 
 - (NSArray *)getSentMessages {

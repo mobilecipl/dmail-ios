@@ -9,16 +9,15 @@
 #import "BaseDataModel.h"
 
 @implementation BaseDataModel
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
+-(instancetype)initWithDictionary:(NSDictionary*)dict {
+    
     NSError *error;
     self = [super initWithDictionary:dict error:&error];
     if (error) {
         NSLog(@"Jsonmodel error: %@", [error description]);
     }
     
-    if (self)
-    {
+    if (self) {
 //        _rowid = nilOrJSONObjectForKey(dict, kRowId);
     }
     

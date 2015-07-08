@@ -14,7 +14,7 @@
 
 + (NSString *)primaryKey {
     
-    return @"messageId";
+    return @"serverId";
 }
 
 - (instancetype)initWithModel:(ModelDmailMessage *)model {
@@ -23,7 +23,7 @@
     if (self) {
         
         _access = model.access;
-        _messageId = model.messageId;
+        _dmailId = model.dmailId;
         _messageIdentifier = model.messageIdentifier;
         _position = [model.position longLongValue];
         _type = model.type;
@@ -31,4 +31,5 @@
     
     return self;
 }
+
 @end

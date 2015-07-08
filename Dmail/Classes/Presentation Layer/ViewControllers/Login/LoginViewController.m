@@ -34,7 +34,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
         _serviceSync = [[ServiceSync alloc] init];
     }
     return self;
@@ -78,7 +77,6 @@
         return;
     }
     else {
-        
         [[ServiceProfile sharedInstance] updateUserDetails:user];
         
         // TODO: sync

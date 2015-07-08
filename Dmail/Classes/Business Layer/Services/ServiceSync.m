@@ -27,7 +27,6 @@
     static ServiceSync *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
         sharedInstance = [[ServiceSync alloc] init];
     });
     
@@ -37,7 +36,6 @@
 - (instancetype)init {
     
     if (self) {
-        
         [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncMessages) userInfo:nil repeats:YES];
         _daoSync = [[DAOSync alloc] init];
     }
@@ -58,13 +56,7 @@
     NSNumber *count = @100;
     
     if (email) {
-        
-        [self.daoSync syncMessagesForEmail:email
-                                  position:position
-                                     count:count
-                           completionBlock:^(id data, ErrorDataModel *error) {
-                               
-                           }];
+        [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {}];
     }
 }
 
