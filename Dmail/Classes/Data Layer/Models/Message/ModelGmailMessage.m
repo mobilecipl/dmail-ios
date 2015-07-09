@@ -10,4 +10,14 @@
 
 @implementation ModelGmailMessage
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    
+    self = [super initWithDictionary:dict];
+    if (self) {
+        
+        _gmailId = dict[@"id"];
+    }
+    
+    return self;
+}
 @end

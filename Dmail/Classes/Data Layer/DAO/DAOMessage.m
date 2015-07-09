@@ -16,6 +16,9 @@
 // model
 #import "MessageItem.h"
 
+// view model
+#import "VMInboxMessage.h"
+
 //RealmModel
 #import <Realm/Realm.h>
 #import "RMModelDmailMessage.h"
@@ -91,42 +94,12 @@
 
 - (NSArray *)getInboxMessages {
     
-//    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
-//    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
-//    
-//    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
-//    for (RMModelGmailMessage *gmailMessage in messages) {
-//        MessageItem *item = [[MessageItem alloc] init];
-//        item.subject = @"hello dmail";
-//        item.senderName = @"sender name";
-//        item.fromEmail = @"armen@gmail.com";
-//        item.arrayTo = @[@"armen@science.com"];
-//        item.arrayCc = @[@"from.email@mail.com"];
-//        item.internalDate = @0;
-//        [arrayItems addObject:item];
-//    }
     NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
-    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
     
-//    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
-//    for (RMModelGmailMessage *gmailMessage in messages) {
-//        MessageItem *item = [[MessageItem alloc] init];
-//        item.subject = @"hello dmail";
-//        item.senderName = @"sender name";
-//        item.fromEmail = @"armen@gmail.com";
-//        item.arrayTo = @[@"armen@science.com"];
-//        item.arrayCc = @[@"from.email@mail.com"];
-//        item.internalDate = @0;
-//        [arrayItems addObject:item];
-//    }
-
-    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Inbox];
-    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
-        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
-        [arrayItems addObject:item];
-    }
+    RLMRealm *realm = [RLMRealm defaultRealm];
     
-    return [NSArray arrayWithArray:arrayItems];
+    RLMResults *messages = [RMModelGmailMessage allObjectsInRealm:realm];
+    return messages;
 }
 
 - (NSArray *)getSentMessages {

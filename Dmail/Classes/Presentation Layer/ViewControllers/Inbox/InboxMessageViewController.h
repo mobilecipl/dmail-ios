@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-#import "MessageItem.h"
 
+@class MessageItem;
 
 @interface InboxMessageViewController : BaseViewController
 

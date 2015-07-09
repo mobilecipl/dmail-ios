@@ -12,6 +12,7 @@
 #import "CoreDataManager.h"
 #import "DmailMessage.h"
 #import <NSDate+DateTools.h>
+#import "MessageItem.h"
 
 
 @interface InboxMessageViewController ()

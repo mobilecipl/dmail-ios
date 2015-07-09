@@ -20,8 +20,8 @@
 // data source
 #import "TableViewDataSource.h"
 
-// model
-#import "MessageItem.h"
+// view model
+#import "VMInboxMessage.h"
 
 // view
 #import "InboxCell.h"
@@ -39,7 +39,7 @@
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) MessageItem *selectedMessageItem;
+@property (nonatomic, strong) VMInboxMessage *selectedMessage;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
@@ -95,7 +95,7 @@
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(InboxCell *cell, MessageItem *item) {
+    TableViewCellBlock configureCell = ^(InboxCell *cell, VMInboxMessage *item) {
         [cell configureCell:item];
     };
     
@@ -134,7 +134,7 @@
 #pragma mark - Delegate Methods -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.selectedMessageItem = [self.dataSourceInbox itemAtIndexPath:indexPath];
+    self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromInboxToInboxView" sender:self];
 }
 
@@ -142,8 +142,8 @@
 #pragma mark - TableViewDataSourceDelegate Methods
 - (void)deleteMessageWithIndexPath:(NSIndexPath *)indexPath {
     
-    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    [self.serviceMessage deleteMessageWithMessageItem:messageItem];
+//    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+//    [self.serviceMessage deleteMessageWithMessageItem:messageItem];
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -162,7 +162,7 @@
     if ([segue.identifier isEqualToString:@"fromInboxToInboxView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-            inboxMessageViewController.messageItem = self.selectedMessageItem;
+            inboxMessageViewController.messageItem = self.selectedMessage;
         }
     }
 }

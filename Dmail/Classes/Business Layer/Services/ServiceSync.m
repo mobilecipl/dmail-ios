@@ -117,6 +117,7 @@
 - (void)syncGmailMessages {
     
     if (!self.syncInProgressGmailMessages) {
+        
         self.syncInProgressGmailMessages = YES;
         NSString *gmailMessageId = [self.daoMessage getLastGmailMessageId];
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];

@@ -7,7 +7,7 @@
 //
 
 #import "ContactModel.h"
-#import "RealmContactModel.h"
+#import "RMModelContact.h"
 
 @implementation ContactModel
 
@@ -24,7 +24,7 @@
     return self;
 }
 
-- (instancetype)initWithRMModel:(RealmContactModel *)rmModel {
+- (instancetype)initWithRMModel:(RMModelContact *)rmModel {
     
     self = [super init];
     if (self) {

@@ -9,7 +9,7 @@
 #import "DAOContact.h"
 #import "NetworkContacts.h"
 #import "ContactModel.h"
-#import "RealmContactModel.h"
+#import "RMModelContact.h"
 #import "RealmProfile.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Realm/Realm.h>
@@ -55,8 +55,8 @@ const NSInteger contactsUpdateTime = 12;
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
     if(name.length > 0) {
         NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName CONTAINS [c] %@ OR email CONTAINS [c] %@", name, name];
-        RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
-        for (RealmContactModel *rmModel in result) {
+        RLMResults *result = [RMModelContact objectsWithPredicate:predicate];
+        for (RMModelContact *rmModel in result) {
             ContactModel *model = [[ContactModel alloc] initWithRMModel:rmModel];
             [arrayContacts addObject:model];
         }
@@ -69,9 +69,9 @@ const NSInteger contactsUpdateTime = 12;
     
     NSString *name;
     NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"email == %@", email];
-    RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
+    RLMResults *result = [RMModelContact objectsWithPredicate:predicate];
     if ([result count] > 0) {
-        RealmContactModel *rmModel = [result firstObject];
+        RMModelContact *rmModel = [result firstObject];
         name = rmModel.fullName;
     }
     
@@ -152,9 +152,9 @@ const NSInteger contactsUpdateTime = 12;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     for (ContactModel *contactModel in contacts) {
-        RealmContactModel *realmModel = [[RealmContactModel alloc] initWithContactModel:contactModel];
+        RMModelContact *realmModel = [[RMModelContact alloc] initWithContactModel:contactModel];
         [realm beginWriteTransaction];
-        [RealmContactModel createOrUpdateInRealm:realm withValue:realmModel];
+        [RMModelContact createOrUpdateInRealm:realm withValue:realmModel];
         [realm commitWriteTransaction];
     }
 }

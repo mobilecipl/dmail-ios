@@ -8,6 +8,8 @@
 
 #import "BaseDataModel.h"
 
+#import "ModelGmailHeader.h"
+
 @protocol ModelGmailPayload <NSObject>
 @end
 
@@ -15,9 +17,17 @@
 
 @property NSDictionary *body;
 @property NSString *filename;
-@property NSArray *headers;
+@property NSArray <ModelGmailHeader> *headers;
 @property NSString *mimeType;
 @property NSString *partId;
+
+
+//Parsed properties from header
+@property NSString *from;
+@property NSString *to;
+@property NSString *subject;
+@property NSString *messageDate;
+@property NSString *messageIdentifier;
 
 @end
 

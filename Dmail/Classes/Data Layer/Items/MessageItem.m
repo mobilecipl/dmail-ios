@@ -16,9 +16,9 @@
     
     self = [super init];
     if (self) {
-        self.dmailId = rmModel.dmailId;
-        self.identifier = rmModel.identifier;
-        self.subject = rmModel.subject;
+//        self.dmailId = rmModel.dmailId;
+//        self.identifier = rmModel.identifier;
+//        self.subject = rmModel.subject;
     }
     
     return self;

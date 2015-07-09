@@ -13,24 +13,22 @@
 
 + (NSString *)primaryKey {
     
-    return @"dmailId";
+    return @"gmailId";
 }
 
 - (instancetype)initWithModel:(ModelGmailMessage *)model {
     
     self = [super init];
     if (self) {
-        self.dmailId = model.dmailId;
-        self.identifier = model.identifier;
-        self.gmailId = model.gmailId;
-        self.from = model.from;
-        self.to = model.to;
-        self.cc = model.cc;
-        self.bcc = model.bcc;
-        self.label = model.label;
-        self.subject = model.subject;
-        self.publicKey = model.publicKey;
-        self.internalDate = model.internalDate;
+        
+        _gmailId = model.gmailId;
+        _internalDate = [model.internalDate longLongValue];
+        _snippet = model.snippet;
+        _from = model.payload.from;
+        _to = model.payload.to;
+        _subject = model.payload.subject;
+        _messageDate = model.payload.messageDate;
+        _messageIdentifier = model.payload.messageIdentifier;
     }
     
     return self;

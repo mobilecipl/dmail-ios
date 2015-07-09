@@ -7,14 +7,10 @@
 //
 
 #import "InboxCell.h"
-#import "Constants.h"
-#import "MessageItem.h"
-#import "Profile.h"
-#import "CoreDataManager.h"
-#import <NSDate+DateTools.h>
-#import "UIColor+AppColors.h"
+
 #import "UIImageView+WebCache.h"
 
+#import "VMInboxMessage.h"
 
 NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
 
@@ -31,40 +27,19 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
 
 
 #pragma mark - Publioc Methods
-- (void)configureCell:(MessageItem *)messageItem {
-    
-    self.labelMessageSubject.text = messageItem.subject;
+- (void)configureCell:(VMInboxMessage *)messageItem {
     
     self.labelSenderName.translatesAutoresizingMaskIntoConstraints = NO;
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[messageItem.internalDate doubleValue]/1000];
-    NSString *time = [NSDate shortTimeAgoSinceDate:date];
     
-    NSString * nameWithTime = [NSString stringWithFormat:@"%@   %@", messageItem.fromEmail, time];
-    if (nameWithTime.length > 1) {
-        NSRange range = [nameWithTime rangeOfString:@"   "];
-        NSRange timeRange;
-        timeRange.location = range.location + 3;
-        timeRange.length = 2;
-        if (range.location != NSNotFound) {
-            NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:nameWithTime];
-            [attributedText addAttribute: NSFontAttributeName value:[UIFont fontWithName:@"ProximaNova-Regular" size:12] range:timeRange];
-            [attributedText addAttribute: NSForegroundColorAttributeName value:[UIColor cellTimeColor] range:timeRange]; // if needed
-            [self.labelSenderName setAttributedText:attributedText];
-        }
-    }
-    
-    switch (messageItem.type) {
-        case Unread:
-            self.viewBorder.hidden = NO;
-            [[CoreDataManager sharedCoreDataManager] changeMessageTypeWithMessageId:messageItem.dmailId messageType:Read];
-            break;
-        case Read:
-            self.viewBorder.hidden = YES;
-            break;
-            
-        default:
-            break;
+    self.labelMessageSubject.text = messageItem.messageSubject;
+    [self.labelSenderName setAttributedText:messageItem.senderNameAttributed];
+    if (messageItem.read) {
+        
+        self.viewBorder.hidden = YES;
+    } else {
+        
+        self.viewBorder.hidden = NO;
     }
 }
 

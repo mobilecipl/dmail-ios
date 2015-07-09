@@ -10,4 +10,5 @@
 
 @interface BaseViewModel : NSObject
 
+- (instancetype)initWithModel:(id)model;
 @end

@@ -1,5 +1,5 @@
 //
-//  RealmContactModel.h
+//  RMModelContact.h
 //  Dmail
 //
 //  Created by Karen Petrosyan on 7/3/15.
@@ -10,7 +10,7 @@
 #import "AutoDefaultsRMLObject.h"
 #import "ContactModel.h"
 
-@interface RealmContactModel : AutoDefaultsRMLObject
+@interface RMModelContact : AutoDefaultsRMLObject
 
 @property NSString *fullName;
 @property NSString *email;

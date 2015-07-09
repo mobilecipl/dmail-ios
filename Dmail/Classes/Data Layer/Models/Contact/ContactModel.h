@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class RealmContactModel;
+@class RMModelContact;
 
 @interface ContactModel : NSObject
 
@@ -18,6 +18,6 @@
 @property NSString *urlPhoto;
 
 - (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto;
-- (instancetype)initWithRMModel:(RealmContactModel *)rmModel;
+- (instancetype)initWithRMModel:(RMModelContact *)rmModel;
 
 @end

@@ -10,4 +10,13 @@
 
 @implementation BaseViewModel
 
+- (instancetype)initWithModel:(id)model {
+    
+    self = [super init];
+    if (self) {
+        
+    }
+    
+    return self;
+}
 @end

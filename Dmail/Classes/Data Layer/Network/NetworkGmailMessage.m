@@ -10,7 +10,7 @@
 
 #import <GoogleSignIn.h>
 
-static NSString * const kUrlMessagesWithId = @"%@/messages/%@?key=%@";
+static NSString * const kUrlMessagesWithId = @"%@/messages/%@?fields=id,internalDate,snippet,labelIds,payload&key=%@";
 static NSString * const kUrlMessagesWithQuery = @"%@/messages?q=%@&key=%@";
 static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
 
@@ -86,7 +86,7 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"getWithIdResponse JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 201: { //Success Response
+            case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
