@@ -7,12 +7,16 @@
 //
 
 #import "ServiceMessage.h"
+#import "CoreDataManager.h"
+#import "MessageItem.h"
+#import "MessageService.h"
 
 // dao
 #import "DAOMessage.h"
 
 @interface ServiceMessage ()
 @property (nonatomic, strong) DAOMessage *daoMessage;
+@property (nonatomic, assign) NSInteger participantIndex;
 @end
 
 @implementation ServiceMessage
@@ -21,6 +25,7 @@
     
     if (self) {
         _daoMessage = [[DAOMessage alloc] init];
+        _participantIndex = 0;
     }
     
     return self;
@@ -61,7 +66,57 @@
 
 - (NSArray *)getSentMessages {
     
-    return [self.daoMessage getInboxMessages];
+    return [self.daoMessage getSentMessages];
 }
+
+- (void)deleteMessageWithMessageItem:(MessageItem *)item {
+    
+    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
+    [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
+    [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
+        
+    }];
+}
+
+- (void)destroyMessageWithMessageItem:(MessageItem *)item {
+    
+    NSMutableArray *arrayAllParticipants = [self getAllParticipantsWithMessageItem:item];
+    if ([arrayAllParticipants count] > 0) {
+        [[MessageService sharedInstance] revokeUserWithEmail:[arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:item.dmailId completionBlock:^(BOOL success) {
+            if (success) {
+                self.participantIndex ++;
+                if (self.participantIndex > [arrayAllParticipants count] - 1) {
+                    self.participantIndex = 0;
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                    message:@"Participants are successfully destroyed"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+                else {
+                    [self destroyMessageWithMessageItem:item];
+                }
+            }
+        }];
+    }
+}
+
+- (NSMutableArray *)getAllParticipantsWithMessageItem:(MessageItem *)messageItem {
+    
+    NSMutableArray *arrayAllParticipants = [[NSMutableArray alloc] init];
+    for (NSString *to in messageItem.arrayTo) {
+        [arrayAllParticipants addObject:to];
+    }
+    for (NSString *cc in messageItem.arrayCc) {
+        [arrayAllParticipants addObject:cc];
+    }
+    for (NSString *bcc in messageItem.arrayBcc) {
+        [arrayAllParticipants addObject:bcc];
+    }
+    
+    return arrayAllParticipants;
+}
+
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ServiceSync.h"
+#import "DmailManager.h"
 
 // service
 #import "ServiceContact.h"
@@ -17,6 +18,7 @@
 #import "DAOMessage.h"
 
 #import "ServiceProfile.h"
+#import "NetworkManager.h"
 
 // dao
 //#import "DAOSync.h"
@@ -129,6 +131,15 @@
             self.syncInProgressGmailMessages = NO;
         }
     }
+
+//    [[DmailManager sharedInstance] getDmailIds];
+//    NSString *email = [[ServiceProfile sharedInstance] email];
+//    NSNumber *position = @100; //[[CoreDataManager sharedCoreDataManager] getLastPosition];
+//    NSNumber *count = @100;
+//    
+//    if (email) {
+//        [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {}];
+//    }
 }
 
 - (void)syncGoogleContacts {

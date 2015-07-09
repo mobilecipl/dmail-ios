@@ -30,4 +30,15 @@
     return [UIColor colorWithRed:75.0/255.0 green:184.0/255.0 blue:178.0/255.0 alpha:1];
 }
 
++ (UIColor *)cellTimeColor {
+    
+    return [UIColor colorWithRed:192.0/255.0 green:199.0/255.0 blue:203.0/255.0 alpha:1];
+}
+
++ (UIColor *)cellDeleteButtonColor {
+    
+    return [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1];
+}
+
+
 @end

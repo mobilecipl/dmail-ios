@@ -14,5 +14,6 @@
 - (void)syncGoogleContacts;
 
 - (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name;
+- (NSString *)contactNameWithEmail:(NSString *)email;
 
 @end

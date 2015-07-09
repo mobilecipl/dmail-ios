@@ -7,9 +7,12 @@
 //
 
 #import "SentCell.h"
-
+#import "CoreDataManager.h"
 #import "MessageItem.h"
 #import "Profile.h"
+#import <NSDate+DateTools.h>
+#import "UIColor+AppColors.h"
+#import "DAOContact.h"
 
 NSString *const SentCellIdentifier = @"SentCellIdentifier";
 
@@ -39,13 +42,25 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
         self.viewBorder.hidden = YES;
         
         //TODO:
+        
 //        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:[messageItem.arrayTo firstObject]];
-//        if (profile.name.length > 0) {
-//            self.labelSenderName.text = profile.name;
-//        }
-//        else {
-//            self.labelSenderName.text = profile.email;
-//        }
+//        NSString *recipientsName = [self recipientsNameWith:messageItem];
+        self.labelSenderName.text = messageItem.recipients;
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[messageItem.internalDate doubleValue]/1000];
+        NSString *time = [NSDate shortTimeAgoSinceDate:date];
+        NSString * nameWithTime = [NSString stringWithFormat:@"%@   %@", self.labelSenderName.text, time];
+        if (nameWithTime.length > 1) {
+            NSRange range = [nameWithTime rangeOfString:@"   "];
+            NSRange timeRange;
+            timeRange.location = range.location + 3;
+            timeRange.length = 2;
+            if (range.location != NSNotFound) {
+                NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:nameWithTime];
+                [attributedText addAttribute: NSFontAttributeName value:[UIFont fontWithName:@"ProximaNova-Regular" size:12] range:timeRange];
+                [attributedText addAttribute: NSForegroundColorAttributeName value:[UIColor cellTimeColor] range:timeRange]; // if needed
+                [self.labelSenderName setAttributedText:attributedText];
+            }
+        }
     }
 }
 

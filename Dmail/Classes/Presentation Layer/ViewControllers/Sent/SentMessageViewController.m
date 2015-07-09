@@ -150,7 +150,10 @@ typedef NS_ENUM(NSInteger, AlertTags) {
         [[MessageService sharedInstance] getDecodedMessageWithGmailUniqueId:self.messageItem.dmailId withCompletionBlock:^(NSString *message, NSInteger statusCode) {
             [self hideLoadingView];
             self.body = dmailMessage.body;
-            [self.tableView reloadData];
+            NSInteger bodyRow = [self getBodyRow];
+            NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
+            NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+            [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
         }];
     }
     
@@ -173,7 +176,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     }
     if ([self.arrayBcc count] > 0) {
         if ([self.arrayCc count] > 0) {
-//            [self.arrayTableItems addObject:@"3"];
         }
         else {
             [self.arrayTableItems addObject:@"2"];
@@ -183,6 +185,20 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [self.arrayTableItems addObject:@"4"];
 }
 
+- (NSInteger)getBodyRow {
+    
+    NSInteger row = 1;
+    if ([self.arrayCc count] > 0) {
+        row = 2;
+    }
+    if ([self.arrayBcc count] > 0) {
+        if ([self.arrayCc count] > 0) {
+            row = 3;
+        }
+    }
+    
+    return row;
+}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -243,7 +259,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 1: {
                 MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
                 messageComposeCell.delegate = self;
-                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject];
+                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject internalDate:[self.messageItem.internalDate doubleValue]];
                 messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return messageComposeCell;
@@ -286,7 +302,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 3: {
                 MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
                 messageComposeCell.delegate = self;
-                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject];
+                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject internalDate:[self.messageItem.internalDate doubleValue]];
                 messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return messageComposeCell;
@@ -327,7 +343,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
                     if (success) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                                        message:@"Participant are evoked"
+                                                                        message:@"Participant are revoked"
                                                                        delegate:self
                                                               cancelButtonTitle:@"Ok"
                                                               otherButtonTitles:nil, nil];

@@ -57,9 +57,6 @@
 - (void)getDmailIds {
     
     if ([[ServiceProfile sharedInstance] email]) {
-        
-        
-        
         NSInteger position = [[CoreDataManager sharedCoreDataManager] getLastPosition];
         NSDictionary *parameters;
         

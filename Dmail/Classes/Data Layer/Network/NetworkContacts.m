@@ -31,7 +31,7 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     return self;
 }
 
-- (void)getGoogleContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+- (void)getGoogleContactsForEmail:(NSString *)email lastUpdateDate:(long long)lastUpdateDate completionBlock:(CompletionBlock)completionBlock {
     
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     
@@ -87,10 +87,11 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     
     NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
-        NSLog(@"xmlData === %@",xmlData);
+        NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
+        
+        NSLog(@"JSONData === %@",JSONData);
         if (statusCode == 200) {
-            completionBlock(xmlData, nil);
+            completionBlock(JSONData, nil);
         }
     }];
     [dataTask resume];
@@ -138,7 +139,7 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 
-                NSArray *arr = [self parseContactsWithDictionary:responseObject];
+//                NSArray *arr = [self parseContactsWithDictionary:responseObject];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (completionBlock) {
@@ -165,14 +166,14 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
                  failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)getUpdatedContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+- (void)getUpdatedContactsForEmail:(NSString *)email lastUpdateDate:(double)lastUpdateDate completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GetContacts JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 
-                NSArray *arr = [self parseContactsWithDictionary:responseObject];
+//                NSArray *arr = [self parseContactsWithDictionary:responseObject];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (completionBlock) {
@@ -191,47 +192,12 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
         }
     };
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:0] forKey:@"generationDate"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:lastUpdateDate] forKey:@"generationDate"];
     
     [self makeGetRequest:[NSString stringWithFormat:kUrlUpdate, email, @"2"]
               withParams:nil
                  success:successBlock
                  failure:[self constructFailureBlockWithBlock:completionBlock]];
-}
-
-- (NSArray *)parseContactsWithDictionary:(NSDictionary *)dict {
-    
-    NSMutableArray *arrayModels = [[NSMutableArray alloc] init];
-    NSDictionary *dictFeed = dict[@"feed"];
-    NSArray *entryFeed = dictFeed[@"entry"];
-    for (NSDictionary *dict in entryFeed) {
-        NSString *email;
-        NSString *fullName;
-        NSString *contactId;
-        if ([[dict allKeys] containsObject:@"gd:email"]) {
-            NSDictionary *emailDict = dict[@"gd:email"];
-            email = emailDict[@"address"];
-            NSLog(@"email === %@", email);
-        }
-        if ([[dict allKeys] containsObject:@"gd:name"]) {
-            NSDictionary *emailDict = dict[@"gd:name"];
-            NSDictionary *fullNameDict = emailDict[@"gd:fullName"];
-            fullName = fullNameDict[@"text"];
-            NSLog(@"fullName === %@", fullName);
-        }
-        if ([[dict allKeys] containsObject:@"id"]) {
-            NSDictionary *idDict = dict[@"id"];
-            contactId = idDict[@"text"];
-            NSArray *array = [contactId componentsSeparatedByString:@"/"];
-            contactId = [array lastObject];
-            NSLog(@"contactId === %@", contactId);
-        }
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId];
-        [arrayModels addObject:model];
-        NSLog(@"============================================\n");
-    }
-    
-    return [NSArray arrayWithArray:arrayModels];
 }
 
 @end

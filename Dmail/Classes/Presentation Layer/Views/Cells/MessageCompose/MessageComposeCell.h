@@ -20,7 +20,7 @@
 @property (nonatomic, assign) id<MessageComposeCellDelegate> delegate;
 
 - (void)configureCell;
-- (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject;
+- (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject internalDate:(double)internalDate;
 
 @end
 

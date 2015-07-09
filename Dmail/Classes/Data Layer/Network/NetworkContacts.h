@@ -11,7 +11,7 @@
 
 @interface NetworkContacts : BaseNetwork
 
-- (void)getGoogleContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
+- (void)getGoogleContactsForEmail:(NSString *)email lastUpdateDate:(long long)lastUpdateDate completionBlock:(CompletionBlock)completionBlock;
 
 - (void)getContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
 

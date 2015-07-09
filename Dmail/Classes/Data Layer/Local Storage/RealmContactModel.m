@@ -23,6 +23,7 @@
         _email = model.email;
         _fullName = model.fullName;
         _contactId = model.contactId;
+        _urlPhoto = model.urlPhoto;
     }
     
     return self;

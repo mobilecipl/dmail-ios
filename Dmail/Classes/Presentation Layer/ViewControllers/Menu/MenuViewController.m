@@ -13,7 +13,7 @@
 #import "LoadingViewController.h"
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
-
+#import "UIImageView+WebCache.h"
 #import "ServiceProfile.h"
 #import <GoogleSignIn.h>
 
@@ -46,6 +46,8 @@
     
     [self setupController];
     self.selectedCellIndex = 0;
+    
+    [self getProfileImage];
 }
 
 
@@ -97,6 +99,8 @@
 - (void)setupController {
     
     self.labelName.text = [[ServiceProfile sharedInstance] fullName];
+    self.imageViewProfile.autoresizingMask = YES;
+    self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
 }
 
 - (void)clearAllDBAndRedirectInLoginScreen {
@@ -108,6 +112,20 @@
     LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
     [self.navigationController setViewControllers:@[loadingViewController,loginViewController]];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)getProfileImage {
+    
+//    NSString *urlString = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/%@?access_token=%@", [[ServiceProfile sharedInstance] email], [[ServiceProfile sharedInstance] googleId], [NSString stringWithFormat:@"%@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]]];
+    NSString *urlString = [[ServiceProfile sharedInstance] imageUrl];
+    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:urlString] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        if (image) {
+            [self.imageViewProfile setImage:image];
+        }
+        
+    }];
 }
 
 

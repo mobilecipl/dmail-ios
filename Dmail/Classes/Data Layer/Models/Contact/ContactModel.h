@@ -15,8 +15,9 @@
 @property NSString *fullName;
 @property NSString *email;
 @property NSString *contactId;
+@property NSString *urlPhoto;
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName contactId:(NSString *)contactId;
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto;
 - (instancetype)initWithRMModel:(RealmContactModel *)rmModel;
 
 @end

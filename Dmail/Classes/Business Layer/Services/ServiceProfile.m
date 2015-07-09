@@ -7,8 +7,6 @@
 //
 
 #import "ServiceProfile.h"
-//#import "CoreDataManager.h"
-//#import "User.h"
 #import "ProfileModel.h"
 #import "DAOProfile.h"
 
@@ -41,12 +39,14 @@
 
 - (void)updateUserDetails:(GIDGoogleUser *)user {
     
-    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID contactLastUpdateDate:nil];
+    NSString *imageUrl = [[user.profile imageURLWithDimension:kProfileImageSize] absoluteString];
+    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil];
     if (self.profileModel) {
         self.email = self.profileModel.email;
         self.fullName = self.profileModel.fullName;
         self.googleId = self.profileModel.googleId;
         self.daoProfile = [[DAOProfile alloc] init];
+        self.imageUrl = self.profileModel.imageUrl;
         [self.daoProfile addProfileWithProfileModel:self.profileModel];
     }
 }

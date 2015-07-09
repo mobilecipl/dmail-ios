@@ -7,6 +7,7 @@
 //
 
 #import "MessageComposeCell.h"
+#import <NSDate+DateTools.h>
 
 @interface MessageComposeCell ()
 
@@ -38,15 +39,37 @@
     self.labelTime.hidden = YES;
     self.viewContainer.layer.cornerRadius = 5;
     self.heightTextViewBody = self.textViewBody.frame.size.height;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 10;
+    NSString *string = self.textViewBody.text;
+    NSDictionary *ats = @{
+                          NSFontAttributeName : [UIFont fontWithName:@"ProximaNova-Light" size:14.0f],
+                          NSParagraphStyleAttributeName : paragraphStyle,
+                          };
+    
+    self.textViewBody.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
 }
 
-- (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject {
+- (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject internalDate:(double)internalDate {
     
     self.textViewBody.editable = NO;
     self.viewContainer_.layer.cornerRadius = 5;
     self.labelTime.hidden = NO;
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:internalDate/1000];
+    self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
     self.textViewBody.text = body;
     self.textFieldSubject.text = subject;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 10;
+    NSString *string = self.textViewBody.text;
+    NSDictionary *ats = @{
+                          NSFontAttributeName : [UIFont fontWithName:@"ProximaNova-Light" size:14.0f],
+                          NSParagraphStyleAttributeName : paragraphStyle,
+                          };
+    
+    self.textViewBody.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
 }
 
 

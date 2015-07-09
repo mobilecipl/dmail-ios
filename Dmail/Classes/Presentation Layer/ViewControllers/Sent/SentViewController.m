@@ -27,21 +27,22 @@
 
 // sdwebimage
 
+//colors
+#import "UIColor+AppColors.h"
+
 @class MessageItem;
 
-@interface SentViewController () <UITableViewDelegate>
+@interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewSent;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
-
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
-
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
+@property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
 
@@ -89,7 +90,7 @@
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+//    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
 - (void)setupTableView {
@@ -100,16 +101,16 @@
     };
     
     self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:SentCellIdentifier configureCellBlock:configureCell];
+    self.dataSourceInbox.delegate = self;
+    self.tableViewSent.allowsMultipleSelectionDuringEditing = NO;
     
-    self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
-    
-    [self.tableViewInbox setDataSource:self.dataSourceInbox];
-    [self.tableViewInbox setDelegate:self];
-    self.tableViewInbox.scrollsToTop = NO;
+    [self.tableViewSent setDataSource:self.dataSourceInbox];
+    [self.tableViewSent setDelegate:self];
+    self.tableViewSent.scrollsToTop = NO;
     
     // creating refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.tableViewInbox addSubview:self.refreshControl];
+    [self.tableViewSent addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(loadMessages) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -117,15 +118,16 @@
     
     [self.refreshControl endRefreshing];
     
-    self.dataSourceInbox.items = [[self.serviceMessage getSentMessages] mutableCopy];
-    [self.tableViewInbox reloadData];
+    self.arrayMesages = [[self.serviceMessage getSentMessages] mutableCopy];
+    self.dataSourceInbox.items = self.arrayMesages;
+    [self.tableViewSent reloadData];
 }
 
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
     
-    [self performSegueWithIdentifier:@"fromInboxToCompose" sender:self];
+    [self performSegueWithIdentifier:@"fromSentToCompose" sender:self];
 }
 
 
@@ -133,42 +135,40 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     self.selectedMessageItem = [self.dataSourceInbox itemAtIndexPath:indexPath];
-    if (self.selectedMessageItem.label == Inbox) {
-        
-        [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
-    }
-    else {
-        
-        [self performSegueWithIdentifier:@"fromInboxToSentView" sender:self];
-    }
+    [self performSegueWithIdentifier:@"fromSentToSentView" sender:self];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return YES;
+    return @"Destroy";
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //TODO:
-    //    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
-    [self.dataSourceInbox removeItemAtIndex:indexPath];
-    [self.tableViewInbox reloadData];
+    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        NSLog(@"Action to perform with Button 1");
+    }];
+    button.backgroundColor = [UIColor cellDeleteButtonColor];
+    
+    return @[button];
+}
+
+
+#pragma mark - TableViewDataSourceDelegate Methods
+- (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath {
+    
+    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self.serviceMessage destroyMessageWithMessageItem:messageItem];
 }
 
 
 #pragma mark - UIStoryboardSegue Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([segue.identifier isEqualToString:@"fromInboxToInboxMessageView"]) {
-        InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
-        if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-            inboxMessageViewController.messageItem = self.selectedMessageItem;
-        }
-    }
-    else if ([segue.identifier isEqualToString:@"fromInboxToSentView"]) {
+    if ([segue.identifier isEqualToString:@"fromSentToSentView"]) {
         SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
-        if ([SentMessageViewController isKindOfClass:[SentMessageViewController class]]) {
+        if ([sentMessageVC isKindOfClass:[SentMessageViewController class]]) {
             sentMessageVC.messageItem = self.selectedMessageItem;
         }
     }

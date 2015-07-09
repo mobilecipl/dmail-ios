@@ -16,8 +16,9 @@
 @property NSString *email;
 @property NSString *fullName;
 @property NSString *googleId;
+@property NSString *imageUrl;
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId contactLastUpdateDate:(NSDate *)contactLastUpdateDate;
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate;
 - (instancetype)initWithRealProfile:(RealmProfile *)realmProfile;
 
 @end

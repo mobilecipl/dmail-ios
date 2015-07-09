@@ -77,6 +77,16 @@
             [[CoreDataManager sharedCoreDataManager] changeMessageTypeWithMessageId:self.messageItem.dmailId messageType:Read];
         }];
     }
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 10;
+    NSString *string = self.textViewMessageBody.text;
+    NSDictionary *ats = @{
+                          NSFontAttributeName : [UIFont fontWithName:@"ProximaNova-Light" size:14.0f],
+                          NSParagraphStyleAttributeName : paragraphStyle,
+                          };
+    
+    self.textViewMessageBody.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
 }
 
 - (void)didReceiveMemoryWarning {

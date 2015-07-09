@@ -1260,6 +1260,7 @@
 				9C9E2AEF1B2AEB64008F3C8E /* Frameworks */,
 				9C9E2AF01B2AEB64008F3C8E /* Resources */,
 				61A43B1D1C486FF6CA330822 /* Copy Pods Resources */,
+				9C7285821B4D90E300996A35 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1382,6 +1383,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dmail/Pods-Dmail-resources.sh\"\n";
+		};
+		9C7285821B4D90E300996A35 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run a2b376170abea399baf96035d0ae31651a2aeee6 5618763dd27960a4ba84ecb8fc742ae1e8a4b1aae36184a5442dbcbd6e1f483a";
 		};
 		E263BF4E5B1D743D6F3F7136 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

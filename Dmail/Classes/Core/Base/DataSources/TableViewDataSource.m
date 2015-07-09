@@ -58,6 +58,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     return [self.items count];
 }
 
@@ -70,7 +71,7 @@
         self.cellIdentifier = [item cellIdentifier];
     }
     
-    id cell  = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier forIndexPath:indexPath];
+    id cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier forIndexPath:indexPath];
     
     if (self.configureCellBlock) {
         self.configureCellBlock(cell, item);
@@ -80,7 +81,29 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     return 1;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //TODO:
+    //    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self removeItemAtIndex:indexPath];
+        [tableView reloadData];
+        if ([self.delegate respondsToSelector:@selector(deleteMessageWithIndexPath:)]) {
+            [self.delegate deleteMessageWithIndexPath:indexPath];
+        }
+        if ([self.delegate respondsToSelector:@selector(destroyMessageWithIndexPath:)]) {
+            [self.delegate destroyMessageWithIndexPath:indexPath];
+        }
+    }
 }
 
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {

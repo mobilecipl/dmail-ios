@@ -576,10 +576,10 @@ const int FrontViewPositionNone = 0xff;
     _frontViewPosition = FrontViewPositionLeft;
     _rearViewPosition = FrontViewPositionLeft;
     _rightViewPosition = FrontViewPositionLeft;
-    _rearViewRevealWidth = 260.0f;
+    _rearViewRevealWidth = [UIScreen mainScreen].bounds.size.width/1.61;// 260.0f;
     _rearViewRevealOverdraw = 60.0f;
     _rearViewRevealDisplacement = 40.0f;
-    _rightViewRevealWidth = 260.0f;
+    _rightViewRevealWidth = [UIScreen mainScreen].bounds.size.width/1.61;
     _rightViewRevealOverdraw = 60.0f;
     _rightViewRevealDisplacement = 40.0f;
     _bounceBackOnOverdraw = YES;
@@ -836,8 +836,7 @@ const int FrontViewPositionNone = 0xff;
 //
 //        panRecognizer.direction = SWDirectionPanGestureRecognizerHorizontal;
         
-        UIPanGestureRecognizer *panRecognizer =
-            [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handleRevealGesture:)];
+        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handleRevealGesture:)];
         
         panRecognizer.delegate = self;
         [_contentView.frontView addGestureRecognizer:panRecognizer];
@@ -870,8 +869,8 @@ const int FrontViewPositionNone = 0xff;
 }
 
 
-- (IBAction)rightRevealToggle:(id)sender
-{    
+- (IBAction)rightRevealToggle:(id)sender {
+
     [self rightRevealToggleAnimated:YES];
 }
 
@@ -934,10 +933,16 @@ const int FrontViewPositionNone = 0xff;
 
 - (void)_getRevealWidth:(CGFloat*)pRevealWidth revealOverDraw:(CGFloat*)pRevealOverdraw forSymetry:(int)symetry
 {
-    if ( symetry < 0 ) *pRevealWidth = _rightViewRevealWidth, *pRevealOverdraw = _rightViewRevealOverdraw;
-    else *pRevealWidth = _rearViewRevealWidth, *pRevealOverdraw = _rearViewRevealOverdraw;
+    if ( symetry < 0 ){
+        *pRevealWidth = _rightViewRevealWidth, *pRevealOverdraw = _rightViewRevealOverdraw;
+    }
+    else {
+        *pRevealWidth = _rearViewRevealWidth, *pRevealOverdraw = _rearViewRevealOverdraw;
+    }
     
-    if (*pRevealWidth < 0) *pRevealWidth = _contentView.bounds.size.width + *pRevealWidth;
+    if (*pRevealWidth < 0){
+        *pRevealWidth = _contentView.bounds.size.width + *pRevealWidth;
+    }
 }
 
 - (void)_getBounceBack:(BOOL*)pBounceBack pStableDrag:(BOOL*)pStableDrag forSymetry:(int)symetry

@@ -346,8 +346,8 @@ static NSString * const Revoke = @"api/message";
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
 
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
-    
+//    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
+    NSString *urlmulr = @"https://www.google.com/m8/feeds/photos/media/kpetrosyan@science-inc.com/97d88210f382da2";//[NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
     NSURL * url = [NSURL URLWithString:urlmulr];
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
     

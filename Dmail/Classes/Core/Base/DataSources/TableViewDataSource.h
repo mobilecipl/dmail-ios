@@ -8,11 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol TableViewDataSourceDelegate <NSObject>
+
+- (void)deleteMessageWithIndexPath:(NSIndexPath *)indexPath;
+- (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath;
+
+@end
+
 typedef void (^TableViewCellBlock)(id cell, id item);
 
 @interface TableViewDataSource : NSObject <UITableViewDataSource>
 // property
 @property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, assign) id<TableViewDataSourceDelegate> delegate;
 
 // method
 - (instancetype)initWithItems:(NSArray *)anItems

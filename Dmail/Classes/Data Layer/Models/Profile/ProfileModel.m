@@ -11,13 +11,14 @@
 
 @implementation ProfileModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId contactLastUpdateDate:(NSDate *)contactLastUpdateDate {
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate {
     
     self = [super init];
     if (self) {
         _email = email;
         _fullName = fullName;
         _googleId = googleId;
+        _imageUrl = imageUrl;
         _contactLastUpdateDate = contactLastUpdateDate;
     }
     
@@ -31,6 +32,7 @@
         _email = realmProfile.email;
         _fullName = realmProfile.fullName;
         _googleId = realmProfile.googleId;
+        _imageUrl = realmProfile.imageUrl;
         _contactLastUpdateDate = realmProfile.contactLastUpdateDate;
     }
     

@@ -45,11 +45,8 @@ const NSInteger contactsUpdateTime = 12;
     RealmProfile *profile = [profiles firstObject];
     if (profile) {
         NSDate *contactLastUpdateTime = profile.contactLastUpdateDate;
-        NSDate *date = [[NSDate alloc] init];
-        NSInteger time = [date hoursLaterThan:contactLastUpdateTime];
-        if (time > contactsUpdateTime || !contactLastUpdateTime) {
-            [self getContactsFromGoogleWithEmail:profile.email];
-        }
+        NSTimeInterval lastTimeUpdate = [contactLastUpdateTime timeIntervalSince1970];
+        [self getContactsFromGoogleWithEmail:profile.email lastUpdateDate:lastTimeUpdate];
     }
 }
 
@@ -68,16 +65,38 @@ const NSInteger contactsUpdateTime = 12;
     return arrayContacts;
 }
 
+- (NSString *)contactNameWithEmail:(NSString *)email {
+    
+    NSString *name;
+    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"email == %@", email];
+    RLMResults *result = [RealmContactModel objectsWithPredicate:predicate];
+    if ([result count] > 0) {
+        RealmContactModel *rmModel = [result firstObject];
+        name = rmModel.fullName;
+    }
+    
+    return name;
+}
+
 
 #pragma mark - Private Methods
-- (void)getContactsFromGoogleWithEmail:(NSString *)email {
+- (void)getContactsFromGoogleWithEmail:(NSString *)email lastUpdateDate:(long long)lastUpdateDate{
     
-    [self.networkContacts getGoogleContactsForEmail:email completionBlock:^(id data, ErrorDataModel *error) {
+    [self.networkContacts getGoogleContactsForEmail:email lastUpdateDate:lastUpdateDate completionBlock:^(id data, ErrorDataModel *error) {
         NSDictionary *contactsDict = (NSDictionary *)data;
-        NSArray *arrayModels = [self parseContactsWithDictionary:contactsDict];
-        [self saveContacts:arrayModels];
+        NSArray *contacts = [self parseContactsWithDictionary:contactsDict];
+        [self saveContacts:contacts];
+        
+        [self getGoogleContactsPhotos:contacts];
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationUpdateContacts object:nil];
     }];
+}
+
+- (void)getGoogleContactsPhotos:(NSArray *)contacts {
+    
+    for (ContactModel *contactModel in contacts) {
+        
+    }
 }
 
 - (NSArray *)parseContactsWithDictionary:(NSDictionary *)dict {
@@ -89,25 +108,39 @@ const NSInteger contactsUpdateTime = 12;
         NSString *email;
         NSString *fullName;
         NSString *contactId;
-        if ([[dict allKeys] containsObject:@"gd:email"]) {
-            NSDictionary *emailDict = dict[@"gd:email"];
-            email = emailDict[@"address"];
-            NSLog(@"email === %@", email);
+        NSString *urlPhoto;
+        if ([[dict allKeys] containsObject:@"gd$email"]) {
+            NSArray *emailArray = dict[@"gd$email"];
+            for (NSDictionary *emailDict in emailArray) {
+                if ([[emailDict allKeys] containsObject:@"address"]) {
+                    email = emailDict[@"address"];
+                    break;
+                }
+            }
         }
-        if ([[dict allKeys] containsObject:@"gd:name"]) {
-            NSDictionary *emailDict = dict[@"gd:name"];
-            NSDictionary *fullNameDict = emailDict[@"gd:fullName"];
-            fullName = fullNameDict[@"text"];
-            NSLog(@"fullName === %@", fullName);
+        if ([[dict allKeys] containsObject:@"gd$name"]) {
+            NSDictionary *nameDict = dict[@"gd$name"];
+            NSDictionary *fullNameDict = nameDict[@"gd$fullName"];
+            fullName = fullNameDict[@"$t"];
         }
         if ([[dict allKeys] containsObject:@"id"]) {
             NSDictionary *idDict = dict[@"id"];
-            contactId = idDict[@"text"];
+            contactId = idDict[@"$t"];
             NSArray *array = [contactId componentsSeparatedByString:@"/"];
             contactId = [array lastObject];
             NSLog(@"contactId === %@", contactId);
         }
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId];
+        if ([[dict allKeys] containsObject:@"link"]) {
+            NSArray *hrefArray = dict[@"link"];
+            for (NSDictionary *hrefDict in hrefArray) {
+                if ([[hrefDict allKeys] containsObject:@"href"]) {
+                    urlPhoto = hrefDict[@"href"];
+                    NSLog(@"urlPhoto === %@", urlPhoto);
+                    break;
+                }
+            }
+        }
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId urlPhoto:urlPhoto];
         [arrayModels addObject:model];
         NSLog(@"============================================\n");
     }
@@ -118,8 +151,8 @@ const NSInteger contactsUpdateTime = 12;
 - (void)saveContacts:(NSArray *)contacts {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    for (ContactModel *model in contacts) {
-        RealmContactModel *realmModel = [[RealmContactModel alloc] initWithContactModel:model];
+    for (ContactModel *contactModel in contacts) {
+        RealmContactModel *realmModel = [[RealmContactModel alloc] initWithContactModel:contactModel];
         [realm beginWriteTransaction];
         [RealmContactModel createOrUpdateInRealm:realm withValue:realmModel];
         [realm commitWriteTransaction];

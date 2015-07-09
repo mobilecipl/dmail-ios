@@ -10,6 +10,7 @@
 
 @interface RMModelGmailMessage : AutoDefaultsRMLObject
 
+@property NSString *serverId;
 @property NSString *dmailId;
 @property NSString *identifier;
 @property NSString *gmailId;

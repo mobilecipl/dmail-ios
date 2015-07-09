@@ -18,6 +18,7 @@
 @property NSString *subject;
 @property NSString *senderName;
 @property NSString *fromEmail;
+@property NSString *recipients;
 @property NSArray *arrayTo;
 @property NSArray *arrayCc;
 @property NSArray *arrayBcc;
@@ -25,5 +26,7 @@
 @property MessageType type;
 @property MessageLabel label;
 @property (nonatomic) CGFloat postDate;
+
+- (void)createRecipients;
 
 @end

@@ -26,7 +26,10 @@
 // view
 #import "InboxCell.h"
 
-@interface InboxViewController () <UITableViewDelegate>
+//colors
+#import "UIColor+AppColors.h"
+
+@interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
@@ -34,12 +37,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
-
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
-
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-
 @property (nonatomic, strong) MessageItem *selectedMessageItem;
+@property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
 
@@ -85,9 +86,10 @@
 
 - (void)setupController {
     
+    self.arrayMesages = [[NSMutableArray alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+//    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
 - (void)setupTableView {
@@ -99,7 +101,7 @@
     
     
     self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
-    
+    self.dataSourceInbox.delegate = self;
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
     
     [self.tableViewInbox setDataSource:self.dataSourceInbox];
@@ -116,7 +118,8 @@
     
     [self.refreshControl endRefreshing];
     
-    self.dataSourceInbox.items = [[self.serviceMessage getInboxMessages] mutableCopy];
+    self.arrayMesages = [[self.serviceMessage getInboxMessages] mutableCopy];
+    self.dataSourceInbox.items = self.arrayMesages;
     [self.tableViewInbox reloadData];
 }
 
@@ -132,43 +135,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     self.selectedMessageItem = [self.dataSourceInbox itemAtIndexPath:indexPath];
-    if (self.selectedMessageItem.label == Inbox) {
-        
-        [self performSegueWithIdentifier:@"fromInboxToInboxMessageView" sender:self];
-    }
-    else {
-        
-        [self performSegueWithIdentifier:@"fromInboxToSentView" sender:self];
-    }
+    [self performSegueWithIdentifier:@"fromInboxToInboxView" sender:self];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+
+#pragma mark - TableViewDataSourceDelegate Methods
+- (void)deleteMessageWithIndexPath:(NSIndexPath *)indexPath {
     
-    return YES;
+    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self.serviceMessage deleteMessageWithMessageItem:messageItem];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //TODO:
-//    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
-    [self.dataSourceInbox removeItemAtIndex:indexPath];
-    [self.tableViewInbox reloadData];
+    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        NSLog(@"Action to perform with Button 1");
+    }];
+    button.backgroundColor = [UIColor cellDeleteButtonColor];
+    
+    return @[button];
 }
-
 
 #pragma mark - UIStoryboardSegue Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([segue.identifier isEqualToString:@"fromInboxToInboxMessageView"]) {
+    if ([segue.identifier isEqualToString:@"fromInboxToInboxView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
             inboxMessageViewController.messageItem = self.selectedMessageItem;
-        }
-    }
-    else if ([segue.identifier isEqualToString:@"fromInboxToSentView"]) {
-        SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
-        if ([SentMessageViewController isKindOfClass:[SentMessageViewController class]]) {
-            sentMessageVC.messageItem = self.selectedMessageItem;
         }
     }
 }

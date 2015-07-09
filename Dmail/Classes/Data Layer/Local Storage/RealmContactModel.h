@@ -15,6 +15,7 @@
 @property NSString *fullName;
 @property NSString *email;
 @property NSString *contactId;
+@property NSString *urlPhoto;
 
 - (instancetype)initWithContactModel:(ContactModel *)model;
 

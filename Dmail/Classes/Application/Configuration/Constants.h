@@ -61,6 +61,7 @@ typedef NS_ENUM(NSInteger, MessageStatus) {
 
 static NSInteger kMessageUpdateTime = 10;
 static NSInteger kMessageGetCount = 30;
+static NSInteger kProfileImageSize = 50;
 
 
 

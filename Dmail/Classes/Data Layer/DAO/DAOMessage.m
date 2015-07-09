@@ -7,6 +7,8 @@
 //
 
 #import "DAOMessage.h"
+#import "CoreDataManager.h"
+#import "GmailMessage.h"
 
 // network
 #import "NetworkMessage.h"
@@ -66,8 +68,43 @@
     }];
 }
 
+- (MessageItem *)gmailMessageToMessageItem:(GmailMessage *)gmailMessage {
+    
+    MessageItem *messageItem = [[MessageItem alloc] init];
+    messageItem.identifier = gmailMessage.identifier;
+    messageItem.dmailId = gmailMessage.dmailId;
+    messageItem.gmailId = gmailMessage.gmailId;
+    messageItem.internalDate = gmailMessage.internalDate;
+    messageItem.subject = gmailMessage.subject;
+    messageItem.fromEmail = gmailMessage.from;
+    messageItem.type = [gmailMessage.type integerValue];
+    messageItem.fromEmail = gmailMessage.from;
+    messageItem.arrayTo = [gmailMessage.to componentsSeparatedByString:@","];
+    messageItem.arrayCc = [gmailMessage.cc componentsSeparatedByString:@","];
+    messageItem.arrayBcc = [gmailMessage.bcc componentsSeparatedByString:@","];
+    messageItem.label = [gmailMessage.label integerValue];
+    [messageItem createRecipients];
+    
+    return messageItem;
+}
+
+
 - (NSArray *)getInboxMessages {
     
+//    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
+//    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
+//    
+//    RLMResults *messages = [RMModelGmailMessage objectsWithPredicate:predicate];
+//    for (RMModelGmailMessage *gmailMessage in messages) {
+//        MessageItem *item = [[MessageItem alloc] init];
+//        item.subject = @"hello dmail";
+//        item.senderName = @"sender name";
+//        item.fromEmail = @"armen@gmail.com";
+//        item.arrayTo = @[@"armen@science.com"];
+//        item.arrayCc = @[@"from.email@mail.com"];
+//        item.internalDate = @0;
+//        [arrayItems addObject:item];
+//    }
     NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
     NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"label == %d", Inbox];
     
@@ -82,22 +119,34 @@
 //        item.internalDate = @0;
 //        [arrayItems addObject:item];
 //    }
+
+    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Inbox];
+    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
+        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
+        [arrayItems addObject:item];
+    }
     
     return [NSArray arrayWithArray:arrayItems];
 }
 
 - (NSArray *)getSentMessages {
     
-    MessageItem *item = [[MessageItem alloc] init];
-    item.subject = @"hello dmail";
-    item.senderName = @"sender name";
-    item.fromEmail = @"armen@gmail.com";
-    item.arrayTo = @[@"armen@science.com"];
-    item.arrayCc = @[@"from.email@mail.com"];
-    item.internalDate = @0;
-    //    item.postDate = @0;
+//    MessageItem *item = [[MessageItem alloc] init];
+//    item.subject = @"hello dmail";
+//    item.senderName = @"sender name";
+//    item.fromEmail = @"armen@gmail.com";
+//    item.arrayTo = @[@"armen@science.com"];
+//    item.arrayCc = @[@"from.email@mail.com"];
+//    item.internalDate = @0;
+//    //    item.postDate = @0;
+    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
+    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Sent];
+    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
+        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
+        [arrayItems addObject:item];
+    }
     
-    return @[item];
+    return [NSArray arrayWithArray:arrayItems];
 }
 
 - (NSString *)getLastGmailUniqueId {

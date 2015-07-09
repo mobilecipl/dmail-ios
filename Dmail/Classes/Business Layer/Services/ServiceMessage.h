@@ -8,6 +8,8 @@
 
 #import "BaseService.h"
 
+@class MessageItem;
+
 @interface ServiceMessage : BaseService
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
@@ -32,5 +34,9 @@ messageIdentifier:(NSString *)messageIdentifier
 - (NSArray *)getInboxMessages;
 
 - (NSArray *)getSentMessages;
+
+- (void)deleteMessageWithMessageItem:(MessageItem *)item;
+
+- (void)destroyMessageWithMessageItem:(MessageItem *)item;
 
 @end

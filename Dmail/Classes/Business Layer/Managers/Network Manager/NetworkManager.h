@@ -35,5 +35,6 @@ static NSString * const baseURL = @"http://dmail-dev.elasticbeanstalk.com/";
 - (void)deleteMessageWithGmailId:(NSString *)gmailId withCompletionBlock:(mainCompletionBlock)completion;
 
 - (void)getContactsWithCompletionBlock:(mainCompletionBlock)completion;
+- (void)getContactPhoto;
 
 @end

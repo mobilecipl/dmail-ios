@@ -17,6 +17,7 @@
 @property NSString *email;
 @property NSString *fullName;
 @property NSString *googleId;
+@property NSString *imageUrl;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model;
 
