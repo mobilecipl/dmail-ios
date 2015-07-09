@@ -15,7 +15,7 @@
 
 @property NSDictionary *body;
 @property NSString *filename;
-@property NSArray <ModelGmailHeader>*headers;
+@property NSArray *headers;
 @property NSString *mimeType;
 @property NSString *partId;
 

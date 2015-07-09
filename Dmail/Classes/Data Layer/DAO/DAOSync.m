@@ -60,18 +60,14 @@
 - (void)saveRecipientsInRealm:(NSArray *)dataArray {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    
     for (ModelDmailMessage *model in dataArray) {
-        
         if ([model.access isEqualToString:@"GRANTED"]) {
-            
             RMModelDmailMessage *realmModel = [[RMModelDmailMessage alloc] initWithModel:model];
             // Add
             [realm beginWriteTransaction];
             [RMModelDmailMessage createOrUpdateInRealm:realm withValue:realmModel];
             [realm commitWriteTransaction];
         } else {
-            
             RMModelDmailMessage *realmModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.serverId];
             // Delete all object with a transaction
             if (realmModel) {

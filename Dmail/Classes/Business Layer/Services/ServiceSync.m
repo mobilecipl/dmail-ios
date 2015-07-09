@@ -77,26 +77,17 @@
 - (void)syncDmailMessages {
     
     if (!self.syncInProgressDmail) {
-        
         self.syncInProgressDmail = YES;
-        
         NSString *email = [[ServiceProfile sharedInstance] email];
         NSNumber *position = @100; //[[CoreDataManager sharedCoreDataManager] getLastPosition];
         NSNumber *count = @100;
-        
         if (email) {
-            
             @weakify(self);
-            [self.daoSync syncMessagesForEmail:email
-                                      position:position
-                                         count:count
-                               completionBlock:^(id data, ErrorDataModel *error) {
-                                   
-                                   @strongify(self);
-                                   self.syncInProgressDmail = NO;
-                               }];
+            [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
+                @strongify(self);
+                self.syncInProgressDmail = NO;
+            }];
         } else {
-            
             self.syncInProgressDmail = NO;
         }
     }
@@ -105,24 +96,17 @@
 - (void)syncGmailUniqueMessages {
     
     if (!self.syncInProgressGmail) {
-        
         self.syncInProgressGmail = YES;
-        
         NSString *gmailUniqueId = [self.daoMessage getLastGmailUniqueId];
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-        
         if (gmailUniqueId) {
-            
             @weakify(self);
-            [self.serviceGmailMessage getMessageIdWithUniqueId:gmailUniqueId
-                                                        userId:userId
-                                               completionBlock:^(id data, ErrorDataModel *error) {
-                                                   
-                                                   @strongify(self);
-                                                   self.syncInProgressGmail = NO;
-                                               }];
-        } else {
-            
+            [self.serviceGmailMessage getMessageIdWithUniqueId:gmailUniqueId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
+                @strongify(self);
+                self.syncInProgressGmail = NO;
+            }];
+        }
+        else {
             self.syncInProgressGmail = NO;
         }
     }
@@ -131,25 +115,17 @@
 - (void)syncGmailMessages {
     
     if (!self.syncInProgressGmailMessages) {
-        
         self.syncInProgressGmailMessages = YES;
-        
         NSString *gmailMessageId = [self.daoMessage getLastGmailMessageId];
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-        
         if (gmailMessageId) {
-            
             @weakify(self);
-            [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId
-                                                       userId:userId
-                                              completionBlock:^(id data, ErrorDataModel *error) {
-                                                  
-                                                  @strongify(self);
-                                                  self.syncInProgressGmailMessages = NO;
-                                              }];
-            
-        } else {
-            
+            [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
+                @strongify(self);
+                self.syncInProgressGmailMessages = NO;
+            }];
+        }
+        else {
             self.syncInProgressGmailMessages = NO;
         }
     }
@@ -160,4 +136,5 @@
     ServiceContact *serviceContact = [[ServiceContact alloc] init];
     [serviceContact getContactsFromGoogle];
 }
+
 @end
