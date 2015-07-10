@@ -96,13 +96,14 @@
         self.labelTime.text = modelMessage.messageDate;
         
         [self showLoadingView];
+        
         @weakify(self);
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
                                           completionBlock:^(NSString *body, ErrorDataModel *error) {
                                               
-                                              [self hideLoadingView];
                                               @strongify(self);
                                               self.textViewMessageBody.text = body;
+                                              [self hideLoadingView];
                                           }];
     }
 }

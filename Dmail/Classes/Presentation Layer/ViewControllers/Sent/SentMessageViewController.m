@@ -93,13 +93,15 @@ typedef NS_ENUM(NSInteger, AlertTags) {
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
                                           completionBlock:^(NSString *body, ErrorDataModel *error) {
                                               
-                                              [self hideLoadingView];
                                               @strongify(self);
                                               self.body = body;
+                                              
                                               NSInteger bodyRow = [self getBodyRow];
                                               NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
                                               NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
                                               [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+                                              
+                                              [self hideLoadingView];
                                           }];
     }
     [self.tableView reloadData];

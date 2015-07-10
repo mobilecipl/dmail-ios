@@ -78,7 +78,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationGMailUniqueFetched object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationNewMessageFetched object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailUniqueFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailMessageFetched object:nil];
 }
@@ -105,12 +105,18 @@
         if (email) {
             
             @weakify(self);
-            [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
-                
-                @strongify(self);
-                self.syncInProgressDmail = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
-            }];
+            [self.daoSync syncMessagesForEmail:email
+                                      position:position
+                                         count:count
+                               completionBlock:^(id data, ErrorDataModel *error) {
+                                   
+                                   @strongify(self);
+                                   self.syncInProgressDmail = NO;
+                                   if ([data isEqual:@(YES)]) {
+                                       
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+                                   }
+                               }];
         } else {
             
             self.syncInProgressDmail = NO;
@@ -154,6 +160,7 @@
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
         
         if (gmailMessageId) {
+            
             @weakify(self);
             [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
                 

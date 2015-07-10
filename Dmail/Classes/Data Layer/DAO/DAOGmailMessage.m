@@ -49,25 +49,27 @@
                                        completionBlock:^(id data, ErrorDataModel *error) {
                                            
                                            if (!error) {
-                                               NSArray *messages = data[@"messages"];
                                                
+                                               NSArray *messages = data[@"messages"];
                                                if ([messages isKindOfClass:[NSArray class]]) {
                                                    
                                                    for (NSDictionary *dict in messages) {
                                                        NSString *gmailId = dict[@"id"];
                                                        if (gmailId) {
+                                                           
                                                            [self updateMessageWithUniqueId:uniqueId gmailId:gmailId];
                                                        }
                                                    }
-                                                   completionBlock(nil, error);
+                                                   completionBlock(nil, nil);
+                                               } else {
+                                                   
+                                                   completionBlock(nil, nil);
                                                }
                                                
                                            } else {
+                                               
                                                completionBlock(nil, error);
                                            }
-                                           
-                                           
-                                           completionBlock(data, error);
                                        }];
 }
 
@@ -78,7 +80,9 @@
     [self.networkGmailMessage getMessageWithMessageId:messageId
                                                userId:userID
                                       completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+                                          
                                           if (!error) {
+                                              
                                               ModelGmailMessage *model = [[ModelGmailMessage alloc] initWithDictionary:data];
                                               
                                               [self saveGmailMessageInRealm:model];
@@ -91,7 +95,7 @@
                                               modelMessage.publicKey = model.publicKey;
                                               
                                               [self saveMessageInRealm:modelMessage];
-                                              completionBlock(nil, error);
+                                              completionBlock(nil, nil);
                                           } else {
                                               
                                               completionBlock(nil, error);

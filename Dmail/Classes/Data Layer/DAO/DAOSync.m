@@ -37,19 +37,38 @@
 - (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock {
     
     [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+        
         if (!error) {
+            
             NSArray *recipients = data[@"recipients"];
             if ([recipients isKindOfClass:[NSArray class]]) {
+                
                 NSMutableArray *dataArray = [@[] mutableCopy];
                 for (NSDictionary *dict in recipients) {
+                    
                     ModelDmailMessage *message = [[ModelDmailMessage alloc] initWithDictionary:dict];
-                    if (message) {
-                        NSLog(@"message.position ==== %@",message.position);
-                        [dataArray addObject:message];
+                    
+                    RLMRealm *realm = [RLMRealm defaultRealm];
+                    RMModelDmailMessage *tempModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:message.serverId];
+                    
+                    if (!tempModel) {
+                        
+                        if (message) {
+                            
+                            NSLog(@"message.position ==== %@",message.position);
+                            [dataArray addObject:message];
+                        }
                     }
                 }
-                [self saveRecipientsInRealm:dataArray];
-                completionBlock(nil, error);
+                
+                if (dataArray.count > 0) {
+                    
+                    [self saveRecipientsInRealm:dataArray];
+                    completionBlock(@(YES), nil);
+                } else {
+                   
+                    completionBlock(@(NO), nil);
+                }
             }
             
         } else {
@@ -63,10 +82,6 @@
     RLMRealm *realm = [RLMRealm defaultRealm];
     for (ModelDmailMessage *model in dataArray) {
         
-        RMModelDmailMessage *tempModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.serverId];
-        
-        if (!tempModel) {
-            
             if ([model.access isEqualToString:@"GRANTED"]) {
                 RMModelDmailMessage *realmModel = [[RMModelDmailMessage alloc] initWithModel:model];
                 // Add
@@ -82,7 +97,6 @@
                     [realm commitWriteTransaction];
                 }
             }
-        }
     }
 }
 

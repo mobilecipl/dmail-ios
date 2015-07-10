@@ -84,7 +84,7 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
                 completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"getWithIdResponse JSON: %@", responseObject);
+//        NSLog(@"getWithIdResponse JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
