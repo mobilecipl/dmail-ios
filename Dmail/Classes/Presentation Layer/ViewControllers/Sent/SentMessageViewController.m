@@ -21,6 +21,7 @@
 #import "MessageComposeCell.h"
 
 #import "UIColor+AppColors.h"
+#import "UIImageView+WebCache.h"
 
 typedef NS_ENUM(NSInteger, AlertTags) {
     Revoke = 1,
@@ -73,8 +74,8 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [super viewDidLoad];
     
     self.arrayTableItems = [[NSMutableArray alloc] init];
-    [self setupController];
     [self loadData];
+    [self setupController];
 }
 
 
@@ -176,8 +177,9 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.viewSecure.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     self.viewSecure.layer.borderWidth = 1;
     
+    self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
-    self.imageViewProfile.image = [UIImage imageNamed:@"imageProfile1"];
+    [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
 }
 
 - (void)fillFields {

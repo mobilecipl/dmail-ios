@@ -21,7 +21,7 @@
     self = [super init];
     if (self) {
         self.internalDate = modelMessage.internalDate;
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate/1000];
         self.messageDate = [NSDate shortTimeAgoSinceDate:date];
         self.senderName = modelMessage.fromName;
         

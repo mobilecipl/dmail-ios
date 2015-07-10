@@ -34,6 +34,7 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
     
     self.labelMessageSubject.text = messageItem.messageSubject;
     self.labelSenderName.text = messageItem.senderName;
+    self.labelDate.text = messageItem.messageDate;
 }
 
 - (void)awakeFromNib {
