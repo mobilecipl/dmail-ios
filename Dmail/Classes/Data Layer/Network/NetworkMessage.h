@@ -10,6 +10,10 @@
 
 @interface NetworkMessage : BaseNetwork
 
+- (void)getEncryptedMessage:(NSString *)messageId
+             recipientEmail:(NSString *)recipientEmail
+            completionBlock:(CompletionBlock)completionBlock;
+
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
                  senderEmail:(NSString *)senderEmail
              completionBlock:(CompletionBlock)completionBlock;

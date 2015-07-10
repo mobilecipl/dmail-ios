@@ -8,9 +8,22 @@
 
 #import "BaseService.h"
 
-@class MessageItem;
+@class VMInboxMessageItem;
+@class VMSentMessageItem;
+@class VMSentMessage;
 
 @interface ServiceMessage : BaseService
+
+- (NSArray *)getInboxMessages;
+
+- (NSArray *)getSentMessages;
+
+- (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier;
+
+- (VMSentMessage *)getSentMessageWithIdentifier:(NSString *)messageIdentifier;
+
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
+                     completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
                  senderEmail:(NSString *)senderEmail
@@ -31,12 +44,10 @@
 messageIdentifier:(NSString *)messageIdentifier
   completionBlock:(CompletionBlock)completionBlock;
 
-- (NSArray *)getInboxMessages;
 
-- (NSArray *)getSentMessages;
 
-- (void)deleteMessageWithMessageItem:(MessageItem *)item;
+//- (void)deleteMessageWithMessageItem:(MessageItem *)item;
 
-- (void)destroyMessageWithMessageItem:(MessageItem *)item;
+//- (void)destroyMessageWithMessageItem:(MessageItem *)item;
 
 @end

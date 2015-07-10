@@ -7,13 +7,20 @@
 //
 
 #import "InboxMessageViewController.h"
-#import "UIColor+AppColors.h"
-#import "MessageService.h"
-#import "CoreDataManager.h"
-#import "DmailMessage.h"
-#import <NSDate+DateTools.h>
-#import "MessageItem.h"
 
+//#import "CoreDataManager.h"
+//#import "DmailMessage.h"
+//#import <NSDate+DateTools.h>
+//#import "MessageItem.h"
+
+// service
+#import "ServiceMessage.h"
+
+// view model
+#import "VMInboxMessageItem.h"
+
+
+#import "UIColor+AppColors.h"
 
 @interface InboxMessageViewController ()
 
@@ -24,10 +31,20 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet UITextView *textViewMessageBody;
 
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
 @end
 
 @implementation InboxMessageViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _serviceMessage = [[ServiceMessage alloc] init];
+    }
+    return self;
+}
 
 #pragma mark - Class Methods
 - (void)viewDidLoad {
@@ -35,7 +52,7 @@
     [super viewDidLoad];
     
     [self setupController];
-    [self fillFields];
+    [self loadData];
 }
 
 
@@ -56,28 +73,6 @@
     self.viewContainer.layer.cornerRadius = 5;
     self.viewContainer.layer.borderColor = [[UIColor borderColor] CGColor];
     self.viewContainer.layer.borderWidth = 1;
-}
-
-- (void)fillFields {
-    
-    self.labelMessageSubject.text = self.messageItem.subject;
-    self.labelSenderName.text = self.messageItem.fromEmail;
-    NSTimeInterval timeInterval = [self.messageItem.internalDate doubleValue];
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timeInterval/1000];
-    self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
-    NSString *dmailMessageId = self.messageItem.dmailId;
-    DmailMessage *dmailMessage = [[CoreDataManager sharedCoreDataManager] getDmailMessageWithMessageId:dmailMessageId];
-    if (dmailMessage.body) {
-        self.textViewMessageBody.text = dmailMessage.body;
-    }
-    else {
-        [self showLoadingView];
-        [[MessageService sharedInstance] getDecodedMessageWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *message, NSInteger statusCode) {
-            [self hideLoadingView];
-            self.textViewMessageBody.text = message;
-            [[CoreDataManager sharedCoreDataManager] changeMessageTypeWithMessageId:self.messageItem.dmailId messageType:Read];
-        }];
-    }
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 10;
@@ -88,6 +83,28 @@
                           };
     
     self.textViewMessageBody.attributedText = [[NSAttributedString alloc] initWithString:string attributes:ats];
+}
+
+- (void)loadData {
+    
+    if (self.messageIdentifier) {
+        
+        VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithIdentifier:self.messageIdentifier];
+        
+        self.labelMessageSubject.text = modelMessage.messageSubject;
+        self.labelSenderName.text = modelMessage.senderName;
+        self.labelTime.text = modelMessage.messageDate;
+        
+        [self showLoadingView];
+        @weakify(self);
+        [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
+                                          completionBlock:^(NSString *body, ErrorDataModel *error) {
+                                              
+                                              [self hideLoadingView];
+                                              @strongify(self);
+                                              self.textViewMessageBody.text = body;
+                                          }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

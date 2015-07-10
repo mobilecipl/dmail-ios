@@ -8,6 +8,9 @@
 
 #import "ServiceMessage.h"
 
+// service
+#import "ServiceProfile.h"
+
 // dao
 #import "DAOMessage.h"
 
@@ -15,11 +18,9 @@
 #import "ModelMessage.h"
 
 // view model
-#import "VMInboxMessage.h"
-
-//Service
-#import "ServiceProfile.h"
-
+#import "VMInboxMessageItem.h"
+#import "VMSentMessageItem.h"
+#import "VMSentMessage.h"
 
 @interface ServiceMessage ()
 @property (nonatomic, strong) DAOMessage *daoMessage;
@@ -36,6 +37,61 @@
     }
     
     return self;
+}
+
+- (NSArray *)getInboxMessages {
+    
+    NSMutableArray *arrayItems = [@[] mutableCopy];
+    for (ModelMessage *modelMessage in [self.daoMessage getInboxMessages]) {
+        
+        VMInboxMessageItem *inboxMessageVM = [[VMInboxMessageItem alloc] initWithModel:modelMessage];
+        if (inboxMessageVM) {
+            [arrayItems addObject:inboxMessageVM];
+        }
+    }
+    
+    return arrayItems;
+}
+
+- (NSArray *)getSentMessages {
+    
+    NSMutableArray *arrayItems = [@[] mutableCopy];
+    for (ModelMessage *modelMessage in [self.daoMessage getSentMessages]) {
+        
+        VMSentMessageItem *sentMessageVM = [[VMSentMessageItem alloc] initWithModel:modelMessage];
+        if (sentMessageVM) {
+            [arrayItems addObject:sentMessageVM];
+        }
+    }
+    
+    return arrayItems;
+}
+
+- (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier {
+    
+    ModelMessage *modelMessage = [self.daoMessage getMessageWithIdentifier:messageIdentifier];
+    VMInboxMessageItem *inboxMessageVM = [[VMInboxMessageItem alloc] initWithModel:modelMessage];
+    
+    return inboxMessageVM;
+}
+
+
+- (VMSentMessage *)getSentMessageWithIdentifier:(NSString *)messageIdentifier {
+    
+    ModelMessage *modelMessage = [self.daoMessage getMessageWithIdentifier:messageIdentifier];
+    VMSentMessage *sentMessageVM = [[VMSentMessage alloc] initWithModel:modelMessage];
+    
+    return sentMessageVM;
+}
+
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
+                     completionBlock:(CompletionBlock)completionBlock {
+    
+    [self.daoMessage getMessageBodyWithIdentifier:(NSString *)messageIdentifier
+                                  completionBlock:^(id data, ErrorDataModel *error) {
+                                      
+                                      completionBlock(data, error);
+                                  }];
 }
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
@@ -64,33 +120,6 @@
     [self.daoMessage sentEmail:senderEmail messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
-}
-
-- (NSArray *)getInboxMessages {
-    
-    NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (ModelMessage *message in [self.daoMessage getInboxMessages]) {
-        VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
-        if (inboxMessageVM) {
-            [arrayItems addObject:inboxMessageVM];
-        }
-    }
-    
-    return arrayItems;
-}
-
-- (NSArray *)getSentMessages {
-    
-    NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (ModelMessage *message in [self.daoMessage getSentMessages]) {
-        
-        VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
-        if (inboxMessageVM) {
-            [arrayItems addObject:inboxMessageVM];
-        }
-    }
-    
-    return arrayItems;
 }
 
 //- (void)deleteMessageWithMessageItem:(MessageItem *)item {

@@ -1,5 +1,5 @@
 //
-//  VMSentMessage.h
+//  VMSentMessageItem.h
 //  Dmail
 //
 //  Created by Armen Mkrtchian on 7/10/15.
@@ -8,15 +8,14 @@
 
 #import "BaseViewModel.h"
 
-@interface VMSentMessage : BaseViewModel
+@interface VMSentMessageItem : BaseViewModel
 
+@property (nonatomic, strong) NSAttributedString *senderName;
 @property (nonatomic, strong) NSString *profileImageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageDate;
+@property (nonatomic, assign) long long  internalDate;
 @property (nonatomic, strong) NSString *messageIdentifier;
-
-@property NSArray *arrayTo;
-@property NSArray *arrayCc;
-@property NSArray *arrayBcc;
+@property (nonatomic, getter=isRead) BOOL read;
 
 @end

@@ -20,7 +20,7 @@
 #import "TableViewDataSource.h"
 
 // view model
-#import "VMSentMessage.h"
+#import "VMSentMessageItem.h"
 
 // view
 #import "SentCell.h"
@@ -39,7 +39,7 @@
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) VMSentMessage *selectedMessage;
+@property (nonatomic, strong) VMSentMessageItem *selectedMessage;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
@@ -94,7 +94,7 @@
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(SentCell *cell, VMSentMessage *item) {
+    TableViewCellBlock configureCell = ^(SentCell *cell, VMSentMessageItem *item) {
         [cell configureCell:item];
     };
     
@@ -158,8 +158,9 @@
 #pragma mark - TableViewDataSourceDelegate Methods
 - (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath {
     
-    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    [self.serviceMessage destroyMessageWithMessageItem:messageItem];
+//    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    //TODO:
+//    [self.serviceMessage destroyMessageWithMessageItem:messageItem];
 }
 
 
@@ -169,12 +170,12 @@
     if ([segue.identifier isEqualToString:@"fromSentToSentView"]) {
         SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
         if ([sentMessageVC isKindOfClass:[SentMessageViewController class]]) {
-            sentMessageVC.messageItem = self.selectedMessage;
+            sentMessageVC.messageIdentifier = self.selectedMessage.messageIdentifier;
         }
     }
 }
 
-- (void)updateInboxScreen:(MessageItem *)messageItem {
+- (void)updateInboxScreen:(id)messageItem {
     
     [self hideLoadingView];
     [self loadMessages];

@@ -21,7 +21,7 @@
 #import "TableViewDataSource.h"
 
 // view model
-#import "VMInboxMessage.h"
+#import "VMInboxMessageItem.h"
 
 // view
 #import "InboxCell.h"
@@ -39,7 +39,7 @@
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) VMInboxMessage *selectedMessage;
+@property (nonatomic, strong) VMInboxMessageItem *selectedMessage;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
@@ -95,7 +95,7 @@
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(InboxCell *cell, VMInboxMessage *item) {
+    TableViewCellBlock configureCell = ^(InboxCell *cell, VMInboxMessageItem *item) {
         [cell configureCell:item];
     };
     
@@ -164,12 +164,12 @@
     if ([segue.identifier isEqualToString:@"fromInboxToInboxView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-            inboxMessageViewController.messageItem = self.selectedMessage;
+            inboxMessageViewController.messageIdentifier = self.selectedMessage.messageIdentifier;
         }
     }
 }
 
-- (void)updateInboxScreen:(MessageItem *)messageItem {
+- (void)updateInboxScreen:(id)messageItem {
     
     [self hideLoadingView];
     [self loadMessages];

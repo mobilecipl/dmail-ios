@@ -7,20 +7,21 @@
 //
 
 #import "DAOMessage.h"
-#import "CoreDataManager.h"
-#import "GmailMessage.h"
+
+// dao
+#import "DAOProfile.h"
 
 // network
 #import "NetworkMessage.h"
 
 // model
 #import "ModelMessage.h"
-#import "MessageItem.h"
+#import "ProfileModel.h"
 
 // view model
-#import "VMInboxMessage.h"
+#import "VMInboxMessageItem.h"
 
-//RealmModel
+// Realm
 #import <Realm/Realm.h>
 #import "RMModelMessage.h"
 #import "RMModelDmailMessage.h"
@@ -28,6 +29,8 @@
 #import "RMModelContact.h"
 #import "RMModelProfile.h"
 
+// service
+#import "NSString+AESCrypt.h"
 
 @interface DAOMessage ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
@@ -76,27 +79,6 @@
     }];
 }
 
-- (MessageItem *)gmailMessageToMessageItem:(GmailMessage *)gmailMessage {
-    
-    MessageItem *messageItem = [[MessageItem alloc] init];
-    messageItem.identifier = gmailMessage.identifier;
-    messageItem.dmailId = gmailMessage.dmailId;
-    messageItem.gmailId = gmailMessage.gmailId;
-    messageItem.internalDate = gmailMessage.internalDate;
-    messageItem.subject = gmailMessage.subject;
-    messageItem.fromEmail = gmailMessage.from;
-    messageItem.type = [gmailMessage.type integerValue];
-    messageItem.fromEmail = gmailMessage.from;
-    messageItem.arrayTo = [gmailMessage.to componentsSeparatedByString:@","];
-    messageItem.arrayCc = [gmailMessage.cc componentsSeparatedByString:@","];
-    messageItem.arrayBcc = [gmailMessage.bcc componentsSeparatedByString:@","];
-    messageItem.label = [gmailMessage.label integerValue];
-    [messageItem createRecipients];
-    
-    return messageItem;
-}
-
-
 - (NSArray *)getInboxMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -136,6 +118,38 @@
     return arrayItems;
 }
 
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
+                           completionBlock:(CompletionBlock)completionBlock {
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    
+    ModelMessage *modelMessage = [self getMessageWithIdentifier:messageIdentifier];
+    if (model) {
+        
+        [self.networkMessage getEncryptedMessage:modelMessage.dmailId
+                                  recipientEmail:model.email
+                                 completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+                                     
+                                     
+                                     NSLog(@"%@", data);
+                                     NSString *encodedMessage = data[@"encrypted_message"];
+                                     NSString *decodedMessage;
+                                     
+                                     //TODO: get public key and decode
+                                     NSString *publicKey = @"";
+                                     decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
+
+                                     completionBlock(encodedMessage, error);
+                                 }];
+    }
+}
+
+- (NSString *)decodeMessage:(NSString *)encodedMessage key:(NSString *)publicKey{
+    
+    NSString *decryptedText = [encodedMessage AES256DecryptWithKey:publicKey];
+    return decryptedText;
+}
 
 
 - (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier {
@@ -206,7 +220,6 @@
     NSString *gmailMessageId = nil;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"gmailId != ''"];
     
     RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"gmailId != ''"]
                             sortedResultsUsingProperty:@"position" ascending:NO];

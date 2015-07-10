@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-@class MessageItem;
-
 @interface SentMessageViewController : BaseViewController
 
-@property (nonatomic, strong) MessageItem *messageItem;
+@property (nonatomic, strong) NSString *messageIdentifier;
 
 @end

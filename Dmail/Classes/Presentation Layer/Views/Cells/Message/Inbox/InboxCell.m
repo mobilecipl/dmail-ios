@@ -10,7 +10,7 @@
 
 #import "UIImageView+WebCache.h"
 
-#import "VMInboxMessage.h"
+#import "VMInboxMessageItem.h"
 
 #import "UIImageView+WebCache.h"
 
@@ -32,7 +32,7 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
 
 
 #pragma mark - Publioc Methods
-- (void)configureCell:(VMInboxMessage *)messageItem {
+- (void)configureCell:(VMInboxMessageItem *)messageItem {
     
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;

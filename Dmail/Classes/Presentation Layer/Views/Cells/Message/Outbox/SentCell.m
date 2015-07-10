@@ -10,7 +10,7 @@
 
 #import "UIImageView+WebCache.h"
 
-#import "VMSentMessage.h"
+#import "VMSentMessageItem.h"
 
 NSString *const SentCellIdentifier = @"SentCellIdentifier";
 
@@ -27,7 +27,7 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
 
 
 #pragma mark - Public Methods
-- (void)configureCell:(VMSentMessage *)messageItem {
+- (void)configureCell:(VMSentMessageItem *)messageItem {
     
     self.labelSenderName.translatesAutoresizingMaskIntoConstraints = NO;
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;

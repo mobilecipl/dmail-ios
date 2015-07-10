@@ -38,10 +38,12 @@
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
 		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
-		C00B20DB1B4EB44900D892DA /* VMInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20DA1B4EB44900D892DA /* VMInboxMessage.m */; };
+		C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */; };
 		C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20DD1B4EB67800D892DA /* RMModelMessage.m */; };
 		C00B20E11B4EB90400D892DA /* ModelGmailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E01B4EB90400D892DA /* ModelGmailHeader.m */; };
-		C00B20E41B4FE58B00D892DA /* VMSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E31B4FE58B00D892DA /* VMSentMessage.m */; };
+		C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */; };
+		C00B20EA1B50113100D892DA /* VMSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E91B50113100D892DA /* VMSentMessage.m */; };
+		C00B20ED1B50115300D892DA /* VMInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20EC1B50115300D892DA /* VMInboxMessage.m */; };
 		C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD11B42E0D800248B91 /* DAOMessage.m */; };
 		C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD41B42E22000248B91 /* ServiceMessage.m */; };
 		C08C2DAB1B41AB1C00295A94 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBA1B41AB1B00295A94 /* ProximaNova-Light.ttf */; };
@@ -203,14 +205,18 @@
 		9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileModel.h; sourceTree = "<group>"; };
 		9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileModel.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
-		C00B20D91B4EB44900D892DA /* VMInboxMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMInboxMessage.h; sourceTree = "<group>"; };
-		C00B20DA1B4EB44900D892DA /* VMInboxMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMInboxMessage.m; sourceTree = "<group>"; };
+		C00B20D91B4EB44900D892DA /* VMInboxMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMInboxMessageItem.h; sourceTree = "<group>"; };
+		C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMInboxMessageItem.m; sourceTree = "<group>"; };
 		C00B20DC1B4EB67800D892DA /* RMModelMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelMessage.h; sourceTree = "<group>"; };
 		C00B20DD1B4EB67800D892DA /* RMModelMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelMessage.m; sourceTree = "<group>"; };
 		C00B20DF1B4EB90400D892DA /* ModelGmailHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailHeader.h; sourceTree = "<group>"; };
 		C00B20E01B4EB90400D892DA /* ModelGmailHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelGmailHeader.m; sourceTree = "<group>"; };
-		C00B20E21B4FE58B00D892DA /* VMSentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSentMessage.h; sourceTree = "<group>"; };
-		C00B20E31B4FE58B00D892DA /* VMSentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMSentMessage.m; sourceTree = "<group>"; };
+		C00B20E21B4FE58B00D892DA /* VMSentMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSentMessageItem.h; sourceTree = "<group>"; };
+		C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMSentMessageItem.m; sourceTree = "<group>"; };
+		C00B20E81B50113100D892DA /* VMSentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSentMessage.h; sourceTree = "<group>"; };
+		C00B20E91B50113100D892DA /* VMSentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMSentMessage.m; sourceTree = "<group>"; };
+		C00B20EB1B50115300D892DA /* VMInboxMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMInboxMessage.h; sourceTree = "<group>"; };
+		C00B20EC1B50115300D892DA /* VMInboxMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMInboxMessage.m; sourceTree = "<group>"; };
 		C05C0CD01B42E0D800248B91 /* DAOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOMessage.h; sourceTree = "<group>"; };
 		C05C0CD11B42E0D800248B91 /* DAOMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOMessage.m; sourceTree = "<group>"; };
 		C05C0CD31B42E22000248B91 /* ServiceMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceMessage.h; sourceTree = "<group>"; };
@@ -529,10 +535,14 @@
 		C00B20D81B4EB42500D892DA /* View Model */ = {
 			isa = PBXGroup;
 			children = (
-				C00B20D91B4EB44900D892DA /* VMInboxMessage.h */,
-				C00B20DA1B4EB44900D892DA /* VMInboxMessage.m */,
-				C00B20E21B4FE58B00D892DA /* VMSentMessage.h */,
-				C00B20E31B4FE58B00D892DA /* VMSentMessage.m */,
+				C00B20D91B4EB44900D892DA /* VMInboxMessageItem.h */,
+				C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */,
+				C00B20E21B4FE58B00D892DA /* VMSentMessageItem.h */,
+				C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */,
+				C00B20EB1B50115300D892DA /* VMInboxMessage.h */,
+				C00B20EC1B50115300D892DA /* VMInboxMessage.m */,
+				C00B20E81B50113100D892DA /* VMSentMessage.h */,
+				C00B20E91B50113100D892DA /* VMSentMessage.m */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -1485,14 +1495,15 @@
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
 				C08C2DCE1B41AB1C00295A94 /* ReachabilityManager.m in Sources */,
 				9C2360B01B428CB50020B348 /* Profile.m in Sources */,
-				C00B20E41B4FE58B00D892DA /* VMSentMessage.m in Sources */,
+				C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */,
 				C08C2DF81B41AB1C00295A94 /* InboxViewController.m in Sources */,
 				C08C2DC41B41AB1C00295A94 /* BaseDAO.m in Sources */,
+				C00B20EA1B50113100D892DA /* VMSentMessage.m in Sources */,
 				C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */,
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
-				C00B20DB1B4EB44900D892DA /* VMInboxMessage.m in Sources */,
+				C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */,
 				C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */,
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
@@ -1525,6 +1536,7 @@
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */,
+				C00B20ED1B50115300D892DA /* VMInboxMessage.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,
 				C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */,
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,

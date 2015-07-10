@@ -8,9 +8,23 @@
 
 #import "BaseDAO.h"
 
-@class RLMResults;
+@class ModelMessage;
 
 @interface DAOMessage : BaseDAO
+
+- (NSArray *)getInboxMessages;
+
+- (NSArray *)getSentMessages;
+
+- (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier;
+
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
+                           completionBlock:(CompletionBlock)completionBlock;
+
+- (NSString *)getLastGmailUniqueId;
+
+- (NSString *)getLastGmailMessageId;
+
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
                  senderEmail:(NSString *)senderEmail
@@ -31,11 +45,4 @@
 messageIdentifier:(NSString *)messageIdentifier
   completionBlock:(CompletionBlock)completionBlock;
 
-- (NSArray *)getInboxMessages;
-
-- (NSArray *)getSentMessages;
-
-- (NSString *)getLastGmailUniqueId;
-
-- (NSString *)getLastGmailMessageId;
 @end
