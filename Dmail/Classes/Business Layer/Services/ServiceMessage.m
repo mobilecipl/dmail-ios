@@ -69,8 +69,9 @@
     for (ModelMessage *message in [self.daoMessage getInboxMessages]) {
         
         VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
-        
-        [arrayItems addObject:inboxMessageVM];
+        if (inboxMessageVM) {
+            [arrayItems addObject:inboxMessageVM];
+        }
     }
     
     return arrayItems;
@@ -78,7 +79,16 @@
 
 - (NSArray *)getSentMessages {
     
-    return [self.daoMessage getSentMessages];
+    NSMutableArray *arrayItems = [@[] mutableCopy];
+    for (ModelMessage *message in [self.daoMessage getSentMessages]) {
+        
+        VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
+        if (inboxMessageVM) {
+            [arrayItems addObject:inboxMessageVM];
+        }
+    }
+    
+    return arrayItems;
 }
 
 //- (void)deleteMessageWithMessageItem:(MessageItem *)item {

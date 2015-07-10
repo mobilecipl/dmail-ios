@@ -7,11 +7,11 @@
 //
 
 #import "VMInboxMessage.h"
+
 #import "ModelMessage.h"
+
 #import "UIColor+AppColors.h"
 #import <NSDate+DateTools.h>
-#import <Realm/Realm.h>
-#import "RMModelProfile.h"
 
 @implementation VMInboxMessage
 

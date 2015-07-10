@@ -7,12 +7,10 @@
 //
 
 #import "SentCell.h"
-#import "CoreDataManager.h"
-#import "MessageItem.h"
-#import "Profile.h"
-#import <NSDate+DateTools.h>
-#import "UIColor+AppColors.h"
-#import "DAOContact.h"
+
+#import "UIImageView+WebCache.h"
+
+#import "VMSentMessage.h"
 
 NSString *const SentCellIdentifier = @"SentCellIdentifier";
 
@@ -28,39 +26,20 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
 @implementation SentCell
 
 
-#pragma mark - Publioc Methods
-- (void)configureCell:(MessageItem *)messageItem {
+#pragma mark - Public Methods
+- (void)configureCell:(VMSentMessage *)messageItem {
     
-    self.labelMessageSubject.text = messageItem.subject;
+    self.labelSenderName.translatesAutoresizingMaskIntoConstraints = NO;
+    self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
     
-    if (messageItem.label == Sent) {
-        self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = YES;
-        self.labelMessageSubject.frame = CGRectMake(15, self.labelMessageSubject.frame.origin.y, self.labelMessageSubject.frame.size.width, self.labelMessageSubject.frame.size.height);
-        self.labelSenderName.translatesAutoresizingMaskIntoConstraints = YES;
-        self.labelSenderName.frame = CGRectMake(15, self.labelSenderName.frame.origin.y, self.labelSenderName.frame.size.width, self.labelSenderName.frame.size.height);
-        self.imageViewProfile.hidden = YES;
+    self.labelMessageSubject.text = messageItem.messageSubject;
+    [self.labelSenderName setAttributedText:messageItem.senderName];
+    if (messageItem.read) {
+        
         self.viewBorder.hidden = YES;
+    } else {
         
-        //TODO:
-        
-//        Profile *profile = [[CoreDataManager sharedCoreDataManager] getProfileWithEmail:[messageItem.arrayTo firstObject]];
-//        NSString *recipientsName = [self recipientsNameWith:messageItem];
-        self.labelSenderName.text = messageItem.recipients;
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[messageItem.internalDate doubleValue]/1000];
-        NSString *time = [NSDate shortTimeAgoSinceDate:date];
-        NSString * nameWithTime = [NSString stringWithFormat:@"%@   %@", self.labelSenderName.text, time];
-        if (nameWithTime.length > 1) {
-            NSRange range = [nameWithTime rangeOfString:@"   "];
-            NSRange timeRange;
-            timeRange.location = range.location + 3;
-            timeRange.length = 2;
-            if (range.location != NSNotFound) {
-                NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:nameWithTime];
-                [attributedText addAttribute: NSFontAttributeName value:[UIFont fontWithName:@"ProximaNova-Regular" size:12] range:timeRange];
-                [attributedText addAttribute: NSForegroundColorAttributeName value:[UIColor cellTimeColor] range:timeRange]; // if needed
-                [self.labelSenderName setAttributedText:attributedText];
-            }
-        }
+        self.viewBorder.hidden = NO;
     }
 }
 
@@ -73,6 +52,5 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
     
     // Configure the view for the selected state
 }
-
 
 @end

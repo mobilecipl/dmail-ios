@@ -100,13 +100,15 @@
     };
     
     
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
+                                                       cellIdentifier:InboxCellIdentifier
+                                                   configureCellBlock:configureCell];
+    
     self.dataSourceInbox.delegate = self;
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
     
     [self.tableViewInbox setDataSource:self.dataSourceInbox];
     [self.tableViewInbox setDelegate:self];
-    self.tableViewInbox.scrollsToTop = NO;
     
     // creating refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];

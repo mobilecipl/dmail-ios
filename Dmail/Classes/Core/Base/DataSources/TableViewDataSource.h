@@ -10,6 +10,7 @@
 
 @protocol TableViewDataSourceDelegate <NSObject>
 
+@optional
 - (void)deleteMessageWithIndexPath:(NSIndexPath *)indexPath;
 - (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath;
 
