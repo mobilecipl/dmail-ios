@@ -21,6 +21,7 @@
         _fromEmail = realm.fromEmail;
         _subject = realm.subject;
         _internalDate = realm.internalDate;
+        _publicKey = realm.publicKey;
         _messageIdentifier = realm.messageIdentifier;
         _read = realm.read;
     }

@@ -24,7 +24,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"getEncryptedMessage JSON: %@", responseObject);
+//        NSLog(@"getEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -68,7 +68,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
                                  @"encrypted_message" : encryptedMessage};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"sendEncryptedMessage JSON: %@", responseObject);
+//        NSLog(@"sendEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -111,7 +111,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
                                  @"recipient_email" : recipientEmail};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"sendRecipientEmail JSON: %@", responseObject);
+//        NSLog(@"sendRecipientEmail JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -156,7 +156,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
     
     NSDictionary *parameters = @{@"recipient_email" : recipientEmail};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"deleteRecipientEmail JSON: %@", responseObject);
+//        NSLog(@"deleteRecipientEmail JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -204,7 +204,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
                                  @"sender_email" : senderEmail};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"EmailAlredySent JSON: %@", responseObject);
+//        NSLog(@"EmailAlredySent JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -247,7 +247,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
     
     NSDictionary *parameters = @{@"recipient_email" : recipientEmail, @"position" : position, @"count" : count};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"syncMessages JSON: %@", responseObject);
+//        NSLog(@"syncMessages JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {

@@ -88,6 +88,7 @@
                                               modelMessage.fromName = model.payload.fromName;
                                               modelMessage.fromEmail = model.payload.fromEmail;
                                               modelMessage.to = model.payload.to;
+                                              modelMessage.publicKey = model.publicKey;
                                               
                                               [self saveMessageInRealm:modelMessage];
                                               completionBlock(nil, error);

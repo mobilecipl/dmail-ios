@@ -31,6 +31,7 @@
 //        self.cc = gmailMessage.cc;
 //        self.bcc = gmailMessage.bcc;
         
+        self.publicKey = modelMessage.publicKey;
         self.subject = modelMessage.subject;
         self.fromName = modelMessage.fromName;
         self.fromEmail = modelMessage.fromEmail;

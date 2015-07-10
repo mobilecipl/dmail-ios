@@ -34,7 +34,7 @@ static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&ma
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"GetContacts JSON: %@", responseObject);
+//        NSLog(@"GetContacts JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 

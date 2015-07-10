@@ -145,10 +145,10 @@
                                      NSString *decodedMessage;
                                      
                                      //TODO: get public key and decode
-                                     NSString *publicKey = @"";
+                                     NSString *publicKey = modelMessage.publicKey;
                                      decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
 
-                                     completionBlock(encodedMessage, error);
+                                     completionBlock(decodedMessage, error);
                                  }];
     }
 }
@@ -187,6 +187,7 @@
     ModelMessage *modelMessage = nil;
     
     if (gmailMessage) {
+        
         RLMResults *resultsDmailMessages = [RMModelDmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
         RMModelDmailMessage *dmailMessage = [resultsDmailMessages firstObject];
         
@@ -218,6 +219,9 @@
         }
         
         modelMessage.imageUrl = imageUrl;
+        
+        RMModelMessage *rmModelMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:identifier];
+        modelMessage.publicKey = rmModelMessage.publicKey;
     }
     
     

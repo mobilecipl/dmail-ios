@@ -21,6 +21,8 @@
 @property NSString *subject;
 @property NSString *body;
 
+@property NSString *publicKey;
+
 @property BOOL read;
 @property long long position;
 @property long long internalDate;

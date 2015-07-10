@@ -27,6 +27,8 @@
 @property NSString *cc;
 @property NSString *bcc;
 
+@property NSString *publicKey;
+
 @property NSString *imageUrl;
 
 @end
