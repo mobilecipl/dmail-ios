@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *googleId;
 @property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, assign) BOOL signedIn;
 

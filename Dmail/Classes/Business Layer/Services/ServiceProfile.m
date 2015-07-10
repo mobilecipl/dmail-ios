@@ -32,6 +32,7 @@
             sharedInstance.fullName = model.fullName;
             sharedInstance.googleId = model.googleId;
             sharedInstance.imageUrl = model.imageUrl;
+            sharedInstance.token = model.token;
         }
     });
     
@@ -41,13 +42,15 @@
 - (void)updateUserDetails:(GIDGoogleUser *)user {
     
     NSString *imageUrl = [[user.profile imageURLWithDimension:kProfileImageSize] absoluteString];
-    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil];
+    NSString *token = [[user valueForKeyPath:@"authentication.accessToken"] description];
+    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil token:token];
     if (self.profileModel) {
         self.email = self.profileModel.email;
         self.fullName = self.profileModel.fullName;
         self.googleId = self.profileModel.googleId;
-        self.daoProfile = [[DAOProfile alloc] init];
+        self.token = self.profileModel.token;
         self.imageUrl = self.profileModel.imageUrl;
+        self.daoProfile = [[DAOProfile alloc] init];
         [self.daoProfile addProfileWithProfileModel:self.profileModel];
     }
 }

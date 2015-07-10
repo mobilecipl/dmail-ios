@@ -17,7 +17,8 @@
     self = [super init];
     if (self) {
         
-        _from = realm.from;
+        _fromName = realm.fromName;
+        _fromEmail = realm.fromEmail;
         _subject = realm.subject;
         _internalDate = realm.internalDate;
         _messageIdentifier = realm.messageIdentifier;

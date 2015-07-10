@@ -32,7 +32,8 @@
 //        self.bcc = gmailMessage.bcc;
         
         self.subject = modelMessage.subject;
-        self.from = modelMessage.from;
+        self.fromName = modelMessage.fromName;
+        self.fromEmail = modelMessage.fromEmail;
     }
     
     return self;

@@ -18,6 +18,7 @@
 @property NSString *fullName;
 @property NSString *googleId;
 @property NSString *imageUrl;
+@property NSString *token;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model;
 

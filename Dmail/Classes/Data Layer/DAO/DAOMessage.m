@@ -26,7 +26,7 @@
 #import "RMModelDmailMessage.h"
 #import "RMModelGmailMessage.h"
 #import "RMModelContact.h"
-//#import "RMModelProfile.h"
+#import "RMModelProfile.h"
 
 
 @interface DAOMessage ()
@@ -162,11 +162,15 @@
 //        self.bcc = gmailMessage.bcc;
     
     modelMessage.subject = gmailMessage.subject;
-    modelMessage.from = gmailMessage.fromName;
+    modelMessage.fromName = gmailMessage.fromName;
+    modelMessage.fromEmail = gmailMessage.fromEmail;
     
+    NSString *imageUrl;
     if (contact.imageUrl) {
-        modelMessage.imageUrl = contact.imageUrl;
+        imageUrl = contact.imageUrl;
     }
+    
+    modelMessage.imageUrl = imageUrl;
     
     return modelMessage;
 }

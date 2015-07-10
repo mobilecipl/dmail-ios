@@ -25,11 +25,12 @@
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate];
         self.messageDate = [NSDate shortTimeAgoSinceDate:date];
         
-        self.senderName = [self senderNameAttributedWithName:modelMessage.from withDate:self.messageDate];
-        
+        self.senderName = [self senderNameAttributedWithName:modelMessage.fromName withDate:self.messageDate];
+        self.senderEmail = modelMessage.fromEmail;
         self.messageSubject = modelMessage.subject;
         self.messageIdentifier = modelMessage.messageIdentifier;
         self.read = modelMessage.read;
+        self.imageUrl = modelMessage.imageUrl;
     }
     
     return self;
@@ -52,19 +53,6 @@
     }
     
     return attributedText;
-}
-
-- (NSString *)getImageUrlWithsenderName:(NSString *)senderEmail {
-    
-    NSString *imageUrl;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email == %@",senderEmail];
-    RLMResults *profiles = [RMModelProfile objectsWithPredicate:predicate];
-    RMModelProfile *profile = [profiles firstObject];
-    if (profile.imageUrl) {
-        imageUrl = profile.imageUrl;
-    }
-    
-    return imageUrl;
 }
 
 @end

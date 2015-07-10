@@ -133,6 +133,16 @@ const NSInteger contactsUpdateTime = 12;
         }
         
         ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId urlPhoto:urlPhoto];
+        if (model) {
+            [arrayModels addObject:model];
+        }
+    }
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [profiles firstObject];
+    ContactModel *model = [[ContactModel alloc] initWithEmail:profile.email fullName:profile.fullName contactId:profile.googleId urlPhoto:profile.imageUrl];
+    if (model) {
         [arrayModels addObject:model];
     }
     

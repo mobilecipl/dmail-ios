@@ -11,7 +11,7 @@
 
 @implementation ProfileModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate {
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate token:(NSString *)token {
     
     self = [super init];
     if (self) {
@@ -20,20 +20,22 @@
         _googleId = googleId;
         _imageUrl = imageUrl;
         _contactLastUpdateDate = contactLastUpdateDate;
+        _token = token;
     }
     
     return self;
 }
 
-- (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile {
+- (instancetype)initWithRealProfile:(RMModelProfile *)rmModelProfile {
     
     self = [super init];
     if (self) {
-        _email = RMModelProfile.email;
-        _fullName = RMModelProfile.fullName;
-        _googleId = RMModelProfile.googleId;
-        _imageUrl = RMModelProfile.imageUrl;
-        _contactLastUpdateDate = RMModelProfile.contactLastUpdateDate;
+        _email = rmModelProfile.email;
+        _fullName = rmModelProfile.fullName;
+        _googleId = rmModelProfile.googleId;
+        _imageUrl = rmModelProfile.imageUrl;
+        _token = rmModelProfile.token;
+        _contactLastUpdateDate = rmModelProfile.contactLastUpdateDate;
     }
     
     return self;

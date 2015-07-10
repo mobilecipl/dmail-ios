@@ -26,6 +26,7 @@
         _fullName = model.fullName;
         _googleId = model.googleId;
         _imageUrl = model.imageUrl;
+        _token = model.token;
         _contactLastUpdateDate = model.contactLastUpdateDate;
     }
     

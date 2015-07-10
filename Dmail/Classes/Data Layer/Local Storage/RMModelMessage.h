@@ -25,7 +25,8 @@
 @property long long position;
 @property long long internalDate;
 @property NSString *type;
-@property NSString *from;
+@property NSString *fromName;
+@property NSString *fromEmail;
 @property NSString *to;
 @property NSString *cc;
 @property NSString *bcc;

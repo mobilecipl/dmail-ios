@@ -26,8 +26,11 @@
         _snippet = model.snippet;
         
         //TODO: parse from to name and email
-        _fromName = model.payload.from;
-        _fromEmail = model.payload.from;
+        _fromEmail = [self getEmailFromFullName:model.payload.from];
+        _fromName = [self getNameFromFullName:model.payload.from];
+        if (!_fromName) {
+            _fromName = _fromEmail;
+        }
         _to = model.payload.to;
         _subject = model.payload.subject;
         _messageDate = model.payload.messageDate;
@@ -35,6 +38,33 @@
     }
     
     return self;
+}
+
+- (NSString *)getEmailFromFullName:(NSString *)fullName {
+    
+    NSString *email;
+    NSArray *arraySubStrings = [fullName componentsSeparatedByString:@"<"];
+    if ([arraySubStrings count] > 1) {
+        email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
+    }
+    else {
+        email = fullName;
+    }
+    
+    return email;
+}
+
+- (NSString *)getNameFromFullName:(NSString *)fullName {
+    
+    NSString *name;
+    
+    NSArray *arraySubStrings = [fullName componentsSeparatedByString:@"<"];
+    if ([arraySubStrings count] > 1) {
+        name = [arraySubStrings firstObject];
+        name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    
+    return name;
 }
 
 @end
