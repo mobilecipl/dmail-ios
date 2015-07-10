@@ -8,6 +8,25 @@
 
 #import "VMSentMessage.h"
 
+//Model
+#import "ModelMessage.h"
+
 @implementation VMSentMessage
+
+- (instancetype)initWithModel:(ModelMessage *)model {
+    
+    self = [super init];
+    if (self) {
+        _messageSubject = model.subject;
+        _internalDate = model.internalDate;
+        _messageIdentifier = model.messageIdentifier;
+        
+        _arrayTo = [model.to componentsSeparatedByString:@","];
+        _arrayCc = [model.cc componentsSeparatedByString:@","];
+        _arrayBcc = [model.bcc componentsSeparatedByString:@","];
+    }
+    
+    return self;
+}
 
 @end

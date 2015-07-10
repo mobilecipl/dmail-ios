@@ -8,15 +8,19 @@
 
 #import "BaseViewModel.h"
 
+@class ModelMessage;
+
 @interface VMSentMessage : BaseViewModel
 
 @property (nonatomic, strong) NSString *profileImageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
-@property (nonatomic, strong) NSString *messageDate;
+@property (nonatomic, assign) long long internalDate;
 @property (nonatomic, strong) NSString *messageIdentifier;
 
 @property NSArray *arrayTo;
 @property NSArray *arrayCc;
 @property NSArray *arrayBcc;
+
+- (instancetype)initWithModel:(ModelMessage *)model;
 
 @end

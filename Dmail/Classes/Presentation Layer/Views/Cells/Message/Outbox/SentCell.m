@@ -16,9 +16,9 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
 
 @interface SentCell ()
 
-@property (weak, nonatomic) IBOutlet UIView *viewBorder;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelSenderName;
+@property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelMessageSubject;
 
 @end
@@ -33,14 +33,7 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.labelMessageSubject.text = messageItem.messageSubject;
-    [self.labelSenderName setAttributedText:messageItem.senderName];
-    if (messageItem.read) {
-        
-        self.viewBorder.hidden = YES;
-    } else {
-        
-        self.viewBorder.hidden = NO;
-    }
+    self.labelSenderName.text = messageItem.senderName;
 }
 
 - (void)awakeFromNib {

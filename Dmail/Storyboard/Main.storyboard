@@ -37,6 +37,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.ttf">
             <string>ProximaNova-Semibold</string>
@@ -1087,18 +1088,6 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zg4-Pc-aLA">
                                                             <rect key="frame" x="0.0" y="0.0" width="355" height="479"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Taa-Rx-ctk">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="355" height="479"/>
-                                                                    <subviews>
-                                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1nK-9A-AL8">
-                                                                            <rect key="frame" x="10" y="57" width="355" height="414"/>
-                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                        </textView>
-                                                                    </subviews>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                </view>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Subject" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="clW-aY-r4W">
                                                                     <rect key="frame" x="14" y="13" width="327" height="15"/>
                                                                     <constraints>
@@ -1122,6 +1111,23 @@
                                                                     <color key="textColor" red="0.75294117650000003" green="0.78039215689999997" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Taa-Rx-ctk">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="355" height="479"/>
+                                                                    <subviews>
+                                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1nK-9A-AL8">
+                                                                            <rect key="frame" x="10" y="57" width="332" height="414"/>
+                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                        </textView>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="trailing" secondItem="1nK-9A-AL8" secondAttribute="trailing" constant="10" id="0kn-Kn-Yxa"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="1nK-9A-AL8" secondAttribute="bottom" constant="8" id="151-SY-VIa"/>
+                                                                        <constraint firstItem="1nK-9A-AL8" firstAttribute="leading" secondItem="Taa-Rx-ctk" secondAttribute="leading" constant="10" id="QW3-bN-VpA"/>
+                                                                    </constraints>
+                                                                </view>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -1625,7 +1631,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kU4-xy-NvD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2975.5" y="266.5"/>
+            <point key="canvasLocation" x="2942.5" y="243.5"/>
         </scene>
         <!--Sent View Controller-->
         <scene sceneID="PzC-bm-b62">
@@ -1705,30 +1711,40 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYS-lp-grK" userLabel="Main : View">
                                                             <rect key="frame" x="0.0" y="2" width="375" height="75"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxS-eI-l0Y" userLabel="Name : Label">
-                                                                    <rect key="frame" x="13" y="16" width="344" height="12"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E2-r4-OyH">
+                                                                    <rect key="frame" x="15" y="36" width="352" height="39"/>
+                                                                    <string key="text">labellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabellabel</string>
+                                                                    <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
+                                                                    <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2d" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sb7-1v-0IZ" userLabel="Time : Label">
+                                                                    <rect key="frame" x="119" y="16" width="35" height="13"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="12" id="Brd-H7-nzY"/>
+                                                                        <constraint firstAttribute="width" constant="35" id="J5s-Ft-4ow"/>
+                                                                        <constraint firstAttribute="height" constant="13" id="Qkp-2u-FKP"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="12"/>
+                                                                    <color key="textColor" red="0.75294117650000003" green="0.78039215689999997" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Karen Petrosyan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxS-eI-l0Y" userLabel="Name : Label">
+                                                                    <rect key="frame" x="15" y="16" width="87" height="13"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="13" id="9Th-4i-4N3"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="12"/>
                                                                     <color key="textColor" red="0.47058823529999999" green="0.51764705879999995" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E2-r4-OyH">
-                                                                    <rect key="frame" x="45" y="36" width="295" height="17"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="Bxb-hf-j9x"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
-                                                                    <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="zxS-eI-l0Y" secondAttribute="trailing" constant="18" id="AFW-u2-VBo"/>
-                                                                <constraint firstItem="zxS-eI-l0Y" firstAttribute="top" secondItem="tYS-lp-grK" secondAttribute="top" constant="16" id="hhc-KJ-aDu"/>
-                                                                <constraint firstAttribute="trailing" secondItem="1E2-r4-OyH" secondAttribute="trailing" constant="35" id="l8c-tD-qpj"/>
+                                                                <constraint firstItem="zxS-eI-l0Y" firstAttribute="leading" secondItem="tYS-lp-grK" secondAttribute="leading" constant="15" id="QYi-74-N54"/>
+                                                                <constraint firstItem="Sb7-1v-0IZ" firstAttribute="top" secondItem="tYS-lp-grK" secondAttribute="top" constant="16" id="ReA-PW-ey0"/>
+                                                                <constraint firstItem="Sb7-1v-0IZ" firstAttribute="leading" secondItem="zxS-eI-l0Y" secondAttribute="trailing" constant="17" id="Web-IG-P43"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Sb7-1v-0IZ" secondAttribute="trailing" constant="9" id="ka0-aO-SSm"/>
+                                                                <constraint firstItem="zxS-eI-l0Y" firstAttribute="top" secondItem="tYS-lp-grK" secondAttribute="top" constant="16" id="qOw-eR-zeT"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset">
@@ -1749,6 +1765,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
+                                                    <outlet property="labelDate" destination="Sb7-1v-0IZ" id="g8K-au-QeL"/>
                                                     <outlet property="labelMessageSubject" destination="1E2-r4-OyH" id="4LB-cx-zQE"/>
                                                     <outlet property="labelSenderName" destination="zxS-eI-l0Y" id="ShG-mK-cHZ"/>
                                                 </connections>
@@ -1788,7 +1805,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kyb-ma-ETM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1928.5" y="1017.5"/>
+            <point key="canvasLocation" x="1922.5" y="1011.5"/>
         </scene>
     </scenes>
     <resources>
@@ -1818,6 +1835,6 @@
         <segue reference="V8g-7x-DfO"/>
         <segue reference="msd-Ig-8Lo"/>
         <segue reference="Jjg-do-4sL"/>
-        <segue reference="szA-Vv-gNz"/>
+        <segue reference="COF-Ci-usR"/>
     </inferredMetricsTieBreakers>
 </document>

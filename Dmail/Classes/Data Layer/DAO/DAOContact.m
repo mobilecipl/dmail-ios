@@ -109,7 +109,6 @@ const NSInteger contactsUpdateTime = 12;
             for (NSDictionary *emailDict in emailArray) {
                 if ([[emailDict allKeys] containsObject:@"address"]) {
                     email = emailDict[@"address"];
-                    NSLog(@"email ==== %@", email);
                 }
             }
         }
@@ -117,34 +116,28 @@ const NSInteger contactsUpdateTime = 12;
             NSDictionary *nameDict = dict[@"gd$name"];
             NSDictionary *fullNameDict = nameDict[@"gd$fullName"];
             fullName = fullNameDict[@"$t"];
-            NSLog(@"fullName ==== %@", fullName);
             
             NSDictionary *lastNameDict = nameDict[@"gd$familyName"];
             lastName = lastNameDict[@"$t"];
-            NSLog(@"lastName ==== %@", lastName);
             
             NSDictionary *firstNameDict = nameDict[@"gd$givenName"];
             firstName = firstNameDict[@"$t"];
-            NSLog(@"firstName ==== %@", firstName);
         }
         if ([[dict allKeys] containsObject:@"id"]) {
             NSDictionary *idDict = dict[@"id"];
             contactId = idDict[@"$t"];
             NSArray *array = [contactId componentsSeparatedByString:@"/"];
             contactId = [array lastObject];
-            NSLog(@"contactId ==== %@", contactId);
         }
         if ([[dict allKeys] containsObject:@"link"]) {
             NSArray *hrefArray = dict[@"link"];
             for (NSDictionary *hrefDict in hrefArray) {
                 if ([[hrefDict allKeys] containsObject:@"href"]) {
                     urlPhoto = hrefDict[@"href"];
-                    NSLog(@"urlPhoto ==== %@", urlPhoto);
                     break;
                 }
             }
         }
-        NSLog(@"===========================  ==========================");
         
         ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto];
         if (model) {

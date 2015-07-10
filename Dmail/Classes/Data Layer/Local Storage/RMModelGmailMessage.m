@@ -25,7 +25,6 @@
         _internalDate = [model.internalDate longLongValue];
         _snippet = model.snippet;
         
-        //TODO: parse from to name and email
         _fromEmail = [self getEmailFromFullName:model.payload.from];
         _fromName = [self getNameFromFullName:model.payload.from];
         if (!_fromName) {

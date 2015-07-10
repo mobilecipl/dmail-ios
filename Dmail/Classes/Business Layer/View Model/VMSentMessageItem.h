@@ -10,7 +10,7 @@
 
 @interface VMSentMessageItem : BaseViewModel
 
-@property (nonatomic, strong) NSAttributedString *senderName;
+@property (nonatomic, strong) NSString *senderName;
 @property (nonatomic, strong) NSString *profileImageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageDate;

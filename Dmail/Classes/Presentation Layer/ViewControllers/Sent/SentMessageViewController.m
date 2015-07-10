@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) VMSentMessage *modelMessage;
 
 @end
 
@@ -79,30 +80,28 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 - (void)loadData {
     
     if (self.messageIdentifier) {
-        
-        VMSentMessage *modelMessage = [self.serviceMessage getSentMessageWithIdentifier:self.messageIdentifier];
-        self.arrayTo = modelMessage.arrayTo;
-        self.arrayCc = modelMessage.arrayCc;
-        self.arrayBcc = modelMessage.arrayBcc;
-        
+        self.modelMessage = [self.serviceMessage getSentMessageWithIdentifier:self.messageIdentifier];
+        self.arrayTo = self.modelMessage.arrayTo;
+        self.arrayCc = self.modelMessage.arrayCc;
+        self.arrayBcc = self.modelMessage.arrayBcc;
+        [self createTableItems];
         
         [self showLoadingView];
         @weakify(self);
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
                                           completionBlock:^(NSString *body, ErrorDataModel *error) {
-                                              
                                               [self hideLoadingView];
                                               @strongify(self);
-                                              self.body = body;
+                                              self.body = @"akjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKHakjshdlkajSDHFKASHDFKLAJDSHFLKJHASDLKJFHLKASDHFLKASDHFLKASJHDLFKHSDLKFHLAKSHDFLKSHDFKH";//body;
                                               NSInteger bodyRow = [self getBodyRow];
                                               NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
                                               NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
                                               [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
                                           }];
     }
-    
     [self.tableView reloadData];
 }
+
 
 #pragma mark - Action Methods
 - (IBAction)backClicked:(id)sender {
@@ -188,26 +187,22 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)createTableItems {
     
-//    GmailMessage *gmailMessage = [[CoreDataManager sharedCoreDataManager] getGmailMessageWithMessageId:self.messageItem.dmailId];
-//    self.arrayTo = [gmailMessage.to componentsSeparatedByString:@","];
-//    self.arrayCc = [gmailMessage.cc componentsSeparatedByString:@","];
-//    self.arrayBcc = [gmailMessage.bcc componentsSeparatedByString:@","];
-//    if ([self.arrayTo count] > 0) {
-//        [self.arrayTableItems addObject:@"1"];
-//    }
-//    if ([self.arrayCc count] > 0) {
-//        [self.arrayTableItems addObject:@"2"];
-//        [self.arrayTableItems addObject:@"3"];
-//    }
-//    if ([self.arrayBcc count] > 0) {
-//        if ([self.arrayCc count] > 0) {
-//        }
-//        else {
-//            [self.arrayTableItems addObject:@"2"];
-//            [self.arrayTableItems addObject:@"3"];
-//        }
-//    }
-//    [self.arrayTableItems addObject:@"4"];
+    if ([self.arrayTo count] > 0) {
+        [self.arrayTableItems addObject:@"1"];
+    }
+    if ([self.arrayCc count] > 0) {
+        [self.arrayTableItems addObject:@"2"];
+        [self.arrayTableItems addObject:@"3"];
+    }
+    if ([self.arrayBcc count] > 0) {
+        if ([self.arrayCc count] > 0) {
+        }
+        else {
+            [self.arrayTableItems addObject:@"2"];
+            [self.arrayTableItems addObject:@"3"];
+        }
+    }
+    [self.arrayTableItems addObject:@"4"];
 }
 
 - (NSInteger)getBodyRow {
@@ -230,131 +225,131 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     
     return 1;
 }
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    CGFloat rowHeight = 0;
-//    if ([self.arrayTableItems count] == 2) {
-//        if (indexPath.row == 0) {
-//            rowHeight = self.toCellHeight;
-//        }
-//        else {
-//            rowHeight = self.messageContentCellHeight;
-//        }
-//    }
-//    else {
-//        switch (indexPath.row) {
-//            case 0:
-//                rowHeight = self.toCellHeight;
-//                break;
-//            case 1:
-//                rowHeight = self.ccCellHeight;
-//                break;
-//            case 2:
-//                rowHeight = self.bccCellHeight;
-//                break;
-//            case 3:
-//                rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    return rowHeight;
-//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CGFloat rowHeight = 0;
+    if ([self.arrayTableItems count] == 2) {
+        if (indexPath.row == 0) {
+            rowHeight = self.toCellHeight;
+        }
+        else {
+            rowHeight = self.messageContentCellHeight;
+        }
+    }
+    else {
+        switch (indexPath.row) {
+            case 0:
+                rowHeight = self.toCellHeight;
+                break;
+            case 1:
+                rowHeight = self.ccCellHeight;
+                break;
+            case 2:
+                rowHeight = self.bccCellHeight;
+                break;
+            case 3:
+                rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                break;
+            default:
+                break;
+        }
+    }
+    return rowHeight;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     return self.arrayTableItems.count;
 }
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    if ([self.arrayTableItems count] == 2) {
-//        switch (indexPath.row) {
-//            case 0: {
-//                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-//                participantsCell.delegate = self;
-//                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
-//                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return participantsCell;
-//            }
-//                break;
-//            case 1: {
-//                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-//                messageComposeCell.delegate = self;
-//                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject internalDate:[self.messageItem.internalDate doubleValue]];
-//                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return messageComposeCell;
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    else {
-//        switch (indexPath.row) {
-//            case 0: {
-//                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-//                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
-//                participantsCell.delegate = self;
-//                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
-//                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return participantsCell;
-//            }
-//                break;
-//            case 1: {
-//                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-//                participantsCell.delegate = self;
-//                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc];
-//                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return participantsCell;
-//            }
-//                break;
-//            case 2: {
-//                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-//                participantsCell.delegate = self;
-//                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc];
-//                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return participantsCell;
-//            }
-//                break;
-//            case 3: {
-//                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-//                messageComposeCell.delegate = self;
-//                [messageComposeCell configureCellWithBody:self.body subject:self.messageItem.subject internalDate:[self.messageItem.internalDate doubleValue]];
-//                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                
-//                return messageComposeCell;
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    
-//    return nil;
-//}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self.arrayTableItems count] == 2) {
+        switch (indexPath.row) {
+            case 0: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return participantsCell;
+            }
+                break;
+            case 1: {
+                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
+                messageComposeCell.delegate = self;
+                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
+                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return messageComposeCell;
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        switch (indexPath.row) {
+            case 0: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return participantsCell;
+            }
+                break;
+            case 1: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return participantsCell;
+            }
+                break;
+            case 2: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return participantsCell;
+            }
+                break;
+            case 3: {
+                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
+                messageComposeCell.delegate = self;
+                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
+                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return messageComposeCell;
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return nil;
+}
 
 
 #pragma mark - ParticipantCellDelegate Methods
-//- (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name {
-//    
-//    self.revokedEmail = email;
-//    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to revoke acces to %@",name];
-//    UIAlertView *alert= [[UIAlertView alloc] initWithTitle:@"Revoke access"
-//                                                   message:alertMessage
-//                                                  delegate:self
-//                                         cancelButtonTitle:@"Cancel"
-//                                         otherButtonTitles:@"Revoke", nil];
-//    alert.tag = Revoke;
-//    [alert show];
-//}
+- (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name {
+    
+    self.revokedEmail = email;
+    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to revoke acces to %@",name];
+    UIAlertView *alert= [[UIAlertView alloc] initWithTitle:@"Revoke access"
+                                                   message:alertMessage
+                                                  delegate:self
+                                         cancelButtonTitle:@"Cancel"
+                                         otherButtonTitles:@"Revoke", nil];
+    alert.tag = Revoke;
+    [alert show];
+}
 
 #pragma mark - UIAlertViewdelegate Methods
 //- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
