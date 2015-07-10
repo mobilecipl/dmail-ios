@@ -33,7 +33,7 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.labelMessageSubject.text = messageItem.messageSubject;
-    [self.labelSenderName setAttributedText:messageItem.senderNameAttributed];
+    [self.labelSenderName setAttributedText:messageItem.senderName];
     if (messageItem.read) {
         
         self.viewBorder.hidden = YES;

@@ -12,10 +12,12 @@
 
 @interface RMModelContact : AutoDefaultsRMLObject
 
+@property NSString *firstName;
+@property NSString *lastName;
 @property NSString *fullName;
 @property NSString *email;
 @property NSString *contactId;
-@property NSString *urlPhoto;
+@property NSString *imageUrl;
 
 - (instancetype)initWithContactModel:(ContactModel *)model;
 

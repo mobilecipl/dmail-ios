@@ -14,6 +14,7 @@
 #import "NetworkMessage.h"
 
 // model
+#import "ModelMessage.h"
 #import "MessageItem.h"
 
 // view model
@@ -24,6 +25,9 @@
 #import "RMModelMessage.h"
 #import "RMModelDmailMessage.h"
 #import "RMModelGmailMessage.h"
+#import "RMModelContact.h"
+//#import "RMModelProfile.h"
+
 
 @interface DAOMessage ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
@@ -93,35 +97,80 @@
 }
 
 
-- (RLMResults *)getInboxMessages {
+- (NSArray *)getInboxMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
+    // TODO: get only inbox messages
     RLMResults *messages = [RMModelMessage allObjectsInRealm:realm];
     
-    return messages;
+    NSMutableArray *arrayItems = [@[] mutableCopy];
+    
+    for (RMModelMessage *rmMessage in messages) {
+        
+        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier];
+        if (modelMessage) {
+            [arrayItems addObject:modelMessage];
+        }
+    }
+    
+    return arrayItems;
 }
 
-- (RLMResults *)getSentMessages {
-    
-//    MessageItem *item = [[MessageItem alloc] init];
-//    item.subject = @"hello dmail";
-//    item.senderName = @"sender name";
-//    item.fromEmail = @"armen@gmail.com";
-//    item.arrayTo = @[@"armen@science.com"];
-//    item.arrayCc = @[@"from.email@mail.com"];
-//    item.internalDate = @0;
-//    //    item.postDate = @0;
-//    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
-//    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Sent];
-//    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
-//        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
-//        [arrayItems addObject:item];
-//    }
+
+- (NSArray *)getSentMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *messages = [RMModelGmailMessage allObjectsInRealm:realm];
-    return messages;
+    // TODO: get only sent messages
+    RLMResults *messages = [RMModelMessage allObjectsInRealm:realm];
+    
+    NSMutableArray *arrayItems = [@[] mutableCopy];
+    
+    for (RMModelMessage *rmMessage in messages) {
+        
+        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier];
+        if (modelMessage) {
+            [arrayItems addObject:modelMessage];
+        }
+    }
+    
+    return arrayItems;
 }
+
+
+
+- (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    RLMResults *resultsGmailMessages = [RMModelGmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    RMModelGmailMessage *gmailMessage = [resultsGmailMessages firstObject];
+    
+    RLMResults *resultsDmailMessages = [RMModelDmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    RMModelDmailMessage *dmailMessage = [resultsDmailMessages firstObject];
+    
+    RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:gmailMessage.fromEmail];
+    
+    ModelMessage *modelMessage = [[ModelMessage alloc] init];
+    modelMessage.messageIdentifier = identifier;
+    modelMessage.internalDate = gmailMessage.internalDate;
+    modelMessage.dmailId = dmailMessage.dmailId;
+    modelMessage.gmailId = dmailMessage.gmailId;
+    modelMessage.type = dmailMessage.type;
+    modelMessage.read = gmailMessage.read;
+    modelMessage.to = gmailMessage.to;
+//        self.cc = gmailMessage.cc;
+//        self.bcc = gmailMessage.bcc;
+    
+    modelMessage.subject = gmailMessage.subject;
+    modelMessage.from = gmailMessage.fromName;
+    
+    if (contact.imageUrl) {
+        modelMessage.imageUrl = contact.imageUrl;
+    }
+    
+    return modelMessage;
+}
+
 
 - (NSString *)getLastGmailUniqueId {
     

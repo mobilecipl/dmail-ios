@@ -11,7 +11,7 @@
 
 @class ProfileModel;
 
-@interface RealmProfile : AutoDefaultsRMLObject
+@interface RMModelProfile : AutoDefaultsRMLObject
 
 @property NSDate *contactLastUpdateDate;
 @property NSString *email;

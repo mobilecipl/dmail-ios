@@ -7,7 +7,7 @@
 //
 
 #import "ProfileModel.h"
-#import "RealmProfile.h"
+#import "RMModelProfile.h"
 
 @implementation ProfileModel
 
@@ -25,15 +25,15 @@
     return self;
 }
 
-- (instancetype)initWithRealProfile:(RealmProfile *)realmProfile {
+- (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile {
     
     self = [super init];
     if (self) {
-        _email = realmProfile.email;
-        _fullName = realmProfile.fullName;
-        _googleId = realmProfile.googleId;
-        _imageUrl = realmProfile.imageUrl;
-        _contactLastUpdateDate = realmProfile.contactLastUpdateDate;
+        _email = RMModelProfile.email;
+        _fullName = RMModelProfile.fullName;
+        _googleId = RMModelProfile.googleId;
+        _imageUrl = RMModelProfile.imageUrl;
+        _contactLastUpdateDate = RMModelProfile.contactLastUpdateDate;
     }
     
     return self;

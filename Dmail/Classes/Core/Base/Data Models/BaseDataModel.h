@@ -12,5 +12,7 @@
 
 @interface BaseDataModel : JSONModel
 //@property (nonatomic, strong) NSNumber <Optional>* rowid;
--(instancetype)initWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+
+- (instancetype)initWithRealm:(id)realm;
 @end

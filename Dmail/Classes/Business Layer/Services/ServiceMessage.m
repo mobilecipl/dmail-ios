@@ -11,11 +11,12 @@
 // dao
 #import "DAOMessage.h"
 
+// model
+#import "ModelMessage.h"
+
 // view model
 #import "VMInboxMessage.h"
 
-#import <Realm.h>
-#import "RMModelMessage.h"
 
 @interface ServiceMessage ()
 @property (nonatomic, strong) DAOMessage *daoMessage;
@@ -65,13 +66,9 @@
 - (NSArray *)getInboxMessages {
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelMessage *message in [self.daoMessage getInboxMessages]) {
-        VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] init];
-        inboxMessageVM.senderName = message.from;
-        inboxMessageVM.messageSubject = message.subject;
-        inboxMessageVM.internalDate = message.internalDate;
-        inboxMessageVM.messageIdentifier = message.messageIdentifier;
-        inboxMessageVM.read = message.read;
+    for (ModelMessage *message in [self.daoMessage getInboxMessages]) {
+        
+        VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
         
         [arrayItems addObject:inboxMessageVM];
     }

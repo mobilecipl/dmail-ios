@@ -12,6 +12,8 @@
 
 @interface ContactModel : NSObject
 
+@property NSString *firstName;
+@property NSString *lastName;
 @property NSString *fullName;
 @property NSString *email;
 @property NSString *contactId;

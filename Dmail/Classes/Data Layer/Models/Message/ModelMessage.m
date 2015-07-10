@@ -7,39 +7,22 @@
 //
 
 #import "ModelMessage.h"
-#import <Realm/Realm.h>
-#import "RMModelGmailMessage.h"
-#import "RMModelDmailMessage.h"
+#import "RMModelMessage.h"
+
 
 @implementation ModelMessage
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
+- (instancetype)initWithRealm:(RMModelMessage *)realm {
     
     self = [super init];
     if (self) {
-        RLMRealm *realm = [RLMRealm defaultRealm];
         
-        RLMResults *resultsGmailMessages = [RMModelGmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
-        RMModelGmailMessage *gmailMessage = [resultsGmailMessages firstObject];
-        
-        RLMResults *resultsDmailMessages = [RMModelDmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
-        RMModelDmailMessage *dmailMessage = [resultsDmailMessages firstObject];
-        
-        self.messageIdentifier = identifier;
-        self.internalDate = gmailMessage.internalDate;
-        self.dmailId = dmailMessage.dmailId;
-        self.gmailId = dmailMessage.gmailId;
-        self.type = dmailMessage.type;
-        self.read = gmailMessage.read;
-        self.to = gmailMessage.to;
-        //        self.cc = gmailMessage.cc;
-        //        self.bcc = gmailMessage.bcc;
-        
-        self.subject = gmailMessage.subject;
-        self.from = gmailMessage.from;
+        _from = realm.from;
+        _subject = realm.subject;
+        _internalDate = realm.internalDate;
+        _messageIdentifier = realm.messageIdentifier;
+        _read = realm.read;
     }
-    
     return self;
 }
-
 @end

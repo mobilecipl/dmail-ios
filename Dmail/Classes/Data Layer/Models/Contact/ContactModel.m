@@ -29,9 +29,11 @@
     self = [super init];
     if (self) {
         _email = rmModel.email;
+        _firstName = rmModel.firstName;
+        _lastName = rmModel.lastName;
         _fullName = rmModel.fullName;
         _contactId = rmModel.contactId;
-        _urlPhoto = rmModel.urlPhoto;
+        _urlPhoto = rmModel.imageUrl;
     }
     
     return self;

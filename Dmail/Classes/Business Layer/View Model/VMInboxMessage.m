@@ -11,33 +11,28 @@
 #import "UIColor+AppColors.h"
 #import <NSDate+DateTools.h>
 #import <Realm/Realm.h>
-#import "RealmProfile.h"
+#import "RMModelProfile.h"
 
 @implementation VMInboxMessage
 
-- (instancetype)initWithModelMessage:(ModelMessage *)modelMessage {
+- (instancetype)initWithModel:(ModelMessage *)modelMessage {
     
     self = [super init];
     if (self) {
+        
         self.internalDate = modelMessage.internalDate;
+        
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate];
         self.messageDate = [NSDate shortTimeAgoSinceDate:date];
         
         self.senderName = [self senderNameAttributedWithName:modelMessage.from withDate:self.messageDate];
+        
         self.messageSubject = modelMessage.subject;
         self.messageIdentifier = modelMessage.messageIdentifier;
         self.read = modelMessage.read;
     }
     
     return self;
-}
-
-- (NSString *)messageDate {
-    
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate];
-    NSString *time = [NSDate shortTimeAgoSinceDate:date];
-    
-    return time;
 }
 
 - (NSAttributedString *)senderNameAttributedWithName:(NSString *)name withDate:(NSString *)date{
@@ -63,8 +58,8 @@
     
     NSString *imageUrl;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email == %@",senderEmail];
-    RLMResults *profiles = [RealmProfile objectsWithPredicate:predicate];
-    RealmProfile *profile = [profiles firstObject];
+    RLMResults *profiles = [RMModelProfile objectsWithPredicate:predicate];
+    RMModelProfile *profile = [profiles firstObject];
     if (profile.imageUrl) {
         imageUrl = profile.imageUrl;
     }

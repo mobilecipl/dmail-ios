@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class RealmProfile;
+@class RMModelProfile;
 
 @interface ProfileModel : NSObject
 
@@ -19,6 +19,6 @@
 @property NSString *imageUrl;
 
 - (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate;
-- (instancetype)initWithRealProfile:(RealmProfile *)realmProfile;
+- (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 
 @end

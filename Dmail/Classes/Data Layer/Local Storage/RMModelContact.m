@@ -20,10 +20,13 @@
     
     self = [super init];
     if (self) {
+        
         _email = model.email;
+        _firstName = model.firstName;
+        _lastName = model.lastName;
         _fullName = model.fullName;
         _contactId = model.contactId;
-        _urlPhoto = model.urlPhoto;
+        _imageUrl = model.urlPhoto;
     }
     
     return self;

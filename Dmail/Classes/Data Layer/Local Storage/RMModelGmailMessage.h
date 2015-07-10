@@ -30,7 +30,8 @@
 //@property NSArray *labelIds;
 @property NSString *snippet;
 
-@property NSString *from;
+@property NSString *fromName;
+@property NSString *fromEmail;
 @property NSString *to;
 @property NSString *subject;
 @property NSString *messageDate;

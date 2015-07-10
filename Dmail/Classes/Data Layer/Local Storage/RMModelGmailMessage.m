@@ -24,7 +24,10 @@
         _gmailId = model.gmailId;
         _internalDate = [model.internalDate longLongValue];
         _snippet = model.snippet;
-        _from = model.payload.from;
+        
+        //TODO: parse from to name and email
+        _fromName = model.payload.from;
+        _fromEmail = model.payload.from;
         _to = model.payload.to;
         _subject = model.payload.subject;
         _messageDate = model.payload.messageDate;

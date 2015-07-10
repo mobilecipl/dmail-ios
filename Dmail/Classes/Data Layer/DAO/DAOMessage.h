@@ -31,9 +31,9 @@
 messageIdentifier:(NSString *)messageIdentifier
   completionBlock:(CompletionBlock)completionBlock;
 
-- (RLMResults *)getInboxMessages;
+- (NSArray *)getInboxMessages;
 
-- (RLMResults *)getSentMessages;
+- (NSArray *)getSentMessages;
 
 - (NSString *)getLastGmailUniqueId;
 

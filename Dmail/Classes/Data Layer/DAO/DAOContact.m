@@ -10,7 +10,7 @@
 #import "NetworkContacts.h"
 #import "ContactModel.h"
 #import "RMModelContact.h"
-#import "RealmProfile.h"
+#import "RMModelProfile.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Realm/Realm.h>
 #import <NSDate+DateTools.h>
@@ -41,8 +41,8 @@ const NSInteger contactsUpdateTime = 12;
 - (void)syncGoogleContacts {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *profiles = [RealmProfile allObjectsInRealm:realm];
-    RealmProfile *profile = [profiles firstObject];
+    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [profiles firstObject];
     if (profile) {
         NSDate *contactLastUpdateTime = profile.contactLastUpdateDate;
         NSTimeInterval lastTimeUpdate = [contactLastUpdateTime timeIntervalSince1970];
@@ -87,20 +87,13 @@ const NSInteger contactsUpdateTime = 12;
         NSArray *contacts = [self parseContactsWithDictionary:contactsDict];
         [self saveContacts:contacts];
         
-        [self getGoogleContactsPhotos:contacts];
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationUpdateContacts object:nil];
     }];
 }
 
-- (void)getGoogleContactsPhotos:(NSArray *)contacts {
-    
-    for (ContactModel *contactModel in contacts) {
-        
-    }
-}
-
 - (NSArray *)parseContactsWithDictionary:(NSDictionary *)dict {
     
+    //TODO: parse as JSONMODEL
     NSMutableArray *arrayModels = [[NSMutableArray alloc] init];
     NSDictionary *dictFeed = dict[@"feed"];
     NSArray *entryFeed = dictFeed[@"entry"];
@@ -138,6 +131,7 @@ const NSInteger contactsUpdateTime = 12;
                 }
             }
         }
+        
         ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId urlPhoto:urlPhoto];
         [arrayModels addObject:model];
     }

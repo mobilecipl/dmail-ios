@@ -83,7 +83,9 @@
                                               ModelGmailMessage *model = [[ModelGmailMessage alloc] initWithDictionary:data];
                                               [self saveGmailMessageInRealm:model];
                                               
-                                              ModelMessage *modelMessage = [[ModelMessage alloc] initWithIdentifier:model.payload.messageIdentifier];
+                                              ModelMessage *modelMessage = [[ModelMessage alloc] init];
+                                              modelMessage.messageIdentifier = model.payload.messageIdentifier;
+                                              
                                               [self saveMessageInRealm:modelMessage];
                                               completionBlock(nil, error);
                                           } else {

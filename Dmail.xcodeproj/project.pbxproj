@@ -32,7 +32,7 @@
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
-		9CC2D0F91B46D49400182C2B /* RealmProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RealmProfile.m */; };
+		9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RMModelProfile.m */; };
 		9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD873681B440BFE0021C44E /* GmailMessage.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
@@ -191,8 +191,8 @@
 		9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactModel.m; sourceTree = "<group>"; };
 		9CC2D0F41B46D47E00182C2B /* RMModelContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelContact.h; sourceTree = "<group>"; };
 		9CC2D0F51B46D47E00182C2B /* RMModelContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelContact.m; sourceTree = "<group>"; };
-		9CC2D0F71B46D49400182C2B /* RealmProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmProfile.h; sourceTree = "<group>"; };
-		9CC2D0F81B46D49400182C2B /* RealmProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmProfile.m; sourceTree = "<group>"; };
+		9CC2D0F71B46D49400182C2B /* RMModelProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelProfile.h; sourceTree = "<group>"; };
+		9CC2D0F81B46D49400182C2B /* RMModelProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelProfile.m; sourceTree = "<group>"; };
 		9CD873671B440BFE0021C44E /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
 		9CD873681B440BFE0021C44E /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -508,8 +508,8 @@
 				C00B20DD1B4EB67800D892DA /* RMModelMessage.m */,
 				9CC2D0F41B46D47E00182C2B /* RMModelContact.h */,
 				9CC2D0F51B46D47E00182C2B /* RMModelContact.m */,
-				9CC2D0F71B46D49400182C2B /* RealmProfile.h */,
-				9CC2D0F81B46D49400182C2B /* RealmProfile.m */,
+				9CC2D0F71B46D49400182C2B /* RMModelProfile.h */,
+				9CC2D0F81B46D49400182C2B /* RMModelProfile.m */,
 			);
 			path = "Local Storage";
 			sourceTree = "<group>";
@@ -1485,7 +1485,7 @@
 				C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */,
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
-				9CC2D0F91B46D49400182C2B /* RealmProfile.m in Sources */,
+				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
 				C00B20DB1B4EB44900D892DA /* VMInboxMessage.m in Sources */,
 				C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */,
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,

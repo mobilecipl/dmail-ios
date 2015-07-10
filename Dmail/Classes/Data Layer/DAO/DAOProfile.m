@@ -8,8 +8,9 @@
 
 #import "DAOProfile.h"
 #import "ProfileModel.h"
-#import "RealmProfile.h"
+
 #import <Realm/Realm.h>
+#import "RMModelProfile.h"
 
 @interface DAOProfile ()
 
@@ -31,9 +32,9 @@
 - (ProfileModel *)getProfile {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *profiles = [RealmProfile allObjectsInRealm:realm];
-    RealmProfile *realmProfile = [profiles firstObject];
-    ProfileModel *model = [[ProfileModel alloc] initWithRealProfile:realmProfile];
+    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *RMModelProfile = [profiles firstObject];
+    ProfileModel *model = [[ProfileModel alloc] initWithRealProfile:RMModelProfile];
     
     return model;
 }
@@ -41,9 +42,9 @@
 - (void)addProfileWithProfileModel:(ProfileModel *)profileModel {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RealmProfile *realmProfile = [[RealmProfile alloc] initWithProfileModel:profileModel];
+    RMModelProfile *rmModelProfile = [[RMModelProfile alloc] initWithProfileModel:profileModel];
     [realm beginWriteTransaction];
-    [RealmProfile createOrUpdateInRealm:realm withValue:realmProfile];
+    [RMModelProfile createOrUpdateInRealm:realm withValue:rmModelProfile];
     [realm commitWriteTransaction];
 }
 

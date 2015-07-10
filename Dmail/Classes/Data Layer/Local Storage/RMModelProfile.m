@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import "RealmProfile.h"
+#import "RMModelProfile.h"
 #import <Realm/Realm.h>
 #import "ProfileModel.h"
 
 
-@implementation RealmProfile
+@implementation RMModelProfile
 
 + (NSString *)primaryKey {
     
