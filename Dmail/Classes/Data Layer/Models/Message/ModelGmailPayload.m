@@ -47,7 +47,7 @@
                 continue;
             }
             
-            if ([header.name isEqualToString:@"Message-Id"]) {
+            if ([header.name isEqualToString:@"Message-ID"] || [header.name isEqualToString:@"Message-Id"]) {
                 
                 self.messageIdentifier = header.value;
                 continue;
