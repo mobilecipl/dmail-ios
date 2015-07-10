@@ -91,6 +91,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
         @weakify(self);
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
                                           completionBlock:^(NSString *body, ErrorDataModel *error) {
+                                              
                                               [self hideLoadingView];
                                               @strongify(self);
                                               self.body = body;
