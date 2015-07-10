@@ -8,7 +8,6 @@
 
 #import "NetworkContacts.h"
 #import "ServiceProfile.h"
-#import "XMLReader.h"
 
 #import "ContactModel.h"
 
@@ -88,8 +87,6 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         NSDictionary *JSONData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:NULL];
-        
-        NSLog(@"JSONData === %@",JSONData);
         if (statusCode == 200) {
             completionBlock(JSONData, nil);
         }

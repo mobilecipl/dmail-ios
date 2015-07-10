@@ -15,7 +15,7 @@
 #import "VMInboxMessage.h"
 
 #import <Realm.h>
-#import "RMModelGmailMessage.h"
+#import "RMModelMessage.h"
 
 @interface ServiceMessage ()
 @property (nonatomic, strong) DAOMessage *daoMessage;
@@ -65,15 +65,13 @@
 - (NSArray *)getInboxMessages {
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelGmailMessage *gmailMessage in [self.daoMessage getInboxMessages]) {
-        
+    for (RMModelMessage *message in [self.daoMessage getInboxMessages]) {
         VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] init];
-        inboxMessageVM.senderName = gmailMessage.from;
-        inboxMessageVM.messageSubject = gmailMessage.subject;
-        inboxMessageVM.messageDate = gmailMessage.messageDate;
-        inboxMessageVM.messageIdentifier = gmailMessage.messageIdentifier;
-        
-        inboxMessageVM.read = gmailMessage.read;
+        inboxMessageVM.senderName = message.from;
+        inboxMessageVM.messageSubject = message.subject;
+        inboxMessageVM.internalDate = message.internalDate;
+        inboxMessageVM.messageIdentifier = message.messageIdentifier;
+        inboxMessageVM.read = message.read;
         
         [arrayItems addObject:inboxMessageVM];
     }

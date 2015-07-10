@@ -10,11 +10,12 @@
 
 @interface VMInboxMessage : BaseViewModel
 
-@property (nonatomic, strong) NSString *senderName;
+@property (nonatomic, strong) NSAttributedString *senderName;
+@property (nonatomic, strong) NSString *profileImageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageDate;
+@property (nonatomic, assign) long long  internalDate;
 @property (nonatomic, strong) NSString *messageIdentifier;
 @property (nonatomic, getter=isRead) BOOL read;
 
-- (NSAttributedString *)senderNameAttributed;
 @end

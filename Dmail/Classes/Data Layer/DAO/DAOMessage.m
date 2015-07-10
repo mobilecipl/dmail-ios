@@ -21,6 +21,7 @@
 
 //RealmModel
 #import <Realm/Realm.h>
+#import "RMModelMessage.h"
 #import "RMModelDmailMessage.h"
 #import "RMModelGmailMessage.h"
 
@@ -92,17 +93,15 @@
 }
 
 
-- (NSArray *)getInboxMessages {
-    
-    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
+- (RLMResults *)getInboxMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *messages = [RMModelMessage allObjectsInRealm:realm];
     
-    RLMResults *messages = [RMModelGmailMessage allObjectsInRealm:realm];
     return messages;
 }
 
-- (NSArray *)getSentMessages {
+- (RLMResults *)getSentMessages {
     
 //    MessageItem *item = [[MessageItem alloc] init];
 //    item.subject = @"hello dmail";
@@ -112,14 +111,16 @@
 //    item.arrayCc = @[@"from.email@mail.com"];
 //    item.internalDate = @0;
 //    //    item.postDate = @0;
-    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
-    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Sent];
-    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
-        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
-        [arrayItems addObject:item];
-    }
+//    NSMutableArray *arrayItems = [[NSMutableArray alloc] init];
+//    NSArray *arrayGmailMessages = [[CoreDataManager sharedCoreDataManager] getGmailMessagesWithType:Sent];
+//    for (GmailMessage *gmailMessaeg in arrayGmailMessages) {
+//        MessageItem *item = [self gmailMessageToMessageItem:gmailMessaeg];
+//        [arrayItems addObject:item];
+//    }
     
-    return [NSArray arrayWithArray:arrayItems];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *messages = [RMModelGmailMessage allObjectsInRealm:realm];
+    return messages;
 }
 
 - (NSString *)getLastGmailUniqueId {

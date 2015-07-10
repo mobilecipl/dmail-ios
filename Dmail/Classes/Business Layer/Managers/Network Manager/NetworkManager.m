@@ -8,7 +8,6 @@
 
 #import "NetworkManager.h"
 #import "ServiceProfile.h"
-#import "XMLReader.h"
 
 static NSString * const getMessagesList = @"mobile/recipients/sync";
 static NSString * const sendMessage = @"api/message";
@@ -343,53 +342,52 @@ static NSString * const Revoke = @"api/message";
 
 - (void)getContactsWithCompletionBlock:(mainCompletionBlock)completion {
     
-    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
-//    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
-    NSString *urlmulr = @"https://www.google.com/m8/feeds/photos/media/kpetrosyan@science-inc.com/97d88210f382da2";//[NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
-    NSURL * url = [NSURL URLWithString:urlmulr];
-    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+//
+////    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
+//    NSString *urlmulr = @"https://www.google.com/m8/feeds/photos/media/kpetrosyan@science-inc.com/97d88210f382da2";//[NSString stringWithFormat:@"https://www.google.com/m8/feeds/contacts/%@/full", [[ServiceProfile sharedInstance] email]];
+//    NSURL * url = [NSURL URLWithString:urlmulr];
+//    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    
+//    [urlRequest setHTTPMethod:@"GET"];
+//    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
     
-    [urlRequest setHTTPMethod:@"GET"];
-    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
-    
-    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
-        NSLog(@"xmlData === %@",xmlData);
-        [self getContactPhoto];
-        completion(xmlData, statusCode);
-    }];
-    [dataTask resume];
+//    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+//        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+////        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
+//        [self getContactPhoto];
+//        completion(xmlData, statusCode);
+//    }];
+//    [dataTask resume];
 }
 
 - (void)getContactPhoto {
     
-    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    
-    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/97d88210f382da2", [[ServiceProfile sharedInstance] email]];
-    
-    NSURL * url = [NSURL URLWithString:urlmulr];
-    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
-    
-    [urlRequest setHTTPMethod:@"GET"];
-    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
-    
-    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        UIImage *image = [UIImage imageWithData:data];
-        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
-        NSLog(@"xmlData === %@",xmlData);
-    }];
-    [dataTask resume];
+//    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+//    
+//    NSString *urlmulr = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/97d88210f382da2", [[ServiceProfile sharedInstance] email]];
+//    
+//    NSURL * url = [NSURL URLWithString:urlmulr];
+//    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    
+//    [urlRequest setHTTPMethod:@"GET"];
+//    [urlRequest addValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [urlRequest setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
+//    
+//    NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        UIImage *image = [UIImage imageWithData:data];
+//        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+//        NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        NSDictionary *xmlData = [XMLReader dictionaryForXMLData:data error:nil];
+//        NSLog(@"xmlData === %@",xmlData);
+//    }];
+//    [dataTask resume];
 }
 
 @end

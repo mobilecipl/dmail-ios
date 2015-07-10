@@ -13,6 +13,7 @@
 
 // model
 #import "ModelGmailMessage.h"
+#import "ModelMessage.h"
 
 // local storage
 #import <Realm/Realm.h>
@@ -79,9 +80,11 @@
                                       completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
                                           
                                           if (!error) {
-                                              
                                               ModelGmailMessage *model = [[ModelGmailMessage alloc] initWithDictionary:data];
                                               [self saveGmailMessageInRealm:model];
+                                              
+                                              ModelMessage *modelMessage = [[ModelMessage alloc] initWithIdentifier:model.payload.messageIdentifier];
+                                              [self saveMessageInRealm:modelMessage];
                                               completionBlock(nil, error);
                                           } else {
                                               
@@ -128,6 +131,17 @@
 
     [realm beginWriteTransaction];
     [RMModelGmailMessage createOrUpdateInRealm:realm withValue:realmModel];
+    [realm commitWriteTransaction];
+}
+
+- (void)saveMessageInRealm:(ModelMessage *)modelMessage {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:modelMessage];
+    
+    [realm beginWriteTransaction];
+    [RMModelMessage createOrUpdateInRealm:realm withValue:realmModel];
     [realm commitWriteTransaction];
 }
 

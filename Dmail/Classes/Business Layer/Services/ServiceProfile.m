@@ -31,6 +31,7 @@
             sharedInstance.email = model.email;
             sharedInstance.fullName = model.fullName;
             sharedInstance.googleId = model.googleId;
+            sharedInstance.imageUrl = model.imageUrl;
         }
     });
     

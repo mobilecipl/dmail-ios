@@ -99,7 +99,7 @@
 - (void)setupController {
     
     self.labelName.text = [[ServiceProfile sharedInstance] fullName];
-    self.imageViewProfile.autoresizingMask = YES;
+    self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
 }
 
@@ -116,7 +116,6 @@
 
 - (void)getProfileImage {
     
-//    NSString *urlString = [NSString stringWithFormat:@"https://www.google.com/m8/feeds/photos/media/%@/%@?access_token=%@", [[ServiceProfile sharedInstance] email], [[ServiceProfile sharedInstance] googleId], [NSString stringWithFormat:@"%@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]]];
     NSString *urlString = [[ServiceProfile sharedInstance] imageUrl];
     [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:urlString] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
@@ -124,7 +123,6 @@
         if (image) {
             [self.imageViewProfile setImage:image];
         }
-        
     }];
 }
 
