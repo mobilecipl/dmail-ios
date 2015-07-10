@@ -14,4 +14,9 @@
 
 - (void)getContactsFromGoogle;
 
+- (void)getContactsWithPagingForEmail:(NSString *)email
+                           startIndex:(NSString *)startIndex
+                            maxResult:(NSString *)maxResult
+                      completionBlock:(CompletionBlock)completionBlock;
+
 @end

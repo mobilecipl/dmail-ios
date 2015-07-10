@@ -12,9 +12,10 @@
 #import "ContactModel.h"
 
 static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/contacts/";
-static NSString * const kUrlGetAll = @"%@/full?alt=json";
 
-static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&max-results=%@";//&key=%@";
+static NSString * const kUrlGetAll = @"%@/full?alt=json";
+//static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&max-results=%@";//&key=%@";
+static NSString * const kUrlGetWithPaging = @"%@/property-fullName?alt=json&start-index=%@&max-results=%@";//&key=%@";
 static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
 
 @implementation NetworkContacts
@@ -23,7 +24,9 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     
     self = [super initWithUrl:kUrlGetContacts];
     
-    [manager.requestSerializer setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-Type"];
+//    [manager.requestSerializer setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:@"3.0" forHTTPHeaderField:@"GData-Version"];
     [manager.requestSerializer setHTTPShouldHandleCookies:NO];
     
@@ -94,7 +97,7 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     [dataTask resume];
 }
 
-- (void)getContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+- (void)getAllContactsForEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GetContacts JSON: %@", responseObject);
@@ -133,6 +136,8 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
     
        AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GetContacts JSON: %@", responseObject);
+           NSLog(@"size: %d", [[NSPropertyListSerialization dataFromPropertyList:responseObject
+                                                                         format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL] length]);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 
@@ -163,7 +168,9 @@ static NSString * const kUrlUpdate = @"%@/full?updated-min=%@";
                  failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)getUpdatedContactsForEmail:(NSString *)email lastUpdateDate:(double)lastUpdateDate completionBlock:(CompletionBlock)completionBlock {
+- (void)getUpdatedContactsForEmail:(NSString *)email
+                    lastUpdateDate:(double)lastUpdateDate
+                   completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GetContacts JSON: %@", responseObject);
