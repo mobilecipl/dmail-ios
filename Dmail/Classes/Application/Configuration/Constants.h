@@ -27,16 +27,18 @@ static NSString * const kErrorMessageNoServer = @"Please try later\nWe are unabl
 
 
 #pragma mark - Notifications
-static NSString * const NotificationMenuButton = @"notificationMenuButton";
-static NSString * const NotificationInbox = @"notificationInbox";
-static NSString * const NotificationSent = @"notificationSent";
-static NSString * const NotificationMessageInbox = @"notificationMessageInbox";
-static NSString * const NotificationMessageSent = @"notificationMessageSent";
-static NSString * const NotificationNewMessageFetched = @"notificationNewMessageFetched";
-static NSString * const NotificationNewMessageSent = @"notificationNewMessageSent";
-static NSString * const NotificationNewMessageSentError = @"notificationNewMessageSentError";
-static NSString * const NotificationUpdateContacts = @"notificationUpdateContacts";
+static NSString * const NotificationMenuButton = @"NotificationMenuButton";
+static NSString * const NotificationInbox = @"NotificationInbox";
+static NSString * const NotificationSent = @"NotificationSent";
+static NSString * const NotificationMessageInbox = @"NotificationMessageInbox";
+static NSString * const NotificationMessageSent = @"NotificationMessageSent";
+static NSString * const NotificationNewMessageFetched = @"NotificationNewMessageFetched";
+static NSString * const NotificationNewMessageSent = @"NotificationNewMessageSent";
+static NSString * const NotificationNewMessageSentError = @"NotificationNewMessageSentError";
+static NSString * const NotificationUpdateContacts = @"NotificationUpdateContacts";
 
+static NSString * const NotificationGMailUniqueFetched = @"NotificationGMailUniqueFetched";
+static NSString * const NotificationGMailMessageFetched = @"NotificationGMailMessageFetched";
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
     Inbox = 1,

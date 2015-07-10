@@ -7,7 +7,6 @@
 //
 
 #import "ServiceSync.h"
-#import "DmailManager.h"
 
 // service
 #import "ServiceContact.h"
@@ -16,6 +15,7 @@
 // dao
 #import "DAOSync.h"
 #import "DAOMessage.h"
+#import "DAOContact.h"
 
 #import "ServiceProfile.h"
 #import "NetworkManager.h"
@@ -28,9 +28,13 @@
 
 @property (nonatomic, strong) DAOSync *daoSync;
 @property (nonatomic, strong) DAOMessage *daoMessage;
+@property (nonatomic, strong) DAOContact *daoContact;
+
 @property __block BOOL syncInProgressDmail;
 @property __block BOOL syncInProgressGmail;
 @property __block BOOL syncInProgressGmailMessages;
+
+@property __block BOOL syncInProgressContact;
 @end
 
 @implementation ServiceSync
@@ -55,41 +59,60 @@
         _syncInProgressGmail = NO;
         _syncInProgressGmailMessages = NO;
         
+        _syncInProgressContact = NO;
+        
         _daoSync = [[DAOSync alloc] init];
-        _daoMessage= [[DAOMessage alloc] init];
+        _daoMessage = [[DAOMessage alloc] init];
+        _daoContact = [[DAOContact alloc] init];
+        
         _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
     }
     
+    [self setupNotifications];
+    
     return self;
+}
+
+- (void)setupNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationNewMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationGMailUniqueFetched object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationNewMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailUniqueFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailMessageFetched object:nil];
 }
 
 - (void)sync {
     
     [self syncDmailMessages];
-    [self syncGmailUniqueMessages];
-    [self syncGmailMessages];
-    
-//    [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncDmailMessages) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncGmailUniqueMessages) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncGmailMessages) userInfo:nil repeats:YES];
-    
     [self syncGoogleContacts];
+    
+    [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncDmailMessages) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(syncGoogleContacts) userInfo:nil repeats:YES];
 }
 
 - (void)syncDmailMessages {
     
     if (!self.syncInProgressDmail) {
+        
         self.syncInProgressDmail = YES;
+        
         NSString *email = [[ServiceProfile sharedInstance] email];
-        NSNumber *position = @100; //[[CoreDataManager sharedCoreDataManager] getLastPosition];
-        NSNumber *count = @100;
+        NSNumber *position = [self.daoMessage getLastDmailPosition];
+        NSNumber *count = @1000; //TODO: add paging
+        
         if (email) {
+            
             @weakify(self);
             [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
+                
                 @strongify(self);
                 self.syncInProgressDmail = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
             }];
         } else {
+            
             self.syncInProgressDmail = NO;
         }
     }
@@ -98,17 +121,24 @@
 - (void)syncGmailUniqueMessages {
     
     if (!self.syncInProgressGmail) {
+        
         self.syncInProgressGmail = YES;
+        
         NSString *gmailUniqueId = [self.daoMessage getLastGmailUniqueId];
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+        
         if (gmailUniqueId) {
+            
             @weakify(self);
             [self.serviceGmailMessage getMessageIdWithUniqueId:gmailUniqueId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
+                
                 @strongify(self);
                 self.syncInProgressGmail = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
             }];
         }
         else {
+            
             self.syncInProgressGmail = NO;
         }
     }
@@ -119,34 +149,59 @@
     if (!self.syncInProgressGmailMessages) {
         
         self.syncInProgressGmailMessages = YES;
+        
         NSString *gmailMessageId = [self.daoMessage getLastGmailMessageId];
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+        
         if (gmailMessageId) {
             @weakify(self);
             [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailMessageFetched object:nil];
                 @strongify(self);
                 self.syncInProgressGmailMessages = NO;
             }];
         }
         else {
+            
             self.syncInProgressGmailMessages = NO;
         }
     }
-
-//    [[DmailManager sharedInstance] getDmailIds];
-//    NSString *email = [[ServiceProfile sharedInstance] email];
-//    NSNumber *position = @100; //[[CoreDataManager sharedCoreDataManager] getLastPosition];
-//    NSNumber *count = @100;
-//    
-//    if (email) {
-//        [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {}];
-//    }
 }
+
 
 - (void)syncGoogleContacts {
     
-    ServiceContact *serviceContact = [[ServiceContact alloc] init];
-    [serviceContact getContactsFromGoogle];
+    if (!self.syncInProgressContact) {
+        
+        self.syncInProgressContact = YES;
+
+        NSString *email = [[ServiceProfile sharedInstance] email];
+        
+        NSString *startIndex = @"1";
+        NSString *maxResult = @"1000";
+        
+        if (email) {
+            
+            @weakify(self);
+            [self.daoContact getContactsWithPagingForEmail:email
+                                                startIndex:startIndex
+                                                 maxResult:maxResult
+                                           completionBlock:^(id data, ErrorDataModel *error) {
+                                               
+                                               @strongify(self);
+                                               self.syncInProgressContact = NO;
+                                           }];
+        } else {
+            
+            self.syncInProgressContact = NO;
+        }
+    }
+}
+
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

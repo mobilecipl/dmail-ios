@@ -8,9 +8,6 @@
 
 #import "AppDelegate.h"
 
-// service
-#import "GmailManager.h"
-
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
 

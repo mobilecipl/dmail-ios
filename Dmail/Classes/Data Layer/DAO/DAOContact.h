@@ -11,9 +11,8 @@
 
 @interface DAOContact : BaseDAO
 
-- (void)syncGoogleContacts;
+- (NSMutableArray *)getContactsWithName:(NSString *)name;
 
-- (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name;
 - (NSString *)contactNameWithEmail:(NSString *)email;
 
 - (void)getContactsWithPagingForEmail:(NSString *)email

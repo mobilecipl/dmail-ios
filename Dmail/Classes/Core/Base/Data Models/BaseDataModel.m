@@ -9,6 +9,7 @@
 #import "BaseDataModel.h"
 
 @implementation BaseDataModel
+
 -(instancetype)initWithDictionary:(NSDictionary*)dict {
     
     NSError *error;
@@ -19,6 +20,16 @@
     
     if (self) {
 //        _rowid = nilOrJSONObjectForKey(dict, kRowId);
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithRealm:(id)realm {
+    
+    self = [super init];
+    if (self) {
+        
     }
     
     return self;

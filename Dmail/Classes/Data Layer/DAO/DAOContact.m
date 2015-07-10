@@ -7,14 +7,23 @@
 //
 
 #import "DAOContact.h"
+
+// network
 #import "NetworkContacts.h"
+
+// model
 #import "ContactModel.h"
+
+// realm
+#import <Realm/Realm.h>
 #import "RMModelContact.h"
 #import "RMModelProfile.h"
+
+// google
 #import <GoogleSignIn/GoogleSignIn.h>
-#import <Realm/Realm.h>
+
+// util
 #import <NSDate+DateTools.h>
-#import "ServiceProfile.h"
 
 const NSInteger contactsUpdateTime = 12;
 
@@ -38,19 +47,7 @@ const NSInteger contactsUpdateTime = 12;
 
 
 #pragma mark - Public Methods
-- (void)syncGoogleContacts {
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
-    RMModelProfile *profile = [profiles firstObject];
-    if (profile) {
-        NSDate *contactLastUpdateTime = profile.contactLastUpdateDate;
-        NSTimeInterval lastTimeUpdate = [contactLastUpdateTime timeIntervalSince1970];
-        [self getContactsFromGoogleWithEmail:profile.email lastUpdateDate:lastTimeUpdate];
-    }
-}
-
-- (NSMutableArray *)getContactsFromLocalDBWithName:(NSString *)name {
+- (NSMutableArray *)getContactsWithName:(NSString *)name {
     
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
     if(name.length > 0) {
@@ -80,42 +77,25 @@ const NSInteger contactsUpdateTime = 12;
 
 
 #pragma mark - Private Methods
-- (void)getContactsFromGoogleWithEmail:(NSString *)email lastUpdateDate:(long long)lastUpdateDate{
-    
-    [self.networkContacts getGoogleContactsForEmail:email lastUpdateDate:lastUpdateDate completionBlock:^(id data, ErrorDataModel *error) {
-        NSDictionary *contactsDict = (NSDictionary *)data;
-        NSArray *contacts = [self parseContactsWithDictionary:contactsDict];
-        [self saveContacts:contacts];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationUpdateContacts object:nil];
-    }];
-}
-
-
-- (void)getGoogleContactsPhotos:(NSArray *)contacts {
-    
-    for (ContactModel *contactModel in contacts) {
-        
-    }
-}
-
 - (void)getContactsWithPagingForEmail:(NSString *)email
                            startIndex:(NSString *)startIndex
                             maxResult:(NSString *)maxResult
                       completionBlock:(CompletionBlock)completionBlock {
     
-    long long timestamp = 0;//get RMProfile
+//    NSTimeInterval updatedMin = [self getLastUpdateTimeContact];
+    NSString *updatedMin = @"2007-03-16T00:00:00";
+    
     [self.networkContacts getContactsWithPagingForEmail:email
                                              startIndex:startIndex
                                               maxResult:maxResult
-                                        completionBlock:^(id data, ErrorDataModel *error) {
+                                             updatedMin:updatedMin
+                                        completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
                                             
                                             if (!error) {
-                                                NSArray *contacts = [self parseContactsWithDictionary:(NSDictionary *)data];
                                                 
-                                                completionBlock(contacts, error);
-
-                                                
+                                                NSArray *contacts = [self parseContactsWithDictionary:data];
+                                                [self saveContacts:contacts];
+                                                completionBlock(nil, nil);
                                             } else {
                                                 completionBlock(nil, error);
                                             }
@@ -130,12 +110,15 @@ const NSInteger contactsUpdateTime = 12;
     NSDictionary *dictFeed = data[@"feed"];
     NSArray *entryFeed = dictFeed[@"entry"];
     for (NSDictionary *dict in entryFeed) {
+        
         NSString *email;
         NSString *firstName;
         NSString *lastName;
         NSString *fullName;
         NSString *contactId;
         NSString *urlPhoto;
+        NSDate *updated;
+        
         if ([[dict allKeys] containsObject:@"gd$email"]) {
             NSArray *emailArray = dict[@"gd$email"];
             for (NSDictionary *emailDict in emailArray) {
@@ -161,6 +144,7 @@ const NSInteger contactsUpdateTime = 12;
             NSArray *array = [contactId componentsSeparatedByString:@"/"];
             contactId = [array lastObject];
         }
+        
         if ([[dict allKeys] containsObject:@"link"]) {
             NSArray *hrefArray = dict[@"link"];
             for (NSDictionary *hrefDict in hrefArray) {
@@ -171,7 +155,19 @@ const NSInteger contactsUpdateTime = 12;
             }
         }
         
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto];
+        if ([[dict allKeys] containsObject:@"updated"]) {
+            NSDictionary *updatedDict = dict[@"updated"];
+            
+            updated = [NSDate dateWithString:updatedDict[@"$t"] formatString:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"];
+        }
+        
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email
+                                                         fullName:fullName
+                                                        firstName:firstName
+                                                         lastName:lastName
+                                                        contactId:contactId
+                                                         urlPhoto:urlPhoto
+                                                          updated:updated];
         if (model) {
             [arrayModels addObject:model];
         }
@@ -183,6 +179,7 @@ const NSInteger contactsUpdateTime = 12;
 - (void)saveContacts:(NSArray *)contacts {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
+    
     for (ContactModel *contactModel in contacts) {
         RMModelContact *realmModel = [[RMModelContact alloc] initWithContactModel:contactModel];
         [realm beginWriteTransaction];
@@ -191,5 +188,19 @@ const NSInteger contactsUpdateTime = 12;
     }
 }
 
+- (NSTimeInterval)getLastUpdateTimeContact {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [profiles firstObject];
+    
+    NSTimeInterval lastUpdateTime = 0;
+    if (profile) {
+        NSDate *contactLastUpdateDate = profile.contactLastUpdateDate;
+        lastUpdateTime = [contactLastUpdateDate timeIntervalSince1970];
+    }
+    
+    return lastUpdateTime;
+}
 
 @end

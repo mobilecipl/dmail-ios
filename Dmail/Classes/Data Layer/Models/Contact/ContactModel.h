@@ -18,13 +18,16 @@
 @property NSString *email;
 @property NSString *contactId;
 @property NSString *urlPhoto;
+@property NSDate *updated;
 
 - (instancetype)initWithEmail:(NSString *)email
                      fullName:(NSString *)fullName
                     firstName:(NSString *)firstName
                      lastName:(NSString *)lastName
                     contactId:(NSString *)contactId
-                     urlPhoto:(NSString *)urlPhoto;
+                     urlPhoto:(NSString *)urlPhoto
+                      updated:(NSDate *)updated;
+
 - (instancetype)initWithRMModel:(RMModelContact *)rmModel;
 
 @end

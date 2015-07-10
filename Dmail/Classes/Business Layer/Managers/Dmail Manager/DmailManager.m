@@ -85,8 +85,6 @@
                         else {
                             item.access = AccessTypeRevoked;
                             [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-//                            [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
-//                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                         }
                     }
                 }

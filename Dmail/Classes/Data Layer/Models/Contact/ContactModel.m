@@ -16,16 +16,19 @@
                     firstName:(NSString *)firstName
                     lastName:(NSString *)lastName
                     contactId:(NSString *)contactId
-                     urlPhoto:(NSString *)urlPhoto {
+                     urlPhoto:(NSString *)urlPhoto
+                      updated:(NSDate *)updated {
     
     self = [super init];
     if (self) {
+        
         _email = email;
         _firstName = firstName;
         _lastName = lastName;
         _fullName = fullName;
         _contactId = contactId;
         _urlPhoto = urlPhoto;
+        _updated = updated;
     }
     
     return self;

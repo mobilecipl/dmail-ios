@@ -27,11 +27,6 @@
     return self;
 }
 
-- (void)getContactsFromGoogle {
-    
-    [self.daoContact syncGoogleContacts];
-}
-
 - (void)getContactsWithPagingForEmail:(NSString *)email
                            startIndex:(NSString *)startIndex
                             maxResult:(NSString *)maxResult
@@ -39,67 +34,30 @@
     
     
     __block NSString *startIndexBlock = startIndex;
-        [self.daoContact getContactsWithPagingForEmail:email
-                                            startIndex:startIndexBlock
-                                             maxResult:maxResult
-                                       completionBlock:^(NSArray *data, ErrorDataModel *error) {
-                                           
-                                           if (error) {
-                                               completionBlock(nil, error);
-                                           }
-                                           
-                                           if (data == nil || data.count == 0) {
-                                               completionBlock(nil, error);
-                                           } else {
-                                               startIndexBlock = [NSString stringWithFormat:@"%i", startIndexBlock.integerValue + maxResult.integerValue];
-                                               completionBlock(data, nil);
-                                               [self getContactsWithPagingForEmail:email
-                                                                        startIndex:startIndexBlock
-                                                                         maxResult:maxResult
-                                                                   completionBlock:^(id data, ErrorDataModel *error) {
-                                                                       
-                                                                       completionBlock(data, error);
-                                                                   }];
-                                           }
-                                           
-//                                           [self pagingWithEmail:email
-//                                                      startIndex:startIndexBlock
-//                                                       maxResult:maxResult
-//                                                 completionBlock:^(id data, ErrorDataModel *error) {
-//                                                     
-//                                                     completionBlock(data, error);
-//                                                 }];
-                                       }];
+    [self.daoContact getContactsWithPagingForEmail:email
+                                        startIndex:startIndexBlock
+                                         maxResult:maxResult
+                                   completionBlock:^(NSArray *data, ErrorDataModel *error) {
+                                       
+                                       if (error) {
+                                           completionBlock(nil, error);
+                                       }
+                                       
+                                       if (data == nil || data.count == 0) {
+                                           completionBlock(nil, error);
+                                       } else {
+                                           startIndexBlock = [NSString stringWithFormat:@"%li", startIndexBlock.integerValue + maxResult.integerValue];
+                                           completionBlock(data, nil);
+                                           [self getContactsWithPagingForEmail:email
+                                                                    startIndex:startIndexBlock
+                                                                     maxResult:maxResult
+                                                               completionBlock:^(id data, ErrorDataModel *error) {
+                                                                   
+                                                                   completionBlock(data, error);
+                                                               }];
+                                       }
+                                   }];
 }
 
-//- (void)pagingWithEmail:(NSString *)email
-//             startIndex:(NSString *)startIndex
-//              maxResult:(NSString *)maxResult
-//        completionBlock:(CompletionBlock)completionBlock {
-//    
-////    while (true) {
-////        
-//        if (error) {
-//            completionBlock(nil, error);
-//            break;
-//        }
-//        
-//        if (data == nil) {
-//            completionBlock(nil, error);
-//            break;
-//        } else {
-//            startIndex = [NSString stringWithFormat:@"%i", startIndex.integerValue + maxResult.integerValue];
-//            [self getContactsWithPagingForEmail:email
-//                                     startIndex:startIndex
-//                                      maxResult:maxResult
-//                                completionBlock:^(id data, ErrorDataModel *error) {
-//                                    
-//                                    completionBlock(data, error);
-//                                }];
-//        }
-//        
-//        completionBlock(data, error);
-////    }
-//}
 
 @end

@@ -11,19 +11,10 @@
 
 @interface NetworkContacts : BaseNetwork
 
-- (void)getGoogleContactsForEmail:(NSString *)email lastUpdateDate:(long long)lastUpdateDate completionBlock:(CompletionBlock)completionBlock;//   TODO : delete
-
-
-- (void)getAllContactsForEmail:(NSString *)email
-               completionBlock:(CompletionBlock)completionBlock;
-
 - (void)getContactsWithPagingForEmail:(NSString *)email
                            startIndex:(NSString *)startIndex
                             maxResult:(NSString *)maxResult
+                           updatedMin:(NSString *)updatedMin
                       completionBlock:(CompletionBlock)completionBlock;
-
-- (void)getUpdatedContactsForEmail:(NSString *)email
-                    lastUpdateDate:(double)lastUpdateDate
-                   completionBlock:(CompletionBlock)completionBlock;
 
 @end

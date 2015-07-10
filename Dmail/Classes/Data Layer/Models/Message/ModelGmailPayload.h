@@ -23,6 +23,9 @@
 
 
 //Parsed properties from header
+@property NSString *fromName;
+@property NSString *fromEmail;
+
 @property NSString *from;
 @property NSString *to;
 @property NSString *subject;

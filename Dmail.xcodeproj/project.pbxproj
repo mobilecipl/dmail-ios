@@ -53,8 +53,6 @@
 		C08C2DAF1B41AB1C00295A94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBF1B41AB1B00295A94 /* Images.xcassets */; };
 		C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CC71B41AB1B00295A94 /* AppDelegate.m */; };
 		C08C2DB11B41AB1C00295A94 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CCC1B41AB1B00295A94 /* CoreDataManager.m */; };
-		C08C2DB81B41AB1C00295A94 /* DmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CDB1B41AB1C00295A94 /* DmailManager.m */; };
-		C08C2DB91B41AB1C00295A94 /* GmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CDE1B41AB1C00295A94 /* GmailManager.m */; };
 		C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE21B41AB1C00295A94 /* NetworkManager.m */; };
 		C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE51B41AB1C00295A94 /* GmailService.m */; };
 		C08C2DBC1B41AB1C00295A94 /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE71B41AB1C00295A94 /* MessageService.m */; };
@@ -232,10 +230,6 @@
 		C08C2CC71B41AB1B00295A94 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C08C2CCB1B41AB1B00295A94 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		C08C2CCC1B41AB1B00295A94 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
-		C08C2CDA1B41AB1C00295A94 /* DmailManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailManager.h; sourceTree = "<group>"; };
-		C08C2CDB1B41AB1C00295A94 /* DmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailManager.m; sourceTree = "<group>"; };
-		C08C2CDD1B41AB1C00295A94 /* GmailManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailManager.h; sourceTree = "<group>"; };
-		C08C2CDE1B41AB1C00295A94 /* GmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailManager.m; sourceTree = "<group>"; };
 		C08C2CE11B41AB1C00295A94 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C08C2CE21B41AB1C00295A94 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C08C2CE41B41AB1C00295A94 /* GmailService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailService.h; sourceTree = "<group>"; };
@@ -667,8 +661,6 @@
 		C08C2CD91B41AB1C00295A94 /* Dmail Manager */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2CDA1B41AB1C00295A94 /* DmailManager.h */,
-				C08C2CDB1B41AB1C00295A94 /* DmailManager.m */,
 			);
 			path = "Dmail Manager";
 			sourceTree = "<group>";
@@ -676,8 +668,6 @@
 		C08C2CDC1B41AB1C00295A94 /* Gmail Manager */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2CDD1B41AB1C00295A94 /* GmailManager.h */,
-				C08C2CDE1B41AB1C00295A94 /* GmailManager.m */,
 			);
 			path = "Gmail Manager";
 			sourceTree = "<group>";
@@ -1480,7 +1470,6 @@
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				C08C2DB11B41AB1C00295A94 /* CoreDataManager.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
-				C08C2DB91B41AB1C00295A94 /* GmailManager.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
 				C08C2DCF1B41AB1C00295A94 /* AutoDefaultsRMLObject.m in Sources */,
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,
@@ -1516,7 +1505,6 @@
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */,
 				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,
-				C08C2DB81B41AB1C00295A94 /* DmailManager.m in Sources */,
 				C08C2DF31B41AB1C00295A94 /* ComposeModel.m in Sources */,
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,

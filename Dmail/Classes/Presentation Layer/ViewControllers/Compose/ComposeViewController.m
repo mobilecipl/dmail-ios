@@ -342,7 +342,7 @@
         self.participantEmail = [self.participantEmail stringByAppendingString:email];
     }
     DAOContact *daoContact = [[DAOContact alloc] init];
-    self.arrayContacts = [daoContact getContactsFromLocalDBWithName:self.participantEmail];
+    self.arrayContacts = [daoContact getContactsWithName:self.participantEmail];
     if ([self.arrayContacts count] > 0) {
         self.tableViewContacts.hidden = NO;
         [self.tableViewContacts reloadData];

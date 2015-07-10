@@ -12,8 +12,6 @@
 
 @interface ServiceContact : BaseService
 
-- (void)getContactsFromGoogle;
-
 - (void)getContactsWithPagingForEmail:(NSString *)email
                            startIndex:(NSString *)startIndex
                             maxResult:(NSString *)maxResult

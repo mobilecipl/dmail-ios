@@ -85,6 +85,9 @@
                                               
                                               ModelMessage *modelMessage = [[ModelMessage alloc] init];
                                               modelMessage.messageIdentifier = model.payload.messageIdentifier;
+                                              modelMessage.fromName = model.payload.fromName;
+                                              modelMessage.fromEmail = model.payload.fromEmail;
+                                              modelMessage.to = model.payload.to;
                                               
                                               [self saveMessageInRealm:modelMessage];
                                               completionBlock(nil, error);

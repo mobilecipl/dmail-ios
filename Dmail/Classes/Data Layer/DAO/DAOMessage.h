@@ -25,6 +25,8 @@
 
 - (NSString *)getLastGmailMessageId;
 
+- (NSNumber *)getLastDmailPosition;
+
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage
                  senderEmail:(NSString *)senderEmail
