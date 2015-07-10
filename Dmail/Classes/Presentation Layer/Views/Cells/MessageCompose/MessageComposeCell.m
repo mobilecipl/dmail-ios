@@ -53,6 +53,8 @@
     
     self.viewContainer.layer.masksToBounds = YES;
     self.viewContainer.layer.cornerRadius = 5;
+    self.viewContainer.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewContainer.layer.borderWidth = 1;
     self.textViewBody.editable = NO;
     self.labelTime.hidden = NO;
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:internalDate/1000];

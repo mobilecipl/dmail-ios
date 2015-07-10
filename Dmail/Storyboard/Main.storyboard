@@ -1228,10 +1228,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ql8-Fl-Fhc">
-                                <rect key="frame" x="10" y="615" width="355" height="5"/>
+                                <rect key="frame" x="11" y="617" width="353" height="4"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hcz-MQ-4hQ" userLabel="View:Line">
-                                        <rect key="frame" x="0.0" y="2" width="355" height="1"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="1"/>
                                         <color key="backgroundColor" red="0.8784313725490196" green="0.8901960784313725" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="C7z-Wa-jR2"/>
@@ -1241,8 +1241,8 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="hcz-MQ-4hQ" secondAttribute="trailing" id="DHw-z0-5Wk"/>
-                                    <constraint firstAttribute="height" constant="5" id="SQr-yo-Zqy"/>
-                                    <constraint firstItem="hcz-MQ-4hQ" firstAttribute="top" secondItem="ql8-Fl-Fhc" secondAttribute="top" constant="2" id="pGx-jk-4FC"/>
+                                    <constraint firstAttribute="height" constant="4" id="SQr-yo-Zqy"/>
+                                    <constraint firstItem="hcz-MQ-4hQ" firstAttribute="top" secondItem="ql8-Fl-Fhc" secondAttribute="top" id="pGx-jk-4FC"/>
                                     <constraint firstItem="hcz-MQ-4hQ" firstAttribute="leading" secondItem="ql8-Fl-Fhc" secondAttribute="leading" id="y49-9T-Ess"/>
                                 </constraints>
                             </view>
@@ -1250,7 +1250,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2Ro-fy-gnY" firstAttribute="top" secondItem="l4e-8g-3sn" secondAttribute="bottom" constant="10" id="27p-jm-rpx"/>
-                            <constraint firstAttribute="trailing" secondItem="ql8-Fl-Fhc" secondAttribute="trailing" constant="10" id="6ND-3H-64Y"/>
+                            <constraint firstAttribute="trailing" secondItem="ql8-Fl-Fhc" secondAttribute="trailing" constant="11" id="6ND-3H-64Y"/>
                             <constraint firstItem="tCN-QW-zjT" firstAttribute="top" secondItem="qTV-KJ-4cp" secondAttribute="bottom" id="9XA-7R-Juh"/>
                             <constraint firstItem="qTV-KJ-4cp" firstAttribute="top" secondItem="W9B-9h-rV7" secondAttribute="top" id="A4H-ds-3IT"/>
                             <constraint firstItem="l4e-8g-3sn" firstAttribute="leading" secondItem="W9B-9h-rV7" secondAttribute="leading" constant="10" id="CL4-QY-U9A"/>
@@ -1259,9 +1259,9 @@
                             <constraint firstItem="tCN-QW-zjT" firstAttribute="leading" secondItem="W9B-9h-rV7" secondAttribute="leading" id="Uq9-Um-Kc6"/>
                             <constraint firstAttribute="trailing" secondItem="qTV-KJ-4cp" secondAttribute="trailing" id="Vzz-fO-y8J"/>
                             <constraint firstAttribute="trailing" secondItem="tCN-QW-zjT" secondAttribute="trailing" id="eYD-9w-NM7"/>
-                            <constraint firstItem="ql8-Fl-Fhc" firstAttribute="leading" secondItem="W9B-9h-rV7" secondAttribute="leading" constant="10" id="qce-ci-WJ8"/>
+                            <constraint firstItem="ql8-Fl-Fhc" firstAttribute="leading" secondItem="W9B-9h-rV7" secondAttribute="leading" constant="11" id="qce-ci-WJ8"/>
                             <constraint firstAttribute="trailing" secondItem="l4e-8g-3sn" secondAttribute="trailing" constant="10" id="v3B-Ib-jRR"/>
-                            <constraint firstItem="2Ro-fy-gnY" firstAttribute="top" secondItem="ql8-Fl-Fhc" secondAttribute="bottom" constant="47" id="yVz-qo-Xib"/>
+                            <constraint firstItem="2Ro-fy-gnY" firstAttribute="top" secondItem="ql8-Fl-Fhc" secondAttribute="bottom" constant="46" id="yVz-qo-Xib"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hye-si-on4"/>

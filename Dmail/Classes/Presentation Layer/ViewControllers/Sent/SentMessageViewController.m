@@ -171,6 +171,8 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 1);
     
     self.viewSecure.layer.cornerRadius = 5;
+    self.viewSecure.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewSecure.layer.borderWidth = 1;
     
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     self.imageViewProfile.image = [UIImage imageNamed:@"imageProfile1"];

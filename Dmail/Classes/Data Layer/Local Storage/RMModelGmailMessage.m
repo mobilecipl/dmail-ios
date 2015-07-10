@@ -30,7 +30,7 @@
         if (!_fromName) {
             _fromName = _fromEmail;
         }
-        _to = model.payload.to;
+        _to = [self cleanEmail:model.payload.to];
         _subject = model.payload.subject;
         _messageDate = model.payload.messageDate;
         _messageIdentifier = model.payload.messageIdentifier;
@@ -64,6 +64,23 @@
     }
     
     return name;
+}
+
+- (NSString *)cleanEmail:(NSString *)email {
+    
+    NSString *cleanedEmail;
+    NSArray *arraySubStrings = [email componentsSeparatedByString:@"<"];
+    if ([arraySubStrings count] > 1) {
+        NSLog(@"arraySubStrings ==== %@", arraySubStrings);
+        email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
+    }
+    else {
+        email = email;
+    }
+    
+    return email;
+    
+    return cleanedEmail;
 }
 
 @end
