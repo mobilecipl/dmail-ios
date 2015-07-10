@@ -10,6 +10,7 @@
 
 // service
 #import "ServiceMessage.h"
+#import "MessageService.h"
 
 // view model
 #import "VMSentMessage.h"
@@ -123,44 +124,44 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)destroyAllParticipants {
     
-//    [[MessageService sharedInstance] revokeUserWithEmail:[self.arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
-//        if (success) {
-//            self.participantIndex ++;
-//            if (self.participantIndex > [self.arrayAllParticipants count] - 1) {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-//                                                                message:@"Participants are successfully destroyed"
-//                                                               delegate:self
-//                                                      cancelButtonTitle:@"Ok"
-//                                                      otherButtonTitles:nil, nil];
-//                [alert show];
-//            }
-//            else {
-//                [self destroyAllParticipants];
-//            }
-//        }
-//        else {
-//            if (self.participantIndex <= [self.arrayAllParticipants count] - 1) {
-//                [self destroyAllParticipants];
-//            }
-//        }
-//    }];
+    [[MessageService sharedInstance] revokeUserWithEmail:[self.arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:self.modelMessage.dmailId completionBlock:^(BOOL success) {
+        if (success) {
+            self.participantIndex ++;
+            if (self.participantIndex > [self.arrayAllParticipants count] - 1) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                message:@"Participants are successfully destroyed"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            else {
+                [self destroyAllParticipants];
+            }
+        }
+        else {
+            if (self.participantIndex <= [self.arrayAllParticipants count] - 1) {
+                [self destroyAllParticipants];
+            }
+        }
+    }];
 }
 
-//- (NSMutableArray *)getAllParticipants {
+- (NSMutableArray *)getAllParticipants {
 
-//    self.arrayAllParticipants = [[NSMutableArray alloc] init];
-//    for (NSString *to in self.messageItem.arrayTo) {
-//        [self.arrayAllParticipants addObject:to];
-//    }
-//    for (NSString *cc in self.messageItem.arrayCc) {
-//        [self.arrayAllParticipants addObject:cc];
-//    }
-//    for (NSString *bcc in self.messageItem.arrayBcc) {
-//        [self.arrayAllParticipants addObject:bcc];
-//    }
-//    
-//    return self.arrayAllParticipants;
-//}
+    self.arrayAllParticipants = [[NSMutableArray alloc] init];
+    for (NSString *to in self.modelMessage.arrayTo) {
+        [self.arrayAllParticipants addObject:to];
+    }
+    for (NSString *cc in self.modelMessage.arrayCc) {
+        [self.arrayAllParticipants addObject:cc];
+    }
+    for (NSString *bcc in self.modelMessage.arrayBcc) {
+        [self.arrayAllParticipants addObject:bcc];
+    }
+    
+    return self.arrayAllParticipants;
+}
 
 
 #pragma mark - Private Methods
@@ -357,46 +358,46 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 }
 
 #pragma mark - UIAlertViewdelegate Methods
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    
-//    if (alertView.tag == Revoke) {
-//        switch (buttonIndex) {
-//            case 0:
-//                
-//                break;
-//            case 1: {
-//                [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.messageItem.dmailId completionBlock:^(BOOL success) {
-//                    if (success) {
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-//                                                                        message:@"Participant are revoked"
-//                                                                       delegate:self
-//                                                              cancelButtonTitle:@"Ok"
-//                                                              otherButtonTitles:nil, nil];
-//                        [alert show];
-//                    }
-//                }];
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    else {
-//        switch (buttonIndex) {
-//            case 0:
-//                
-//                break;
-//            case 1: {
-//                self.participantIndex = 0;
-//                [self getAllParticipants];
-//                [self destroyAllParticipants];
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == Revoke) {
+        switch (buttonIndex) {
+            case 0:
+                
+                break;
+            case 1: {
+                [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.modelMessage.dmailId completionBlock:^(BOOL success) {
+                    if (success) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                        message:@"Participant is revoked"
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"Ok"
+                                                              otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        switch (buttonIndex) {
+            case 0:
+                
+                break;
+            case 1: {
+                self.participantIndex = 0;
+                [self getAllParticipants];
+                [self destroyAllParticipants];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+}
 
 
 
