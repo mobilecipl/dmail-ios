@@ -17,6 +17,8 @@
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
 
+#import "MessageItem.h"
+
 typedef NS_ENUM(NSInteger, AlertTags) {
     Revoke = 1,
     Destroy

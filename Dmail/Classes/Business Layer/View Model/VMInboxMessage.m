@@ -7,11 +7,11 @@
 //
 
 #import "VMInboxMessage.h"
+
 #import "ModelMessage.h"
+
 #import "UIColor+AppColors.h"
 #import <NSDate+DateTools.h>
-#import <Realm/Realm.h>
-#import "RMModelProfile.h"
 
 @implementation VMInboxMessage
 
@@ -52,19 +52,6 @@
     }
     
     return attributedText;
-}
-
-- (NSString *)getImageUrlWithsenderName:(NSString *)senderEmail {
-    
-    NSString *imageUrl;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email == %@",senderEmail];
-    RLMResults *profiles = [RMModelProfile objectsWithPredicate:predicate];
-    RMModelProfile *profile = [profiles firstObject];
-    if (profile.imageUrl) {
-        imageUrl = profile.imageUrl;
-    }
-    
-    return imageUrl;
 }
 
 @end

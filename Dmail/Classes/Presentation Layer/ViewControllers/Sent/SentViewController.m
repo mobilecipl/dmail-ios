@@ -19,8 +19,8 @@
 // data source
 #import "TableViewDataSource.h"
 
-// model
-#import "MessageItem.h"
+// view model
+#import "VMSentMessage.h"
 
 // view
 #import "SentCell.h"
@@ -29,8 +29,6 @@
 
 //colors
 #import "UIColor+AppColors.h"
-
-@class MessageItem;
 
 @interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
 
@@ -41,7 +39,7 @@
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) MessageItem *selectedMessageItem;
+@property (nonatomic, strong) VMSentMessage *selectedMessage;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
@@ -96,17 +94,19 @@
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(SentCell *cell, MessageItem *item) {
+    TableViewCellBlock configureCell = ^(SentCell *cell, VMSentMessage *item) {
         [cell configureCell:item];
     };
     
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:SentCellIdentifier configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
+                                                       cellIdentifier:SentCellIdentifier
+                                                   configureCellBlock:configureCell];
     self.dataSourceInbox.delegate = self;
     self.tableViewSent.allowsMultipleSelectionDuringEditing = NO;
     
     [self.tableViewSent setDataSource:self.dataSourceInbox];
     [self.tableViewSent setDelegate:self];
-    self.tableViewSent.scrollsToTop = NO;
+
     
     // creating refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -134,7 +134,7 @@
 #pragma mark - Delegate Methods -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.selectedMessageItem = [self.dataSourceInbox itemAtIndexPath:indexPath];
+    self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromSentToSentView" sender:self];
 }
 
@@ -169,7 +169,7 @@
     if ([segue.identifier isEqualToString:@"fromSentToSentView"]) {
         SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
         if ([sentMessageVC isKindOfClass:[SentMessageViewController class]]) {
-            sentMessageVC.messageItem = self.selectedMessageItem;
+            sentMessageVC.messageItem = self.selectedMessage;
         }
     }
 }
