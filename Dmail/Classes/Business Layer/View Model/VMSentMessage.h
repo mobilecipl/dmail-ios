@@ -12,6 +12,7 @@
 
 @interface VMSentMessage : BaseViewModel
 
+@property (nonatomic, strong) NSString *dmailId;
 @property (nonatomic, strong) NSString *profileImageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, assign) long long internalDate;

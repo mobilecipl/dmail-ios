@@ -17,6 +17,7 @@
     
     self = [super init];
     if (self) {
+        _dmailId = model.dmailId;
         _messageSubject = model.subject;
         _internalDate = model.internalDate;
         _messageIdentifier = model.messageIdentifier;

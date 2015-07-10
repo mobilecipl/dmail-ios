@@ -44,6 +44,7 @@
                 for (NSDictionary *dict in recipients) {
                     ModelDmailMessage *message = [[ModelDmailMessage alloc] initWithDictionary:dict];
                     if (message) {
+                        NSLog(@"message.position ==== %@",message.position);
                         [dataArray addObject:message];
                     }
                 }
