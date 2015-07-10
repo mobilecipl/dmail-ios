@@ -71,13 +71,11 @@
     NSString *cleanedEmail;
     NSArray *arraySubStrings = [email componentsSeparatedByString:@"<"];
     if ([arraySubStrings count] > 1) {
-        email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
+        cleanedEmail = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
     }
     else {
-        email = email;
+        cleanedEmail = email;
     }
-    
-    return email;
     
     return cleanedEmail;
 }
