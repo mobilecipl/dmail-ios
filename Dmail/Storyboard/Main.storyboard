@@ -1142,7 +1142,7 @@
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="zg4-Pc-aLA" firstAttribute="leading" secondItem="gn8-56-WFB" secondAttribute="leading" id="I36-lm-l5D"/>
                                                         <constraint firstItem="zg4-Pc-aLA" firstAttribute="top" secondItem="gn8-56-WFB" secondAttribute="top" id="PIb-oH-m9L"/>
@@ -1150,12 +1150,12 @@
                                                         <constraint firstAttribute="trailing" secondItem="zg4-Pc-aLA" secondAttribute="trailing" id="st4-Ya-Jcm"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="labelTime" destination="P7q-Di-1G2" id="qSX-Xj-4Jv"/>
                                                     <outlet property="textFieldSubject" destination="clW-aY-r4W" id="FOA-Mv-p3K"/>
                                                     <outlet property="textViewBody" destination="1nK-9A-AL8" id="fgJ-9c-Qih"/>
-                                                    <outlet property="viewContainer" destination="Rw4-bY-MgY" id="gYe-XY-57Z"/>
+                                                    <outlet property="viewContainer" destination="zg4-Pc-aLA" id="ZYm-ag-QON"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
