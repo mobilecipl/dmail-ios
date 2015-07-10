@@ -49,13 +49,22 @@
                     ModelDmailMessage *message = [[ModelDmailMessage alloc] initWithDictionary:dict];
                     
                     RLMRealm *realm = [RLMRealm defaultRealm];
+                    
                     RMModelDmailMessage *tempModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:message.serverId];
                     
-                    if (!tempModel) {
+                    if (tempModel) {
+                        
+                        ModelDmailMessage *tempMessage = [[ModelDmailMessage alloc] initWithRealm:tempModel];
+                        message.gmailId = tempMessage.gmailId;
                         
                         if (message) {
                             
-                            NSLog(@"message.position ==== %@",message.position);
+                            [dataArray addObject:message];
+                        }
+                    } else {
+                        
+                        if (message) {
+                            
                             [dataArray addObject:message];
                         }
                     }

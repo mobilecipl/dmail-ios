@@ -17,4 +17,5 @@
 @property NSNumber *position;
 @property NSString *type;
 
+@property NSString *gmailId;
 @end
