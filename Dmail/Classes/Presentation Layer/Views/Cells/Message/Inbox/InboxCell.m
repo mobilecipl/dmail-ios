@@ -48,13 +48,8 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
         
         self.viewBorder.hidden = NO;
     }
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:messageItem.imageUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-        if (image) {
-            [self.imageViewProfile setImage:image];
-        }
-    }];
+    
+    [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:messageItem.imageUrl]];
 }
 
 - (void)awakeFromNib {
