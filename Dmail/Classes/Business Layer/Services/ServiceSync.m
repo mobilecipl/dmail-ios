@@ -186,7 +186,7 @@
         NSString *email = [[ServiceProfile sharedInstance] email];
         
         NSString *startIndex = @"1";
-        NSString *maxResult = @"1000";
+        NSString *maxResult = @"200";
         
         if (email) {
             

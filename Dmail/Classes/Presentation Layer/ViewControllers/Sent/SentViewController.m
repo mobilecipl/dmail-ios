@@ -88,7 +88,6 @@
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
 - (void)setupTableView {
