@@ -1111,35 +1111,28 @@
                                                                     <color key="textColor" red="0.75294117650000003" green="0.78039215689999997" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Taa-Rx-ctk">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="355" height="479"/>
-                                                                    <subviews>
-                                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1nK-9A-AL8">
-                                                                            <rect key="frame" x="10" y="57" width="332" height="414"/>
-                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                        </textView>
-                                                                    </subviews>
+                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="adasdasd" translatesAutoresizingMaskIntoConstraints="NO" id="1nK-9A-AL8">
+                                                                    <rect key="frame" x="11" y="57" width="332" height="422"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="trailing" secondItem="1nK-9A-AL8" secondAttribute="trailing" constant="10" id="0kn-Kn-Yxa"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="1nK-9A-AL8" secondAttribute="bottom" constant="8" id="151-SY-VIa"/>
-                                                                        <constraint firstItem="1nK-9A-AL8" firstAttribute="leading" secondItem="Taa-Rx-ctk" secondAttribute="leading" constant="10" id="QW3-bN-VpA"/>
-                                                                    </constraints>
-                                                                </view>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                </textView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="P7q-Di-1G2" firstAttribute="top" secondItem="zg4-Pc-aLA" secondAttribute="top" constant="12" id="7Xl-Zm-F7b"/>
                                                                 <constraint firstItem="clW-aY-r4W" firstAttribute="top" secondItem="zg4-Pc-aLA" secondAttribute="top" constant="13" id="Eix-RI-xo4"/>
+                                                                <constraint firstAttribute="bottom" secondItem="1nK-9A-AL8" secondAttribute="bottom" id="K3e-qe-IYP"/>
+                                                                <constraint firstAttribute="trailing" secondItem="1nK-9A-AL8" secondAttribute="trailing" constant="12" id="M5d-PR-BLn"/>
+                                                                <constraint firstItem="1nK-9A-AL8" firstAttribute="leading" secondItem="zg4-Pc-aLA" secondAttribute="leading" constant="11" id="Tez-aA-tiv"/>
                                                                 <constraint firstAttribute="centerX" secondItem="clW-aY-r4W" secondAttribute="centerX" id="Tht-H5-tNB"/>
+                                                                <constraint firstItem="1nK-9A-AL8" firstAttribute="top" secondItem="clW-aY-r4W" secondAttribute="bottom" constant="29" id="ZUl-5x-sLh"/>
                                                                 <constraint firstItem="clW-aY-r4W" firstAttribute="width" secondItem="zg4-Pc-aLA" secondAttribute="width" multiplier="327/355" id="btl-VK-ivL"/>
                                                                 <constraint firstAttribute="trailing" secondItem="P7q-Di-1G2" secondAttribute="trailing" constant="8" id="u9X-by-9bK"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="zg4-Pc-aLA" firstAttribute="leading" secondItem="gn8-56-WFB" secondAttribute="leading" id="I36-lm-l5D"/>
                                                         <constraint firstItem="zg4-Pc-aLA" firstAttribute="top" secondItem="gn8-56-WFB" secondAttribute="top" id="PIb-oH-m9L"/>
@@ -1147,13 +1140,12 @@
                                                         <constraint firstAttribute="trailing" secondItem="zg4-Pc-aLA" secondAttribute="trailing" id="st4-Ya-Jcm"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="labelTime" destination="P7q-Di-1G2" id="qSX-Xj-4Jv"/>
                                                     <outlet property="textFieldSubject" destination="clW-aY-r4W" id="FOA-Mv-p3K"/>
                                                     <outlet property="textViewBody" destination="1nK-9A-AL8" id="fgJ-9c-Qih"/>
                                                     <outlet property="viewContainer" destination="zg4-Pc-aLA" id="CDB-WX-y3i"/>
-                                                    <outlet property="viewContainer_" destination="Taa-Rx-ctk" id="eB2-eY-8m9"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

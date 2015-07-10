@@ -80,6 +80,7 @@
                                       completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
                                           if (!error) {
                                               ModelGmailMessage *model = [[ModelGmailMessage alloc] initWithDictionary:data];
+                                              
                                               [self saveGmailMessageInRealm:model];
                                               
                                               ModelMessage *modelMessage = [[ModelMessage alloc] init];

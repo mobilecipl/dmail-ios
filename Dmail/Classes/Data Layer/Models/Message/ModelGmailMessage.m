@@ -16,8 +16,24 @@
     if (self) {
         
         _gmailId = dict[@"id"];
+        _snippet = dict[@"snippet"];
+        _publicKey = [self getPublicKeyFromSnippet:_snippet];
+        
     }
     
     return self;
 }
+
+- (NSString *)getPublicKeyFromSnippet:(NSString *)snippet {
+    
+    NSString *publicKey = @"";
+    
+    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey="];
+    if([array count] > 1) {
+        publicKey = [array objectAtIndex:1];
+    }
+    
+    return publicKey;
+}
+
 @end

@@ -12,7 +12,6 @@
 @interface MessageComposeCell ()
 
 @property (nonatomic, weak) IBOutlet UIView *viewContainer;
-@property (nonatomic, weak) IBOutlet UIView *viewContainer_;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
@@ -36,6 +35,8 @@
 - (void)configureCell {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    self.layer.cornerRadius = 5;
+    self.backgroundColor = [UIColor whiteColor];
     self.labelTime.hidden = YES;
     self.viewContainer.layer.cornerRadius = 5;
     self.heightTextViewBody = self.textViewBody.frame.size.height;
@@ -54,7 +55,8 @@
 - (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject internalDate:(double)internalDate {
     
     self.textViewBody.editable = NO;
-    self.viewContainer_.layer.cornerRadius = 5;
+    self.layer.cornerRadius = 5;
+    self.backgroundColor = [UIColor whiteColor];
     self.labelTime.hidden = NO;
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:internalDate/1000];
     self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
