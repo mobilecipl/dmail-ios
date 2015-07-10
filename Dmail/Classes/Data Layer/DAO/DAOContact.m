@@ -91,11 +91,43 @@ const NSInteger contactsUpdateTime = 12;
     }];
 }
 
-- (NSArray *)parseContactsWithDictionary:(NSDictionary *)dict {
+
+- (void)getGoogleContactsPhotos:(NSArray *)contacts {
+    
+    for (ContactModel *contactModel in contacts) {
+        
+    }
+}
+
+- (void)getContactsWithPagingForEmail:(NSString *)email
+                           startIndex:(NSString *)startIndex
+                            maxResult:(NSString *)maxResult
+                      completionBlock:(CompletionBlock)completionBlock {
+    
+    long long timestamp = 0;//get RMProfile
+    [self.networkContacts getContactsWithPagingForEmail:email
+                                             startIndex:startIndex
+                                              maxResult:maxResult
+                                        completionBlock:^(id data, ErrorDataModel *error) {
+                                            
+                                            if (!error) {
+                                                NSArray *contacts = [self parseContactsWithDictionary:(NSDictionary *)data];
+                                                
+                                                completionBlock(contacts, error);
+
+                                                
+                                            } else {
+                                                completionBlock(nil, error);
+                                            }
+                                        }];
+    
+}
+
+- (NSArray *)parseContactsWithDictionary:(NSDictionary *)data {
     
     //TODO: parse as JSONMODEL
     NSMutableArray *arrayModels = [[NSMutableArray alloc] init];
-    NSDictionary *dictFeed = dict[@"feed"];
+    NSDictionary *dictFeed = data[@"feed"];
     NSArray *entryFeed = dictFeed[@"entry"];
     for (NSDictionary *dict in entryFeed) {
         NSString *email;

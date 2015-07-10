@@ -19,6 +19,8 @@
 @property NSString *token;
 @property NSString *imageUrl;
 
+@property NSString *lastContactsUpdate;
+
 - (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate token:(NSString *)token;
 - (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 
