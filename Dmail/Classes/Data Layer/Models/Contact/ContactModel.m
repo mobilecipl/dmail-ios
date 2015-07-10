@@ -11,11 +11,18 @@
 
 @implementation ContactModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto {
+- (instancetype)initWithEmail:(NSString *)email
+                     fullName:(NSString *)fullName
+                    firstName:(NSString *)firstName
+                    lastName:(NSString *)lastName
+                    contactId:(NSString *)contactId
+                     urlPhoto:(NSString *)urlPhoto {
     
     self = [super init];
     if (self) {
         _email = email;
+        _firstName = firstName;
+        _lastName = lastName;
         _fullName = fullName;
         _contactId = contactId;
         _urlPhoto = urlPhoto;

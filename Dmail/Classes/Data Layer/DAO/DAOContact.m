@@ -54,7 +54,7 @@ const NSInteger contactsUpdateTime = 12;
     
     NSMutableArray *arrayContacts = [[NSMutableArray alloc] init];
     if(name.length > 0) {
-        NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"fullName CONTAINS [c] %@ OR email CONTAINS [c] %@", name, name];
+        NSPredicate *predicate =  [NSPredicate predicateWithFormat:@"firstName CONTAINS [c] %@ OR lastName CONTAINS [c] %@ OR email CONTAINS [c] %@", name, name, name];
         RLMResults *result = [RMModelContact objectsWithPredicate:predicate];
         for (RMModelContact *rmModel in result) {
             ContactModel *model = [[ContactModel alloc] initWithRMModel:rmModel];
@@ -99,6 +99,8 @@ const NSInteger contactsUpdateTime = 12;
     NSArray *entryFeed = dictFeed[@"entry"];
     for (NSDictionary *dict in entryFeed) {
         NSString *email;
+        NSString *firstName;
+        NSString *lastName;
         NSString *fullName;
         NSString *contactId;
         NSString *urlPhoto;
@@ -115,6 +117,12 @@ const NSInteger contactsUpdateTime = 12;
             NSDictionary *nameDict = dict[@"gd$name"];
             NSDictionary *fullNameDict = nameDict[@"gd$fullName"];
             fullName = fullNameDict[@"$t"];
+            
+            NSDictionary *lastNameDict = nameDict[@"gd$familyName"];
+            lastName = lastNameDict[@"$t"];
+            
+            NSDictionary *firstNameDict = nameDict[@"gd$givenName"];
+            firstName = firstNameDict[@"$t"];
         }
         if ([[dict allKeys] containsObject:@"id"]) {
             NSDictionary *idDict = dict[@"id"];
@@ -132,18 +140,10 @@ const NSInteger contactsUpdateTime = 12;
             }
         }
         
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName contactId:contactId urlPhoto:urlPhoto];
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto];
         if (model) {
             [arrayModels addObject:model];
         }
-    }
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
-    RMModelProfile *profile = [profiles firstObject];
-    ContactModel *model = [[ContactModel alloc] initWithEmail:profile.email fullName:profile.fullName contactId:profile.googleId urlPhoto:profile.imageUrl];
-    if (model) {
-        [arrayModels addObject:model];
     }
     
     return [NSArray arrayWithArray:arrayModels];

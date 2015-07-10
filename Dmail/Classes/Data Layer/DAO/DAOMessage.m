@@ -149,6 +149,7 @@
     RMModelDmailMessage *dmailMessage = [resultsDmailMessages firstObject];
     
     RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:gmailMessage.fromEmail];
+    RMModelProfile *profile = [RMModelProfile objectInRealm:realm forPrimaryKey:gmailMessage.fromEmail];
     
     ModelMessage *modelMessage = [[ModelMessage alloc] init];
     modelMessage.messageIdentifier = identifier;
@@ -166,8 +167,12 @@
     modelMessage.fromEmail = gmailMessage.fromEmail;
     
     NSString *imageUrl;
-    if (contact.imageUrl) {
-        imageUrl = contact.imageUrl;
+    if(profile.email && [modelMessage.fromEmail isEqualToString:profile.email]) {
+        imageUrl = profile.imageUrl;
+    }
+    else if (contact.imageUrl) {
+        NSString *token = profile.token;
+        imageUrl = [NSString stringWithFormat:@"%@?access_token=%@",contact.imageUrl,token];
     }
     
     modelMessage.imageUrl = imageUrl;

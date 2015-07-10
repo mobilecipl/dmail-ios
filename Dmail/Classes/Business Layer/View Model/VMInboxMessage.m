@@ -22,11 +22,9 @@
         
         self.internalDate = modelMessage.internalDate;
         
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate/1000];
         self.messageDate = [NSDate shortTimeAgoSinceDate:date];
-        
-        self.senderName = [self senderNameAttributedWithName:modelMessage.fromName withDate:self.messageDate];
-        self.senderEmail = modelMessage.fromEmail;
+        self.senderName = modelMessage.fromName;
         self.messageSubject = modelMessage.subject;
         self.messageIdentifier = modelMessage.messageIdentifier;
         self.read = modelMessage.read;
@@ -34,25 +32,6 @@
     }
     
     return self;
-}
-
-- (NSAttributedString *)senderNameAttributedWithName:(NSString *)name withDate:(NSString *)date{
-    
-    NSString *nameWithTime = [NSString stringWithFormat:@"%@   %@", name, date];
-    NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:nameWithTime];
-    if (nameWithTime.length > 1) {
-        NSRange range = [nameWithTime rangeOfString:@"   "];
-        NSRange timeRange;
-        timeRange.location = range.location + 3;
-        timeRange.length = 2;
-        if (range.location != NSNotFound) {
-            
-            [attributedText addAttribute: NSFontAttributeName value:[UIFont fontWithName:@"ProximaNova-Regular" size:12] range:timeRange];
-            [attributedText addAttribute: NSForegroundColorAttributeName value:[UIColor cellTimeColor] range:timeRange]; // if needed
-        }
-    }
-    
-    return attributedText;
 }
 
 @end

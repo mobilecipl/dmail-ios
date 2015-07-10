@@ -17,6 +17,9 @@
 // view model
 #import "VMInboxMessage.h"
 
+//Service
+#import "ServiceProfile.h"
+
 
 @interface ServiceMessage ()
 @property (nonatomic, strong) DAOMessage *daoMessage;
@@ -67,7 +70,6 @@
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
     for (ModelMessage *message in [self.daoMessage getInboxMessages]) {
-        
         VMInboxMessage *inboxMessageVM = [[VMInboxMessage alloc] initWithModel:message];
         if (inboxMessageVM) {
             [arrayItems addObject:inboxMessageVM];

@@ -36,6 +36,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.ttf">
             <string>ProximaNova-Semibold</string>
@@ -303,12 +304,22 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofd-Ik-d7g" userLabel="Name : Label">
-                                                                    <rect key="frame" x="45" y="16" width="280" height="14"/>
+                                                                    <rect key="frame" x="45" y="16" width="29" height="14"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="14" id="99a-De-TJ3"/>
+                                                                        <constraint firstAttribute="height" constant="14" id="QXQ-qC-ER1"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="12"/>
                                                                     <color key="textColor" red="0.47058823529411764" green="0.51764705882352935" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2d" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tqf-VL-6Cr" userLabel="Time : Label">
+                                                                    <rect key="frame" x="90" y="16" width="35" height="14"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="35" id="ShB-tS-ECP"/>
+                                                                        <constraint firstAttribute="height" constant="14" id="Tb7-m3-M8x"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="12"/>
+                                                                    <color key="textColor" red="0.75294117647058822" green="0.7803921568627451" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Y-as-aBr">
@@ -325,15 +336,17 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="Q2Y-as-aBr" secondAttribute="trailing" constant="35" id="9n6-Ih-QhL"/>
                                                                 <constraint firstItem="ccy-Zg-AcK" firstAttribute="leading" secondItem="URv-1U-B5Z" secondAttribute="leading" id="AD1-n1-082"/>
-                                                                <constraint firstItem="ofd-Ik-d7g" firstAttribute="leading" secondItem="Wel-IB-tql" secondAttribute="trailing" constant="5" id="KZJ-QM-Mrg"/>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tqf-VL-6Cr" secondAttribute="trailing" constant="9" id="D2f-ND-i8P"/>
                                                                 <constraint firstAttribute="bottom" secondItem="ccy-Zg-AcK" secondAttribute="bottom" constant="-2" id="Lug-gd-EKC"/>
                                                                 <constraint firstItem="Wel-IB-tql" firstAttribute="leading" secondItem="URv-1U-B5Z" secondAttribute="leading" constant="15" id="M4M-J7-9yP"/>
+                                                                <constraint firstItem="Q2Y-as-aBr" firstAttribute="top" secondItem="ofd-Ik-d7g" secondAttribute="bottom" constant="6" id="POQ-J9-TgB"/>
                                                                 <constraint firstItem="Wel-IB-tql" firstAttribute="top" secondItem="URv-1U-B5Z" secondAttribute="top" constant="10" id="ZfF-KJ-s0P"/>
-                                                                <constraint firstItem="ofd-Ik-d7g" firstAttribute="centerY" secondItem="Wel-IB-tql" secondAttribute="centerY" id="cC1-Uv-ypg"/>
                                                                 <constraint firstItem="Q2Y-as-aBr" firstAttribute="leading" secondItem="Wel-IB-tql" secondAttribute="trailing" constant="5" id="e1w-VD-Yck"/>
-                                                                <constraint firstAttribute="trailing" secondItem="ofd-Ik-d7g" secondAttribute="trailing" constant="50" id="eLO-gb-wMH"/>
+                                                                <constraint firstItem="Tqf-VL-6Cr" firstAttribute="leading" secondItem="ofd-Ik-d7g" secondAttribute="trailing" constant="17" id="gQv-gU-H75"/>
                                                                 <constraint firstItem="Q2Y-as-aBr" firstAttribute="top" secondItem="Wel-IB-tql" secondAttribute="bottom" constant="1" id="gv4-vi-ple"/>
                                                                 <constraint firstItem="ccy-Zg-AcK" firstAttribute="top" secondItem="URv-1U-B5Z" secondAttribute="top" id="lD2-hO-8uo"/>
+                                                                <constraint firstItem="Q2Y-as-aBr" firstAttribute="top" secondItem="Tqf-VL-6Cr" secondAttribute="bottom" constant="6" id="xBO-pF-3u5"/>
+                                                                <constraint firstItem="ofd-Ik-d7g" firstAttribute="leading" secondItem="Wel-IB-tql" secondAttribute="trailing" constant="5" id="zDG-HW-MKK"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset">
@@ -355,6 +368,7 @@
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="imageViewProfile" destination="Wel-IB-tql" id="DqW-BJ-oLT"/>
+                                                    <outlet property="labelDate" destination="Tqf-VL-6Cr" id="Nlf-wQ-6fO"/>
                                                     <outlet property="labelMessageSubject" destination="Q2Y-as-aBr" id="VTV-Jp-MYK"/>
                                                     <outlet property="labelSenderName" destination="ofd-Ik-d7g" id="p5p-nY-KZB"/>
                                                     <outlet property="viewBorder" destination="ccy-Zg-AcK" id="f8Q-AZ-FtQ"/>
@@ -1804,6 +1818,6 @@
         <segue reference="V8g-7x-DfO"/>
         <segue reference="msd-Ig-8Lo"/>
         <segue reference="Jjg-do-4sL"/>
-        <segue reference="COF-Ci-usR"/>
+        <segue reference="szA-Vv-gNz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -23,6 +23,7 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
 @property (weak, nonatomic) IBOutlet UIView *viewBorder;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelSenderName;
+@property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelMessageSubject;
 
 @end
@@ -37,26 +38,17 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     self.labelSenderName.translatesAutoresizingMaskIntoConstraints = NO;
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
+    self.labelSenderName.text = messageItem.senderName;
+    self.labelDate.text = messageItem.messageDate;
     self.labelMessageSubject.text = messageItem.messageSubject;
-    [self.labelSenderName setAttributedText:messageItem.senderName];
     if (messageItem.read) {
         self.viewBorder.hidden = YES;
     } else {
         
         self.viewBorder.hidden = NO;
     }
-    
-    NSString *imageUrl;
-    if([messageItem.senderEmail isEqualToString:[[ServiceProfile sharedInstance] email]]) {
-        imageUrl = [[ServiceProfile sharedInstance] imageUrl];
-    }
-    else {
-        NSString *token = [[ServiceProfile sharedInstance] token];
-        imageUrl = [NSString stringWithFormat:@"%@?access_token=%@",messageItem.imageUrl,token];
-    }
-    
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:imageUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:messageItem.imageUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         if (image) {
