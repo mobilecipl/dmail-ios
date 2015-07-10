@@ -174,10 +174,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     self.imageViewProfile.image = [UIImage imageNamed:@"imageProfile1"];
-    
-    self.toCellHeight = 57;
-    self.ccCellHeight = 57;
-    self.bccCellHeight = 57;
 }
 
 - (void)fillFields {
@@ -187,14 +183,20 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)createTableItems {
     
+    self.ccCellHeight = 0;
+    self.bccCellHeight = 0;
+    self.messageContentCellHeight = 450;
     if ([self.arrayTo count] > 0) {
         [self.arrayTableItems addObject:@"1"];
+        self.toCellHeight = 57;
     }
     if ([self.arrayCc count] > 0) {
+        self.ccCellHeight = 57;
         [self.arrayTableItems addObject:@"2"];
         [self.arrayTableItems addObject:@"3"];
     }
     if ([self.arrayBcc count] > 0) {
+        self.bccCellHeight = 57;
         if ([self.arrayCc count] > 0) {
         }
         else {
@@ -234,7 +236,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             rowHeight = self.toCellHeight;
         }
         else {
-            rowHeight = self.messageContentCellHeight;
+            rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
         }
     }
     else {
@@ -249,7 +251,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 rowHeight = self.bccCellHeight;
                 break;
             case 3:
-                rowHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
                 break;
             default:
                 break;

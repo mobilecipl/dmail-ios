@@ -35,10 +35,7 @@
 - (void)configureCell {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    self.layer.cornerRadius = 5;
-    self.backgroundColor = [UIColor whiteColor];
     self.labelTime.hidden = YES;
-    self.viewContainer.layer.cornerRadius = 5;
     self.heightTextViewBody = self.textViewBody.frame.size.height;
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -54,9 +51,9 @@
 
 - (void)configureCellWithBody:(NSString *)body subject:(NSString *)subject internalDate:(double)internalDate {
     
+    self.viewContainer.layer.masksToBounds = YES;
+    self.viewContainer.layer.cornerRadius = 5;
     self.textViewBody.editable = NO;
-    self.layer.cornerRadius = 5;
-    self.backgroundColor = [UIColor whiteColor];
     self.labelTime.hidden = NO;
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:internalDate/1000];
     self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
