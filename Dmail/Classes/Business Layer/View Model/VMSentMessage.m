@@ -21,7 +21,7 @@
         _messageSubject = model.subject;
         _internalDate = model.internalDate;
         _messageIdentifier = model.messageIdentifier;
-        
+        _imageUrl = model.imageUrl;
         _arrayTo = [model.to componentsSeparatedByString:@","];
         _arrayCc = [model.cc componentsSeparatedByString:@","];
         _arrayBcc = [model.bcc componentsSeparatedByString:@","];
