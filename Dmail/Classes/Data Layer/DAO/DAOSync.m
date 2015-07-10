@@ -62,19 +62,25 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     for (ModelDmailMessage *model in dataArray) {
-        if ([model.access isEqualToString:@"GRANTED"]) {
-            RMModelDmailMessage *realmModel = [[RMModelDmailMessage alloc] initWithModel:model];
-            // Add
-            [realm beginWriteTransaction];
-            [RMModelDmailMessage createOrUpdateInRealm:realm withValue:realmModel];
-            [realm commitWriteTransaction];
-        } else {
-            RMModelDmailMessage *realmModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.serverId];
-            // Delete all object with a transaction
-            if (realmModel) {
+        
+        RMModelDmailMessage *tempModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.serverId];
+        
+        if (!tempModel) {
+            
+            if ([model.access isEqualToString:@"GRANTED"]) {
+                RMModelDmailMessage *realmModel = [[RMModelDmailMessage alloc] initWithModel:model];
+                // Add
                 [realm beginWriteTransaction];
-                [realm deleteObject:realmModel];
+                [RMModelDmailMessage createOrUpdateInRealm:realm withValue:realmModel];
                 [realm commitWriteTransaction];
+            } else {
+                RMModelDmailMessage *realmModel = [RMModelDmailMessage objectInRealm:realm forPrimaryKey:model.serverId];
+                // Delete all object with a transaction
+                if (realmModel) {
+                    [realm beginWriteTransaction];
+                    [realm deleteObject:realmModel];
+                    [realm commitWriteTransaction];
+                }
             }
         }
     }

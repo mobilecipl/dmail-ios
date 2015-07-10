@@ -245,9 +245,13 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock {
     
-    NSDictionary *parameters = @{@"recipient_email" : recipientEmail, @"position" : position, @"count" : count};
+    NSDictionary *parameters = @{@"recipient_email" : recipientEmail,
+                                 @"position" : position,
+                                 @"count" : count,
+                                 @"bottom" : @(NO)};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"syncMessages JSON: %@", responseObject);
+        
+        NSLog(@"syncMessages JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
