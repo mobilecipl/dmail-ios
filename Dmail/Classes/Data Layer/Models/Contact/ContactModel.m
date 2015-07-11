@@ -16,8 +16,7 @@
                     firstName:(NSString *)firstName
                     lastName:(NSString *)lastName
                     contactId:(NSString *)contactId
-                     urlPhoto:(NSString *)urlPhoto
-                      updated:(NSDate *)updated {
+                     urlPhoto:(NSString *)urlPhoto {
     
     self = [super init];
     if (self) {
@@ -28,7 +27,7 @@
         _fullName = fullName;
         _contactId = contactId;
         _urlPhoto = urlPhoto;
-        _updated = updated;
+//        _updated = updated;
     }
     
     return self;

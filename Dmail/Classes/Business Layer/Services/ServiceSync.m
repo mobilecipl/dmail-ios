@@ -15,7 +15,6 @@
 // dao
 #import "DAOSync.h"
 #import "DAOMessage.h"
-#import "DAOContact.h"
 
 #import "ServiceProfile.h"
 #import "NetworkManager.h"
@@ -25,10 +24,10 @@
 
 @interface ServiceSync ()
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
+@property (nonatomic, strong) ServiceContact *serviceContact;
 
 @property (nonatomic, strong) DAOSync *daoSync;
 @property (nonatomic, strong) DAOMessage *daoMessage;
-@property (nonatomic, strong) DAOContact *daoContact;
 
 @property __block BOOL syncInProgressDmail;
 @property __block BOOL syncInProgressGmail;
@@ -63,9 +62,9 @@
         
         _daoSync = [[DAOSync alloc] init];
         _daoMessage = [[DAOMessage alloc] init];
-        _daoContact = [[DAOContact alloc] init];
         
         _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+        _serviceContact = [[ServiceContact alloc] init];
     }
     
     [self setupNotifications];
@@ -185,20 +184,25 @@
 
         NSString *email = [[ServiceProfile sharedInstance] email];
         
-        NSString *startIndex = @"1";
         NSString *maxResult = @"200";
         
         if (email) {
             
             @weakify(self);
-            [self.daoContact getContactsWithPagingForEmail:email
-                                                startIndex:startIndex
-                                                 maxResult:maxResult
-                                           completionBlock:^(id data, ErrorDataModel *error) {
-                                               
-                                               @strongify(self);
-                                               self.syncInProgressContact = NO;
-                                           }];
+            [self.serviceContact getContactsWithPagingForEmail:email
+                                                     maxResult:maxResult
+                                               completionBlock:^(NSArray *data, ErrorDataModel *error) {
+                                                   @strongify(self);
+                                                   if (error) {
+                                                       //fail
+                                                   } else {
+                                                       //finishLoading
+                                                       NSLog(@"syncGoogleContacts");
+                                                   }
+                                                   
+                                                   self.syncInProgressContact = NO;
+                                                   
+                                               }];
         } else {
             
             self.syncInProgressContact = NO;

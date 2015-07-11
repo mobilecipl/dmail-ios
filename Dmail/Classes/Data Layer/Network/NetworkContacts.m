@@ -25,11 +25,11 @@ static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&ma
     return self;
 }
 
-- (void)getContactsWithPagingForEmail:(NSString *)email
-                           startIndex:(NSString *)startIndex
-                            maxResult:(NSString *)maxResult
-                           updatedMin:(NSString *)updatedMin
-                      completionBlock:(CompletionBlock)completionBlock {
+- (void)getContactsForEmail:(NSString *)email
+                 startIndex:(NSString *)startIndex
+                  maxResult:(NSString *)maxResult
+                 updatedMin:(NSString *)updatedMin
+            completionBlock:(CompletionBlock)completionBlock {
     
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {

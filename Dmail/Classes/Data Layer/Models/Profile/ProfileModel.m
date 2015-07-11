@@ -11,7 +11,7 @@
 
 @implementation ProfileModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate token:(NSString *)token {
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSString *)contactLastUpdateDate token:(NSString *)token {
     
     self = [super init];
     if (self) {

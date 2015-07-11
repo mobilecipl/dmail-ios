@@ -13,7 +13,7 @@
 
 @interface RMModelProfile : AutoDefaultsRMLObject
 
-@property NSDate *contactLastUpdateDate;
+@property NSString *contactLastUpdateDate;
 @property NSString *email;
 @property NSString *fullName;
 @property NSString *googleId;

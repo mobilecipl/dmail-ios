@@ -12,7 +12,7 @@
 
 @interface ProfileModel : NSObject
 
-@property NSDate *contactLastUpdateDate;
+@property NSString *contactLastUpdateDate;
 @property NSString *email;
 @property NSString *fullName;
 @property NSString *googleId;
@@ -21,7 +21,7 @@
 
 @property NSString *lastContactsUpdate;
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSDate *)contactLastUpdateDate token:(NSString *)token;
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSString *)contactLastUpdateDate token:(NSString *)token;
 - (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 
 @end
