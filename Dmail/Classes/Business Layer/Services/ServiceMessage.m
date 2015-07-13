@@ -43,7 +43,6 @@
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
     for (ModelMessage *modelMessage in [self.daoMessage getInboxMessages]) {
-        
         VMInboxMessageItem *inboxMessageVM = [[VMInboxMessageItem alloc] initWithModel:modelMessage];
         if (inboxMessageVM) {
             [arrayItems addObject:inboxMessageVM];
@@ -57,7 +56,6 @@
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
     for (ModelMessage *modelMessage in [self.daoMessage getSentMessages]) {
-        
         VMSentMessageItem *sentMessageVM = [[VMSentMessageItem alloc] initWithModel:modelMessage];
         if (sentMessageVM) {
             [arrayItems addObject:sentMessageVM];
@@ -84,19 +82,28 @@
     return sentMessageVM;
 }
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
-                     completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage getMessageBodyWithIdentifier:(NSString *)messageIdentifier
-                                  completionBlock:^(id data, ErrorDataModel *error) {
-                                      
-                                      completionBlock(data, error);
-                                  }];
+    [self.daoMessage getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
+- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sendEncryptedMessage:encryptedMessage senderEmail:senderEmail completionBlock:^(id data, ErrorDataModel *error) {
+    [self.daoMessage sendMessage:messageBody completionBlock:^(id data, ErrorDataModel *error) {
+//        if (dmailId) {
+//            self.dmailId = dmailId;
+//            DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
+//            item.dmailId = dmailId;
+//            //Send Participants to Dmail ========== Success --> MessageSentParticipants
+//            self.arrayAllParticipants = [self createParticipantsArray:composeModelItem.arrayTo arrayCc:composeModelItem.arrayCc arrayBcc:composeModelItem.arrayBcc];
+//            self.index = 0;
+//            [self sendParticipantsWithArray:self.arrayAllParticipants composeModelItem:composeModelItem item:item];
+//        }
+//        else {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+//        }
         completionBlock(data, error);
     }];
 }
@@ -121,6 +128,7 @@
         completionBlock(data, error);
     }];
 }
+
 
 //- (void)deleteMessageWithMessageItem:(MessageItem *)item {
 //    

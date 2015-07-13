@@ -50,9 +50,12 @@
 
 
 #pragma mark - Public Methods
-- (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
+- (void)sendMessage:(NSString *)messageBody completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkMessage sendEncryptedMessage:encryptedMessage senderEmail:senderEmail completionBlock:^(id data, ErrorDataModel *error) {
+    NSString *encodedBody = [self encodeMessage:messageBody];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [self.networkMessage sendEncryptedMessage:encodedBody senderEmail:model.email completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }
@@ -137,6 +140,27 @@
                                      completionBlock(decodedMessage, error);
                                  }];
     }
+}
+
+- (NSString *)generatePublicKey {
+    
+    NSString *clientKey;
+    NSDate *date = [NSDate date];
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    clientKey = [NSString stringWithFormat:@"%f", timeInterval];
+    
+    return clientKey;
+}
+
+- (NSString *)encodeMessage:(NSString *)message {
+    
+    NSString *clientKey = [self generatePublicKey];
+    NSString *encryptedText = [message AES256EncryptWithKey:clientKey];
+    if (!encryptedText) {
+        encryptedText = @"";
+    }
+    
+    return encryptedText;
 }
 
 - (NSString *)decodeMessage:(NSString *)encodedMessage key:(NSString *)publicKey{

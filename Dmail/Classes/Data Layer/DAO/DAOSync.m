@@ -14,11 +14,13 @@
 // model
 //#import "ModelDmailMessage.h"
 #import "ModelMessage.h"
+#import "ModelRecipient.h"
 
 
 // local
 #import <Realm.h>
 #import "RMModelMessage.h"
+#import "RMModelRecipient.h"
 
 @interface DAOSync ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;

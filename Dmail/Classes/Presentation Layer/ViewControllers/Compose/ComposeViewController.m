@@ -18,6 +18,8 @@
 #import "DAOContact.h"
 #import "ContactModel.h"
 
+#import "ServiceMessage.h"
+
 
 @interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
 
@@ -25,6 +27,8 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
+
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
 
 @property (nonatomic, strong) NSMutableArray *arrayTableItems;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
@@ -48,6 +52,15 @@
 
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceMessage = [[ServiceMessage alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -78,8 +91,11 @@
     [self.view endEditing:YES];
     if ([self.arrayTo count] > 0 && !self.backClicked) {
         [self showLoadingView];
-        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject body:self.messageBody arrayTo:self.arrayTo arrayCC:self.arrayCc arrayBCC:self.arrayBcc];
-        [self.composeModel sendMessageWithItem:composeModelItem];
+//        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject body:self.messageBody arrayTo:self.arrayTo arrayCC:self.arrayCc arrayBCC:self.arrayBcc];
+//        [self.composeModel sendMessageWithItem:composeModelItem];
+        [self.serviceMessage sendMessage:self.messageBody messageSubject:self.messageSubject to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
+            
+        }];
     }
 }
 

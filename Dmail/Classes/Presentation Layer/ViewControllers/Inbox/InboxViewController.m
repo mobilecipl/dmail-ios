@@ -50,7 +50,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-
         _serviceMessage = [[ServiceMessage alloc] init];
     }
     return self;

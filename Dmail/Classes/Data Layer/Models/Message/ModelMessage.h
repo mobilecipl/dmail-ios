@@ -20,7 +20,7 @@
 @property (nonatomic) NSString *gmailId;
 @property (nonatomic) NSString *access;
 @property long long position;
-@property NSString *type;
+@property (nonatomic) NSString *type;
 
 
 //Gmail
