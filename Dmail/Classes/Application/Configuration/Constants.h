@@ -51,7 +51,8 @@ typedef NS_ENUM(NSInteger, MessageType) {
 };
 
 typedef NS_ENUM(NSInteger, MessageStatus) {
-    MessageFetchedOnlyIds = 1,
+    MessageFetchedOnlyDmailIds = 1,
+    MessageFetchedOnlyGmailIds,
     MessageFetchedFull,
     MessageSentOnlyBody,
     MessageSentParticipants,

@@ -12,19 +12,51 @@
 
 @implementation ModelMessage
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    
+    self = [super initWithDictionary:dict];
+    if (self) {
+        _gmailId = dict[@"id"];
+        _snippet = dict[@"snippet"];
+        _publicKey = [self getPublicKeyFromSnippet:_snippet];
+        
+    }
+    
+    return self;
+}
+
 - (instancetype)initWithRealm:(RMModelMessage *)realm {
     
     self = [super init];
     if (self) {
+        _serverId = realm.serverId;
+        _messageId = realm.messageId;
+        _messageIdentifier = realm.messageIdentifier;
+        _access = realm.access;
+        _position = realm.position;
+        _type = realm.type;
         
+        _gmailId = realm.gmailId;
         _fromName = realm.fromName;
         _fromEmail = realm.fromEmail;
         _subject = realm.subject;
         _internalDate = realm.internalDate;
         _publicKey = realm.publicKey;
-        _messageIdentifier = realm.messageIdentifier;
         _read = realm.read;
     }
     return self;
 }
+
+- (NSString *)getPublicKeyFromSnippet:(NSString *)snippet {
+    
+    NSString *publicKey = @"";
+    
+    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey="];
+    if([array count] > 1) {
+        publicKey = [array objectAtIndex:1];
+    }
+    
+    return publicKey;
+}
+
 @end

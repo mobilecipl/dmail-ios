@@ -10,20 +10,12 @@
 
 @interface ServiceGmailMessage : BaseService
 
-- (void)getMessageIdWithUniqueId:(NSString *)uniqueId
-                          userId:(NSString *)userID
-                 completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock;
 
-- (void)getMessageWithMessageId:(NSString *)messageId
-                         userId:(NSString *)userID
-                completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
 
-- (void)sendWithEncodedBody:(NSString *)encodedBody
-                     userId:(NSString *)userID
-            completionBlock:(CompletionBlock)completionBlock;
+- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
 
-- (void)deleteWithGmailId:(NSString *)gmailId
-                   userId:(NSString *)userID
-          completionBlock:(CompletionBlock)completionBlock;
+- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
 
 @end

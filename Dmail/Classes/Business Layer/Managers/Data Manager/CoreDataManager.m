@@ -268,27 +268,27 @@ static NSString * const EntityProfile = @"Profile";
     return gmailMessage;
 }
 
-- (DmailMessage *)getLastValidMessage {
-    
-    DmailMessage *dmailMessage = nil;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"access like %@ AND status == %d",AccessTypeGaranted, MessageFetchedOnlyIds];
-    [fetchRequest setPredicate:predicate];
-    
-    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:Position ascending:NO selector:nil];
-    [fetchRequest setSortDescriptors:@[descendingSort]];
-    
-    NSError *error = nil;
-    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    if ([fetchedMessages count] > 0) {
-        dmailMessage = [fetchedMessages firstObject];
-    }
-    
-    return dmailMessage;
-}
+//- (DmailMessage *)getLastValidMessage {
+//    
+//    DmailMessage *dmailMessage = nil;
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:EntityDmailMessage inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entityDescription];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"access like %@ AND status == %d",AccessTypeGaranted, MessageFetchedOnlyIds];
+//    [fetchRequest setPredicate:predicate];
+//    
+//    NSSortDescriptor *descendingSort = [[NSSortDescriptor alloc] initWithKey:Position ascending:NO selector:nil];
+//    [fetchRequest setSortDescriptors:@[descendingSort]];
+//    
+//    NSError *error = nil;
+//    NSArray *fetchedMessages = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//    if ([fetchedMessages count] > 0) {
+//        dmailMessage = [fetchedMessages firstObject];
+//    }
+//    
+//    return dmailMessage;
+//}
 
 - (DmailMessage *)getLastRevokedMessage {
     

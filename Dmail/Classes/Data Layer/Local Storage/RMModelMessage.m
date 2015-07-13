@@ -1,5 +1,5 @@
 //
-//  RMModelMessage.m
+//  RMModelMessage.
 //  Dmail
 //
 //  Created by Armen Mkrtchian on 7/9/15.
@@ -13,28 +13,34 @@
 
 + (NSString *)primaryKey {
     
-    return @"messageIdentifier";
+    return @"serverId";
 }
 
 - (instancetype)initWithModel:(ModelMessage *)modelMessage {
     
     self = [super init];
     if (self) {
+        self.serverId = modelMessage.serverId;
+        self.messageId = modelMessage.messageId;
         self.messageIdentifier = modelMessage.messageIdentifier;
-        self.dmailId = modelMessage.dmailId;
         self.gmailId = modelMessage.gmailId;
         self.type = modelMessage.type;
+        self.access = modelMessage.access;
+        self.position = modelMessage.position;
         
-        self.read = NO;
+        self.body = modelMessage.body;
         self.internalDate = modelMessage.internalDate;
         self.to = modelMessage.to;
-//        self.cc = gmailMessage.cc;
-//        self.bcc = gmailMessage.bcc;
-        
+        self.cc = modelMessage.cc;
+        self.bcc = modelMessage.bcc;
+        self.snippet = modelMessage.snippet;
         self.publicKey = modelMessage.publicKey;
         self.subject = modelMessage.subject;
         self.fromName = modelMessage.fromName;
         self.fromEmail = modelMessage.fromEmail;
+        
+        self.status = modelMessage.status;
+        self.read = NO;
     }
     
     return self;

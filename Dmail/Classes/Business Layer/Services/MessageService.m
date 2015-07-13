@@ -102,7 +102,7 @@
             else if([dict[Type] isEqualToString:@"TO"]) {
                 dmailEntityItem.label = Inbox;
             }
-            dmailEntityItem.status = MessageFetchedOnlyIds;
+            dmailEntityItem.status = MessageFetchedOnlyDmailIds;
             [arrayParsedItems addObject:dmailEntityItem];
         }
     }

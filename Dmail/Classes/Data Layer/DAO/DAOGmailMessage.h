@@ -10,9 +10,7 @@
 
 @interface DAOGmailMessage : BaseDAO
 
-- (void)getMessageIdWithUniqueId:(NSString *)uniqueId
-                          userId:(NSString *)userID
-                 completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageIdWithUniqueId:(NSString *)uniqueId userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock;
 
 - (void)getMessageWithMessageId:(NSString *)messageId
                          userId:(NSString *)userID

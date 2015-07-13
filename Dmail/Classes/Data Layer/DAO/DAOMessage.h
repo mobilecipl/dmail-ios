@@ -9,6 +9,7 @@
 #import "BaseDAO.h"
 
 @class ModelMessage;
+@class RMModelMessage;
 
 @interface DAOMessage : BaseDAO
 
@@ -19,9 +20,9 @@
 - (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier;
 
 - (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
-                           completionBlock:(CompletionBlock)completionBlock;
+                     completionBlock:(CompletionBlock)completionBlock;
 
-- (NSString *)getLastGmailUniqueId;
+- (RMModelMessage *)getLastGmailUniqueId;
 
 - (NSString *)getLastGmailMessageId;
 
@@ -34,7 +35,7 @@
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail
                        key:(NSString *)key
-            recipientType:(NSString *)recipientType
+             recipientType:(NSString *)recipientType
                  messageId:(NSString *)messageId
            completionBlock:(CompletionBlock)completionBlock;
 

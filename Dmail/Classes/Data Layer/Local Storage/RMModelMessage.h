@@ -12,26 +12,32 @@
 
 @interface RMModelMessage : AutoDefaultsRMLObject
 
+@property NSInteger status;
+
+//Dmail
+@property NSString *messageId;
 @property NSString *serverId;
-@property NSString *access;
-@property NSString *dmailId;
 @property NSString *messageIdentifier;
 @property NSString *gmailId;
+@property NSString *access;
 
-@property NSString *subject;
-@property NSString *body;
 
-@property NSString *publicKey;
-
-@property BOOL read;
-@property long long position;
+// Gmail
 @property long long internalDate;
-@property NSString *type;
+@property NSString *snippet;
 @property NSString *fromName;
 @property NSString *fromEmail;
 @property NSString *to;
 @property NSString *cc;
 @property NSString *bcc;
+@property NSString *subject;
+@property NSString *publicKey;
+
+
+@property NSString *body;
+@property BOOL read;
+@property long long position;
+@property NSString *type;
 
 - (instancetype)initWithModel:(ModelMessage *)modelMessage;
 

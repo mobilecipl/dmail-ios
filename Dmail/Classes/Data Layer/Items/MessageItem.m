@@ -7,22 +7,9 @@
 //
 
 #import "MessageItem.h"
-#import "RMModelGmailMessage.h"
 #import "DAOContact.h"
 
 @implementation MessageItem
-
-- (instancetype)initWithRealmModel:(RMModelGmailMessage *)rmModel {
-    
-    self = [super init];
-    if (self) {
-//        self.dmailId = rmModel.dmailId;
-//        self.identifier = rmModel.identifier;
-//        self.subject = rmModel.subject;
-    }
-    
-    return self;
-}
 
 - (void)createRecipients {
     

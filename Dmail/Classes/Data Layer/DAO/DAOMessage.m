@@ -24,8 +24,7 @@
 // Realm
 #import <Realm/Realm.h>
 #import "RMModelMessage.h"
-#import "RMModelDmailMessage.h"
-#import "RMModelGmailMessage.h"
+#import "RMModelMessage.h"
 #import "RMModelContact.h"
 #import "RMModelProfile.h"
 
@@ -83,16 +82,13 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     // TODO: get only inbox messages
-    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"access = %@ AND type = %@", @"GRANTED", @"TO"]
-                            sortedResultsUsingProperty:@"position" ascending:NO];
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"access = %@ AND type = %@", @"GRANTED", @"TO"] sortedResultsUsingProperty:@"position" ascending:NO];
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    
     for (RMModelMessage *rmMessage in messages) {
-        
         ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:nil toEmail:model.email];
         if (modelMessage) {
             [arrayItems addObject:modelMessage];
@@ -107,16 +103,11 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     // TODO: get only sent messages
-    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"type = %@", @"SENDER"]
-                            sortedResultsUsingProperty:@"position" ascending:NO];
-    
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"type = %@", @"SENDER"] sortedResultsUsingProperty:@"position" ascending:NO];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
-    
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    
     for (RMModelMessage *rmMessage in messages) {
-        
         ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:model.email toEmail:nil];
         if (modelMessage) {
             [arrayItems addObject:modelMessage];
@@ -126,20 +117,15 @@
     return arrayItems;
 }
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier
-                           completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
-    
     ModelMessage *modelMessage = [self getMessageWithIdentifier:messageIdentifier];
     if (model) {
-        
-        [self.networkMessage getEncryptedMessage:modelMessage.dmailId
+        [self.networkMessage getEncryptedMessage:modelMessage.messageId
                                   recipientEmail:model.email
                                  completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
-                                     
-                                     
                                      NSLog(@"%@", data);
                                      NSString *encodedMessage = data[@"encrypted_message"];
                                      NSString *decodedMessage;
@@ -147,7 +133,7 @@
                                      //TODO: get public key and decode
                                      NSString *publicKey = modelMessage.publicKey;
                                      decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
-
+                                     
                                      completionBlock(decodedMessage, error);
                                  }];
     }
@@ -167,29 +153,23 @@
 - (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier fromEmail:(NSString *)fromEmail toEmail:(NSString *)toEmail {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    
     NSPredicate *predicate;
-    
     if (fromEmail) {
-        
         predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@ AND fromEmail = %@", identifier, fromEmail];
     }  else if(toEmail) {
-        
         predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@ AND to CONTAINS[c] %@", identifier, toEmail];
     } else {
-    
         predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@", identifier];
     }
     
-    RLMResults *resultsGmailMessages = [RMModelGmailMessage objectsInRealm:realm withPredicate:predicate];
-    RMModelGmailMessage *gmailMessage = [resultsGmailMessages firstObject];
+    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
+    RMModelMessage *gmailMessage = [resultsGmailMessages firstObject];
     
     ModelMessage *modelMessage = nil;
     
     if (gmailMessage) {
-        
-        RLMResults *resultsDmailMessages = [RMModelDmailMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
-        RMModelDmailMessage *dmailMessage = [resultsDmailMessages firstObject];
+        RLMResults *resultsDmailMessages = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+        RMModelMessage *dmailMessage = [resultsDmailMessages firstObject];
         
         RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:gmailMessage.fromEmail];
         
@@ -199,13 +179,13 @@
         modelMessage = [[ModelMessage alloc] init];
         modelMessage.messageIdentifier = identifier;
         modelMessage.internalDate = gmailMessage.internalDate;
-        modelMessage.dmailId = dmailMessage.dmailId;
+        modelMessage.messageId = dmailMessage.messageId;
         modelMessage.gmailId = dmailMessage.gmailId;
         modelMessage.type = dmailMessage.type;
         modelMessage.read = gmailMessage.read;
         modelMessage.to = gmailMessage.to;
-//        self.cc = gmailMessage.cc;
-//        self.bcc = gmailMessage.bcc;
+        //        self.cc = gmailMessage.cc;
+        //        self.bcc = gmailMessage.bcc;
         
         modelMessage.subject = gmailMessage.subject;
         modelMessage.fromName = gmailMessage.fromName;
@@ -231,24 +211,13 @@
 }
 
 
-- (NSString *)getLastGmailUniqueId {
-    
-    NSString *gmailUniqueId = nil;
+- (RMModelMessage *)getLastGmailUniqueId {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"access = %@ AND gmailId = ''", @"GRANTED"] sortedResultsUsingProperty:@"position" ascending:NO];
+    RMModelMessage *message = [messages firstObject];
     
-    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"access = %@ AND gmailId = ''", @"GRANTED"]
-                            sortedResultsUsingProperty:@"position" ascending:NO];
-    
-    for (RMModelDmailMessage *dmailMessage in messages) {
-        
-        // get first result
-        gmailUniqueId = dmailMessage.messageIdentifier;
-        break;
-    }
-
-    
-    return gmailUniqueId;
+    return message;
 }
 
 - (NSString *)getLastGmailMessageId {
@@ -256,21 +225,9 @@
     NSString *gmailMessageId = nil;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    
-    RLMResults *messages = [[RMModelDmailMessage objectsInRealm:realm where:@"gmailId != ''"]
-                            sortedResultsUsingProperty:@"position" ascending:NO];
-    
-    for (RMModelDmailMessage *dmailMessage in messages) {
-        
-        RMModelGmailMessage *gmailMessage = [RMModelGmailMessage objectInRealm:realm forPrimaryKey:dmailMessage.gmailId];
-        
-        if (!gmailMessage) {
-            // get first result
-            gmailMessageId = dmailMessage.gmailId;
-            break;
-        }
-    }
-    
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"gmailId != ''"] sortedResultsUsingProperty:@"position" ascending:NO];
+    RMModelMessage *message = [messages firstObject];
+    gmailMessageId = message.gmailId;
     
     return gmailMessageId;
 }
@@ -278,19 +235,13 @@
 - (NSNumber *)getLastDmailPosition {
     
     NSNumber *position = @0;
-    
     RLMRealm *realm = [RLMRealm defaultRealm];
-    
-    RLMResults *messages = [[RMModelDmailMessage allObjectsInRealm:realm]
-                            sortedResultsUsingProperty:@"position" ascending:NO];
-    
-    for (RMModelDmailMessage *dmailMessage in messages) {
-        
+    RLMResults *messages = [[RMModelMessage allObjectsInRealm:realm] sortedResultsUsingProperty:@"position" ascending:NO];
+    for (RMModelMessage *dmailMessage in messages) {
         // get first result
         position = @(dmailMessage.position);
         break;
     }
-    
     
     return position;
 }
