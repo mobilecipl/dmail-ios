@@ -13,7 +13,7 @@
 
 + (NSString *)primaryKey {
     
-    return @"serverId";
+    return @"messageId";
 }
 
 - (instancetype)initWithModel:(ModelMessage *)modelMessage {

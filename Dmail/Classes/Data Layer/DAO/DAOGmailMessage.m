@@ -113,6 +113,7 @@
     rmMessage.fromEmail = modelGmailMessage.payload.fromEmail;
     rmMessage.to = modelGmailMessage.payload.to;
     rmMessage.publicKey = modelGmailMessage.publicKey;
+    rmMessage.internalDate = [modelGmailMessage.internalDate longLongValue];
     rmMessage.status = MessageFetchedFull;
     [realm commitWriteTransaction];
 }

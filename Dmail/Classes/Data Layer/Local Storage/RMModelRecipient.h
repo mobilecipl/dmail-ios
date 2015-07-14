@@ -10,11 +10,15 @@
 
 @interface RMModelRecipient : AutoDefaultsRMLObject
 
-@property NSString *messageId;
-@property NSString *serverId;
 @property NSString *access;
+@property NSString *messageId;
+@property NSString *messageIdentifier;
+@property NSString *recipient;
+@property NSString *serverId;
+@property NSString *type;
+@property long long position;
+
 @property NSString *name;
 @property NSString *email;
-@property NSString *type;
 
 @end

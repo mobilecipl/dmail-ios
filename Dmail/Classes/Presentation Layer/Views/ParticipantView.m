@@ -44,7 +44,7 @@ CGFloat fontSize = 12.5;
     return self;
 }
 
-- (void)createForSent:(BOOL)forSent {
+- (void)createForSent:(BOOL)forSent withAccess:(NSString *)access {
     
     self.forSentScreen = forSent;
     
@@ -71,6 +71,14 @@ CGFloat fontSize = 12.5;
     buttonRevoke.center = CGPointMake(buttonRevoke.center.x, buttonRevoke.center.y);
     [buttonRevoke addTarget:self action:@selector(closeClicked) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:buttonRevoke];
+    
+    if ([access isEqualToString:@"REVOKED"]) {
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
+        line.backgroundColor = [UIColor revokedParticipantColor];
+        self.backgroundColor = [UIColor clearColor];
+        labelSenderName.textColor = [UIColor revokedParticipantColor];
+        buttonRevoke.hidden = YES;
+    }
 }
 
 - (void)closeClicked {

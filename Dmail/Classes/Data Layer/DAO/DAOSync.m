@@ -43,29 +43,25 @@
         if (!error) {
             NSArray *recipients = data[@"recipients"];
             if ([recipients isKindOfClass:[NSArray class]]) {
-                NSMutableArray *dataArray = [@[] mutableCopy];
+                NSMutableArray *arrayRecipients = [@[] mutableCopy];
+                NSMutableArray *arrayMessages = [@[] mutableCopy];
+                BOOL success = NO;
                 for (NSDictionary *dict in recipients) {
-                    ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
-                    message.status = MessageFetchedOnlyDmailIds;
+                    ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:dict];
+                    [self saveRecipient:recipient];
+                    
                     RLMRealm *realm = [RLMRealm defaultRealm];
-                    RMModelMessage *tempModel = [RMModelMessage objectInRealm:realm forPrimaryKey:message.serverId];
-                    if (tempModel) {
-                        ModelMessage *tempMessage = [[ModelMessage alloc] initWithRealm:tempModel];
-                        message.gmailId = tempMessage.gmailId;
-                        if (message) {
-                            [dataArray addObject:tempMessage];
-                        }
-                    } else {
-                        if (message) {
-                            [dataArray addObject:message];
-                        }
+                    ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
+                    RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
+                    if (!tempMessage) {
+                        success = YES;
+                        [self saveMessage:message];
                     }
                 }
-                if (dataArray.count > 0) {
-                    [self saveRecipientsInRealm:dataArray];
-                    completionBlock(@(YES), nil);
+                if (arrayRecipients.count > 0 || arrayMessages.count > 0) {
+                    completionBlock(@(success), nil);
                 } else {
-                    completionBlock(@(NO), nil);
+                    completionBlock(@(success), nil);
                 }
             }
         } else {
@@ -74,26 +70,46 @@
     }];
 }
 
-- (void)saveRecipientsInRealm:(NSArray *)dataArray {
+- (void)saveMessage:(ModelMessage *)modelMessage {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    for (ModelMessage *model in dataArray) {
-        if ([model.access isEqualToString:@"GRANTED"]) {
-            RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:model];
-            // Add
+    if ([modelMessage.access isEqualToString:@"GRANTED"]) {
+        RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:modelMessage];
+        // Add
+        [realm beginWriteTransaction];
+        [RMModelMessage createInRealm:realm withValue:realmModel];
+        [realm commitWriteTransaction];
+    } else {
+        RMModelMessage *realmModel = [RMModelMessage objectInRealm:realm forPrimaryKey:modelMessage.messageId];
+        // Delete all object with a transaction
+        if (realmModel) {
             [realm beginWriteTransaction];
-            [RMModelMessage createOrUpdateInRealm:realm withValue:realmModel];
+            [realm deleteObject:realmModel];
             [realm commitWriteTransaction];
-        } else {
-            RMModelMessage *realmModel = [RMModelMessage objectInRealm:realm forPrimaryKey:model.serverId];
-            // Delete all object with a transaction
-            if (realmModel) {
-                [realm beginWriteTransaction];
-                [realm deleteObject:realmModel];
-                [realm commitWriteTransaction];
-            }
         }
     }
+}
+
+- (void)saveRecipient:(ModelRecipient *)moderlrecipient {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    if ([moderlrecipient.access isEqualToString:@"GRANTED"]) {
+        RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
+        // Add
+        [realm beginWriteTransaction];
+        [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
+        [realm commitWriteTransaction];
+    } else {
+        RMModelRecipient *realmModel = [RMModelRecipient objectInRealm:realm forPrimaryKey:moderlrecipient.serverId];
+        // Delete all object with a transaction
+        if (realmModel) {
+            [realm beginWriteTransaction];
+            [realm deleteObject:realmModel];
+            [realm commitWriteTransaction];
+        }
+    }
+    
+    
 }
 
 @end

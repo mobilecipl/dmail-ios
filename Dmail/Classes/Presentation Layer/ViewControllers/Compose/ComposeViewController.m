@@ -91,11 +91,11 @@
     [self.view endEditing:YES];
     if ([self.arrayTo count] > 0 && !self.backClicked) {
         [self showLoadingView];
-//        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject body:self.messageBody arrayTo:self.arrayTo arrayCC:self.arrayCc arrayBCC:self.arrayBcc];
-//        [self.composeModel sendMessageWithItem:composeModelItem];
-        [self.serviceMessage sendMessage:self.messageBody messageSubject:self.messageSubject to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
-            
-        }];
+        ComposeModelItem *composeModelItem = [[ComposeModelItem alloc] initWithSubject:self.messageSubject body:self.messageBody arrayTo:self.arrayTo arrayCC:self.arrayCc arrayBCC:self.arrayBcc];
+        [self.composeModel sendMessageWithItem:composeModelItem];
+//        [self.serviceMessage sendMessage:self.messageBody messageSubject:self.messageSubject to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
+//            
+//        }];
     }
 }
 

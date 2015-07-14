@@ -25,6 +25,7 @@
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
 		9C607D8C1B53E76600464883 /* ModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8B1B53E76600464883 /* ModelRecipient.m */; };
+		9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8E1B540F8600464883 /* ModelSentMessage.m */; };
 		9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C60DC011B4FB2090081DFF9 /* ModelMessage.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
 		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
@@ -177,6 +178,8 @@
 		9C607D881B53E6B700464883 /* RMModelRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelRecipient.m; sourceTree = "<group>"; };
 		9C607D8A1B53E76600464883 /* ModelRecipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelRecipient.h; sourceTree = "<group>"; };
 		9C607D8B1B53E76600464883 /* ModelRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelRecipient.m; sourceTree = "<group>"; };
+		9C607D8D1B540F8600464883 /* ModelSentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelSentMessage.h; sourceTree = "<group>"; };
+		9C607D8E1B540F8600464883 /* ModelSentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelSentMessage.m; sourceTree = "<group>"; };
 		9C60DC001B4FB2090081DFF9 /* ModelMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelMessage.h; sourceTree = "<group>"; };
 		9C60DC011B4FB2090081DFF9 /* ModelMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelMessage.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
@@ -1237,6 +1240,8 @@
 				9C60DC011B4FB2090081DFF9 /* ModelMessage.m */,
 				9C607D8A1B53E76600464883 /* ModelRecipient.h */,
 				9C607D8B1B53E76600464883 /* ModelRecipient.m */,
+				9C607D8D1B540F8600464883 /* ModelSentMessage.h */,
+				9C607D8E1B540F8600464883 /* ModelSentMessage.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1483,6 +1488,7 @@
 				C00B20EA1B50113100D892DA /* VMSentMessage.m in Sources */,
 				C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */,
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
+				9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
 				C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */,

@@ -20,6 +20,7 @@
 #import "ServiceProfile.h"
 #import "NetworkManager.h"
 #import "RMModelMessage.h"
+#import "RMModelRecipient.h"
 
 // dao
 //#import "DAOSync.h"

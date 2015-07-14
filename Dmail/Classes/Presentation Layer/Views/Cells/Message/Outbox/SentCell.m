@@ -33,7 +33,7 @@ NSString *const SentCellIdentifier = @"SentCellIdentifier";
     self.labelMessageSubject.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.labelMessageSubject.text = messageItem.messageSubject;
-    self.labelSenderName.text = messageItem.senderName;
+    self.labelSenderName.text = messageItem.recipientName;
     self.labelDate.text = messageItem.messageDate;
 }
 

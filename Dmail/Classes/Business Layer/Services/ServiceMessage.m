@@ -16,6 +16,7 @@
 
 // model
 #import "ModelMessage.h"
+#import "ModelSentMessage.h"
 
 // view model
 #import "VMInboxMessageItem.h"
@@ -55,8 +56,8 @@
 - (NSArray *)getSentMessages {
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (ModelMessage *modelMessage in [self.daoMessage getSentMessages]) {
-        VMSentMessageItem *sentMessageVM = [[VMSentMessageItem alloc] initWithModel:modelMessage];
+    for (ModelSentMessage *modelSentMessage in [self.daoMessage getSentMessages]) {
+        VMSentMessageItem *sentMessageVM = [[VMSentMessageItem alloc] initWithModel:modelSentMessage];
         if (sentMessageVM) {
             [arrayItems addObject:sentMessageVM];
         }

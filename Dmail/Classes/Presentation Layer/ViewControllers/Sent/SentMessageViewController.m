@@ -280,7 +280,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 0: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -305,7 +305,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -314,7 +314,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 1: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -323,7 +323,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 2: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;

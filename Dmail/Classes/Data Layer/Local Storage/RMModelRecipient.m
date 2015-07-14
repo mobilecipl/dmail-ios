@@ -11,13 +11,21 @@
 
 @implementation RMModelRecipient
 
++ (NSString *)primaryKey {
+    
+    return @"serverId";
+}
+
 - (instancetype)initWithModel:(ModelRecipient *)modelRecipient {
     
     self = [super init];
     if (self) {
-        self.messageId = modelRecipient.messageId;
-        self.serverId = modelRecipient.serverId;
         self.access = modelRecipient.access;
+        self.messageId = modelRecipient.messageId;
+        self.messageIdentifier = modelRecipient.messageIdentifier;
+        self.serverId = modelRecipient.serverId;
+        self.recipient = modelRecipient.recipient;
+        self.position = modelRecipient.position;
         self.name = modelRecipient.name;
         self.email = modelRecipient.email;
         self.type = modelRecipient.type;

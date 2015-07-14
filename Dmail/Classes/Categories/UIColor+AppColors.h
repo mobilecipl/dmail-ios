@@ -14,6 +14,7 @@
 + (UIColor *)borderColor;
 + (UIColor *)cellSelected;
 + (UIColor *)participantsColor;
++ (UIColor *)revokedParticipantColor;
 + (UIColor *)cellTimeColor;
 + (UIColor *)cellDeleteButtonColor;
 

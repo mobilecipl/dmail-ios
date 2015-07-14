@@ -97,9 +97,7 @@
         [cell configureCell:item];
     };
     
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
-                                                       cellIdentifier:SentCellIdentifier
-                                                   configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:SentCellIdentifier configureCellBlock:configureCell];
     self.dataSourceInbox.delegate = self;
     self.tableViewSent.allowsMultipleSelectionDuringEditing = NO;
     
@@ -170,6 +168,7 @@
         SentMessageViewController *sentMessageVC = (SentMessageViewController *)segue.destinationViewController;
         if ([sentMessageVC isKindOfClass:[SentMessageViewController class]]) {
             sentMessageVC.messageIdentifier = self.selectedMessage.messageIdentifier;
+            sentMessageVC.messageId = self.selectedMessage.messageId;
         }
     }
 }

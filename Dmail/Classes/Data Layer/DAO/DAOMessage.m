@@ -17,6 +17,7 @@
 // model
 #import "ModelMessage.h"
 #import "ProfileModel.h"
+#import "ModelSentMessage.h"
 
 // view model
 #import "VMInboxMessageItem.h"
@@ -24,7 +25,7 @@
 // Realm
 #import <Realm/Realm.h>
 #import "RMModelMessage.h"
-#import "RMModelMessage.h"
+#import "RMModelRecipient.h"
 #import "RMModelContact.h"
 #import "RMModelProfile.h"
 
@@ -106,18 +107,52 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     // TODO: get only sent messages
-    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"type = %@", @"SENDER"] sortedResultsUsingProperty:@"position" ascending:NO];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
-    ProfileModel *model = [daoProfile getProfile];
+    ProfileModel *modelProfile = [daoProfile getProfile];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"SENDER", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelMessage *rmMessage in messages) {
-        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:model.email toEmail:nil];
+    for (RMModelRecipient *rmRecipient in recipients) {
+        RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+        ModelMessage *modelMessage = [messages firstObject];
         if (modelMessage) {
-            [arrayItems addObject:modelMessage];
+            ModelSentMessage *modelSent = [[ModelSentMessage alloc] init];
+            modelSent.messageId = rmRecipient.messageId;
+            modelSent.subject = modelMessage.subject;
+            modelSent.internalDate = modelMessage.internalDate;
+            RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+            modelSent.recipientName = [self getRecipientsName:recipients];
+            [arrayItems addObject:modelSent];
         }
     }
     
     return arrayItems;
+}
+
+- (NSString *)getRecipientsName:(RLMResults *)result {
+    
+    NSString *name = @"";
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *modelProfile = [daoProfile getProfile];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    for (RMModelRecipient *recipient in result) {
+        RLMResults *contacts = [RMModelContact objectsInRealm:realm where:@"email = %@", recipient.recipient];
+        RMModelContact *contact = [contacts firstObject];
+        if ([contact.email isEqualToString:modelProfile.email]) {
+            name = [name stringByAppendingString:modelProfile.fullName];
+        }
+        else {
+            if (contact.fullName) {
+                name = [name stringByAppendingString:contact.fullName];
+            }
+            else {
+                name = [name stringByAppendingString:recipient.recipient];
+            }
+        }
+        name = [name stringByAppendingString:@","];
+    }
+    name = [name substringToIndex:[name length] - 1];
+    
+    return name;
 }
 
 - (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {

@@ -10,6 +10,9 @@
 #import "ParticipantView.h"
 #import "ContactModel.h"
 
+#import <Realm/Realm.h>
+#import "RMModelRecipient.h"
+
 
 CGFloat kTextFieldMaxWidth = 70;
 CGFloat kSpaceBetweenParticipants = 5;
@@ -26,6 +29,7 @@ CGFloat kfirstParticipantOriginX = 34;
 @property (nonatomic, weak) IBOutlet UIButton *buttonArrowUp;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldParticipant;
 
+@property (nonatomic, strong) NSString *messageId;
 @property (nonatomic, strong) NSMutableArray *arrayParticipantView;
 @property (nonatomic, assign) NSInteger row;
 @property (nonatomic, assign) CGFloat textFieldOriginY;
@@ -130,7 +134,11 @@ CGFloat kfirstParticipantOriginX = 34;
 - (void)createParticipantWithEmail:(NSString *)email withName:(NSString *)name {
     
     ParticipantView *participantView = [[ParticipantView alloc] initWithEmail:email withName:name];
-    [participantView createForSent:self.sentScreen];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@ AND recipient = %@", @"TO", @"CC", @"BCC", self.messageId, email] sortedResultsUsingProperty:@"position" ascending:NO];
+    RMModelRecipient *recipient = [recipients firstObject];
+    
+    [participantView createForSent:self.sentScreen withAccess:recipient.access];
     if (!self.sentScreen) {
         participantView.frame = CGRectMake(self.textFieldParticipant.frame.origin.x, self.textFieldOriginY, participantView.frame.size.width, participantView.frame.size.height);
     }
@@ -167,8 +175,9 @@ CGFloat kfirstParticipantOriginX = 34;
     }
 }
 
-- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants {
+- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
     
+    self.messageId = messageId;
     self.sentScreen = YES;
     self.buttonCcBcc.hidden = YES;
     self.buttonArrowUp.hidden = YES;

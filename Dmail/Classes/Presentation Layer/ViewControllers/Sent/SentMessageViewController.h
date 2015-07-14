@@ -11,6 +11,7 @@
 
 @interface SentMessageViewController : BaseViewController
 
+@property (nonatomic, strong) NSString *messageId;
 @property (nonatomic, strong) NSString *messageIdentifier;
 
 @end

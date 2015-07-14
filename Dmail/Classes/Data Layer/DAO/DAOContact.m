@@ -92,7 +92,6 @@ const NSInteger contactsUpdateTime = 12;
                               completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
                                   
                                   if (!error) {
-                                      
                                       NSArray *contacts = [self parseContactsWithDictionary:data];
                                       [self saveContacts:contacts];
                                       
@@ -139,12 +138,15 @@ const NSInteger contactsUpdateTime = 12;
             NSDictionary *nameDict = dict[@"gd$name"];
             NSDictionary *fullNameDict = nameDict[@"gd$fullName"];
             fullName = fullNameDict[@"$t"];
+            NSLog(@"fullName - %@", fullName);
             
             NSDictionary *lastNameDict = nameDict[@"gd$familyName"];
             lastName = lastNameDict[@"$t"];
+            NSLog(@"lastName - %@", lastName);
             
             NSDictionary *firstNameDict = nameDict[@"gd$givenName"];
             firstName = firstNameDict[@"$t"];
+            NSLog(@"firstName - %@", firstName);
         }
         if ([[dict allKeys] containsObject:@"id"]) {
             NSDictionary *idDict = dict[@"id"];
