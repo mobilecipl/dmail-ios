@@ -41,11 +41,13 @@
     
     [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         if (!error) {
+            
             NSArray *recipients = data[@"recipients"];
+            
             if ([recipients isKindOfClass:[NSArray class]]) {
-                NSMutableArray *arrayRecipients = [@[] mutableCopy];
-                NSMutableArray *arrayMessages = [@[] mutableCopy];
-                BOOL success = NO;
+
+                BOOL hasNewData = NO;
+                
                 for (NSDictionary *dict in recipients) {
                     ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:dict];
                     [self saveRecipient:recipient];
@@ -54,16 +56,23 @@
                     ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
                     RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
                     if (!tempMessage) {
-                        success = YES;
+                        hasNewData = YES;
                         [self saveMessage:message];
                     }
                 }
-                if (arrayRecipients.count > 0 || arrayMessages.count > 0) {
-                    completionBlock(@(success), nil);
-                } else {
-                    completionBlock(@(success), nil);
-                }
+                
+//                if (recipients.count > 0) {
+//                    newData = YES;
+//                } else {
+//                    newData = YES;
+//                }
+                
+                completionBlock(@(hasNewData), nil);
+            } else {
+               
+                completionBlock(nil, error);
             }
+            
         } else {
             completionBlock(nil, error);
         }
@@ -98,22 +107,6 @@
     [realm beginWriteTransaction];
     [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
     [realm commitWriteTransaction];
-    
-//    if ([moderlrecipient.access isEqualToString:@"GRANTED"]) {
-//        RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
-//        // Add
-//        [realm beginWriteTransaction];
-//        [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
-//        [realm commitWriteTransaction];
-//    } else {
-//        RMModelRecipient *realmModel = [RMModelRecipient objectInRealm:realm forPrimaryKey:moderlrecipient.serverId];
-//        // Delete all object with a transaction
-//        if (realmModel) {
-//            [realm beginWriteTransaction];
-//            [realm deleteObject:realmModel];
-//            [realm commitWriteTransaction];
-//        }
-//    }
 }
 
 @end

@@ -92,10 +92,7 @@
         [cell configureCell:item];
     };
     
-    
-    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[]
-                                                       cellIdentifier:InboxCellIdentifier
-                                                   configureCellBlock:configureCell];
+    self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
     
     self.dataSourceInbox.delegate = self;
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
@@ -157,7 +154,8 @@
     if ([segue.identifier isEqualToString:@"fromInboxToInboxView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-            inboxMessageViewController.messageIdentifier = self.selectedMessage.messageIdentifier;
+//            inboxMessageViewController.messageIdentifier = self.selectedMessage.messageIdentifier;
+            inboxMessageViewController.messageId = self.selectedMessage.messageId;
         }
     }
 }

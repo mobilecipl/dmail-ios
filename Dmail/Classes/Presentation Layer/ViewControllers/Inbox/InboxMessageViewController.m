@@ -19,8 +19,10 @@
 // view model
 #import "VMInboxMessageItem.h"
 
-
 #import "UIColor+AppColors.h"
+#import "UIImageView+WebCache.h"
+
+#import "CommonMethods.h"
 
 @interface InboxMessageViewController ()
 
@@ -30,6 +32,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelMessageSubject;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet UITextView *textViewMessageBody;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @end
@@ -74,6 +77,9 @@
     self.viewContainer.layer.borderColor = [[UIColor borderColor] CGColor];
     self.viewContainer.layer.borderWidth = 1;
     
+    self.imageViewProfile.layer.masksToBounds = YES;
+    self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
+    
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 10;
     NSString *string = self.textViewMessageBody.text;
@@ -87,24 +93,29 @@
 
 - (void)loadData {
     
-    if (self.messageIdentifier) {
-        
-        VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithIdentifier:self.messageIdentifier];
-        
+    if (self.messageId) {
+        VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithMessageId:self.messageId];
         self.labelMessageSubject.text = modelMessage.messageSubject;
         self.labelSenderName.text = modelMessage.senderName;
         self.labelTime.text = modelMessage.messageDate;
-        
-        [self showLoadingView];
-        
-        @weakify(self);
-        [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
-                                          completionBlock:^(NSString *body, ErrorDataModel *error) {
-                                              
-                                              @strongify(self);
-                                              self.textViewMessageBody.text = body;
-                                              [self hideLoadingView];
-                                          }];
+        [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:modelMessage.imageUrl]];
+        CGFloat profileNameWidth = [[CommonMethods sharedInstance] textWidthWithText:modelMessage.senderName height:self.labelSenderName.frame.size.height fontName:@"ProximaNova-Regular" fontSize:12];
+        CGFloat profileImageAndNameWidth = self.imageViewProfile.frame.size.width + profileNameWidth + 5;
+        CGFloat imageOryginX = ([UIScreen mainScreen].bounds.size.width - profileImageAndNameWidth)/2;
+        self.imageViewProfile.frame = CGRectMake(imageOryginX, self.imageViewProfile.frame.origin.y, self.imageViewProfile.frame.size.width, self.imageViewProfile.frame.size.height);
+        self.labelSenderName.frame = CGRectMake(self.imageViewProfile.frame.origin.x + self.imageViewProfile.frame.size.width + 5, self.labelSenderName.frame.origin.y, profileNameWidth, self.labelSenderName.frame.size.height);
+        if (!modelMessage.body) {
+            [self showLoadingView];
+            @weakify(self);
+            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId completionBlock:^(NSString *body, ErrorDataModel *error) {
+                @strongify(self);
+                self.textViewMessageBody.text = body;
+                [self hideLoadingView];
+            }];
+        }
+        else {
+            self.textViewMessageBody.text = modelMessage.body;
+        }
     }
 }
 

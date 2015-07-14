@@ -202,7 +202,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     if ([self.arrayCc count] > 0) {
         self.ccCellHeight = 57;
         [self.arrayTableItems addObject:@"2"];
-        [self.arrayTableItems addObject:@"3"];
     }
     if ([self.arrayBcc count] > 0) {
         self.bccCellHeight = 57;
@@ -246,6 +245,19 @@ typedef NS_ENUM(NSInteger, AlertTags) {
         }
         else {
             rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+        }
+    }
+    else if ([self.arrayTableItems count] == 3) {
+        switch (indexPath.row) {
+            case 0:
+                rowHeight = self.toCellHeight;
+                break;
+            case 1:
+                rowHeight = self.ccCellHeight;
+                break;
+            case 2:
+                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                break;
         }
     }
     else {
@@ -297,6 +309,36 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             }
                 break;
             default:
+                break;
+        }
+    }
+    else if ([self.arrayTableItems count] == 3) {
+        switch (indexPath.row) {
+            case 0: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return participantsCell;
+            }
+            case 1: {
+                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
+                participantsCell.delegate = self;
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc messageId:self.messageId];
+                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return participantsCell;
+            }
+                break;
+            case 2: {
+                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
+                messageComposeCell.delegate = self;
+                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
+                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+                
+                return messageComposeCell;
+            }
                 break;
         }
     }
@@ -388,6 +430,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                                                               cancelButtonTitle:@"Ok"
                                                               otherButtonTitles:nil, nil];
                         [alert show];
+                        [self.navigationController popViewControllerAnimated:YES];
                     }
                 }];
             }

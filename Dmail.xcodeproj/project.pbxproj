@@ -40,6 +40,7 @@
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
 		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
+		9CE2B5E41B55114A0020A2E0 /* ModelInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE2B5E31B55114A0020A2E0 /* ModelInboxMessage.m */; };
 		C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */; };
 		C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20DD1B4EB67800D892DA /* RMModelMessage.m */; };
 		C00B20E11B4EB90400D892DA /* ModelGmailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E01B4EB90400D892DA /* ModelGmailHeader.m */; };
@@ -206,6 +207,8 @@
 		9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOProfile.m; sourceTree = "<group>"; };
 		9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileModel.h; sourceTree = "<group>"; };
 		9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileModel.m; sourceTree = "<group>"; };
+		9CE2B5E21B55114A0020A2E0 /* ModelInboxMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelInboxMessage.h; sourceTree = "<group>"; };
+		9CE2B5E31B55114A0020A2E0 /* ModelInboxMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelInboxMessage.m; sourceTree = "<group>"; };
 		BEB685BB3E381146A63CB5AE /* Pods-Dmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dmail/Pods-Dmail.debug.xcconfig"; sourceTree = "<group>"; };
 		C00B20D91B4EB44900D892DA /* VMInboxMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMInboxMessageItem.h; sourceTree = "<group>"; };
 		C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMInboxMessageItem.m; sourceTree = "<group>"; };
@@ -1240,6 +1243,8 @@
 				9C60DC011B4FB2090081DFF9 /* ModelMessage.m */,
 				9C607D8A1B53E76600464883 /* ModelRecipient.h */,
 				9C607D8B1B53E76600464883 /* ModelRecipient.m */,
+				9CE2B5E21B55114A0020A2E0 /* ModelInboxMessage.h */,
+				9CE2B5E31B55114A0020A2E0 /* ModelInboxMessage.m */,
 				9C607D8D1B540F8600464883 /* ModelSentMessage.h */,
 				9C607D8E1B540F8600464883 /* ModelSentMessage.m */,
 			);
@@ -1550,6 +1555,7 @@
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */,
 				9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */,
+				9CE2B5E41B55114A0020A2E0 /* ModelInboxMessage.m in Sources */,
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */,
 				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,

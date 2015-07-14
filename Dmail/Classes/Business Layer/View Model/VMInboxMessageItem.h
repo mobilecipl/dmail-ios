@@ -12,11 +12,11 @@
 
 @property (nonatomic, strong) NSString *senderName;
 @property (nonatomic, strong) NSString *senderEmail;
+@property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageDate;
-@property (nonatomic, assign) long long  internalDate;
-@property (nonatomic, strong) NSString *messageIdentifier;
+@property (nonatomic, strong) NSString *messageId;
 @property (nonatomic, getter=isRead) BOOL read;
 
 @end

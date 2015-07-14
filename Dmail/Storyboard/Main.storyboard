@@ -725,25 +725,22 @@
                                             <action selector="backClicked:" destination="y8g-Vk-ppM" eventType="touchUpInside" id="rJU-BR-BLj"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToH-Xj-6Nd">
-                                        <rect key="frame" x="0.0" y="30" width="375" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToH-Xj-6Nd">
+                                        <rect key="frame" x="166" y="31" width="201" height="21"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="1dB-qv-6J1"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="11.5"/>
                                         <color key="textColor" red="0.47058823529999999" green="0.51764705879999995" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ou1-qh-lUW">
+                                        <rect key="frame" x="133" y="29" width="25" height="25"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="24p-KH-dIW"/>
-                                    <constraint firstAttribute="bottom" secondItem="ToH-Xj-6Nd" secondAttribute="bottom" constant="14" id="IS1-Kk-bVA"/>
-                                    <constraint firstAttribute="trailing" secondItem="ToH-Xj-6Nd" secondAttribute="trailing" id="LHq-b0-AO2"/>
                                     <constraint firstItem="C4B-mD-MH5" firstAttribute="leading" secondItem="Ske-zP-Cfe" secondAttribute="leading" constant="3" id="agJ-LO-9SD"/>
                                     <constraint firstItem="C4B-mD-MH5" firstAttribute="top" secondItem="Ske-zP-Cfe" secondAttribute="top" constant="22" id="lR5-bK-qCV"/>
-                                    <constraint firstItem="ToH-Xj-6Nd" firstAttribute="leading" secondItem="Ske-zP-Cfe" secondAttribute="leading" id="xKf-oA-u51"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8r2-L3-qHE" userLabel="View : Container">
@@ -911,6 +908,7 @@
                     <navigationItem key="navigationItem" id="hyl-Fy-jIH"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="imageViewProfile" destination="ou1-qh-lUW" id="Kwd-Jq-aJ3"/>
                         <outlet property="labelMessageSubject" destination="bzr-xY-xRN" id="IXn-07-kn2"/>
                         <outlet property="labelSenderName" destination="ToH-Xj-6Nd" id="Uth-fB-SaO"/>
                         <outlet property="labelTime" destination="xVX-AC-ru9" id="HTK-cn-hrj"/>
@@ -1838,9 +1836,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="AiN-2U-mFT"/>
         <segue reference="V8g-7x-DfO"/>
         <segue reference="msd-Ig-8Lo"/>
-        <segue reference="Jjg-do-4sL"/>
         <segue reference="COF-Ci-usR"/>
     </inferredMetricsTieBreakers>
 </document>

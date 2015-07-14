@@ -18,7 +18,7 @@
 
 - (NSArray *)getSentMessages;
 
-- (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier;
+- (VMInboxMessageItem *)getInboxMessageWithMessageId:(NSString *)messageId;
 
 - (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId;
 
@@ -34,6 +34,6 @@
 
 //- (void)deleteMessageWithMessageItem:(MessageItem *)item;
 
-//- (void)destroyMessageWithMessageItem:(MessageItem *)item;
+- (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId;
 
 @end

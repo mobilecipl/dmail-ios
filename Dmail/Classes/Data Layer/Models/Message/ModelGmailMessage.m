@@ -14,11 +14,9 @@
     
     self = [super initWithDictionary:dict];
     if (self) {
-        
         _gmailId = dict[@"id"];
         _snippet = dict[@"snippet"];
         _publicKey = [self getPublicKeyFromSnippet:_snippet];
-        
     }
     
     return self;

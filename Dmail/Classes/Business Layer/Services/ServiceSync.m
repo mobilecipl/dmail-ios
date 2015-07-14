@@ -103,11 +103,15 @@
         NSNumber *count = @1000; //TODO: add paging
         if (email) {
             @weakify(self);
-            [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id data, ErrorDataModel *error) {
+            [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
                 @strongify(self);
                 self.syncInProgressDmail = NO;
-                if ([data isEqual:@(YES)]) {
-                    [self syncGmailUniqueMessages];
+                if ([hasNewData isEqual:@(YES)]) {
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
+                } else {
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                 }
             }];
         } else {

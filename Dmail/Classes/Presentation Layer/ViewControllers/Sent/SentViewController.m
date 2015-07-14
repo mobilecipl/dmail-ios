@@ -16,6 +16,9 @@
 // service
 #import "ServiceMessage.h"
 
+//dao
+#import "DAOMessage.h"
+
 // data source
 #import "TableViewDataSource.h"
 
@@ -30,12 +33,18 @@
 //colors
 #import "UIColor+AppColors.h"
 
+#import <Realm/Realm.h>
+#import "RMModelRecipient.h"
+#import "VMInboxMessageItem.h"
+
+
 @interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewSent;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
 
+@property (strong, nonatomic) DAOMessage *daoMessage;
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -50,7 +59,7 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
+        _daoMessage = [[DAOMessage alloc] init];
         _serviceMessage = [[ServiceMessage alloc] init];
     }
     return self;
@@ -145,6 +154,16 @@
     
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         NSLog(@"Action to perform with Button 1");
+        VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+        //TODO:
+        NSMutableArray *arrayRecipients = [[NSMutableArray alloc] init];
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageItem.messageId];
+        for (RMModelRecipient *rmRecipient in recipients) {
+            [arrayRecipients addObject:rmRecipient.recipient];
+        }
+        
+        [self.serviceMessage destroyMessageWithMessageItem:arrayRecipients messageId:messageItem.messageId];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     
@@ -155,9 +174,17 @@
 #pragma mark - TableViewDataSourceDelegate Methods
 - (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath {
     
-//    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
     //TODO:
-//    [self.serviceMessage destroyMessageWithMessageItem:messageItem];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageItem.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+    NSMutableArray *arrayRecipients = [@[] mutableCopy];
+    for (RMModelRecipient *rmRecipient in recipients) {
+        [arrayRecipients addObject:rmRecipient.email];
+    }
+
+    [self.serviceMessage destroyMessageWithMessageItem:arrayRecipients messageId:messageItem.messageId];
 }
 
 

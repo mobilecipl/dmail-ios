@@ -12,5 +12,6 @@
 @interface InboxMessageViewController : BaseViewController
 
 @property (nonatomic, strong) NSString *messageIdentifier;
+@property (nonatomic, strong) NSString *messageId;
 
 @end

@@ -10,14 +10,17 @@
 
 // dao
 #import "DAOProfile.h"
+#import "DAOGmailMessage.h"
 
 // network
 #import "NetworkMessage.h"
 
 // model
 #import "ModelMessage.h"
+#import "ModelRecipient.h"
 #import "ProfileModel.h"
 #import "ModelSentMessage.h"
+#import "ModelInboxMessage.h"
 
 // view model
 #import "VMInboxMessageItem.h"
@@ -31,9 +34,16 @@
 
 // service
 #import "NSString+AESCrypt.h"
+#import <GoogleSignIn/GoogleSignIn.h>
+
+#import "NetworkManager.h"
 
 @interface DAOMessage ()
+
 @property (nonatomic, strong) NetworkMessage *networkMessage;
+@property (nonatomic, strong) DAOGmailMessage *daoGmailMessage;
+@property (nonatomic, assign) NSInteger index;
+
 @end
 
 @implementation DAOMessage
@@ -44,6 +54,7 @@
     
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
+        _daoGmailMessage = [[DAOGmailMessage alloc] init];
     }
     
     return self;
@@ -51,22 +62,241 @@
 
 
 #pragma mark - Public Methods
+- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+    
+    [self sendMessage:messageBody completionBlock:^(NSString *messageId, ErrorDataModel *error) {
+        if (messageId) {
+            NSArray *arrayAllParticipants = [self createParticipantsArray:to arrayCc:cc arrayBcc:bcc];
+            self.index = 0;
+            [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
+            
+//            [self sendParticipants:arrayAllParticipants messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+//                if ([data isEqualToString:@"YES"]) {
+//                    NSString *publicKey = [self getClientKeyWithMessageId:messageId];
+//                    NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
+//                    NSString *base64EncodedMessage = [self base64Encoding:gmailMessageBody];
+//                    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+//                    [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+//                        if (data) {
+//                            NSString *gmailId = data[@"id"];
+//                            [self saveMessageWithMessageId:messageId gmailId:gmailId];
+//                            [self.daoGmailMessage getMessageWithMessageId:gmailId userId:userID completionBlock:^(NSString *messageIdentifier, ErrorDataModel *error) {
+//                                if(messageIdentifier) {
+//                                    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+//                                    ProfileModel *model = [daoProfile getProfile];
+//                                    [self.networkMessage sentEmail:model.email messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+//                                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:nil];
+//                                    }];
+//                                }
+//                                else {
+//                                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+//                                }
+//                            }];
+//                        }
+//                        else {
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+//                        }
+//                    }];
+//                }
+//                else {
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+//                }
+//            }];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+        }
+        completionBlock(messageId, error);
+    }];
+}
+
+- (void)sendEncodedBodyWith:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc arrayAllParticipants:(NSArray *)arrayAllParticipants messageId:(NSString *)messageId {
+    
+    NSDictionary *dict = [arrayAllParticipants objectAtIndex:self.index];
+    [self sendRecipientEmail:dict[@"recipient_email"] key:nil recipientType:dict[@"recipient_type"] messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        if (data) {
+            self.index ++;
+            if (self.index > [arrayAllParticipants count] - 1) {
+                NSString *publicKey = [self getClientKeyWithMessageId:messageId];
+                NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
+                NSString *base64EncodedMessage = [self base64Encoding:gmailMessageBody];
+                NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+                [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+                    if (data) {
+                        NSString *gmailId = data[@"id"];
+                        [self saveMessageWithMessageId:messageId gmailId:gmailId];
+                        [self.daoGmailMessage getMessageWithMessageId:gmailId userId:userID completionBlock:^(NSString *messageIdentifier, ErrorDataModel *error) {
+                            if(messageIdentifier) {
+                                DAOProfile *daoProfile = [[DAOProfile alloc] init];
+                                ProfileModel *model = [daoProfile getProfile];
+                                [self.networkMessage sentEmail:model.email messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:nil];
+                                }];
+                            }
+                            else {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+                            }
+                        }];
+                    }
+                    else {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+                    }
+                }];
+            }
+            else {
+                [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
+            }
+        }
+    }];
+}
+
+- (void)sendParticipants:(NSArray *)arrayAllParticipants messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
+    
+    
+}
+
+- (NSString *)base64Encoding:(NSString *)requestBody {
+    
+    NSString *encodedMessage;
+    
+    NSData *data = [requestBody dataUsingEncoding:NSUTF8StringEncoding];
+    encodedMessage = [data base64EncodedStringWithOptions:0];
+    encodedMessage = [encodedMessage stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+    
+    return encodedMessage;
+}
+
+- (NSString *)createMessageBodyForGmailWithArrayTo:(NSArray *)arrayTO arrayCC:(NSArray *)arrayCC arrayBCC:(NSArray *)arrayBCC subject:(NSString *)subject dmailId:(NSString *)dmailId publicKey:(NSString *)publicKey {
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    NSString *from = [NSString stringWithFormat:@"From: %@ <%@>\n",model.fullName,model.email];
+    for (NSString *to in arrayTO) {
+        NSString *stringTo = [NSString stringWithFormat:@"To: <%@>\n", to];
+        from = [from stringByAppendingString:stringTo];
+    }
+    for (NSString *cc in arrayCC) {
+        NSString *stringCC = [NSString stringWithFormat:@"Cc: <%@>\n", cc];
+        from = [from stringByAppendingString:stringCC];
+    }
+    for (NSString *bcc in arrayBCC) {
+        NSString *stringBCC = [NSString stringWithFormat:@"Bcc: <%@>\n", bcc];
+        from = [from stringByAppendingString:stringBCC];
+    }
+    
+    NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n",subject];
+    from = [from stringByAppendingString:stringSubject];
+    
+    NSString *messagePublicKey = [NSString stringWithFormat:@"PublicKey: %@\n",publicKey];
+    from = [from stringByAppendingString:messagePublicKey];
+    
+    NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
+    from = [from stringByAppendingString:messageDmailId];
+    
+    NSString *publicKeyAndDmailId = [NSString stringWithFormat:@"DmailId=%@&PublicKey=%@", dmailId, publicKey];
+    from = [from stringByAppendingString:publicKeyAndDmailId];
+    
+    return from;
+}
+
+- (NSArray *)createParticipantsArray:(NSArray *)arrayTo arrayCc:(NSArray *)arrayCc arrayBcc:(NSArray *)arrayBcc {
+    
+    NSMutableArray *arrayParticipants = [[NSMutableArray alloc] init];
+    for (NSString *str in arrayTo) {
+        NSDictionary *dict = @{@"recipient_type" : @"TO",
+                               @"recipient_email" : str
+                               };
+        [arrayParticipants addObject:dict];
+    }
+    for (NSString *str in arrayCc) {
+        NSDictionary *dict = @{@"recipient_type" : @"CC",
+                               @"recipient_email" : str
+                               };
+        [arrayParticipants addObject:dict];
+    }
+    for (NSString *str in arrayBcc) {
+        NSDictionary *dict = @{@"recipient_type" : @"BCC",
+                               @"recipient_email" : str
+                               };
+        [arrayParticipants addObject:dict];
+    }
+    
+    return [NSArray arrayWithArray:arrayParticipants];
+}
+
 - (void)sendMessage:(NSString *)messageBody completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *encodedBody = [self encodeMessage:messageBody];
+    NSString *clientKey = [self generatePublicKey];
+    NSString *encodedBody = [self encodeMessage:messageBody clientKey:clientKey];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
     [self.networkMessage sendEncryptedMessage:encodedBody senderEmail:model.email completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
+        NSString *messageId = nil;
+        if (data) {
+            messageId = data[@"message_id"];
+            [self saveMessageWithMessageId:messageId clientKey:clientKey];
+        }
+        completionBlock(messageId, error);
     }];
+}
+
+- (NSString *)getClientKeyWithMessageId:(NSString *)messageId {
+    
+    NSString *clientKey;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate;
+    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
+    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
+    RMModelMessage *message = [resultsGmailMessages firstObject];
+    if (message) {
+        clientKey = message.publicKey;
+    }
+    
+    return clientKey;
+}
+
+- (void)saveMessageWithMessageId:(NSString *)messageId gmailId:(NSString *)gmailId {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+    [realm beginWriteTransaction];
+    for (RMModelMessage *realmModel in results) {
+        realmModel.gmailId = gmailId;
+    }
+    [realm commitWriteTransaction];
 }
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
     [self.networkMessage sendRecipientEmail:recipientEmail key:key recipientType:recipientType messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:data];
+        [self saveRecipient:recipient];
         completionBlock(data, error);
     }];
 }
+
+- (void)saveMessageWithMessageId:(NSString *)messageId clientKey:(NSString *)clientKey{
+    
+    ModelMessage *modelMessage = [[ModelMessage alloc] init];
+    modelMessage.messageId = messageId;
+    modelMessage.publicKey = clientKey;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:modelMessage];
+    [realm beginWriteTransaction];
+    [RMModelMessage createOrUpdateInRealm:realm withValue:realmModel];
+    [realm commitWriteTransaction];
+}
+
+- (void)saveRecipient:(ModelRecipient *)moderlrecipient {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
+    [realm beginWriteTransaction];
+    [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
+    [realm commitWriteTransaction];
+}
+
 
 - (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
@@ -75,38 +305,35 @@
     }];
 }
 
-- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
-    
-    [self.networkMessage sentEmail:senderEmail messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
-    }];
-}
-
 - (NSArray *)getInboxMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    // TODO: get only inbox messages
-    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"access = %@ AND type = %@", @"GRANTED", @"TO"] sortedResultsUsingProperty:@"position" ascending:NO];
-    
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
-    ProfileModel *model = [daoProfile getProfile];
-    
+    ProfileModel *modelProfile = [daoProfile getProfile];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelMessage *rmMessage in messages) {
-//        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:nil toEmail:model.email];
-//        if (modelMessage) {
-//            [arrayItems addObject:modelMessage];
-//        }
+    for (RMModelRecipient *rmRecipient in recipients) {
+        RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+        ModelMessage *modelMessage = [messages firstObject];
+        if (modelMessage) {
+            ModelInboxMessage *modelInbox = [[ModelInboxMessage alloc] init];
+            modelInbox.messageId = rmRecipient.messageId;
+            modelInbox.subject = modelMessage.subject;
+            modelInbox.internalDate = modelMessage.internalDate;
+            modelInbox.read = modelMessage.read;
+            modelInbox.imageUrl = [self getRecipientImageUrlWithMessageId:rmRecipient.messageId];
+            RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"SENDER", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+            modelInbox.fromName = [self getRecipientsName:recipients];
+            [arrayItems addObject:modelInbox];
+        }
     }
     
     return arrayItems;
 }
 
-
 - (NSArray *)getSentMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    // TODO: get only sent messages
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *modelProfile = [daoProfile getProfile];
     RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"SENDER", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
@@ -194,9 +421,8 @@
     return clientKey;
 }
 
-- (NSString *)encodeMessage:(NSString *)message {
+- (NSString *)encodeMessage:(NSString *)message clientKey:(NSString *)clientKey{
     
-    NSString *clientKey = [self generatePublicKey];
     NSString *encryptedText = [message AES256EncryptWithKey:clientKey];
     if (!encryptedText) {
         encryptedText = @"";
@@ -222,7 +448,7 @@
     ModelMessage *modelMessage = nil;
     
     if (message) {
-        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:message.fromEmail];
+//        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:message.fromEmail];
         modelMessage = [[ModelMessage alloc] init];
         modelMessage.messageIdentifier = message.messageIdentifier;
         modelMessage.internalDate = message.internalDate;
@@ -244,23 +470,48 @@
         modelMessage.fromEmail = message.fromEmail;
         modelMessage.publicKey = message.publicKey;
         
-        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", message.messageId];
-        RMModelRecipient *recipient = [recipients firstObject];
+//        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", message.messageId];
+//        RMModelRecipient *recipient = [recipients firstObject];
+//        
+//        RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+//        RMModelProfile *profile = [resultsProfiles firstObject];
+//        NSString *imageUrl;
+//        if ([recipient.recipient isEqualToString:profile.email]) {
+//            imageUrl = profile.imageUrl;
+//        }
+//        else {
+//            NSString *token = profile.token;
+//            imageUrl = [NSString stringWithFormat:@"%@?access_token=%@", contact.imageUrl, token];
+//        }
+//        modelMessage.imageUrl = imageUrl;
+        modelMessage.imageUrl = [self getRecipientImageUrlWithMessageId:message.messageId];
+    }
+    
+    return modelMessage;
+}
+
+- (NSString *)getRecipientImageUrlWithMessageId:(NSString *)messageId {
+    
+    NSString *imageUrl;
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", messageId];
+    RMModelRecipient *modelRecipient = [recipients firstObject];
+    if (modelRecipient) {
+        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:modelRecipient.recipient];
         
         RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
         RMModelProfile *profile = [resultsProfiles firstObject];
-        NSString *imageUrl;
-        if ([recipient.recipient isEqualToString:profile.email]) {
+        if ([modelRecipient.recipient isEqualToString:profile.email]) {
             imageUrl = profile.imageUrl;
         }
         else {
             NSString *token = profile.token;
             imageUrl = [NSString stringWithFormat:@"%@?access_token=%@", contact.imageUrl, token];
         }
-        modelMessage.imageUrl = imageUrl;
     }
     
-    return modelMessage;
+    return imageUrl;
 }
 
 - (NSArray *)arrayRecipients:(RLMResults *)results {
@@ -308,4 +559,5 @@
     
     return position;
 }
+
 @end

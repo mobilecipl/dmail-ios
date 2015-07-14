@@ -13,9 +13,11 @@
 
 // dao
 #import "DAOMessage.h"
+#import "DAOGmailMessage.h"
 
 // model
 #import "ModelMessage.h"
+#import "ModelRecipient.h"
 #import "ModelSentMessage.h"
 
 // view model
@@ -23,9 +25,14 @@
 #import "VMSentMessageItem.h"
 #import "VMSentMessage.h"
 
+#import "MessageService.h"
+
+
 @interface ServiceMessage ()
+
 @property (nonatomic, strong) DAOMessage *daoMessage;
 @property (nonatomic, assign) NSInteger participantIndex;
+
 @end
 
 @implementation ServiceMessage
@@ -66,14 +73,13 @@
     return arrayItems;
 }
 
-- (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier {
+- (VMInboxMessageItem *)getInboxMessageWithMessageId:(NSString *)messageId {
     
-    ModelMessage *modelMessage = [self.daoMessage getMessageWithMessageId:messageIdentifier];
+    ModelMessage *modelMessage = [self.daoMessage getMessageWithMessageId:messageId];
     VMInboxMessageItem *inboxMessageVM = [[VMInboxMessageItem alloc] initWithModel:modelMessage];
     
     return inboxMessageVM;
 }
-
 
 - (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId {
     
@@ -92,20 +98,8 @@
 
 - (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sendMessage:messageBody completionBlock:^(id data, ErrorDataModel *error) {
-//        if (dmailId) {
-//            self.dmailId = dmailId;
-//            DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
-//            item.dmailId = dmailId;
-//            //Send Participants to Dmail ========== Success --> MessageSentParticipants
-//            self.arrayAllParticipants = [self createParticipantsArray:composeModelItem.arrayTo arrayCc:composeModelItem.arrayCc arrayBcc:composeModelItem.arrayBcc];
-//            self.index = 0;
-//            [self sendParticipantsWithArray:self.arrayAllParticipants composeModelItem:composeModelItem item:item];
-//        }
-//        else {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
-//        }
-        completionBlock(data, error);
+    [self.daoMessage sendMessage:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data,error);
     }];
 }
 
@@ -130,7 +124,6 @@
     }];
 }
 
-
 //- (void)deleteMessageWithMessageItem:(MessageItem *)item {
 //    
 //    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
@@ -140,29 +133,36 @@
 //    }];
 //}
 
-//- (void)destroyMessageWithMessageItem:(MessageItem *)item {
-//    
-//    NSMutableArray *arrayAllParticipants = [self getAllParticipantsWithMessageItem:item];
-//    if ([arrayAllParticipants count] > 0) {
-//        [[MessageService sharedInstance] revokeUserWithEmail:[arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:item.dmailId completionBlock:^(BOOL success) {
-//            if (success) {
-//                self.participantIndex ++;
-//                if (self.participantIndex > [arrayAllParticipants count] - 1) {
-//                    self.participantIndex = 0;
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-//                                                                    message:@"Participants are successfully destroyed"
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"Ok"
-//                                                          otherButtonTitles:nil, nil];
-//                    [alert show];
-//                }
-//                else {
-//                    [self destroyMessageWithMessageItem:item];
-//                }
-//            }
-//        }];
-//    }
-//}
+- (void)destroWithArrayParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+    
+    NSLog(@"%ld",(long)self.participantIndex);
+    if ([arrayParticipants count] > 0) {
+        [[MessageService sharedInstance] revokeUserWithEmail:[arrayParticipants objectAtIndex:self.participantIndex] dmailId:messageId completionBlock:^(BOOL success) {
+            if (success) {
+                self.participantIndex ++;
+                if (self.participantIndex > [arrayParticipants count] - 1) {
+                    self.participantIndex = 0;
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                                    message:@"Participants are successfully destroyed"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+                else {
+                    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
+                }
+            }
+        }];
+    }
+
+}
+
+- (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+    
+    self.participantIndex = 0;
+    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
+}
 
 //- (NSMutableArray *)getAllParticipantsWithMessageItem:(MessageItem *)messageItem {
 //    

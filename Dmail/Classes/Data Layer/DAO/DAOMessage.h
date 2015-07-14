@@ -27,12 +27,14 @@
 
 - (NSNumber *)getLastDmailPosition;
 
-- (void)sendMessage:(NSString *)messageBody completionBlock:(CompletionBlock)completionBlock;
+- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
 - (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
+
+- (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId;
 
 @end

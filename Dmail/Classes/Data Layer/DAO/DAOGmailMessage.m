@@ -68,7 +68,7 @@
         if (!error) {
             ModelGmailMessage *modelGmailMessage = [[ModelGmailMessage alloc] initWithDictionary:data];
             [self updateMessageWithGmailId:messageId gmailModel:modelGmailMessage];
-            completionBlock(nil, nil);
+            completionBlock(modelGmailMessage.payload.messageIdentifier, nil);
         } else {
             completionBlock(nil, error);
         }
@@ -128,6 +128,8 @@
     RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"gmailId = %@", gmailId];
     RMModelMessage *rmMessage = [results firstObject];
     [realm beginWriteTransaction];
+    rmMessage.messageIdentifier = modelGmailMessage.payload.messageIdentifier;
+    rmMessage.access = @"GRANTED";
     rmMessage.subject = modelGmailMessage.payload.subject;
     rmMessage.fromName = modelGmailMessage.payload.fromName;
     rmMessage.fromEmail = modelGmailMessage.payload.fromEmail;

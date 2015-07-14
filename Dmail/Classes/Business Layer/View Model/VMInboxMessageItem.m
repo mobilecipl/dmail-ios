@@ -8,27 +8,26 @@
 
 #import "VMInboxMessageItem.h"
 
-#import "ModelMessage.h"
+#import "ModelInboxMessage.h"
 
 #import "UIColor+AppColors.h"
 #import <NSDate+DateTools.h>
 
 @implementation VMInboxMessageItem
 
-- (instancetype)initWithModel:(ModelMessage *)modelMessage {
+- (instancetype)initWithModel:(ModelInboxMessage *)modelMessage {
     
     self = [super init];
     if (self) {
-        
-        self.internalDate = modelMessage.internalDate;
-        
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:_internalDate/1000];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:modelMessage.internalDate/1000];
         self.messageDate = [NSDate shortTimeAgoSinceDate:date];
+        self.body = modelMessage.body;
         self.senderName = modelMessage.fromName;
+        self.senderEmail = modelMessage.fromEmail;
         self.messageSubject = modelMessage.subject;
-        self.messageIdentifier = modelMessage.messageIdentifier;
-        self.read = modelMessage.read;
         self.imageUrl = modelMessage.imageUrl;
+        self.messageId = modelMessage.messageId;
+        self.read = modelMessage.read;
     }
     
     return self;

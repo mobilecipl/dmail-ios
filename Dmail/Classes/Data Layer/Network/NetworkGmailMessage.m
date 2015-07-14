@@ -25,12 +25,9 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
     return self;
 }
 
-- (void)getMessageIdWithUniqueId:(NSString *)uniqueId
-                          userId:(NSString *)userID
-                 completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageIdWithUniqueId:(NSString *)uniqueId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-    
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"getWithUniqueIdResponse JSON: %@", responseObject);
@@ -108,19 +105,16 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
         }
     };
     
-    [self makeGetRequest:[NSString stringWithFormat:kUrlMessagesWithId, userID, messageId, kGoogleClientSecret]
-              withParams:nil
-                 success:successBlock
-                 failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [self makeGetRequest:[NSString stringWithFormat:kUrlMessagesWithId, userID, messageId, kGoogleClientSecret] withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)sendWithEncodedBody:(NSString *)encodedBody
-                     userId:(NSString *)userID
-            completionBlock:(CompletionBlock)completionBlock {
+- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
 
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"sendResponse JSON: %@", responseObject);
         switch (operation.response.statusCode) {
+            case 200:
             case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
@@ -144,11 +138,9 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
     };
     
     NSDictionary *parameters = @{@"raw" : encodedBody};
-    
-    [self makePostRequest:[NSString stringWithFormat:kUrlMessagesSend, userID, kGoogleClientSecret]
-               withParams:parameters
-                  success:successBlock
-                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+    NSString *url = [NSString stringWithFormat:kUrlMessagesSend, userID, kGoogleClientSecret];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [self makePostRequest:url withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 
 }
 
