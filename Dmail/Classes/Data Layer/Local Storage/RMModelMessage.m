@@ -30,9 +30,6 @@
         
         self.body = modelMessage.body;
         self.internalDate = modelMessage.internalDate;
-        self.to = modelMessage.to;
-        self.cc = modelMessage.cc;
-        self.bcc = modelMessage.bcc;
         self.snippet = modelMessage.snippet;
         self.publicKey = modelMessage.publicKey;
         self.subject = modelMessage.subject;

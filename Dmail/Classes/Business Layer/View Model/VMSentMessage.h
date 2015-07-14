@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, assign) long long internalDate;
 @property (nonatomic, strong) NSString *messageIdentifier;
+@property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSString *imageUrl;
 
 @property NSArray *arrayTo;

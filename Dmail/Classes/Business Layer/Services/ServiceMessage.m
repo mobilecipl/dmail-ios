@@ -68,24 +68,24 @@
 
 - (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier {
     
-    ModelMessage *modelMessage = [self.daoMessage getMessageWithIdentifier:messageIdentifier];
+    ModelMessage *modelMessage = [self.daoMessage getMessageWithMessageId:messageIdentifier];
     VMInboxMessageItem *inboxMessageVM = [[VMInboxMessageItem alloc] initWithModel:modelMessage];
     
     return inboxMessageVM;
 }
 
 
-- (VMSentMessage *)getSentMessageWithIdentifier:(NSString *)messageIdentifier {
+- (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId {
     
-    ModelMessage *modelMessage = [self.daoMessage getMessageWithIdentifier:messageIdentifier];
+    ModelMessage *modelMessage = [self.daoMessage getMessageWithMessageId:messageId];
     VMSentMessage *sentMessageVM = [[VMSentMessage alloc] initWithModel:modelMessage];
     
     return sentMessageVM;
 }
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageBodyWithIdentifier:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+    [self.daoMessage getMessageBodyWithMessageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }

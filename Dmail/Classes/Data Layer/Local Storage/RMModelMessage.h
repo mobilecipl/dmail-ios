@@ -27,14 +27,11 @@
 @property NSString *snippet;
 @property NSString *fromName;
 @property NSString *fromEmail;
-@property NSString *to;
-@property NSString *cc;
-@property NSString *bcc;
 @property NSString *subject;
 @property NSString *publicKey;
 
 
-@property NSString *body;
+@property (nonatomic) NSString *body;
 @property BOOL read;
 @property long long position;
 @property NSString *type;

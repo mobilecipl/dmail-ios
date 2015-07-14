@@ -93,23 +93,27 @@
 - (void)saveRecipient:(ModelRecipient *)moderlrecipient {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    if ([moderlrecipient.access isEqualToString:@"GRANTED"]) {
-        RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
-        // Add
-        [realm beginWriteTransaction];
-        [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
-        [realm commitWriteTransaction];
-    } else {
-        RMModelRecipient *realmModel = [RMModelRecipient objectInRealm:realm forPrimaryKey:moderlrecipient.serverId];
-        // Delete all object with a transaction
-        if (realmModel) {
-            [realm beginWriteTransaction];
-            [realm deleteObject:realmModel];
-            [realm commitWriteTransaction];
-        }
-    }
+    RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
+    // Add
+    [realm beginWriteTransaction];
+    [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
+    [realm commitWriteTransaction];
     
-    
+//    if ([moderlrecipient.access isEqualToString:@"GRANTED"]) {
+//        RMModelRecipient *realmModel = [[RMModelRecipient alloc] initWithModel:moderlrecipient];
+//        // Add
+//        [realm beginWriteTransaction];
+//        [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
+//        [realm commitWriteTransaction];
+//    } else {
+//        RMModelRecipient *realmModel = [RMModelRecipient objectInRealm:realm forPrimaryKey:moderlrecipient.serverId];
+//        // Delete all object with a transaction
+//        if (realmModel) {
+//            [realm beginWriteTransaction];
+//            [realm deleteObject:realmModel];
+//            [realm commitWriteTransaction];
+//        }
+//    }
 }
 
 @end

@@ -20,7 +20,7 @@
 
 - (VMInboxMessageItem *)getInboxMessageWithIdentifier:(NSString *)messageIdentifier;
 
-- (VMSentMessage *)getSentMessageWithIdentifier:(NSString *)messageIdentifier;
+- (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId;
 
 - (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
 

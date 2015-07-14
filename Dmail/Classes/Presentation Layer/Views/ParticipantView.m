@@ -73,7 +73,9 @@ CGFloat fontSize = 12.5;
     [self addSubview:buttonRevoke];
     
     if ([access isEqualToString:@"REVOKED"]) {
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(labelSenderName.frame.origin.x, 0, labelSenderName.frame.size.width, 1)];
+        line.center = CGPointMake(line.center.x, self.frame.size.height/2);
+        [self addSubview:line];
         line.backgroundColor = [UIColor revokedParticipantColor];
         self.backgroundColor = [UIColor clearColor];
         labelSenderName.textColor = [UIColor revokedParticipantColor];

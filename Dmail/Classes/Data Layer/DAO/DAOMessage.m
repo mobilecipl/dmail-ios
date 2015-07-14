@@ -93,10 +93,10 @@
     
     NSMutableArray *arrayItems = [@[] mutableCopy];
     for (RMModelMessage *rmMessage in messages) {
-        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:nil toEmail:model.email];
-        if (modelMessage) {
-            [arrayItems addObject:modelMessage];
-        }
+//        ModelMessage *modelMessage = [self getMessageWithIdentifier:rmMessage.messageIdentifier fromEmail:nil toEmail:model.email];
+//        if (modelMessage) {
+//            [arrayItems addObject:modelMessage];
+//        }
     }
     
     return arrayItems;
@@ -150,30 +150,37 @@
         }
         name = [name stringByAppendingString:@","];
     }
-    name = [name substringToIndex:[name length] - 1];
+    if (name.length > 0) {
+        name = [name substringToIndex:[name length] - 1];
+    }
     
     return name;
 }
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageBodyWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
-    ModelMessage *modelMessage = [self getMessageWithIdentifier:messageIdentifier];
+    ModelMessage *modelMessage = [self getMessageWithMessageId:messageId];
     if (model) {
-        [self.networkMessage getEncryptedMessage:modelMessage.messageId
-                                  recipientEmail:model.email
-                                 completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
-                                     NSLog(@"%@", data);
-                                     NSString *encodedMessage = data[@"encrypted_message"];
-                                     NSString *decodedMessage;
-                                     
-                                     //TODO: get public key and decode
-                                     NSString *publicKey = modelMessage.publicKey;
-                                     decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
-                                     
-                                     completionBlock(decodedMessage, error);
-                                 }];
+        [self.networkMessage getEncryptedMessage:messageId recipientEmail:model.email completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+            NSLog(@"%@", data);
+            NSString *encodedMessage = data[@"encrypted_message"];
+            NSString *decodedMessage;
+            
+            //TODO: get public key and decode
+            NSString *publicKey = modelMessage.publicKey;
+            decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
+            
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+            RMModelMessage *rmMessage = [results firstObject];
+            [realm beginWriteTransaction];
+            rmMessage.body = decodedMessage;
+            [realm commitWriteTransaction];
+            
+            completionBlock(decodedMessage, error);
+        }];
     }
 }
 
@@ -204,69 +211,66 @@
     return decryptedText;
 }
 
-- (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier {
-    
-    return [self getMessageWithIdentifier:identifier fromEmail:nil toEmail:nil];
-}
-
-- (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier fromEmail:(NSString *)fromEmail toEmail:(NSString *)toEmail {
+- (ModelMessage *)getMessageWithMessageId:(NSString *)messageId{
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     NSPredicate *predicate;
-    if (fromEmail) {
-        predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@ AND fromEmail = %@", identifier, fromEmail];
-    }  else if(toEmail) {
-        predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@ AND to CONTAINS[c] %@", identifier, toEmail];
-    } else {
-        predicate = [NSPredicate predicateWithFormat:@"messageIdentifier = %@", identifier];
-    }
-    
+    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
     RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
-    RMModelMessage *gmailMessage = [resultsGmailMessages firstObject];
+    RMModelMessage *message = [resultsGmailMessages firstObject];
     
     ModelMessage *modelMessage = nil;
     
-    if (gmailMessage) {
-        RLMResults *resultsDmailMessages = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
-        RMModelMessage *dmailMessage = [resultsDmailMessages firstObject];
+    if (message) {
+        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:message.fromEmail];
+        modelMessage = [[ModelMessage alloc] init];
+        modelMessage.messageIdentifier = message.messageIdentifier;
+        modelMessage.internalDate = message.internalDate;
+        modelMessage.messageId = message.messageId;
+        modelMessage.gmailId = message.gmailId;
+        modelMessage.type = message.type;
+        modelMessage.read = message.read;
+        if (message.body.length != 0) {
+            modelMessage.body = message.body;
+        }
+        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"TO", message.messageId];
+        modelMessage.to = [self arrayRecipients:recipients];
+        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"CC", message.messageId];
+        modelMessage.cc = [self arrayRecipients:recipients];
+        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"BCC", message.messageId];
+        modelMessage.bcc = [self arrayRecipients:recipients];
+        modelMessage.subject = message.subject;
+        modelMessage.fromName = message.fromName;
+        modelMessage.fromEmail = message.fromEmail;
+        modelMessage.publicKey = message.publicKey;
         
-        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:gmailMessage.fromEmail];
+        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", message.messageId];
+        RMModelRecipient *recipient = [recipients firstObject];
         
         RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
         RMModelProfile *profile = [resultsProfiles firstObject];
-        
-        modelMessage = [[ModelMessage alloc] init];
-        modelMessage.messageIdentifier = identifier;
-        modelMessage.internalDate = gmailMessage.internalDate;
-        modelMessage.messageId = dmailMessage.messageId;
-        modelMessage.gmailId = dmailMessage.gmailId;
-        modelMessage.type = dmailMessage.type;
-        modelMessage.read = gmailMessage.read;
-        modelMessage.to = gmailMessage.to;
-        //        self.cc = gmailMessage.cc;
-        //        self.bcc = gmailMessage.bcc;
-        
-        modelMessage.subject = gmailMessage.subject;
-        modelMessage.fromName = gmailMessage.fromName;
-        modelMessage.fromEmail = gmailMessage.fromEmail;
-        
         NSString *imageUrl;
-        if(profile.email && [modelMessage.fromEmail isEqualToString:profile.email]) {
+        if ([recipient.recipient isEqualToString:profile.email]) {
             imageUrl = profile.imageUrl;
         }
-        else if (contact.imageUrl) {
+        else {
             NSString *token = profile.token;
             imageUrl = [NSString stringWithFormat:@"%@?access_token=%@", contact.imageUrl, token];
         }
-        
         modelMessage.imageUrl = imageUrl;
-        
-        RMModelMessage *rmModelMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:identifier];
-        modelMessage.publicKey = rmModelMessage.publicKey;
     }
     
-    
     return modelMessage;
+}
+
+- (NSArray *)arrayRecipients:(RLMResults *)results {
+    
+    NSMutableArray *arrayrecipients = [[NSMutableArray alloc] init];
+    for (RMModelRecipient *recipient in results) {
+        [arrayrecipients addObject:recipient.recipient];
+    }
+    
+    return [NSArray arrayWithArray:arrayrecipients];
 }
 
 
@@ -284,7 +288,7 @@
     NSString *gmailMessageId = nil;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"gmailId != ''"] sortedResultsUsingProperty:@"position" ascending:NO];
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"gmailId != '' AND internalDate = 0"] sortedResultsUsingProperty:@"position" ascending:NO];
     RMModelMessage *message = [messages firstObject];
     gmailMessageId = message.gmailId;
     

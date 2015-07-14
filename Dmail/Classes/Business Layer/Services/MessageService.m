@@ -16,6 +16,9 @@
 #import "DmailEntityItem.h"
 #import "NSString+AESCrypt.h"
 
+#import <Realm/Realm.h>
+#import "RMModelRecipient.h"
+
 
 @interface MessageService ()
 
@@ -327,6 +330,13 @@
     [[NetworkManager sharedManager] revokeUserWithEmail:email dmailId:dmailId completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
         BOOL success = NO;
         if (statusCode == 200 || statusCode == 201) {
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",email, dmailId];
+            [realm beginWriteTransaction];
+            for (RMModelRecipient *model in results) {
+                model.access = @"REVOKED";
+            }
+            [realm commitWriteTransaction];
             success = YES;
         }
         completion(success);

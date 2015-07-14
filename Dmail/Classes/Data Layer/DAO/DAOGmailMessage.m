@@ -19,7 +19,7 @@
 #import <Realm/Realm.h>
 
 #import "RMModelMessage.h"
-#import "RMModelMessage.h"
+#import "RMModelRecipient.h"
 
 @interface DAOGmailMessage ()
 
@@ -52,6 +52,8 @@
                 }
                 completionBlock(nil, nil);
             } else {
+                [self deleteMessageWithIdentifier:messageIdentifier];
+                [self deleterecipientsWithIdentifier:messageIdentifier];
                 completionBlock(nil, nil);
             }
         } else {
@@ -93,6 +95,24 @@
     [realm commitWriteTransaction];
 }
 
+- (void)deleteMessageWithIdentifier:(NSString *)identifier {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    [realm beginWriteTransaction];
+    [realm deleteObjects:results];
+    [realm commitWriteTransaction];
+}
+
+- (void)deleterecipientsWithIdentifier:(NSString *)identifier {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    [realm beginWriteTransaction];
+    [realm deleteObjects:results];
+    [realm commitWriteTransaction];
+}
+
 - (void)saveMessageInRealm:(ModelMessage *)modelMessage {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -111,7 +131,6 @@
     rmMessage.subject = modelGmailMessage.payload.subject;
     rmMessage.fromName = modelGmailMessage.payload.fromName;
     rmMessage.fromEmail = modelGmailMessage.payload.fromEmail;
-    rmMessage.to = modelGmailMessage.payload.to;
     rmMessage.publicKey = modelGmailMessage.publicKey;
     rmMessage.internalDate = [modelGmailMessage.internalDate longLongValue];
     rmMessage.status = MessageFetchedFull;

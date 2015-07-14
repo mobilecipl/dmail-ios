@@ -134,11 +134,16 @@ CGFloat kfirstParticipantOriginX = 34;
 - (void)createParticipantWithEmail:(NSString *)email withName:(NSString *)name {
     
     ParticipantView *participantView = [[ParticipantView alloc] initWithEmail:email withName:name];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@ AND recipient = %@", @"TO", @"CC", @"BCC", self.messageId, email] sortedResultsUsingProperty:@"position" ascending:NO];
-    RMModelRecipient *recipient = [recipients firstObject];
+    if (self.sentScreen) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@ AND recipient = %@", @"TO", @"CC", @"BCC", self.messageId, email] sortedResultsUsingProperty:@"position" ascending:NO];
+        RMModelRecipient *recipient = [recipients firstObject];
+        [participantView createForSent:self.sentScreen withAccess:recipient.access];
+    }
+    else {
+        [participantView createForSent:self.sentScreen withAccess:@"GRANTED"];
+    }
     
-    [participantView createForSent:self.sentScreen withAccess:recipient.access];
     if (!self.sentScreen) {
         participantView.frame = CGRectMake(self.textFieldParticipant.frame.origin.x, self.textFieldOriginY, participantView.frame.size.width, participantView.frame.size.height);
     }

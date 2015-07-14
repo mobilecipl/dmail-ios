@@ -34,9 +34,9 @@
 
 @property NSString *fromName;
 @property NSString *fromEmail;
-@property NSString *to;
-@property NSString *cc;
-@property NSString *bcc;
+@property NSArray *to;
+@property NSArray *cc;
+@property NSArray *bcc;
 @property NSString *publicKey;
 
 @property NSString *imageUrl;

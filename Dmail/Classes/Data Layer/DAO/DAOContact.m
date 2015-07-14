@@ -130,7 +130,6 @@ const NSInteger contactsUpdateTime = 12;
             for (NSDictionary *emailDict in emailArray) {
                 if ([[emailDict allKeys] containsObject:@"address"]) {
                     email = emailDict[@"address"];
-                    NSLog(@"email - %@", email);
                 }
             }
         }
@@ -138,15 +137,12 @@ const NSInteger contactsUpdateTime = 12;
             NSDictionary *nameDict = dict[@"gd$name"];
             NSDictionary *fullNameDict = nameDict[@"gd$fullName"];
             fullName = fullNameDict[@"$t"];
-            NSLog(@"fullName - %@", fullName);
             
             NSDictionary *lastNameDict = nameDict[@"gd$familyName"];
             lastName = lastNameDict[@"$t"];
-            NSLog(@"lastName - %@", lastName);
             
             NSDictionary *firstNameDict = nameDict[@"gd$givenName"];
             firstName = firstNameDict[@"$t"];
-            NSLog(@"firstName - %@", firstName);
         }
         if ([[dict allKeys] containsObject:@"id"]) {
             NSDictionary *idDict = dict[@"id"];

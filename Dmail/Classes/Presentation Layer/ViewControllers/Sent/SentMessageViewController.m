@@ -81,28 +81,29 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)loadData {
     
-    if (self.messageIdentifier) {
-        self.modelMessage = [self.serviceMessage getSentMessageWithIdentifier:self.messageIdentifier];
+    if (self.messageId) {
+        self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
         self.arrayTo = self.modelMessage.arrayTo;
         self.arrayCc = self.modelMessage.arrayCc;
         self.arrayBcc = self.modelMessage.arrayBcc;
         [self createTableItems];
-        
-        [self showLoadingView];
-        @weakify(self);
-        [self.serviceMessage getMessageBodyWithIdentifier:self.messageIdentifier
-                                          completionBlock:^(NSString *body, ErrorDataModel *error) {
-                                              
-                                              @strongify(self);
-                                              self.body = body;
-                                              
-                                              NSInteger bodyRow = [self getBodyRow];
-                                              NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
-                                              NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
-                                              [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-                                              
-                                              [self hideLoadingView];
-                                          }];
+        if (!self.modelMessage.body) {
+            [self showLoadingView];
+            @weakify(self);
+            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId completionBlock:^(NSString *body, ErrorDataModel *error) {
+                @strongify(self);
+                self.body = body;
+                NSInteger bodyRow = [self getBodyRow];
+                NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
+                NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+                [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+                
+                [self hideLoadingView];
+            }];
+        }
+        else {
+            self.body = self.modelMessage.body;
+        }
     }
     [self.tableView reloadData];
 }
@@ -371,6 +372,15 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 break;
             case 1: {
                 [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.modelMessage.dmailId completionBlock:^(BOOL success) {
+                    NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:0 inSection:0];
+                    if ([self.arrayCc count] > 0) {
+                        rowToReload = [NSIndexPath indexPathForRow:1 inSection:0];
+                    }
+                    if ([self.arrayBcc count] > 0) {
+                        rowToReload = [NSIndexPath indexPathForRow:2 inSection:0];
+                    }
+                    NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+                    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
                     if (success) {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
                                                                         message:@"Participant is revoked"

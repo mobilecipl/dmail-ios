@@ -22,9 +22,10 @@
         _internalDate = model.internalDate;
         _messageIdentifier = model.messageIdentifier;
         _imageUrl = model.imageUrl;
-        _arrayTo = [model.to componentsSeparatedByString:@","];
-        _arrayCc = [model.cc componentsSeparatedByString:@","];
-        _arrayBcc = [model.bcc componentsSeparatedByString:@","];
+        _body = model.body;
+        _arrayTo = model.to;
+        _arrayCc = model.cc;
+        _arrayBcc = model.bcc;
     }
     
     return self;

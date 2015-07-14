@@ -17,9 +17,9 @@
 
 - (NSArray *)getSentMessages;
 
-- (ModelMessage *)getMessageWithIdentifier:(NSString *)identifier;
+- (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageBodyWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
 - (RMModelMessage *)getLastGmailUniqueId;
 

@@ -19,7 +19,7 @@
         _gmailId = dict[@"id"];
         _snippet = dict[@"snippet"];
         _publicKey = [self getPublicKeyFromSnippet:_snippet];
-        
+        _body = nil;
     }
     
     return self;
