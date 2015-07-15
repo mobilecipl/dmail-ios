@@ -32,7 +32,7 @@
 
 - (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
 
-//- (void)deleteMessageWithMessageItem:(MessageItem *)item;
+- (void)deleteMessageWithMessageItem:(NSString *)messageId;
 
 - (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId;
 

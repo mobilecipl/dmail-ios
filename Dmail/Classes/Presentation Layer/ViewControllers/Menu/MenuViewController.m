@@ -9,7 +9,6 @@
 #import "MenuViewController.h"
 #import "MenuCell.h"
 #import "UIColor+AppColors.h"
-#import "CoreDataManager.h"
 #import "LoadingViewController.h"
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
@@ -105,8 +104,7 @@
 
 - (void)clearAllDBAndRedirectInLoginScreen {
     
-    [[CoreDataManager sharedCoreDataManager] signOut];
-    
+    //TODO
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyBoard instantiateViewControllerWithIdentifier:@"loginView"];
     LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];

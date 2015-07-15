@@ -9,7 +9,6 @@
 #import "MessageService.h"
 #import "NetworkManager.h"
 #import "ServiceProfile.h"
-#import "CoreDataManager.h"
 #import "DmailEntityItem.h"
 #import "ComposeModelItem.h"
 #import "Profile.h"
@@ -203,15 +202,15 @@
 
 - (void)getDecodedMessageWithGmailUniqueId:(NSString *)dmailMessageId withCompletionBlock:(void (^)(NSString *message, NSInteger statusCode))completion {
     
-    [self getMessageFromDmailWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *encodedMessage, NSInteger statusCode) {
-        NSString *decodedMessage;
-        if (statusCode == 200) {
-            NSString *publicKey = [[CoreDataManager sharedCoreDataManager] getPublicKeyWithDmailId:dmailMessageId];
-            decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
-            [[CoreDataManager sharedCoreDataManager] writeMessageBodyWithDmailId:dmailMessageId messageBody:decodedMessage];
-        }
-        completion(decodedMessage, statusCode);
-    }];
+//    [self getMessageFromDmailWithGmailUniqueId:dmailMessageId withCompletionBlock:^(NSString *encodedMessage, NSInteger statusCode) {
+//        NSString *decodedMessage;
+//        if (statusCode == 200) {
+//            NSString *publicKey = [[CoreDataManager sharedCoreDataManager] getPublicKeyWithDmailId:dmailMessageId];
+//            decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
+//            [[CoreDataManager sharedCoreDataManager] writeMessageBodyWithDmailId:dmailMessageId messageBody:decodedMessage];
+//        }
+//        completion(decodedMessage, statusCode);
+//    }];
 }
 
 - (void)getGmailMessageIdFromGmailWithIdentifier:(NSString *)gmailUniqueId withCompletionBlock:(void (^)(NSString *gmailMessageId, NSInteger statusCode))completion {
@@ -262,27 +261,6 @@
             success = YES;
         }
         completion(success);
-    }];
-}
-
-- (void)sendMessageToDmailWithMessageBody:(NSString *)messageBody senderEmail:(NSString *)senderEmail completionBlock:(void (^)(NSString *dmailId, NSInteger statusCode))completion {
-    
-    NSString *encriptedMessage = [self encodeMessage:messageBody];
-    [[NetworkManager sharedManager] sendMessageToDmailWithEncriptedMessage:encriptedMessage senderEmail:senderEmail completionBlock:^(NSDictionary *requestData, NSInteger statusCode) {
-        NSString *dmailId;
-        if (statusCode == 201) {
-            dmailId = requestData[@"message_id"];
-            DmailEntityItem *item = [[DmailEntityItem alloc] initWithClearObjects];
-            item.dmailId = dmailId;
-            item.access = @"GRANTED";
-            item.body = encriptedMessage;
-            item.status = MessageSentOnlyBody;
-            item.publicKey = self.publicKey;
-            item.label = Sent;
-            [[CoreDataManager sharedCoreDataManager] writeMessageToDmailEntityWithparameters:item];
-            [[CoreDataManager sharedCoreDataManager] writeMessageToGmailEntityWithparameters:item];
-        }
-        completion(dmailId, statusCode);
     }];
 }
 

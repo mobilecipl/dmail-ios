@@ -93,7 +93,6 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //TODO:
-    //    [self.inboxModel deleteMessageWithMessageItem:[self.arrayMessgaeItems objectAtIndex:indexPath.row]];
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self removeItemAtIndex:indexPath];
         [tableView reloadData];
@@ -106,7 +105,4 @@
     }
 }
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-//    return [NSArray array];
-//}
 @end

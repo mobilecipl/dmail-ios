@@ -7,8 +7,6 @@
 //
 
 #import "ComposeViewController.h"
-#import "MessageService.h"
-#import "CoreDataManager.h"
 #import "DmailMessage.h"
 #import "ComposeModel.h"
 #import "ComposeModelItem.h"

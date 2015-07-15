@@ -174,9 +174,8 @@
 #pragma mark - TableViewDataSourceDelegate Methods
 - (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath {
     
+    //TODO: Need to mofe to Dao
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    //TODO:
-    
     RLMRealm *realm = [RLMRealm defaultRealm];
     RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageItem.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
     NSMutableArray *arrayRecipients = [@[] mutableCopy];

@@ -144,9 +144,7 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
 
 }
 
-- (void)deleteWithGmailId:(NSString *)gmailId
-                   userId:(NSString *)userID
-          completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"deleteResponse JSON: %@", responseObject);
@@ -157,31 +155,6 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
                 }
                 break;
             }
-//            case 201: { //Success Response
-//                if ([responseObject isKindOfClass:[NSDictionary class]]) {
-//                    //TODO:
-//                    if (!responseObject[@"errorCode"] || (responseObject[@"errorCode"] && [responseObject[@"errorCode"] integerValue] == 0)) {
-//                        if (completionBlock) {
-//                            completionBlock(responseObject, nil);
-//                        }
-//                    }
-//                    else {
-//                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-//                        completionBlock(nil, error);
-//                    }
-//                } else {
-//                    ErrorDataModel *error = [[ErrorDataModel alloc] init];
-//                    error.statusCode = @400;
-//                    error.message = kErrorMessageNoServer;
-//                    completionBlock(nil, error);
-//                }
-//            }
-//                break;
-//            default: {
-//                ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-//                completionBlock(nil, error);
-//            }
-//                break;
         }
     };
     
@@ -189,8 +162,6 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
                  withParams:nil
                     success:successBlock
                     failure:[self constructFailureBlockWithBlock:completionBlock]];
-    
-    
 }
 
 @end

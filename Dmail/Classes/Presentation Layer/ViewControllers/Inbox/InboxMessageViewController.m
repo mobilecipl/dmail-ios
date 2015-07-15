@@ -8,11 +8,6 @@
 
 #import "InboxMessageViewController.h"
 
-//#import "CoreDataManager.h"
-//#import "DmailMessage.h"
-//#import <NSDate+DateTools.h>
-//#import "MessageItem.h"
-
 // service
 #import "ServiceMessage.h"
 

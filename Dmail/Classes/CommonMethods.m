@@ -8,7 +8,6 @@
 
 #import "CommonMethods.h"
 #import "DmailEntityItem.h"
-#import "CoreDataManager.h"
 #import "ProfileItem.h"
 
 @implementation CommonMethods
@@ -31,63 +30,6 @@
                                       attributes:headerAttributes
                                          context:nil];
     return textSize.size.width;
-}
-
-- (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply {
-    
-    DmailEntityItem *dmailEntityItem = [[DmailEntityItem alloc] initWithClearObjects];
-    dmailEntityItem.publicKey = [self getPublicKeyFromSnippet:requestReply[Snippet]];
-    dmailEntityItem.gmailId = requestReply[@"id"];
-    NSLog(@"dmailEntityItem.gmailId === %@", requestReply);
-    if ([[requestReply allKeys] containsObject:Payload]) {
-        dmailEntityItem.internalDate = [requestReply[InternalDate] doubleValue];
-        NSDictionary *payload = requestReply[Payload];
-        if ([[payload allKeys] containsObject:Headers]) {
-            NSArray *headers = payload[Headers];
-            for (NSDictionary *dict in headers) {
-                if ([dict[Name] isEqualToString:From]) {
-                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
-                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
-                    ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:dmailEntityItem.fromEmail name:dmailEntityItem.fromName];
-                    [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
-                }
-                if ([dict[Name] isEqualToString:To]) {
-                    NSArray *array = [dict[Value] componentsSeparatedByString:@","];
-                    for (NSString *string in array) {
-                        NSString *toEmail = [self getEmailFromValue:string];
-                        if (toEmail) {
-                            [dmailEntityItem.arrayTo addObject:toEmail];
-                        }
-                        NSString *toName = [self getNameFromvalue:string];
-                        ProfileItem *profileItem = [[ProfileItem alloc] initWithEmail:toEmail name:toName];
-                        [[CoreDataManager sharedCoreDataManager] writeOrUpdateParticipantWith:profileItem];
-                    }
-                }
-                //                if ([dict[Name] isEqualToString:Cc]) {
-                //                    NSArray *arrayCc = [dict[Value] componentsSeparatedByString:@","];
-                //                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
-                //                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
-                //                }
-                //                if ([dict[Name] isEqualToString:Bcc]) {
-                //                    NSArray *arrayCc = [dict[Value] componentsSeparatedByString:@","];
-                //                    dmailEntityItem.fromEmail = [self getEmailFromValue:dict[Value]];
-                //                    dmailEntityItem.fromName = [self getNameFromvalue:dict[Value]];
-                //                }
-                if ([dict[Name] isEqualToString:Subject]) {
-                    dmailEntityItem.subject = dict[Value];
-                }
-                if ([dict[Name] isEqualToString:Message_Id]) {
-                    dmailEntityItem.identifier = dict[Value];
-                }
-//                if ([dict[Name] isEqualToString:PublicKey]) {
-//                    dmailEntityItem.publicKey = dict[Value];
-//                }
-                dmailEntityItem.status = MessageFetchedFull;
-            }
-        }
-    }
-    
-    return dmailEntityItem;
 }
 
 - (NSString *)getPublicKeyFromSnippet:(NSString *)snippet {

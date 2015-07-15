@@ -8,9 +8,7 @@
 
 #import "ParticipantView.h"
 #import "CommonMethods.h"
-#import "CoreDataManager.h"
 #import "UIColor+AppColors.h"
-#import "CoreDataManager.h"
 #import "Profile.h"
 
 

@@ -124,14 +124,15 @@
     }];
 }
 
-//- (void)deleteMessageWithMessageItem:(MessageItem *)item {
-//    
+- (void)deleteMessageWithMessageItem:(NSString *)messageId {
+    
+    //TODO
 //    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
 //    [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
 //    [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
 //        
 //    }];
-//}
+}
 
 - (void)destroWithArrayParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
     

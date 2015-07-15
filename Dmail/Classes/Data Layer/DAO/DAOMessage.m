@@ -368,7 +368,7 @@
             name = [name stringByAppendingString:modelProfile.fullName];
         }
         else {
-            if (contact.fullName) {
+            if (contact.fullName.length > 0) {
                 name = [name stringByAppendingString:contact.fullName];
             }
             else {
