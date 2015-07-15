@@ -31,7 +31,7 @@
 - (void)setItems:(NSArray *)items
 {
     items = [self partitionObjects:items collationStringSelector:self.collationStringSelector];
-    [super setItems:items];
+    [super setItems:[items mutableCopy]];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

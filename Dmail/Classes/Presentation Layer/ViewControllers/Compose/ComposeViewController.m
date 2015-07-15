@@ -7,17 +7,18 @@
 //
 
 #import "ComposeViewController.h"
-#import "DmailMessage.h"
-#import "ComposeModel.h"
-#import "ComposeModelItem.h"
+
+// service
+#import "ServiceMessage.h"
+#import "ServiceContact.h"
+
+// view
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
 #import "ContactCell.h"
-#import "DAOContact.h"
+
+// model
 #import "ContactModel.h"
-
-#import "ServiceMessage.h"
-
 
 @interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
 
@@ -27,6 +28,7 @@
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceContact *serviceContact;
 
 @property (nonatomic, strong) NSMutableArray *arrayTableItems;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
@@ -42,7 +44,6 @@
 @property (nonatomic, assign) CGFloat messageContentCellHeight;
 @property (nonatomic, assign) NSInteger selectedRow;
 @property (nonatomic, assign) BOOL backClicked;
-@property (nonatomic, strong) ComposeModel *composeModel;
 
 @end
 
@@ -54,7 +55,9 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
+        
         _serviceMessage = [[ServiceMessage alloc] init];
+        _serviceContact = [[ServiceContact alloc] init];
     }
     return self;
 }
@@ -118,7 +121,6 @@
     self.tableViewContacts.hidden = YES;
     self.messageBody = @"";
     self.participantEmail = @"";
-    self.composeModel = [[ComposeModel alloc] init];
     
     self.arrayTableItems = [[NSMutableArray alloc] initWithObjects:@"1",@"4", nil];
     self.toCellHeight = 57;
@@ -353,8 +355,8 @@
     else {
         self.participantEmail = [self.participantEmail stringByAppendingString:email];
     }
-    DAOContact *daoContact = [[DAOContact alloc] init];
-    self.arrayContacts = [daoContact getContactsWithName:self.participantEmail];
+    
+    self.arrayContacts = [self.serviceContact getContactsWithName:self.participantEmail];
     if ([self.arrayContacts count] > 0) {
         self.tableViewContacts.hidden = NO;
         [self.tableViewContacts reloadData];

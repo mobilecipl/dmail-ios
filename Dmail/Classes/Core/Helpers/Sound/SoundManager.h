@@ -13,8 +13,6 @@
 
 + (SoundManager *)sharedInstance;
 
-- (void)createNewPingNotificationSound;
-- (void)createInboxReloadSound;
 - (void)playPushNotificationSound;
 - (void)playInboxReloadSound;
 

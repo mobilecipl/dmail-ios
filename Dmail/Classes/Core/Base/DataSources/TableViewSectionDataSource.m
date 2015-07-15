@@ -27,7 +27,7 @@
 
 - (void)setItems:(NSArray *)items
 {
-    [super setItems:items];
+    [super setItems:[items mutableCopy]];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

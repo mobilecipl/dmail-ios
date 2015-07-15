@@ -36,8 +36,6 @@
 #import "NSString+AESCrypt.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 
-#import "NetworkManager.h"
-
 @interface DAOMessage ()
 
 @property (nonatomic, strong) NetworkMessage *networkMessage;

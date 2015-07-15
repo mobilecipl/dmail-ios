@@ -121,7 +121,6 @@
 		C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DA31B41AB1C00295A94 /* ParticipantView.m */; };
 		C08C2E031B41AB1C00295A94 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA51B41AB1C00295A94 /* LaunchScreen.xib */; };
 		C08C2E041B41AB1C00295A94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA61B41AB1C00295A94 /* Main.storyboard */; };
-		C08C2E051B41AB1C00295A94 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA91B41AB1C00295A94 /* Info.plist */; };
 		C08C2E061B41AB1C00295A94 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DAA1B41AB1C00295A94 /* main.m */; };
 		C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27B81B4BD3BB0067B7F2 /* MessageCell.m */; };
 		C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27BC1B4BD3D90067B7F2 /* InboxCell.m */; };
@@ -1349,7 +1348,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C08C2E051B41AB1C00295A94 /* Info.plist in Resources */,
 				C08C2E041B41AB1C00295A94 /* Main.storyboard in Resources */,
 				C08C2DAE1B41AB1C00295A94 /* ProximaNova-Thin.ttf in Resources */,
 				C08C2DAF1B41AB1C00295A94 /* Images.xcassets in Resources */,

@@ -12,6 +12,8 @@
 
 @interface ServiceContact : BaseService
 
+- (NSMutableArray *)getContactsWithName:(NSString *)name;
+
 - (void)getContactsWithPagingForEmail:(NSString *)email
                             maxResult:(NSString *)maxResult
                       completionBlock:(CompletionBlock)completionBlock;

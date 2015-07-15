@@ -11,19 +11,18 @@
 // service
 #import "ServiceContact.h"
 #import "ServiceGmailMessage.h"
+#import "ServiceProfile.h"
 
 // dao
 #import "DAOSync.h"
 #import "DAOMessage.h"
 #import "DAOContact.h"
 
-#import "ServiceProfile.h"
-#import "NetworkManager.h"
+
+// realm
 #import "RMModelMessage.h"
 #import "RMModelRecipient.h"
 
-// dao
-//#import "DAOSync.h"
 
 @interface ServiceSync ()
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;

@@ -15,6 +15,5 @@
 
 + (CommonMethods *)sharedInstance;
 - (CGFloat)textWidthWithText:(NSString *)text height:(CGFloat)height fontName:(NSString *)fontName fontSize:(CGFloat)fontSize;
-- (DmailEntityItem *)parseGmailMessageContent:(NSDictionary *)requestReply;
 
 @end

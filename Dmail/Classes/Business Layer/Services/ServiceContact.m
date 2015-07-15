@@ -27,6 +27,11 @@
     return self;
 }
 
+- (NSMutableArray *)getContactsWithName:(NSString *)name {
+    
+    return [self.daoContact getContactsWithName:name];
+}
+
 - (void)getContactsWithPagingForEmail:(NSString *)email
                             maxResult:(NSString *)maxResult
                       completionBlock:(CompletionBlock)completionBlock {
