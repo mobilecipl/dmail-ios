@@ -36,9 +36,14 @@ static NSString * const NotificationNewMessageFetched = @"NotificationNewMessage
 static NSString * const NotificationNewMessageSent = @"NotificationNewMessageSent";
 static NSString * const NotificationNewMessageSentError = @"NotificationNewMessageSentError";
 static NSString * const NotificationUpdateContacts = @"NotificationUpdateContacts";
-
 static NSString * const NotificationGMailUniqueFetched = @"NotificationGMailUniqueFetched";
 static NSString * const NotificationGMailMessageFetched = @"NotificationGMailMessageFetched";
+
+static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
+static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
+static NSString * const NotificationRevokeSuccess = @"NotificationRevokeSuccess";
+static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";
+
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
     Inbox = 1,

@@ -31,7 +31,6 @@
 @interface ServiceMessage ()
 
 @property (nonatomic, strong) DAOMessage *daoMessage;
-@property (nonatomic, assign) NSInteger participantIndex;
 
 @end
 
@@ -41,7 +40,6 @@
     
     if (self) {
         _daoMessage = [[DAOMessage alloc] init];
-        _participantIndex = 0;
     }
     
     return self;
@@ -124,9 +122,9 @@
     }];
 }
 
-- (void)deleteMessageWithMessageItem:(NSString *)messageId {
+- (void)deleteMessageWithMessageId:(NSString *)messageId {
     
-    //TODO
+    [self.daoMessage deleteMessageWithMessageId:messageId];
 //    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
 //    [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
 //    [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
@@ -134,52 +132,9 @@
 //    }];
 }
 
-- (void)destroWithArrayParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+- (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
     
-    NSLog(@"%ld",(long)self.participantIndex);
-    if ([arrayParticipants count] > 0) {
-        [[MessageService sharedInstance] revokeUserWithEmail:[arrayParticipants objectAtIndex:self.participantIndex] dmailId:messageId completionBlock:^(BOOL success) {
-            if (success) {
-                self.participantIndex ++;
-                if (self.participantIndex > [arrayParticipants count] - 1) {
-                    self.participantIndex = 0;
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                                    message:@"Participants are successfully destroyed"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Ok"
-                                                          otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-                else {
-                    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
-                }
-            }
-        }];
-    }
-
+    [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];
 }
-
-- (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
-    
-    self.participantIndex = 0;
-    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
-}
-
-//- (NSMutableArray *)getAllParticipantsWithMessageItem:(MessageItem *)messageItem {
-//    
-//    NSMutableArray *arrayAllParticipants = [[NSMutableArray alloc] init];
-//    for (NSString *to in messageItem.arrayTo) {
-//        [arrayAllParticipants addObject:to];
-//    }
-//    for (NSString *cc in messageItem.arrayCc) {
-//        [arrayAllParticipants addObject:cc];
-//    }
-//    for (NSString *bcc in messageItem.arrayBcc) {
-//        [arrayAllParticipants addObject:bcc];
-//    }
-//    
-//    return arrayAllParticipants;
-//}
-
 
 @end

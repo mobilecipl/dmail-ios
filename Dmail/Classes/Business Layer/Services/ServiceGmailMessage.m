@@ -41,28 +41,18 @@
     }];
 }
 
-- (void)sendWithEncodedBody:(NSString *)encodedBody
-                     userId:(NSString *)userID
-            completionBlock:(CompletionBlock)completionBlock {
-    
-    [self.daoGmailMessage sendWithEncodedBody:encodedBody
-                                       userId:userID
-                              completionBlock:^(id data, ErrorDataModel *error) {
-                                  
-                                  completionBlock(data, error);
-                              }];
+- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+
+    [self.daoGmailMessage sendWithEncodedBody:encodedBody userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
-- (void)deleteWithGmailId:(NSString *)gmailId
-                   userId:(NSString *)userID
-          completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoGmailMessage deleteWithGmailId:gmailId
-                                     userId:userID
-                            completionBlock:^(id data, ErrorDataModel *error) {
-                                
-                                completionBlock(data, error);
-                            }];
+    [self.daoGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
 @end

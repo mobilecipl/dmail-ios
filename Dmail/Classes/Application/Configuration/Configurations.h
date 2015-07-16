@@ -16,4 +16,5 @@ static NSString * const kGoogleClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
 
 #pragma mark - Server URL
 static NSString * kBaseServerURL = @"https://api-dev.dmail.io/";
+//static NSString * kBaseServerURL = @"http://192.168.0.100:8080/dmail/";
 #endif

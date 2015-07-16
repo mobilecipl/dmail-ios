@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 @property (nonatomic, strong) NSString *revokedEmail;
 @property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
 @property (nonatomic, strong) NSString *body;
-@property (nonatomic, assign) NSInteger participantIndex;
 
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
@@ -78,6 +77,21 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [self setupController];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self registerNotifications];
+}
+
+
+- (void)registerNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationRevokeSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationRevokeFailed object:nil];
+}
 
 - (void)loadData {
     
@@ -124,31 +138,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                                          otherButtonTitles:@"Destroy", nil];
     alert.tag = Destroy;
     [alert show];
-}
-
-- (void)destroyAllParticipants {
-    
-    [[MessageService sharedInstance] revokeUserWithEmail:[self.arrayAllParticipants objectAtIndex:self.participantIndex] dmailId:self.modelMessage.dmailId completionBlock:^(BOOL success) {
-        if (success) {
-            self.participantIndex ++;
-            if (self.participantIndex > [self.arrayAllParticipants count] - 1) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                                message:@"Participants are successfully destroyed"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil, nil];
-                [alert show];
-            }
-            else {
-                [self destroyAllParticipants];
-            }
-        }
-        else {
-            if (self.participantIndex <= [self.arrayAllParticipants count] - 1) {
-                [self destroyAllParticipants];
-            }
-        }
-    }];
 }
 
 - (NSMutableArray *)getAllParticipants {
@@ -413,26 +402,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 
                 break;
             case 1: {
-                [[MessageService sharedInstance] revokeUserWithEmail:self.revokedEmail dmailId:self.modelMessage.dmailId completionBlock:^(BOOL success) {
-                    NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:0 inSection:0];
-                    if ([self.arrayCc count] > 0) {
-                        rowToReload = [NSIndexPath indexPathForRow:1 inSection:0];
-                    }
-                    if ([self.arrayBcc count] > 0) {
-                        rowToReload = [NSIndexPath indexPathForRow:2 inSection:0];
-                    }
-                    NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
-                    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-                    if (success) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                                        message:@"Participant is revoked"
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Ok"
-                                                              otherButtonTitles:nil, nil];
-                        [alert show];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];
+                [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:self.revokedEmail];
             }
                 break;
             default:
@@ -445,9 +415,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 
                 break;
             case 1: {
-                self.participantIndex = 0;
-                [self getAllParticipants];
-                [self destroyAllParticipants];
+                [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:nil];
             }
                 break;
             default:

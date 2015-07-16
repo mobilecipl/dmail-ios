@@ -58,4 +58,48 @@
     }
 }
 
+- (void)handleDestroyAccessSuccess {
+    
+    [self hideLoadingView];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                    message:@"Participants are successfully destroyed"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+- (void)handleDestroyAccessFailed {
+    
+    [self hideLoadingView];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                    message:@"Destroy failed"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+- (void)handleRevokeAccessSuccess {
+    
+    [self hideLoadingView];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                    message:@"Participant is successfully revoked"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+- (void)handleRevokeAccessFailed {
+    
+    [self hideLoadingView];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                    message:@"Revoke failed"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+}
+
 @end

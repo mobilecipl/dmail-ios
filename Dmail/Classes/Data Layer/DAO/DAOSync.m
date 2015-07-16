@@ -60,13 +60,6 @@
                         [self saveMessage:message];
                     }
                 }
-                
-//                if (recipients.count > 0) {
-//                    newData = YES;
-//                } else {
-//                    newData = YES;
-//                }
-                
                 completionBlock(@(hasNewData), nil);
             } else {
                

@@ -35,7 +35,6 @@
 
 #import <Realm/Realm.h>
 #import "RMModelRecipient.h"
-#import "VMInboxMessageItem.h"
 
 
 @interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
@@ -91,6 +90,8 @@
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
 }
 
 - (void)setupController {
@@ -129,6 +130,23 @@
     [self.tableViewSent reloadData];
 }
 
+- (void)handleRevokeAccessSuccess {
+    
+    [self hideLoadingView];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
+                                                    message:@"Participants are successfully destroyed"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+
+}
+
+- (void)handleRevokeAccessFailed {
+    
+    [self hideLoadingView];
+}
+
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -154,36 +172,13 @@
     
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         NSLog(@"Action to perform with Button 1");
-        VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-        //TODO:
-        NSMutableArray *arrayRecipients = [[NSMutableArray alloc] init];
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageItem.messageId];
-        for (RMModelRecipient *rmRecipient in recipients) {
-            [arrayRecipients addObject:rmRecipient.recipient];
-        }
-        
-        [self.serviceMessage destroyMessageWithMessageItem:arrayRecipients messageId:messageItem.messageId];
+        [self showLoadingView];
+        VMSentMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+        [self.serviceMessage destroyMessageWithMessageId:messageItem.messageId participant:nil];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     
     return @[button];
-}
-
-
-#pragma mark - TableViewDataSourceDelegate Methods
-- (void)destroyMessageWithIndexPath:(NSIndexPath *)indexPath {
-    
-    //TODO: Need to mofe to Dao
-    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageItem.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-    NSMutableArray *arrayRecipients = [@[] mutableCopy];
-    for (RMModelRecipient *rmRecipient in recipients) {
-        [arrayRecipients addObject:rmRecipient.email];
-    }
-
-    [self.serviceMessage destroyMessageWithMessageItem:arrayRecipients messageId:messageItem.messageId];
 }
 
 

@@ -14,6 +14,7 @@
 
 // network
 #import "NetworkMessage.h"
+#import "NetworkGmailMessage.h"
 
 // model
 #import "ModelMessage.h"
@@ -36,11 +37,15 @@
 #import "NSString+AESCrypt.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 
+#import "NetworkManager.h"
+
 @interface DAOMessage ()
 
 @property (nonatomic, strong) NetworkMessage *networkMessage;
+@property (nonatomic, strong) NetworkGmailMessage *networkGmailMessage;
 @property (nonatomic, strong) DAOGmailMessage *daoGmailMessage;
 @property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) NSInteger participantIndex;
 
 @end
 
@@ -52,6 +57,7 @@
     
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
+        _networkGmailMessage = [[NetworkGmailMessage alloc] init];
         _daoGmailMessage = [[DAOGmailMessage alloc] init];
     }
     
@@ -67,39 +73,6 @@
             NSArray *arrayAllParticipants = [self createParticipantsArray:to arrayCc:cc arrayBcc:bcc];
             self.index = 0;
             [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
-            
-//            [self sendParticipants:arrayAllParticipants messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
-//                if ([data isEqualToString:@"YES"]) {
-//                    NSString *publicKey = [self getClientKeyWithMessageId:messageId];
-//                    NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
-//                    NSString *base64EncodedMessage = [self base64Encoding:gmailMessageBody];
-//                    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-//                    [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID completionBlock:^(id data, ErrorDataModel *error) {
-//                        if (data) {
-//                            NSString *gmailId = data[@"id"];
-//                            [self saveMessageWithMessageId:messageId gmailId:gmailId];
-//                            [self.daoGmailMessage getMessageWithMessageId:gmailId userId:userID completionBlock:^(NSString *messageIdentifier, ErrorDataModel *error) {
-//                                if(messageIdentifier) {
-//                                    DAOProfile *daoProfile = [[DAOProfile alloc] init];
-//                                    ProfileModel *model = [daoProfile getProfile];
-//                                    [self.networkMessage sentEmail:model.email messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
-//                                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:nil];
-//                                    }];
-//                                }
-//                                else {
-//                                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
-//                                }
-//                            }];
-//                        }
-//                        else {
-//                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
-//                        }
-//                    }];
-//                }
-//                else {
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
-//                }
-//            }];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
@@ -294,7 +267,6 @@
     [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
     [realm commitWriteTransaction];
 }
-
 
 - (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
@@ -522,7 +494,6 @@
     return [NSArray arrayWithArray:arrayrecipients];
 }
 
-
 - (RMModelMessage *)getLastGmailUniqueId {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -548,14 +519,88 @@
     
     NSNumber *position = @0;
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *messages = [[RMModelMessage allObjectsInRealm:realm] sortedResultsUsingProperty:@"position" ascending:NO];
-    for (RMModelMessage *dmailMessage in messages) {
+    RLMResults *recipients = [[RMModelRecipient allObjectsInRealm:realm] sortedResultsUsingProperty:@"position" ascending:NO];
+    for (RMModelRecipient *recipient in recipients) {
         // get first result
-        position = @(dmailMessage.position);
+        position = @(recipient.position);
         break;
     }
     
     return position;
+}
+
+- (void)deleteMessageWithMessageId:(NSString *)messageId {
+    
+    NSString *gmailId;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+    RMModelMessage *realmModel = [results firstObject];
+    gmailId = realmModel.gmailId;
+    
+    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        if ([data isEqual:@(YES)]) {
+            [realm beginWriteTransaction];
+            [realm deleteObject:realmModel];
+            [realm commitWriteTransaction];
+        }
+    }];
+}
+
+- (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
+    
+    self.participantIndex = 0;
+    if (participant) {
+        [self destroWithArrayParticipants:@[participant] messageId:messageId];
+    }
+    else {
+        NSMutableArray *arrayRecipients = [[NSMutableArray alloc] init];
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageId];
+        for (RMModelRecipient *rmRecipient in recipients) {
+            [arrayRecipients addObject:rmRecipient.recipient];
+        }
+        [self destroWithArrayParticipants:arrayRecipients messageId:messageId];
+    }
+}
+
+- (void)destroWithArrayParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+    
+    if ([arrayParticipants count] > 0) {
+        [self.networkMessage revokeUserWithMessageId:messageId email:[arrayParticipants objectAtIndex:self.participantIndex] completionBlock:^(id data, ErrorDataModel *error) {
+            if ([data isEqual:@(YES)]) {
+                RLMRealm *realm = [RLMRealm defaultRealm];
+                RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",[arrayParticipants objectAtIndex:self.participantIndex], messageId];
+                [realm beginWriteTransaction];
+                for (RMModelRecipient *model in results) {
+                    model.access = @"REVOKED";
+                }
+                [realm commitWriteTransaction];
+                
+                self.participantIndex++;
+                if (self.participantIndex > [arrayParticipants count] - 1) {
+                    self.participantIndex = 0;
+                    if([arrayParticipants count] > 1) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
+                    }
+                    else {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeSuccess object:nil];
+                    }
+                }
+                else {
+                    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
+                }
+            }
+            else {
+                if([arrayParticipants count] > 1) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
+                }
+                else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeFailed object:nil];
+                }
+            }
+        }];
+    }
 }
 
 @end

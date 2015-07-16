@@ -13,6 +13,9 @@
 static NSString * const kUrlMessagesWithId = @"%@/messages/%@?fields=id,internalDate,snippet,labelIds,payload&key=%@";
 static NSString * const kUrlMessagesWithQuery = @"%@/messages?q=%@&key=%@";
 static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
+static NSString * const kUrlMessagesDelete = @"%@/messages/%@?key=%@";
+
+//https://www.googleapis.com/gmail/v1/users/%@/messages/%@?key=%@
 
 @implementation NetworkGmailMessage
 
@@ -75,13 +78,9 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
     
 }
 
-
-- (void)getMessageWithMessageId:(NSString *)messageId
-                         userId:(NSString *)userID
-                completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"getWithIdResponse JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -147,21 +146,23 @@ static NSString * const kUrlMessagesSend = @"%@/messages/send?key=%@";
 - (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"deleteResponse JSON: %@", responseObject);
+        NSLog(@"operation.response.statusCode: %ld", (long)operation.response.statusCode);
         switch (operation.response.statusCode) {
-            case 204: { //If successful, this method returns an empty response body.
-                if (completionBlock) {
-                    completionBlock(responseObject, nil);
-                }
-                break;
+            case 200:
+            case 204: { //Success Response
+                completionBlock(@(YES), nil);
             }
+                break;
+            default: {
+                completionBlock(@(NO), nil);
+            }
+                break;
         }
     };
     
-    [self makeDeleteRequest:[NSString stringWithFormat:kUrlMessagesWithId, userID, gmailId, kGoogleClientSecret]
-                 withParams:nil
-                    success:successBlock
-                    failure:[self constructFailureBlockWithBlock:completionBlock]];
+    NSString *urlString = [NSString stringWithFormat:kUrlMessagesDelete, userID, gmailId, kGoogleClientSecret];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [self makeDeleteRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 @end

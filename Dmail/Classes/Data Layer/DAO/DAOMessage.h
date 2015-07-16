@@ -35,6 +35,8 @@
 
 - (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
 
-- (void)destroyMessageWithMessageItem:(NSArray *)arrayParticipants messageId:(NSString *)messageId;
+- (void)deleteMessageWithMessageId:(NSString *)messageId;
+
+- (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
 @end

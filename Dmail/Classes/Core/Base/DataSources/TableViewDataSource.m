@@ -99,9 +99,6 @@
         if ([self.delegate respondsToSelector:@selector(deleteMessageWithIndexPath:)]) {
             [self.delegate deleteMessageWithIndexPath:indexPath];
         }
-        if ([self.delegate respondsToSelector:@selector(destroyMessageWithIndexPath:)]) {
-            [self.delegate destroyMessageWithIndexPath:indexPath];
-        }
     }
 }
 

@@ -140,8 +140,9 @@
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        NSLog(@"Action to perform with Button 1");
+    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+        [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     
@@ -154,7 +155,6 @@
     if ([segue.identifier isEqualToString:@"fromInboxToInboxView"]) {
         InboxMessageViewController *inboxMessageViewController = (InboxMessageViewController *)segue.destinationViewController;
         if ([inboxMessageViewController isKindOfClass:[InboxMessageViewController class]]) {
-//            inboxMessageViewController.messageIdentifier = self.selectedMessage.messageIdentifier;
             inboxMessageViewController.messageId = self.selectedMessage.messageId;
         }
     }

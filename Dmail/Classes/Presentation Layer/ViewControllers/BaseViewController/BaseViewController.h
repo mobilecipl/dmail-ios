@@ -12,5 +12,9 @@
 
 - (void)showLoadingView;
 - (void)hideLoadingView;
+- (void)handleDestroyAccessSuccess;
+- (void)handleDestroyAccessFailed;
+- (void)handleRevokeAccessSuccess;
+- (void)handleRevokeAccessFailed;
 
 @end

@@ -14,13 +14,12 @@ static NSString * const kUrlSendMessage = @"api/message";
 static NSString * const kUrlSendRecipient = @"api/message/%@/recipient";
 static NSString * const kUrlMessageSent = @"mobile/message/sent";
 static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
+static NSString * const kUrlRevokeUser = @"api/message/%@/recipient/%@";
 
 
 @implementation NetworkMessage
 
-- (void)getEncryptedMessage:(NSString *)messageId
-             recipientEmail:(NSString *)recipientEmail
-            completionBlock:(CompletionBlock)completionBlock {
+- (void)getEncryptedMessage:(NSString *)messageId recipientEmail:(NSString *)recipientEmail completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -56,10 +55,7 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
     
     NSString *urlString = [NSString stringWithFormat:kUrlGetMessage, messageId, recipientEmail];
     
-    [self makeGetRequest:urlString
-              withParams:nil
-                 success:successBlock
-                 failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makeGetRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)sendEncryptedMessage:(NSString *)encryptedMessage senderEmail:(NSString *)senderEmail completionBlock:(CompletionBlock)completionBlock {
@@ -219,7 +215,6 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
                                  @"count" : count,
                                  @"bottom" : @(NO)};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
         NSLog(@"syncMessages JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200: { //Success Response
@@ -248,10 +243,31 @@ static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
         }
     };
     
-    [self makePostRequest:kUrlSyncMessages
-               withParams:parameters
-                  success:successBlock
-                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makePostRequest:kUrlSyncMessages withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
+}
+
+- (void)revokeUserWithMessageId:(NSString *)messageId email:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"syncMessages JSON: %@", responseObject);
+        switch (operation.response.statusCode) {
+            case 200:
+            case 201: { //Success Response
+                completionBlock(@(YES), nil);
+            }
+                break;
+                
+            default: {
+                ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
+                completionBlock(nil, error);
+            }
+                break;
+        }
+    };
+    
+    NSString *urlString = [NSString stringWithFormat:kUrlRevokeUser, messageId, email];
+    [self makeDeleteRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 @end
