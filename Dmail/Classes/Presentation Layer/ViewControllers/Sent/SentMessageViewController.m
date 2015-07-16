@@ -10,7 +10,6 @@
 
 // service
 #import "ServiceMessage.h"
-#import "MessageService.h"
 
 // view model
 #import "VMSentMessage.h"

@@ -57,7 +57,6 @@
 		C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CC71B41AB1B00295A94 /* AppDelegate.m */; };
 		C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE21B41AB1C00295A94 /* NetworkManager.m */; };
 		C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE51B41AB1C00295A94 /* GmailService.m */; };
-		C08C2DBC1B41AB1C00295A94 /* MessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE71B41AB1C00295A94 /* MessageService.m */; };
 		C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */; };
 		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
@@ -236,8 +235,6 @@
 		C08C2CE21B41AB1C00295A94 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C08C2CE41B41AB1C00295A94 /* GmailService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailService.h; sourceTree = "<group>"; };
 		C08C2CE51B41AB1C00295A94 /* GmailService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailService.m; sourceTree = "<group>"; };
-		C08C2CE61B41AB1C00295A94 /* MessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageService.h; sourceTree = "<group>"; };
-		C08C2CE71B41AB1C00295A94 /* MessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageService.m; sourceTree = "<group>"; };
 		C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfile.h; sourceTree = "<group>"; };
 		C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProfile.m; sourceTree = "<group>"; };
 		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
@@ -678,8 +675,6 @@
 			children = (
 				C08C2CE41B41AB1C00295A94 /* GmailService.h */,
 				C08C2CE51B41AB1C00295A94 /* GmailService.m */,
-				C08C2CE61B41AB1C00295A94 /* MessageService.h */,
-				C08C2CE71B41AB1C00295A94 /* MessageService.m */,
 				C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */,
 				C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */,
 				C05C0CD31B42E22000248B91 /* ServiceMessage.h */,
@@ -1551,7 +1546,6 @@
 				C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */,
 				C08C2DF71B41AB1C00295A94 /* InboxMessageViewController.m in Sources */,
 				C08C2DDB1B41AB1C00295A94 /* BaseLabel.m in Sources */,
-				C08C2DBC1B41AB1C00295A94 /* MessageService.m in Sources */,
 				C08C2DE91B41AB1C00295A94 /* LocationManager.m in Sources */,
 				C08C2E061B41AB1C00295A94 /* main.m in Sources */,
 				C08C2DC91B41AB1C00295A94 /* CollectionViewDataSource.m in Sources */,

@@ -25,8 +25,6 @@
 #import "VMSentMessageItem.h"
 #import "VMSentMessage.h"
 
-#import "MessageService.h"
-
 
 @interface ServiceMessage ()
 
@@ -125,11 +123,6 @@
 - (void)deleteMessageWithMessageId:(NSString *)messageId {
     
     [self.daoMessage deleteMessageWithMessageId:messageId];
-//    [[CoreDataManager sharedCoreDataManager] removeGmailMessageWithDmailId:item.dmailId];
-//    [[CoreDataManager sharedCoreDataManager] removeDmailMessageWithDmailId:item.dmailId];
-//    [[MessageService sharedInstance] deleteMessageWithGmailId:item.gmailId completionBlock:^(BOOL success) {
-//        
-//    }];
 }
 
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
