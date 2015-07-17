@@ -13,6 +13,4 @@
 
 @interface ComposeModel : NSObject
 
-- (void)sendMessageWithItem:(ComposeModelItem *)composeModelItem;
-
 @end

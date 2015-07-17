@@ -10,6 +10,7 @@
 
 @protocol MessageComposeCellDelegate <NSObject>
 
+@optional
 - (void)messageSubject:(NSString *)subject;
 - (void)messageBody:(NSString *)body;
 

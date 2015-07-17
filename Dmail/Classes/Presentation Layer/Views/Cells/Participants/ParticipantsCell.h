@@ -12,6 +12,7 @@
 
 @protocol ParticipantsCellDelegate <NSObject>
 
+@optional
 - (void)onCCBCCClickedd;
 - (void)onArrowUpClicked;
 - (void)participantEmail:(NSString *)email;

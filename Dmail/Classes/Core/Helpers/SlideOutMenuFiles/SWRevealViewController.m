@@ -1207,7 +1207,8 @@ const int FrontViewPositionNone = 0xff;
             }
         }
         
-        duration = fabsf(journey/velocity);
+        float jour_veloc = journey/velocity;
+        duration = fabsf(jour_veloc);
     }
     
     // Position driven change:
@@ -1256,15 +1257,16 @@ const int FrontViewPositionNone = 0xff;
 }
 
 
-- (void)_dispatchPushFrontViewController:(UIViewController *)newFrontViewController animated:(BOOL)animated
-{
+- (void)_dispatchPushFrontViewController:(UIViewController *)newFrontViewController animated:(BOOL)animated {
+    
     FrontViewPosition preReplacementPosition = FrontViewPositionLeft;
     if ( _frontViewPosition > FrontViewPositionLeft ) preReplacementPosition = FrontViewPositionRightMost;
     if ( _frontViewPosition < FrontViewPositionLeft ) preReplacementPosition = FrontViewPositionLeftSideMost;
     
     NSTimeInterval duration = animated?_toggleAnimationDuration:0.0;
     NSTimeInterval firstDuration = duration;
-    int initialPosDif = abs( _frontViewPosition - preReplacementPosition );
+    int absoluteValue = _frontViewPosition - preReplacementPosition;
+    int initialPosDif = abs(absoluteValue);
     if ( initialPosDif == 1 ) firstDuration *= 0.8;
     else if ( initialPosDif == 0 ) firstDuration = 0;
     

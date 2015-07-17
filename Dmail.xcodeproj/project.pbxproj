@@ -56,7 +56,6 @@
 		C08C2DAF1B41AB1C00295A94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBF1B41AB1B00295A94 /* Images.xcassets */; };
 		C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CC71B41AB1B00295A94 /* AppDelegate.m */; };
 		C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE21B41AB1C00295A94 /* NetworkManager.m */; };
-		C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE51B41AB1C00295A94 /* GmailService.m */; };
 		C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */; };
 		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
@@ -112,7 +111,6 @@
 		C08C2DF91B41AB1C00295A94 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D871B41AB1C00295A94 /* LoadingViewController.m */; };
 		C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D8A1B41AB1C00295A94 /* LoginViewController.m */; };
 		C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */; };
-		C08C2DFC1B41AB1C00295A94 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D901B41AB1C00295A94 /* RootViewController.m */; };
 		C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */; };
 		C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9B1B41AB1C00295A94 /* MenuCell.m */; };
 		C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9E1B41AB1C00295A94 /* MessageComposeCell.m */; };
@@ -233,8 +231,6 @@
 		C08C2CC71B41AB1B00295A94 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C08C2CE11B41AB1C00295A94 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C08C2CE21B41AB1C00295A94 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
-		C08C2CE41B41AB1C00295A94 /* GmailService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailService.h; sourceTree = "<group>"; };
-		C08C2CE51B41AB1C00295A94 /* GmailService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailService.m; sourceTree = "<group>"; };
 		C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfile.h; sourceTree = "<group>"; };
 		C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProfile.m; sourceTree = "<group>"; };
 		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
@@ -346,8 +342,6 @@
 		C08C2D8A1B41AB1C00295A94 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C08C2D8C1B41AB1C00295A94 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
-		C08C2D8F1B41AB1C00295A94 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		C08C2D901B41AB1C00295A94 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		C08C2D921B41AB1C00295A94 /* SentMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageViewController.h; sourceTree = "<group>"; };
 		C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentMessageViewController.m; sourceTree = "<group>"; };
 		C08C2D9A1B41AB1C00295A94 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
@@ -673,8 +667,6 @@
 		C08C2CE31B41AB1C00295A94 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2CE41B41AB1C00295A94 /* GmailService.h */,
-				C08C2CE51B41AB1C00295A94 /* GmailService.m */,
 				C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */,
 				C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */,
 				C05C0CD31B42E22000248B91 /* ServiceMessage.h */,
@@ -1030,13 +1022,12 @@
 			isa = PBXGroup;
 			children = (
 				C08C2D7A1B41AB1C00295A94 /* BaseViewController */,
-				C08C2D7D1B41AB1C00295A94 /* Compose */,
-				C08C2D801B41AB1C00295A94 /* Inbox */,
 				C08C2D851B41AB1C00295A94 /* Loading */,
 				C08C2D881B41AB1C00295A94 /* Login */,
 				C08C2D8B1B41AB1C00295A94 /* Menu */,
-				C08C2D8E1B41AB1C00295A94 /* Root */,
+				C08C2D801B41AB1C00295A94 /* Inbox */,
 				C08C2D911B41AB1C00295A94 /* Sent */,
+				C08C2D7D1B41AB1C00295A94 /* Compose */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1095,15 +1086,6 @@
 				C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */,
 			);
 			path = Menu;
-			sourceTree = "<group>";
-		};
-		C08C2D8E1B41AB1C00295A94 /* Root */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2D8F1B41AB1C00295A94 /* RootViewController.h */,
-				C08C2D901B41AB1C00295A94 /* RootViewController.m */,
-			);
-			path = Root;
 			sourceTree = "<group>";
 		};
 		C08C2D911B41AB1C00295A94 /* Sent */ = {
@@ -1482,7 +1464,6 @@
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
-				C08C2DFC1B41AB1C00295A94 /* RootViewController.m in Sources */,
 				C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
@@ -1496,7 +1477,6 @@
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
 				9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */,
 				9C21B8861B46A2780080B132 /* DAOContact.m in Sources */,
-				C08C2DBB1B41AB1C00295A94 /* GmailService.m in Sources */,
 				C08C2DDE1B41AB1C00295A94 /* BaseSearchBar.m in Sources */,
 				C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */,
 				C08C2DC31B41AB1C00295A94 /* CommonMethods.m in Sources */,
@@ -1668,7 +1648,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
 			};
 			name = Debug;
 		};
@@ -1689,7 +1669,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
 			};
 			name = Release;
 		};

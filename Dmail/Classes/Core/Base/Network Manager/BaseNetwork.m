@@ -70,7 +70,7 @@
 
 -(void)preparingForRequests {
     
-    [self prepareRequest];
+//    [self prepareRequest];
     
     __block __weak id blockDelegate = self.delegate;
     //Preparing For request
@@ -78,11 +78,6 @@
     {
         [blockDelegate preparingForRequests];
     }
-}
-
--(void)prepareRequest {
-    
-    NSString *appVersion = [NSString stringWithFormat:@"app_version=t.i.%@;", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 }
 
 -(NSDictionary *)prepareParams:(NSDictionary *)params {

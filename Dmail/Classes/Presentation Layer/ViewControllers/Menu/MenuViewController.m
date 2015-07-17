@@ -14,10 +14,9 @@
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
 #import "ServiceProfile.h"
-#import <GoogleSignIn.h>
 
 
-@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
+@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
@@ -38,8 +37,9 @@
     self.tableViewMenuu.delegate = self;
     self.tableViewMenuu.dataSource = self;
     
-    self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:@{@"image" : @"imageInbox", @"text" : @"Inbox", @"color" : [UIColor cellSelected]},
-  @{@"image" : @"imageSent", @"text" : @"Sent", @"color" : [UIColor whiteColor]}, nil];
+    self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:
+                                   @{@"image" : @"imageInbox", @"text" : @"Inbox", @"color" : [UIColor cellSelected]},
+                                   @{@"image" : @"imageSent", @"text" : @"Sent", @"color" : [UIColor whiteColor]}, nil];
     
     self.arrayCellIds = @[@"InboxCellID", @"SentCellID"];
     
@@ -56,7 +56,6 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.delegate = self;
     [googleSignIn disconnect];
 }
 

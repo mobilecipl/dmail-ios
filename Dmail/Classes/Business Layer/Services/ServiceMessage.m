@@ -113,13 +113,6 @@
     }];
 }
 
-- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
-    
-    [self.daoMessage sentEmail:senderEmail messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
-    }];
-}
-
 - (void)deleteMessageWithMessageId:(NSString *)messageId {
     
     [self.daoMessage deleteMessageWithMessageId:messageId];

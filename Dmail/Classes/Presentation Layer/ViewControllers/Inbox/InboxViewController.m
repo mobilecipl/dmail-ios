@@ -123,7 +123,7 @@
 }
 
 
-#pragma mark - Delegate Methods -
+#pragma mark - UITableViewDelegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
