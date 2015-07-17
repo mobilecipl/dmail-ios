@@ -304,6 +304,9 @@
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageProfileMask" translatesAutoresizingMaskIntoConstraints="NO" id="9qo-9u-rkq">
+                                                                    <rect key="frame" x="15" y="10" width="25" height="25"/>
+                                                                </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofd-Ik-d7g" userLabel="Name : Label">
                                                                     <rect key="frame" x="45" y="16" width="29" height="14"/>
                                                                     <constraints>
@@ -347,6 +350,8 @@
                                                                 <constraint firstAttribute="trailing" secondItem="Q2Y-as-aBr" secondAttribute="trailing" constant="35" id="9n6-Ih-QhL"/>
                                                                 <constraint firstItem="ccy-Zg-AcK" firstAttribute="leading" secondItem="URv-1U-B5Z" secondAttribute="leading" id="AD1-n1-082"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tqf-VL-6Cr" secondAttribute="trailing" constant="9" id="D2f-ND-i8P"/>
+                                                                <constraint firstItem="9qo-9u-rkq" firstAttribute="centerY" secondItem="Wel-IB-tql" secondAttribute="centerY" id="FLk-H4-vIK"/>
+                                                                <constraint firstItem="9qo-9u-rkq" firstAttribute="centerX" secondItem="Wel-IB-tql" secondAttribute="centerX" id="HOA-LX-NVa"/>
                                                                 <constraint firstAttribute="trailing" secondItem="GJU-0t-lSy" secondAttribute="trailing" id="HbK-tB-dp6"/>
                                                                 <constraint firstAttribute="bottom" secondItem="ccy-Zg-AcK" secondAttribute="bottom" id="Lug-gd-EKC"/>
                                                                 <constraint firstItem="Wel-IB-tql" firstAttribute="leading" secondItem="URv-1U-B5Z" secondAttribute="leading" constant="15" id="M4M-J7-9yP"/>
@@ -967,6 +972,9 @@
                                             <constraint firstAttribute="height" constant="25" id="aQk-hK-1qE"/>
                                         </constraints>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageProfileMask" translatesAutoresizingMaskIntoConstraints="NO" id="g0J-29-Zab">
+                                        <rect key="frame" x="175" y="27" width="25" height="25"/>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aI-9V-p5k">
                                         <rect key="frame" x="295" y="25" width="65" height="30"/>
                                         <constraints>
@@ -983,6 +991,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="UT4-gO-CCz" firstAttribute="centerY" secondItem="g0J-29-Zab" secondAttribute="centerY" id="5CW-Ty-IN0"/>
                                     <constraint firstItem="BSW-Ww-hYq" firstAttribute="leading" secondItem="qTV-KJ-4cp" secondAttribute="leading" constant="3" id="A9i-EO-53m"/>
                                     <constraint firstAttribute="trailing" secondItem="9aI-9V-p5k" secondAttribute="trailing" constant="15" id="Cho-Rq-BTU"/>
                                     <constraint firstItem="BSW-Ww-hYq" firstAttribute="top" secondItem="qTV-KJ-4cp" secondAttribute="top" constant="20" id="IoS-r9-V5s"/>
@@ -990,6 +999,7 @@
                                     <constraint firstItem="UT4-gO-CCz" firstAttribute="top" secondItem="qTV-KJ-4cp" secondAttribute="top" constant="27" id="PNj-Tu-iIs"/>
                                     <constraint firstAttribute="centerY" secondItem="9aI-9V-p5k" secondAttribute="centerY" constant="-7.5" id="fka-QR-jhi"/>
                                     <constraint firstAttribute="centerX" secondItem="UT4-gO-CCz" secondAttribute="centerX" id="gZk-Ov-47O"/>
+                                    <constraint firstItem="UT4-gO-CCz" firstAttribute="centerX" secondItem="g0J-29-Zab" secondAttribute="centerX" id="oHm-eN-XLp"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCN-QW-zjT" userLabel="View:Table Container">
@@ -1850,6 +1860,7 @@
         <image name="imageCellLine" width="320" height="2"/>
         <image name="imageProfile1" width="25" height="25"/>
         <image name="imageProfile2" width="30" height="30"/>
+        <image name="imageProfileMask" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -1860,6 +1871,6 @@
         <segue reference="Jjg-do-4sL"/>
         <segue reference="V8g-7x-DfO"/>
         <segue reference="msd-Ig-8Lo"/>
-        <segue reference="COF-Ci-usR"/>
+        <segue reference="szA-Vv-gNz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -164,9 +164,21 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.viewNavigation.layer.shadowRadius = 0.5;
     self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 1);
     
-    self.viewSecure.layer.cornerRadius = 5;
-    self.viewSecure.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
-    self.viewSecure.layer.borderWidth = 1;
+//    self.viewSecure.layer.cornerRadius = 5;
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.viewSecure.bounds byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.view.bounds;
+    maskLayer.path  = maskPath.CGPath;
+    self.viewSecure.layer.mask = maskLayer;
+    
+    CAShapeLayer *borderLayer = [[CAShapeLayer alloc] init];
+    borderLayer.frame = self.view.bounds;
+    borderLayer.path  = maskPath.CGPath;
+    borderLayer.lineWidth   = 2.0f;
+    borderLayer.strokeColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    borderLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.viewSecure.layer addSublayer:borderLayer];
     
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
