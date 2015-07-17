@@ -19,6 +19,8 @@
 @property NSString *googleId;
 @property NSString *imageUrl;
 @property NSString *token;
+@property NSString *bodyTemplate;
+@property long long templateLastUpdateDate;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model;
 

@@ -13,6 +13,7 @@
 #import "ServiceContact.h"
 
 // view
+
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
 #import "ContactCell.h"
@@ -25,6 +26,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *buttonSend;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
+@property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
@@ -123,13 +125,61 @@
     self.participantEmail = @"";
     
     self.arrayTableItems = [[NSMutableArray alloc] initWithObjects:@"1",@"4", nil];
-    self.toCellHeight = 57;
-    self.ccCellHeight = 57;
-    self.bccCellHeight = 57;
+    [self createTableItems];
+    
     self.messageContentCellHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight + self.viewSecure.frame.size.height);
     self.arrayTo = [[NSMutableArray alloc] init];
     self.arrayCc = [[NSMutableArray alloc] init];
     self.arrayBcc = [[NSMutableArray alloc] init];
+    
+//    self.viewNavigation.layer.masksToBounds = NO;
+//    self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 2);
+//    self.viewNavigation.layer.shadowColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+//    self.viewNavigation.layer.shadowRadius = 5;
+//    self.viewNavigation.layer.shadowOpacity = 0.8;
+    
+    UIBezierPath *secureMaskPath = [UIBezierPath bezierPathWithRoundedRect:self.viewSecure.bounds byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.view.bounds;
+    maskLayer.path  = secureMaskPath.CGPath;
+    self.viewSecure.layer.mask = maskLayer;
+    
+    CAShapeLayer *borderLayer = [[CAShapeLayer alloc] init];
+    borderLayer.frame = self.view.bounds;
+    borderLayer.path  = secureMaskPath.CGPath;
+    borderLayer.lineWidth   = 2.0f;
+    borderLayer.strokeColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    borderLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.viewSecure.layer addSublayer:borderLayer];
+}
+
+- (void)createTableItems {
+    
+    self.toCellHeight = 57;
+    self.ccCellHeight = 0;
+    self.bccCellHeight = 0;
+//    [self.arrayTableItems addObject:@"1"];
+//    [self.arrayTableItems addObject:@"4"];
+//    self.bccCellHeight = 0;
+//    self.messageContentCellHeight = 450;
+//    if ([self.arrayTo count] > 0) {
+//        [self.arrayTableItems addObject:@"1"];
+//        self.toCellHeight = 57;
+//    }
+//    if ([self.arrayCc count] > 0) {
+//        self.ccCellHeight = 57;
+//        [self.arrayTableItems addObject:@"2"];
+//    }
+//    if ([self.arrayBcc count] > 0) {
+//        self.bccCellHeight = 57;
+//        if ([self.arrayCc count] > 0) {
+//        }
+//        else {
+//            [self.arrayTableItems addObject:@"2"];
+//            [self.arrayTableItems addObject:@"3"];
+//        }
+//    }
+//    [self.arrayTableItems addObject:@"4"];
 }
 
 - (void)newMessageSent {
@@ -161,7 +211,7 @@
                 rowHeight = self.toCellHeight;
             }
             else {
-                rowHeight = self.messageContentCellHeight;
+                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);//self.messageContentCellHeight;
             }
         }
         else {
@@ -176,7 +226,7 @@
                     rowHeight = self.bccCellHeight;
                     break;
                 case 3:
-                    rowHeight = [UIScreen mainScreen].bounds.size.height - 65;//(65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
+                    rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);//[UIScreen mainScreen].bounds.size.height - 65;//(65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
                     break;
                 default:
                     break;
@@ -301,6 +351,8 @@
     
     [self.arrayTableItems addObject:@"2"];
     [self.arrayTableItems addObject:@"3"];
+    self.ccCellHeight = 57;
+    self.bccCellHeight = 57;
     NSIndexPath *indexPathCc = [NSIndexPath indexPathForRow:1 inSection:0];
     NSIndexPath *indexPathBcc = [NSIndexPath indexPathForRow:2 inSection:0];
     
@@ -316,6 +368,8 @@
     
     [self.arrayTableItems removeObjectAtIndex:[self.arrayTableItems count] - 1];
     [self.arrayTableItems removeObjectAtIndex:[self.arrayTableItems count] - 1];
+    self.ccCellHeight = 0;
+    self.bccCellHeight = 0;
     NSIndexPath *indexPathCc = [NSIndexPath indexPathForRow:1 inSection:0];
     NSIndexPath *indexPathBcc = [NSIndexPath indexPathForRow:2 inSection:0];
     

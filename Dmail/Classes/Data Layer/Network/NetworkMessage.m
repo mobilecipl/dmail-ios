@@ -15,6 +15,7 @@ static NSString * const kUrlSendRecipient = @"api/message/%@/recipient";
 static NSString * const kUrlMessageSent = @"mobile/message/sent";
 static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
 static NSString * const kUrlRevokeUser = @"api/message/%@/recipient/%@";
+static NSString * const kUrlTemplate = @"view/templateBase64";
 
 
 @implementation NetworkMessage
@@ -268,6 +269,43 @@ static NSString * const kUrlRevokeUser = @"api/message/%@/recipient/%@";
     
     NSString *urlString = [NSString stringWithFormat:kUrlRevokeUser, messageId, email];
     [self makeDeleteRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
+}
+
+- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"template JSON: %@", responseObject);
+        switch (operation.response.statusCode) {
+            case 200: { //Success Response
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    //TODO:
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                    else {
+                        
+                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
+                        completionBlock(nil, error);
+                    }
+                } else {
+                    
+                    ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                    error.statusCode = @400;
+                    error.message = kErrorMessageNoServer;
+                    completionBlock(nil, error);
+                }
+            }
+                break;
+            default: {
+                ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
+                completionBlock(nil, error);
+            }
+                break;
+        }
+    };
+    
+    [self makePostRequest:kUrlTemplate withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 @end

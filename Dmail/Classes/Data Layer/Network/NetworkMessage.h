@@ -24,4 +24,6 @@
 
 - (void)revokeUserWithMessageId:(NSString *)messageId email:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
 
+- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
+
 @end

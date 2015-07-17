@@ -18,6 +18,8 @@
 @property NSString *googleId;
 @property NSString *token;
 @property NSString *imageUrl;
+@property NSString *bodyTemplate;
+@property long long templateLastUpdateDate;
 
 @property NSString *lastContactsUpdate;
 

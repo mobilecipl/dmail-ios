@@ -37,4 +37,6 @@
 
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
+- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
+
 @end

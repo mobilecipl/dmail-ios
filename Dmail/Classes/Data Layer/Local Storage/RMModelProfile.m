@@ -28,6 +28,8 @@
         _imageUrl = model.imageUrl;
         _token = model.token;
         _contactLastUpdateDate = model.contactLastUpdateDate;
+        _bodyTemplate = model.bodyTemplate;
+        _templateLastUpdateDate = model.templateLastUpdateDate;
     }
     
     return self;

@@ -76,7 +76,6 @@ const NSInteger contactsUpdateTime = 12;
 }
 
 
-
 #pragma mark - Private Methods
 - (void)getContactsForEmail:(NSString *)email
                  startIndex:(NSString *)startIndex

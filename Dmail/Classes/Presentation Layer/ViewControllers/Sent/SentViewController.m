@@ -42,6 +42,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewSent;
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
+@property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
 @property (strong, nonatomic) DAOMessage *daoMessage;
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
@@ -92,6 +93,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessSuccess) name:NotificationRevokeSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessFailed) name:NotificationRevokeFailed object:nil];
 }
 
 - (void)setupController {
@@ -130,23 +133,6 @@
     [self.tableViewSent reloadData];
 }
 
-- (void)handleRevokeAccessSuccess {
-    
-    [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail"
-                                                    message:@"Participants are successfully destroyed"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil, nil];
-    [alert show];
-
-}
-
-- (void)handleRevokeAccessFailed {
-    
-    [self hideLoadingView];
-}
-
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -161,7 +147,6 @@
     self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromSentToSentView" sender:self];
 }
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     

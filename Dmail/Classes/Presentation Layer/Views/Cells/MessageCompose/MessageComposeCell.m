@@ -34,6 +34,11 @@
 #pragma mark - Public Methods
 - (void)configureCell {
     
+    self.viewContainer.layer.masksToBounds = YES;
+    self.viewContainer.layer.cornerRadius = 5;
+    self.viewContainer.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewContainer.layer.borderWidth = 1;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     self.labelTime.hidden = YES;
     self.heightTextViewBody = self.textViewBody.frame.size.height;

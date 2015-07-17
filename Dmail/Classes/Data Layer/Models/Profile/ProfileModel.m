@@ -36,6 +36,8 @@
         _imageUrl = rmModelProfile.imageUrl;
         _token = rmModelProfile.token;
         _contactLastUpdateDate = rmModelProfile.contactLastUpdateDate;
+        _bodyTemplate = rmModelProfile.bodyTemplate;
+        _templateLastUpdateDate = rmModelProfile.templateLastUpdateDate;
     }
     
     return self;

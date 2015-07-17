@@ -86,6 +86,7 @@
 
 - (void)sync {
     
+    [self syncTemplate];
     [self syncDmailMessages];
     [self syncGoogleContacts];
     
@@ -177,6 +178,13 @@
             self.syncInProgressContact = NO;
         }
     }
+}
+
+- (void)syncTemplate {
+    
+    [self.daoMessage getTemplateWithCompletionBlock:^(NSString *template, ErrorDataModel *error) {
+
+    }];
 }
 
 - (void)dealloc {

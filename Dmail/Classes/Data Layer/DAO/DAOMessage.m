@@ -35,9 +35,8 @@
 
 // service
 #import "NSString+AESCrypt.h"
+#import <NSDate+DateTools.h>
 #import <GoogleSignIn/GoogleSignIn.h>
-
-#import "NetworkManager.h"
 
 @interface DAOMessage ()
 
@@ -90,7 +89,7 @@
             if (self.index > [arrayAllParticipants count] - 1) {
                 NSString *publicKey = [self getClientKeyWithMessageId:messageId];
                 NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
-                NSString *base64EncodedMessage = [self base64Encoding:gmailMessageBody];
+                NSString *base64EncodedMessage = [self encodeBase64:gmailMessageBody];
                 NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
                 [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID completionBlock:^(id data, ErrorDataModel *error) {
                     if (data) {
@@ -126,7 +125,7 @@
     
 }
 
-- (NSString *)base64Encoding:(NSString *)requestBody {
+- (NSString *)encodeBase64:(NSString *)requestBody {
     
     NSString *encodedMessage;
     
@@ -135,6 +134,15 @@
     encodedMessage = [encodedMessage stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
     
     return encodedMessage;
+}
+
+- (NSString *)decodeBase64:(NSString *)encodedString {
+    
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:encodedString options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", decodedString);
+    
+    return decodedString;
 }
 
 - (NSString *)createMessageBodyForGmailWithArrayTo:(NSArray *)arrayTO arrayCC:(NSArray *)arrayCC arrayBCC:(NSArray *)arrayBCC subject:(NSString *)subject dmailId:(NSString *)dmailId publicKey:(NSString *)publicKey {
@@ -158,6 +166,30 @@
     NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n",subject];
     from = [from stringByAppendingString:stringSubject];
     
+//    RLMRealm *realm = [RLMRealm defaultRealm];
+//    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+//    RMModelProfile *profile = [resultsProfiles firstObject];
+//    NSString *encodedTemplate = profile.bodyTemplate;
+//    NSString *decodedTemplate = [self decodeBase64:encodedTemplate];
+//    NSArray *array = [decodedTemplate componentsSeparatedByString:@"DmailId={"];
+//    NSString *firstComponent;
+//    if ([array count] > 1) {
+//        firstComponent = [array firstObject];
+//        firstComponent = [firstComponent stringByAppendingString:@"DmailId={"];
+//        firstComponent = [firstComponent stringByAppendingString:dmailId];
+//        firstComponent = [firstComponent stringByAppendingString:[array objectAtIndex:1]];
+//    }
+//    array = [firstComponent componentsSeparatedByString:@"PublicKey={"];
+//    if ([array count] > 1) {
+//        firstComponent = [array firstObject];
+//        firstComponent = [firstComponent stringByAppendingString:@"PublicKey={"];
+//        firstComponent = [firstComponent stringByAppendingString:publicKey];
+//        firstComponent = [firstComponent stringByAppendingString:[array objectAtIndex:1]];
+//    }
+//    
+//    from = [from stringByAppendingString:firstComponent];
+//    from = [from stringByAppendingString:@"\n\n"];
+    
     NSString *messagePublicKey = [NSString stringWithFormat:@"PublicKey: %@\n",publicKey];
     from = [from stringByAppendingString:messagePublicKey];
     
@@ -166,6 +198,8 @@
     
     NSString *publicKeyAndDmailId = [NSString stringWithFormat:@"DmailId=%@&PublicKey=%@", dmailId, publicKey];
     from = [from stringByAppendingString:publicKeyAndDmailId];
+    
+    NSLog(@"from ====== %@", from);
     
     return from;
 }
@@ -598,6 +632,30 @@
                 else {
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeFailed object:nil];
                 }
+            }
+        }];
+    }
+}
+
+- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [resultsProfiles firstObject];
+    NSDate *templateLastUpdate = [NSDate dateWithTimeIntervalSince1970:profile.templateLastUpdateDate];
+    NSDate *date = [[NSDate alloc] init];
+    double time = [date hoursFrom:templateLastUpdate];
+    if (profile.templateLastUpdateDate == 0 || time >= 12) {
+        [self.networkMessage getTemplateWithCompletionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+            if ([[data allKeys] containsObject:@"body"]) {
+                [realm beginWriteTransaction];
+                profile.bodyTemplate = data[@"body"];
+                profile.templateLastUpdateDate = [[NSDate date] timeIntervalSince1970];
+                [realm commitWriteTransaction];
+                completionBlock (nil, nil);
+            }
+            else {
+                completionBlock (nil, nil);
             }
         }];
     }

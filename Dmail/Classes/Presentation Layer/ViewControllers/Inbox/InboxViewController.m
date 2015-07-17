@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
+@property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
