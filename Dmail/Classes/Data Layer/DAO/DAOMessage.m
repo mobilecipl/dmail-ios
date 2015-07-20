@@ -132,6 +132,7 @@
     NSData *data = [requestBody dataUsingEncoding:NSUTF8StringEncoding];
     encodedMessage = [data base64EncodedStringWithOptions:0];
     encodedMessage = [encodedMessage stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+    encodedMessage = [encodedMessage stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     
     return encodedMessage;
 }
@@ -166,11 +167,25 @@
     NSString *stringSubject = [NSString stringWithFormat:@"Subject: %@\n",subject];
     from = [from stringByAppendingString:stringSubject];
     
-//    RLMRealm *realm = [RLMRealm defaultRealm];
-//    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
-//    RMModelProfile *profile = [resultsProfiles firstObject];
-//    NSString *encodedTemplate = profile.bodyTemplate;
-//    NSString *decodedTemplate = [self decodeBase64:encodedTemplate];
+    from = [from stringByAppendingString:@"Content-Type: text/html; charset=utf-8\n"];
+    from = [from stringByAppendingString:@"Content-Transfer-Encoding: quoted-printable\n\n"];
+
+//    NSString *messagePublicKey = [NSString stringWithFormat:@"PublicKey: %@\n",publicKey];
+//    from = [from stringByAppendingString:messagePublicKey];
+//    
+//    NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
+//    from = [from stringByAppendingString:messageDmailId];
+
+    NSString *publicKeyAndDmailId = [NSString stringWithFormat:@"DmailId %@&PublicKey %@\n\n", dmailId, publicKey];
+    from = [from stringByAppendingString:publicKeyAndDmailId];
+//    from = [from stringByAppendingString:@"<html><body><h1>This message was encrypted by Dmail</h1></body></html>\n"];
+    
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [resultsProfiles firstObject];
+    NSString *encodedTemplate = profile.bodyTemplate;
+    NSString *decodedTemplate = [self decodeBase64:encodedTemplate];
 //    NSArray *array = [decodedTemplate componentsSeparatedByString:@"DmailId={"];
 //    NSString *firstComponent;
 //    if ([array count] > 1) {
@@ -186,21 +201,22 @@
 //        firstComponent = [firstComponent stringByAppendingString:publicKey];
 //        firstComponent = [firstComponent stringByAppendingString:[array objectAtIndex:1]];
 //    }
-//    
-//    from = [from stringByAppendingString:firstComponent];
-//    from = [from stringByAppendingString:@"\n\n"];
     
-    NSString *messagePublicKey = [NSString stringWithFormat:@"PublicKey: %@\n",publicKey];
-    from = [from stringByAppendingString:messagePublicKey];
+    from = [from stringByAppendingString:decodedTemplate];
     
-    NSString *messageDmailId = [NSString stringWithFormat:@"DmailId: %@\n\n",dmailId];
-    from = [from stringByAppendingString:messageDmailId];
-    
-    NSString *publicKeyAndDmailId = [NSString stringWithFormat:@"DmailId=%@&PublicKey=%@", dmailId, publicKey];
-    from = [from stringByAppendingString:publicKeyAndDmailId];
+//    from = [from stringByAppendingString:@"<div rel='dmail'><code style='color: white'>KEY=1111&CLIENT=22222</code></div><br/>"];
+//    from = [from stringByAppendingString:@"This secure message was sent using Dmail. Download the Chrome extention to see the message. To view this message you must have the Dmail Chrome Extension."];
+//    from = [from stringByAppendingString:@"<table style='width:100%;margin:50px 0px 20px 0px;'>"];
+//    from = [from stringByAppendingString:@"<tr><td align='center'>"];
+//    from = [from stringByAppendingString:@"<p><a href='https://mail.delicious.com/view/?id=1111&key=222222' style='\"+buttonCSS+\"' target='_blank'>View Message</a></p>"];
+//    from = [from stringByAppendingString:@"</td></tr></table>"];
+//    from = [from stringByAppendingString:@"<table style='width:100%;'>"];
+//    from = [from stringByAppendingString:@"<tr><td align='center'>"];
+//    from = [from stringByAppendingString:@"<p style='color: #78848C'>Secure message sent via <a href='https://mail.delicious.com' target='_blank'>Dmail</a></p>"];
+//    from = [from stringByAppendingString:@"<a href='https://mail.delicious.com'><img src='https://ci6.googleusercontent.com/proxy/1LA4dNWLlpHURkS8kgptFqToZhD9KJK-H8friavEtC9WzalIDtysc060sY3yKHmi8eIb2IWyrTv4a5UTXT4TLTfzW-5NVsBidOv440Syeg=s0-d-e1-ft#http://s3.amazonaws.com/dmail-assets/dmail-logo-small.jpg'/></a>"
+//            "</td></tr></table>"];
     
     NSLog(@"from ====== %@", from);
-    
     return from;
 }
 
@@ -659,6 +675,16 @@
             }
         }];
     }
+}
+
+- (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+    RMModelMessage *realmModel = [results firstObject];
+    [realm beginWriteTransaction];
+    realmModel.read = YES;
+    [realm commitWriteTransaction];
 }
 
 @end

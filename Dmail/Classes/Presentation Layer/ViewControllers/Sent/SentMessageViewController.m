@@ -87,10 +87,10 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)registerNotifications {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessSuccess) name:NotificationRevokeSuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessFailed) name:NotificationRevokeFailed object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessSuccess) name:NotificationRevokeSuccess object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessFailed) name:NotificationRevokeFailed object:nil];
 }
 
 - (void)loadData {

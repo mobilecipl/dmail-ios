@@ -123,4 +123,9 @@
     [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];
 }
 
+- (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {
+    
+    [self.daoMessage changeMessageStatusToReadWithMessageId:messageId];
+}
+
 @end

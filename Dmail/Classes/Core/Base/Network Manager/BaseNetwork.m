@@ -56,6 +56,7 @@
         AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
         
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//        [requestSerializer setValue:@"text/html; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [requestSerializer setHTTPShouldHandleCookies:NO];
         

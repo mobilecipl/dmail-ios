@@ -111,6 +111,7 @@
         else {
             self.textViewMessageBody.text = modelMessage.body;
         }
+        [self.serviceMessage changeMessageStatusToReadWithMessageId:self.messageId];
     }
 }
 

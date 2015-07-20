@@ -34,4 +34,6 @@
 
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
+- (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
+
 @end

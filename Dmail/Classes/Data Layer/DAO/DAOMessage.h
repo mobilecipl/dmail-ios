@@ -39,4 +39,6 @@
 
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
 
+- (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
+
 @end
