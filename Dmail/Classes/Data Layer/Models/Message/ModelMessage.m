@@ -51,7 +51,7 @@
     
     NSString *publicKey = @"";
     
-    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey "];
+    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey="];
     if([array count] > 1) {
         publicKey = [array objectAtIndex:1];
     }

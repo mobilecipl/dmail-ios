@@ -39,21 +39,6 @@
     return YES;
 }
 
-- (void)realmMigration {
-    
-    [RLMRealm setSchemaVersion:1
-                forRealmAtPath:[RLMRealm defaultRealmPath]
-            withMigrationBlock:^(RLMMigration *migration, uint64_t oldSchemaVersion) {
-                // We haven’t migrated anything yet, so oldSchemaVersion == 0
-                if (oldSchemaVersion < 1) {
-                    // Nothing to do!
-                    // Realm will automatically detect new properties and removed properties
-                    // And will update the schema on disk automatically
-                }
-            }];
-    NSLog(@"RLMRealm path: %@", [RLMRealm defaultRealm].path);
-}
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
@@ -68,7 +53,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -81,6 +66,18 @@
 
 
 #pragma mark - Private Methods
+- (void)realmMigration {
+    
+    [RLMRealm setSchemaVersion:1 forRealmAtPath:[RLMRealm defaultRealmPath] withMigrationBlock:^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+        // We haven’t migrated anything yet, so oldSchemaVersion == 0
+        if (oldSchemaVersion < 1) {
+            // Nothing to do!
+            // Realm will automatically detect new properties and removed properties
+            // And will update the schema on disk automatically
+        }
+    }];
+}
+
 - (void)setupGoogleSignIn {
     
     [GIDSignIn sharedInstance].clientID = kGoogleClientID;

@@ -98,11 +98,23 @@ CGFloat kfirstParticipantOriginX = 34;
     }
     
     if ([self.delegate respondsToSelector:@selector(changeCellHeightWith:cellRow:)]) {
-        [self.delegate changeCellHeightWith:self.textFieldOriginY + self.textFieldParticipant.frame.size.height + kSpaceBetweenParticipantViewAndCellBottom cellRow:self.row];
+        CGFloat cellHeight = self.textFieldOriginY + self.textFieldParticipant.frame.size.height + kSpaceBetweenParticipantViewAndCellBottom;
+        cellHeight = [self defineCellHeightWith:cellHeight];
+        [self.delegate changeCellHeightWith:cellHeight cellRow:self.row];
     }
     
     [self.textFieldParticipant becomeFirstResponder];
     self.textFieldParticipant.text = @"";
+}
+
+- (CGFloat)defineCellHeightWith:(CGFloat)cellHeight {
+    
+    CGFloat height = 57;
+    if (cellHeight > height) {
+        height = (cellHeight/57 + 1)*height;
+    }
+    
+    return height;
 }
 
 - (void)arrangeParticipantViews {

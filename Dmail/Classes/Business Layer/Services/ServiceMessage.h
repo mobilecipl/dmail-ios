@@ -36,4 +36,6 @@
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
+- (void)clearAllData;
+
 @end

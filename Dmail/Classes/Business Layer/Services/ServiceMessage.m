@@ -128,4 +128,9 @@
     [self.daoMessage changeMessageStatusToReadWithMessageId:messageId];
 }
 
+- (void)clearAllData {
+    
+    [self.daoMessage clearAllData];
+}
+
 @end

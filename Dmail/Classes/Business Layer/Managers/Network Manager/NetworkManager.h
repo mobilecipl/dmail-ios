@@ -13,8 +13,8 @@
 #import "Constants.h"
 #import "Configurations.h"
 
-//static NSString * const baseURL = @"http://192.168.0.100:8080/dmail/";
-static NSString * const baseURL = @"http://dmail-dev.elasticbeanstalk.com/";
+static NSString * const baseURL = @"http://192.168.0.100:8080/dmail/";
+//static NSString * const baseURL = @"http://dmail-dev.elasticbeanstalk.com/";
 @interface NetworkManager : BaseNetwork
 
 + (instancetype)sharedManager;

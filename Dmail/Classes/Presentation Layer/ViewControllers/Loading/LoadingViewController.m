@@ -49,11 +49,9 @@
     
     // TODO: check if signed in
     if ([[ServiceProfile sharedInstance] googleId]) {
-        
         [self autoSignIn];
     }
-    else {
-        
+    else {  
         [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
     }
 }
@@ -79,11 +77,10 @@
     [self.indicator stopAnimating];
     if (error) {
         // TODO: Handle error
-
     }
     else {
-        
         // TODO: sync
+        [[ServiceProfile sharedInstance] updateUserDetails:user];
         [self.serviceSync sync];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }

@@ -13,15 +13,22 @@
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
+
+// Services
 #import "ServiceProfile.h"
+#import "ServiceMessage.h"
+#import "ServiceContact.h"
 
 
-@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMenuu;
 
+@property (strong, nonatomic) ServiceProfile *serviceProfile;
+@property (strong, nonatomic) ServiceMessage *serviceMessage;
+@property (strong, nonatomic) ServiceContact *serviceContact;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
 @property (nonatomic, strong) NSArray *arrayCellIds;
 @property (nonatomic, assign) NSInteger selectedCellIndex;
@@ -31,6 +38,17 @@
 @implementation MenuViewController
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceProfile = [[ServiceProfile alloc] init];
+        _serviceMessage = [[ServiceMessage alloc] init];
+        _serviceContact = [[ServiceContact alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -56,6 +74,7 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+    googleSignIn.delegate = self;
     [googleSignIn disconnect];
 }
 
@@ -103,7 +122,9 @@
 
 - (void)clearAllDBAndRedirectInLoginScreen {
     
-    //TODO
+    //Clear all info.
+    [self.serviceMessage clearAllData];
+    
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyBoard instantiateViewControllerWithIdentifier:@"loginView"];
     LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];

@@ -89,10 +89,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
-    [self makePostRequest:kUrlSendMessage
-               withParams:parameters
-                  success:successBlock
-                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makePostRequest:kUrlSendMessage withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {

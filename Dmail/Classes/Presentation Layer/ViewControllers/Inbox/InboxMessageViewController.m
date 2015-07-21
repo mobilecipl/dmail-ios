@@ -7,6 +7,7 @@
 //
 
 #import "InboxMessageViewController.h"
+#import "ComposeViewController.h"
 
 // service
 #import "ServiceMessage.h"
@@ -58,6 +59,10 @@
 - (IBAction)backClicked:(id)sender {
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)buttonReplayClicked:(id)sender {
+    
 }
 
 #pragma mark - Private Methods
@@ -112,6 +117,18 @@
             self.textViewMessageBody.text = modelMessage.body;
         }
         [self.serviceMessage changeMessageStatusToReadWithMessageId:self.messageId];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"fromInboxViewToCompose"]) {
+        ComposeViewController *composeViewController = (ComposeViewController *)segue.destinationViewController;
+        if ([composeViewController isKindOfClass:[ComposeViewController class]]) {
+            VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithMessageId:self.messageId];
+            composeViewController.replyedRecipientEmail = modelMessage.senderEmail;
+            composeViewController.replyedRecipientName = modelMessage.senderName;
+        }
     }
 }
 

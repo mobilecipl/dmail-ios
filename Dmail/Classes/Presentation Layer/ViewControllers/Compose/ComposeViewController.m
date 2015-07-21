@@ -82,6 +82,21 @@
     self.backClicked = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    if (self.replyedRecipientEmail) {
+        ContactModel *contactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
+        ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
+        participantCell.participantSet = YES;
+        [participantCell addParticipantWithContactModel:contactModel];
+        [self addParticipantsEmail:contactModel.email row:self.selectedRow];
+        [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+        [self.tableView reloadData];
+    }
+}
+
 - (void)dealloc {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];

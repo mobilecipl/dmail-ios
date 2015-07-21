@@ -897,6 +897,10 @@
                                         <state key="normal" image="buttonReply">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="buttonReplayClicked:" destination="y8g-Vk-ppM" eventType="touchUpInside" id="Xz3-J5-ftU"/>
+                                            <segue destination="zbx-z7-Gyx" kind="push" identifier="fromInboxViewToCompose" id="VKg-LO-uwx"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1330,7 +1334,6 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="backClicked:" destination="y8g-Vk-ppM" eventType="touchUpInside" id="JH4-yd-gn5"/>
                                             <action selector="backClicked:" destination="zbx-z7-Gyx" eventType="touchUpInside" id="Ok6-T2-2qU"/>
                                         </connections>
                                     </button>
@@ -1881,9 +1884,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Jjg-do-4sL"/>
-        <segue reference="V8g-7x-DfO"/>
         <segue reference="msd-Ig-8Lo"/>
-        <segue reference="COF-Ci-usR"/>
+        <segue reference="V8g-7x-DfO"/>
+        <segue reference="Jjg-do-4sL"/>
+        <segue reference="VKg-LO-uwx"/>
     </inferredMetricsTieBreakers>
 </document>
