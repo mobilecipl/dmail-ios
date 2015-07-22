@@ -36,6 +36,21 @@
     
     [self setupGoogleSignIn];
     
+    
+    NSString *key = @"key";
+    NSString *secret = @"text";
+    
+    NSData *plain = [secret dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *cipher = [plain AES256EncryptWithKey:key];
+    NSString* newStr = [[NSString alloc] initWithData:cipher encoding:NSUTF8StringEncoding];
+    NSLog(@"newStr === %@", newStr);
+    printf("%s\n", [[cipher description] UTF8String]);
+    
+    plain = [cipher AES256DecryptWithKey:key];
+    NSLog(@"newStr === %@", newStr);
+    printf("%s\n", [[plain description] UTF8String]);
+    printf("%s\n", [[[NSString alloc] initWithData:plain encoding:NSUTF8StringEncoding] UTF8String]);
+    
     return YES;
 }
 
