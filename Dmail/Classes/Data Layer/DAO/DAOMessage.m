@@ -117,6 +117,9 @@
                 [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
             }
         }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+        }
     }];
 }
 

@@ -58,9 +58,6 @@ static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&ma
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     
     
-    [self makeGetRequest:urlRequest
-              withParams:nil
-                 success:successBlock
-                 failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makeGetRequest:urlRequest withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 @end

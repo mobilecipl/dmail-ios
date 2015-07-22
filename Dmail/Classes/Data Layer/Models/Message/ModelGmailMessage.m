@@ -26,7 +26,7 @@
     
     NSString *publicKey = @"";
     
-    NSArray *array = [snippet componentsSeparatedByString:@"PublicKey="];
+    NSArray *array = [snippet componentsSeparatedByString:@"CLIENT="];
     if([array count] > 1) {
         publicKey = [array objectAtIndex:1];
         array = [publicKey componentsSeparatedByString:@" "];

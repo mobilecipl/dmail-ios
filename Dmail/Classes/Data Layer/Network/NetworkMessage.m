@@ -9,11 +9,14 @@
 #import "NetworkMessage.h"
 #import "Constants.h"
 
+#import "DAOProfile.h"
+#import "ProfileModel.h"
+
 static NSString * const kUrlSyncMessages = @"mobile/recipients/sync";
 static NSString * const kUrlSendMessage = @"api/message";
 static NSString * const kUrlSendRecipient = @"api/message/%@/recipient";
 static NSString * const kUrlMessageSent = @"mobile/message/sent";
-static NSString * const kUrlGetMessage = @"api/message/%@/recipient/%@";
+static NSString * const kUrlGetMessage = @"api/message/%@";
 static NSString * const kUrlRevokeUser = @"api/message/%@/recipient/%@";
 static NSString * const kUrlTemplate = @"view/templateBase64";
 
@@ -54,8 +57,11 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
-    NSString *urlString = [NSString stringWithFormat:kUrlGetMessage, messageId, recipientEmail];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
+    NSString *urlString = [NSString stringWithFormat:kUrlGetMessage, messageId];
     [self makeGetRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
@@ -88,6 +94,10 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                 break;
         }
     };
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
     [self makePostRequest:kUrlSendMessage withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
@@ -123,12 +133,12 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
-    NSString *urlString = [NSString stringWithFormat:kUrlSendRecipient, messageId];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
-    [self makePostRequest:urlString
-               withParams:parameters
-                  success:successBlock
-                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+    NSString *urlString = [NSString stringWithFormat:kUrlSendRecipient, messageId];
+    [self makePostRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
@@ -160,12 +170,12 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
-    NSString *urlString = [NSString stringWithFormat:kUrlSendRecipient, messageId];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
-    [self makeDeleteRequest:urlString
-                 withParams:parameters
-                    success:successBlock
-                    failure:[self constructFailureBlockWithBlock:completionBlock]];
+    NSString *urlString = [NSString stringWithFormat:kUrlSendRecipient, messageId];
+    [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
@@ -200,10 +210,11 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
-    [self makePostRequest:kUrlMessageSent
-               withParams:parameters
-                  success:successBlock
-                  failure:[self constructFailureBlockWithBlock:completionBlock]];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
+    
+    [self makePostRequest:kUrlMessageSent withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock {
@@ -241,6 +252,10 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         }
     };
     
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
+    
     [self makePostRequest:kUrlSyncMessages withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
@@ -263,6 +278,10 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                 break;
         }
     };
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
     NSString *urlString = [NSString stringWithFormat:kUrlRevokeUser, messageId, email];
     [self makeDeleteRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
@@ -301,6 +320,10 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                 break;
         }
     };
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [manager.requestSerializer setValue:model.email forHTTPHeaderField:@"identified_email"];
     
     [self makePostRequest:kUrlTemplate withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }

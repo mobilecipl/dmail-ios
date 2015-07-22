@@ -11,8 +11,12 @@
 
 
 #pragma mark - Google Keys
-static NSString * const kGoogleClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
-static NSString * const kGoogleClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
+
+static NSString * const kGoogleClientID = @"1005409181628-bbkkgevh2mbnfd27p7ndhkspqu7k31qa.apps.googleusercontent.com";
+static NSString * const kGoogleClientSecret = @"TW39O0rQBasTc1rc62kaADry";
+
+//static NSString * const kGoogleClientID = @"979289221522-lcmi7bj6qcqsp09hsrsrv8l5in49e7qi.apps.googleusercontent.com";
+//static NSString * const kGoogleClientSecret = @"uaZTmfDL3kxKI7jRgg37tZsS";
 
 #pragma mark - Server URL
 static NSString * kBaseServerURL = @"https://api-dev.dmail.io/";
