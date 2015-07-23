@@ -87,7 +87,7 @@
         if (data) {
             self.index ++;
             if (self.index > [arrayAllParticipants count] - 1) {
-                NSString *publicKey = @"db4aaafb-562e-cace-9039-c649510b0b47";//[self getClientKeyWithMessageId:messageId];
+                NSString *publicKey = [self getClientKeyWithMessageId:messageId];
                 NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
                 NSString *base64EncodedMessage = [self encodeBase64:gmailMessageBody];
                 NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
@@ -213,7 +213,7 @@
 
 - (void)sendMessage:(NSString *)messageBody completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *clientKey = @"key";//[self generatePublicKey];
+    NSString *clientKey = [self generatePublicKey];
     NSString *encodedBody = [self encodeMessage:messageBody clientKey:clientKey];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
