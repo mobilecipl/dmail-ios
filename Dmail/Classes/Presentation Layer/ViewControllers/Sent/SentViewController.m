@@ -137,7 +137,6 @@
     [self.tableViewSent setDataSource:self.dataSourceInbox];
     [self.tableViewSent setDelegate:self];
 
-    
     // creating refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.tableViewSent addSubview:self.refreshControl];

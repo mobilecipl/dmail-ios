@@ -153,7 +153,6 @@
 }
 
 
-
 #pragma mark - Private Methods
 - (void)setupController {
     
@@ -208,6 +207,17 @@
     borderLayer.strokeColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     borderLayer.fillColor = [UIColor clearColor].CGColor;
     [self.viewSecure.layer addSublayer:borderLayer];
+    
+    if (self.replyedMessageSubject) {
+        self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
+        if (self.replyedRecipientName) {
+            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
+            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientName];
+        }
+        else {
+            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientEmail];
+        }
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification*)notification {
@@ -311,9 +321,8 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 
     NSString *clientKey = [self.serviceMessage getClientKey];
-    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.textViewBody.text, clientKey];// @"GibberishAES.enc('Test', 'd2165134-5624-f1cf-98a4-b0feab22054d')";
+    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.textViewBody.text, clientKey];
     NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
-    NSLog(@"Area is: %@", result);
     
     self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
     self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
@@ -356,7 +365,6 @@
             self.tableViewContacts.hidden = YES;
             if (contactModel.fullName.length > 0) {
                 self.tempContactModel = contactModel;
-//                [self addRecipientWithField:self.selectedToken withName:contactModel];
                 [self.selectedToken checkAndAddTokenWithString:contactModel.fullName];
             }
             else {

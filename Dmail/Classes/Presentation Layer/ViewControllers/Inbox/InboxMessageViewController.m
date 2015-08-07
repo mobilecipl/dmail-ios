@@ -68,6 +68,7 @@
 
 - (IBAction)buttonReplayClicked:(id)sender {
     
+    
 }
 
 #pragma mark - Private Methods
@@ -141,6 +142,7 @@
             VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithMessageId:self.messageId];
             composeViewController.replyedRecipientEmail = modelMessage.senderEmail;
             composeViewController.replyedRecipientName = modelMessage.senderName;
+            composeViewController.replyedMessageSubject = modelMessage.messageSubject;
         }
     }
 }

@@ -11,6 +11,7 @@
 
 @interface ComposeViewController : BaseViewController
 
+@property (nonatomic, strong) NSString *replyedMessageSubject;
 @property (nonatomic, strong) NSString *replyedRecipientEmail;
 @property (nonatomic, strong) NSString *replyedRecipientName;
 
