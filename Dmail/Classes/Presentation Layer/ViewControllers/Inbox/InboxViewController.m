@@ -106,7 +106,17 @@
     self.viewDeactivateScreen.hidden = YES;
 }
 
+- (void)tapOnView {
+    
+    [self.revealViewController revealToggle:self];
+}
+
 - (void)setupController {
+    
+    UITapGestureRecognizer *tapOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnView)];
+    [self.viewDeactivateScreen addGestureRecognizer:tapOnView];
+    UITapGestureRecognizer *tapOnNavigation = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnView)];
+    [self.viewNavigation addGestureRecognizer:tapOnNavigation];
     
     self.arrayMesages = [[NSMutableArray alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
