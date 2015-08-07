@@ -35,7 +35,6 @@
     [self realmMigration];
     [self setupGoogleSignIn];
     
-    NSLog(@"Test");
     return YES;
 }
 

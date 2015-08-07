@@ -17,24 +17,35 @@
 #import "MessageComposeCell.h"
 #import "ContactCell.h"
 #import "VENTokenField.h"
+#import "TextViewPlaceHolder.h"
 
 // model
 #import "ContactModel.h"
 
 @interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
+@property (nonatomic, weak) IBOutlet UIWebView *webEncryptor;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageCompose;
+@property (nonatomic, weak) IBOutlet UIView *viewSecure;
+@property (nonatomic, weak) IBOutlet UIView *viewTextViewContainer;
 @property (nonatomic, weak) IBOutlet UIButton *buttonSend;
 @property (nonatomic, weak) IBOutlet UIButton *buttonCcBcc;
 @property (nonatomic, weak) IBOutlet UIButton *buttonUpArrow;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraitHeight;
-
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitBottomTextView;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldTo;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldCc;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldBcc;
-@property (nonatomic, weak) IBOutlet VENTokenField *selectedToken;
+@property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
+
+@property (nonatomic, strong) VENTokenField *selectedToken;
+@property (nonatomic, strong) ContactModel *tempContactModel;
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceContact *serviceContact;
 
 @property (nonatomic, strong) NSMutableArray *arrayTo;
 @property (nonatomic, strong) NSMutableArray *arrayCc;
@@ -42,21 +53,14 @@
 @property (nonatomic, strong) NSMutableArray *arrayTempTo;
 @property (nonatomic, strong) NSMutableArray *arrayTempCc;
 @property (nonatomic, strong) NSMutableArray *arrayTempBcc;
-@property (nonatomic, strong) ContactModel *tempContactModel;
-
-@property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
-@property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
-@property (nonatomic, weak) IBOutlet UIView *viewSecure;
-@property (nonatomic, weak) IBOutlet UIWebView *webEncryptor;
-
-@property (nonatomic, strong) ServiceMessage *serviceMessage;
-@property (nonatomic, strong) ServiceContact *serviceContact;
-
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
-
 @property (nonatomic, strong) NSString *messagebody;
+
+@property (nonatomic, assign) CGFloat textViewHeight;
 @property (nonatomic, assign) CGFloat keyboardHeight;
+@property (nonatomic, assign) CGFloat scrollViewContentOffset;
 @property (nonatomic, assign) BOOL backClicked;
+@property (nonatomic, assign) BOOL ccBccOpened;
 
 @end
 
@@ -100,6 +104,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.scrollView.contentSize.height + self.fieldCc.frame.size.height);
 }
 
 - (void)dealloc {
@@ -112,9 +118,6 @@
 - (IBAction)sendClicked:(id)sender {
     
     [self.view endEditing:YES];
-//    if ([self.arrayTo count] > 0 && !self.backClicked) {
-//        
-//    }
     [self showLoadingView];
     [self.webEncryptor loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"GiberishEnc" ofType:@"html"]isDirectory:NO]]];
 }
@@ -127,28 +130,26 @@
 
 - (IBAction)onCcBccClickedd:(id)sender {
     
+    self.ccBccOpened = YES;
     self.constraitHeight.constant = 221;
     self.fieldCc.alpha = 1;
     self.fieldBcc.alpha = 1;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.buttonCcBcc.alpha = 0;
-                         self.buttonUpArrow.alpha = 1;
-                     }
-                     completion:nil];
+    self.buttonCcBcc.alpha = 0;
+    self.buttonUpArrow.alpha = 1;
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.scrollView.contentSize.height + 2*self.fieldCc.frame.size.height);
+    [self defineTextViewFrame];
 }
 
 - (IBAction)onArrowUpClicked:(id)sender {
     
+    self.ccBccOpened = NO;
     self.constraitHeight.constant = 101;
     self.fieldCc.alpha = 0;
     self.fieldBcc.alpha = 0;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.buttonCcBcc.alpha = 1;
-                         self.buttonUpArrow.alpha = 0;
-                     }
-                     completion:nil];
+    self.buttonCcBcc.alpha = 1;
+    self.buttonUpArrow.alpha = 0;
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.scrollView.contentSize.height - 2*self.fieldCc.frame.size.height);
+    [self defineTextViewFrame];
 }
 
 
@@ -296,6 +297,13 @@
     }
     
     return array;
+}
+
+- (void)defineTextViewFrame {
+    
+    CGRect frame = self.textViewBody.frame;
+    CGFloat textViewOriginY = self.scrollView.frame.origin.y + self.viewTextViewContainer.frame.origin.y + self.textViewBody.frame.origin.y;
+    self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
 }
 
 
@@ -477,23 +485,52 @@
 }
 
 
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if(scrollView == self.scrollView) {
+        CGFloat scrollViewOffsetY = 0;
+        if (self.ccBccOpened) {
+            scrollViewOffsetY = 180;
+        }
+        else {
+            scrollViewOffsetY = 60;
+        }
+        self.scrollViewContentOffset = scrollView.contentOffset.y;
+        
+        if (scrollView.contentOffset.y > scrollViewOffsetY) {
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, scrollViewOffsetY);
+        }
+        if (scrollView.contentOffset.y < 0) {
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+        }
+        [self defineTextViewFrame];
+    }
+}
+
+
 #pragma mark - UItextViewDelegate Methods
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-//    if ([text isEqualToString:@"\n"]) {
-//        self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
-//        NSLog(@"text === %@", text);
-//    }
-//    else {
-//        if ([text isEqualToString:@""]) {
-//            self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
-//        }
-//        else {
-//            self.messagebody = [self.messagebody stringByAppendingString:text];
-//        }
-//    }
+
+    if ([text isEqualToString:@"\n"]) {
+        self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
+        NSLog(@"text === %@", text);
+    }
+    else {
+        if ([text isEqualToString:@""]) {
+            self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
+        }
+        else {
+            self.messagebody = [self.messagebody stringByAppendingString:text];
+        }
+    }
     
     return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    
+    [self defineTextViewFrame];
 }
 
 @end
