@@ -71,10 +71,10 @@ typedef NS_ENUM(NSInteger, MessageStatus) {
     MessageRemovedFromGmail
 };
 
+
 static NSInteger kMessageUpdateTime = 10;
 static NSInteger kMessageGetCount = 30;
 static NSInteger kProfileImageSize = 50;
-
 
 
 #pragma mark - Request Keys

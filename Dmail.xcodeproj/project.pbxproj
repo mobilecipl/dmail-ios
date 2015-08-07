@@ -109,7 +109,6 @@
 		C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */; };
 		C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6C1B41AB1C00295A94 /* MessageItem.m */; };
 		C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6E1B41AB1C00295A94 /* ProfileItem.m */; };
-		C08C2DF31B41AB1C00295A94 /* ComposeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D731B41AB1C00295A94 /* ComposeModel.m */; };
 		C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D7C1B41AB1C00295A94 /* BaseViewController.m */; };
 		C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D7F1B41AB1C00295A94 /* ComposeViewController.m */; };
 		C08C2DF71B41AB1C00295A94 /* InboxMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D821B41AB1C00295A94 /* InboxMessageViewController.m */; };
@@ -342,8 +341,6 @@
 		C08C2D6C1B41AB1C00295A94 /* MessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageItem.m; sourceTree = "<group>"; };
 		C08C2D6D1B41AB1C00295A94 /* ProfileItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileItem.h; sourceTree = "<group>"; };
 		C08C2D6E1B41AB1C00295A94 /* ProfileItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileItem.m; sourceTree = "<group>"; };
-		C08C2D721B41AB1C00295A94 /* ComposeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModel.h; sourceTree = "<group>"; };
-		C08C2D731B41AB1C00295A94 /* ComposeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModel.m; sourceTree = "<group>"; };
 		C08C2D7B1B41AB1C00295A94 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C08C2D7C1B41AB1C00295A94 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		C08C2D7E1B41AB1C00295A94 /* ComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
@@ -1037,8 +1034,6 @@
 		C08C2D711B41AB1C00295A94 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D721B41AB1C00295A94 /* ComposeModel.h */,
-				C08C2D731B41AB1C00295A94 /* ComposeModel.m */,
 			);
 			path = Compose;
 			sourceTree = "<group>";
@@ -1533,7 +1528,6 @@
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */,
 				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,
-				C08C2DF31B41AB1C00295A94 /* ComposeModel.m in Sources */,
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
