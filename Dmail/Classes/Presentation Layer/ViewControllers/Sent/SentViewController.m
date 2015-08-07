@@ -39,16 +39,17 @@
 
 @interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableViewSent;
-@property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
-@property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
+@property (nonatomic, weak) IBOutlet UITableView *tableViewSent;
+@property (nonatomic, weak) IBOutlet UIView *viewDeactivateScreen;
+@property (nonatomic, weak) IBOutlet UILabel *labelNavigationTitle;
+@property (nonatomic, weak) IBOutlet UIButton *buttonRevealMenu;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
-@property (strong, nonatomic) DAOMessage *daoMessage;
-@property (strong, nonatomic) ServiceMessage *serviceMessage;
-@property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) DAOMessage *daoMessage;
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) TableViewDataSource *dataSourceInbox;
 @property (nonatomic, strong) VMSentMessageItem *selectedMessage;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
 
 @end
@@ -94,6 +95,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedSuccess) name:NotificationDestroySuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedFailed) name:NotificationDestroyFailed object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuOpened) name:NotificationMenuOpened object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuClosed) name:NotificationMenuClosed object:nil];
+}
+
+- (void)menuOpened {
+    
+    self.viewDeactivateScreen.hidden = NO;
+}
+
+- (void)menuClosed {
+    
+    self.viewDeactivateScreen.hidden = YES;
 }
 
 - (void)setupController {

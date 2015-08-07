@@ -46,6 +46,8 @@ static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";
 
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
 
+static NSString * const NotificationMenuOpened = @"menuOpened";
+static NSString * const NotificationMenuClosed = @"menuClosed";
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
     Inbox = 1,

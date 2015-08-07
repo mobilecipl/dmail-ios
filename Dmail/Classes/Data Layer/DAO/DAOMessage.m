@@ -594,19 +594,6 @@
     [realm commitWriteTransaction];
 }
 
-- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock {
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
-    RMModelProfile *profile = [resultsProfiles firstObject];
-    
-    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    NSString *to = profile.email;
-    [self.networkGmailMessageArchive archiveMessageWithFrom:from to:to subject:subject userID:userID CompletionBlock:^(id data, ErrorDataModel *error) {
-        
-    }];
-}
-
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
     
     self.participantIndex = 0;

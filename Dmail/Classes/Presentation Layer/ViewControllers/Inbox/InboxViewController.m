@@ -38,19 +38,22 @@
 
 @interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate, InboxCellDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
-@property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
-@property (weak, nonatomic) IBOutlet UIView *viewInboxZero;
+@property (nonatomic, weak) IBOutlet UITableView *tableViewInbox;
+@property (nonatomic, weak) IBOutlet UIView *viewInboxZero;
+@property (nonatomic, weak) IBOutlet UIView *viewDeactivateScreen;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewNavigationIcon;
+@property (nonatomic, weak) IBOutlet UIButton *buttonRevealMenu;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
-@property (strong, nonatomic) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
-@property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
-@property (strong, nonatomic) InboxCell *editedCell;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) TableViewDataSource *dataSourceInbox;
+@property (nonatomic, strong) InboxCell *editedCell;
 @property (nonatomic, strong) VMInboxMessageItem *selectedMessage;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
+
+@property (nonatomic, assign) BOOL menuHasBeenOpened;
 
 @end
 
@@ -82,12 +85,25 @@
     [self loadMessages];
 }
 
+
 #pragma mark - Private Methods
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuOpened) name:NotificationMenuOpened object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuClosed) name:NotificationMenuClosed object:nil];
+}
+
+- (void)menuOpened {
+    
+    self.viewDeactivateScreen.hidden = NO;
+}
+
+- (void)menuClosed {
+    
+    self.viewDeactivateScreen.hidden = YES;
 }
 
 - (void)setupController {
@@ -147,6 +163,7 @@
     [self showMessageSentSuccess];
 }
 
+
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
     
@@ -193,21 +210,6 @@
     }];
 }
 
-- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
-    
-    NSString *messageID;
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    NSPredicate *predicate;
-    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
-    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
-    RMModelMessage *message = [resultsGmailMessages firstObject];
-    if (message) {
-        messageID = message.gmailId;
-    }
-    
-    return messageID;
-}
-
 - (void)messageUnread:(id)cell {
     
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
@@ -225,6 +227,21 @@
     if (!self.editedCell) {
         self.editedCell = (InboxCell *)cell;
     }
+}
+
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
+    
+    NSString *messageID;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate;
+    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
+    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
+    RMModelMessage *message = [resultsGmailMessages firstObject];
+    if (message) {
+        messageID = message.gmailId;
+    }
+    
+    return messageID;
 }
 
 
@@ -249,4 +266,5 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 @end

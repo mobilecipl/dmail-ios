@@ -205,4 +205,8 @@
     }
 }
 
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+}
+
 @end

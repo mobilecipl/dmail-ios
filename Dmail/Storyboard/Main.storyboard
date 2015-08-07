@@ -526,15 +526,23 @@
                                             <constraint firstAttribute="centerX" secondItem="ST8-Ap-sMy" secondAttribute="centerX" id="ya9-FV-oFo"/>
                                         </constraints>
                                     </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ji-SN-XbA">
+                                        <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="xWv-Fm-RwW" secondAttribute="trailing" id="23P-5n-sbb"/>
+                                    <constraint firstItem="5Ji-SN-XbA" firstAttribute="top" secondItem="nXz-eI-ynX" secondAttribute="bottom" id="3du-hu-QzF"/>
                                     <constraint firstItem="xWv-Fm-RwW" firstAttribute="top" secondItem="nXz-eI-ynX" secondAttribute="bottom" constant="1" id="44L-OH-GI8"/>
                                     <constraint firstAttribute="bottom" secondItem="xWv-Fm-RwW" secondAttribute="bottom" constant="-1" id="5II-cf-2jb"/>
+                                    <constraint firstItem="5Ji-SN-XbA" firstAttribute="leading" secondItem="8e5-2x-DDK" secondAttribute="leading" id="B1d-xs-Lid"/>
                                     <constraint firstItem="CVK-vv-1QZ" firstAttribute="leading" secondItem="8e5-2x-DDK" secondAttribute="leading" id="FWn-L9-mWm"/>
+                                    <constraint firstAttribute="bottom" secondItem="5Ji-SN-XbA" secondAttribute="bottom" id="PBs-qt-0ri"/>
                                     <constraint firstAttribute="trailing" secondItem="nXz-eI-ynX" secondAttribute="trailing" id="VVN-nh-Xk5"/>
                                     <constraint firstItem="CVK-vv-1QZ" firstAttribute="top" secondItem="nXz-eI-ynX" secondAttribute="bottom" id="ZEv-3e-uDI"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Ji-SN-XbA" secondAttribute="trailing" id="d30-ud-5Iu"/>
                                     <constraint firstAttribute="bottom" secondItem="CVK-vv-1QZ" secondAttribute="bottom" id="ecZ-1q-WC3"/>
                                     <constraint firstItem="xWv-Fm-RwW" firstAttribute="leading" secondItem="8e5-2x-DDK" secondAttribute="leading" id="fFa-10-tvK"/>
                                     <constraint firstAttribute="trailing" secondItem="CVK-vv-1QZ" secondAttribute="trailing" id="lO8-R4-w2G"/>
@@ -560,6 +568,7 @@
                         <outlet property="buttonRevealMenu" destination="WI1-Ie-e0V" id="6A6-Ae-Neg"/>
                         <outlet property="imageViewNavigationIcon" destination="Flb-zf-Pdm" id="TYf-SJ-kXJ"/>
                         <outlet property="tableViewInbox" destination="xWv-Fm-RwW" id="xIB-OV-iIS"/>
+                        <outlet property="viewDeactivateScreen" destination="5Ji-SN-XbA" id="zuD-Mt-7ut"/>
                         <outlet property="viewInboxZero" destination="CVK-vv-1QZ" id="qHr-Pa-mnY"/>
                         <outlet property="viewNavigation" destination="nXz-eI-ynX" id="lfl-yb-Qgb"/>
                         <segue destination="y8g-Vk-ppM" kind="push" identifier="fromInboxToInboxView" id="HrS-Sg-X06"/>
@@ -2282,16 +2291,24 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JCR-qd-9ah">
+                                        <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92156862750000001" green="0.93725490199999995" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="2MN-sQ-6QI" firstAttribute="top" secondItem="0Ah-ZX-i3F" secondAttribute="bottom" constant="1" id="0DJ-g9-XmH"/>
                                     <constraint firstItem="0Ah-ZX-i3F" firstAttribute="top" secondItem="DUw-NA-97z" secondAttribute="top" id="1gf-gk-BT4"/>
+                                    <constraint firstAttribute="bottom" secondItem="JCR-qd-9ah" secondAttribute="bottom" id="Br0-BP-BT9"/>
                                     <constraint firstAttribute="trailing" secondItem="2MN-sQ-6QI" secondAttribute="trailing" id="NhO-ne-Wkb"/>
+                                    <constraint firstAttribute="trailing" secondItem="JCR-qd-9ah" secondAttribute="trailing" id="Qdk-HD-QDS"/>
                                     <constraint firstAttribute="trailing" secondItem="0Ah-ZX-i3F" secondAttribute="trailing" id="Tz0-Ax-BdP"/>
                                     <constraint firstAttribute="bottom" secondItem="2MN-sQ-6QI" secondAttribute="bottom" constant="-1" id="UEg-lI-Fcv"/>
                                     <constraint firstItem="0Ah-ZX-i3F" firstAttribute="leading" secondItem="DUw-NA-97z" secondAttribute="leading" id="XAb-xk-G20"/>
+                                    <constraint firstItem="JCR-qd-9ah" firstAttribute="leading" secondItem="DUw-NA-97z" secondAttribute="leading" id="bHG-b9-HAZ"/>
                                     <constraint firstItem="2MN-sQ-6QI" firstAttribute="leading" secondItem="DUw-NA-97z" secondAttribute="leading" id="bpO-zK-H9r"/>
+                                    <constraint firstItem="JCR-qd-9ah" firstAttribute="top" secondItem="0Ah-ZX-i3F" secondAttribute="bottom" id="wld-rM-I8s"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -2309,6 +2326,7 @@
                         <outlet property="buttonRevealMenu" destination="00Z-3T-2cy" id="IU3-yA-Wwn"/>
                         <outlet property="labelNavigationTitle" destination="3bJ-bb-HwM" id="54n-lx-wMx"/>
                         <outlet property="tableViewSent" destination="2MN-sQ-6QI" id="3c0-O1-WxB"/>
+                        <outlet property="viewDeactivateScreen" destination="JCR-qd-9ah" id="qsx-Kn-Gkk"/>
                         <outlet property="viewNavigation" destination="0Ah-ZX-i3F" id="i6S-21-OmX"/>
                         <segue destination="XUF-Ts-a6C" kind="push" identifier="fromSentToSentView" id="x3M-4t-IdM"/>
                         <segue destination="zbx-z7-Gyx" kind="push" identifier="fromSentToCompose" id="COF-Ci-usR"/>
@@ -2354,10 +2372,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="AiN-2U-mFT"/>
         <segue reference="bzl-GS-gvY"/>
         <segue reference="SlQ-En-DJs"/>
         <segue reference="hho-Yr-fmt"/>
-        <segue reference="AiN-2U-mFT"/>
-        <segue reference="szA-Vv-gNz"/>
+        <segue reference="COF-Ci-usR"/>
     </inferredMetricsTieBreakers>
 </document>

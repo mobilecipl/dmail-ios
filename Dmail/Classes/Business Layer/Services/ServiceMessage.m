@@ -136,13 +136,6 @@
     [self.daoMessage unreadMessageWithMessageId:messageId];
 }
 
-- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock {
-    
-    [self.daoMessage archiveMessageWithFrom:from subject:subject CompletionBlock:^(id data, ErrorDataModel *error) {
-        
-    }];
-}
-
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
     
     [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];

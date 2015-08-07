@@ -10,6 +10,5 @@
 
 @interface NetworkGmailMessageArchive : BaseNetwork
 
-- (void)archiveMessageWithFrom:(NSString *)from to:(NSString *)to subject:(NSString *)subject userID:(NSString *)userID CompletionBlock:(CompletionBlock)completionBlock;
 
 @end

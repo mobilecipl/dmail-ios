@@ -766,9 +766,11 @@ const int FrontViewPositionNone = 0xff;
     FrontViewPosition toogledFrontViewPosition = FrontViewPositionLeft;
     if (_frontViewPosition <= FrontViewPositionLeft) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMenuOpened object:nil];
         toogledFrontViewPosition = FrontViewPositionRight;
     }
     else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationMenuClosed object:nil];
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     }
     

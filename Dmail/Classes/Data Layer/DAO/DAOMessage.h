@@ -39,8 +39,6 @@
 
 - (void)unreadMessageWithMessageId:(NSString *)messageId;
 
-- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock;
-
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
 - (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
