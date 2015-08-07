@@ -13,13 +13,15 @@
 
 @interface DAOMessage : BaseDAO
 
+- (BOOL)hasInboxMessages;
+
 - (NSArray *)getInboxMessages;
 
 - (NSArray *)getSentMessages;
 
 - (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
 
-- (void)getMessageBodyWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageBodyWithMessageId:(NSString *)messageId;
 
 - (RMModelMessage *)getLastGmailUniqueId;
 
@@ -27,7 +29,7 @@
 
 - (NSNumber *)getLastDmailPosition;
 
-- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
+- (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
@@ -35,12 +37,24 @@
 
 - (void)deleteMessageWithMessageId:(NSString *)messageId;
 
+- (void)unreadMessageWithMessageId:(NSString *)messageId;
+
+- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock;
+
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
+
+- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
 - (void)clearAllData;
+
+- (NSString *)generatePublicKey;
+
+- (NSString *)getClientKeyWithMessageId:(NSString *)messageId;
+
+- (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body;
 
 @end

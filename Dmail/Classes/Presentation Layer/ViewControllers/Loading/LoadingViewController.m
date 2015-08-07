@@ -63,9 +63,9 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/"];
-    googleSignIn.shouldFetchBasicProfile = YES;
-    googleSignIn.allowsSignInWithWebView = NO;
+    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+//    googleSignIn.shouldFetchBasicProfile = YES;
+//    googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
     [googleSignIn signInSilently];
 }
@@ -82,7 +82,12 @@
         // TODO: sync
         [[ServiceProfile sharedInstance] updateUserDetails:user];
         [self.serviceSync sync];
-        [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
+            [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
+        }
+        else {
+            [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
+        }
     }
 }
 

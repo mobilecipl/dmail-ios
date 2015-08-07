@@ -15,7 +15,7 @@
 
 @end
 
-typedef void (^TableViewCellBlock)(id cell, id item);
+typedef void (^TableViewCellBlock)(id cell, id item, NSIndexPath *indexPath);
 
 @interface TableViewDataSource : NSObject <UITableViewDataSource>
 // property

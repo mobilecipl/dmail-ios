@@ -54,6 +54,11 @@
     [self loadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [self registerNotifications];
+}
+
 
 #pragma mark - Action Methods
 - (IBAction)backClicked:(id)sender {
@@ -66,6 +71,19 @@
 }
 
 #pragma mark - Private Methods
+- (void)registerNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDecryptedMessage:) name:NotificationGetDecryptedMessage object:nil];
+}
+
+- (void)getDecryptedMessage:(NSNotification *)notification {
+    
+    NSLog(@"decryptedMessage ======= %@", [[notification userInfo] valueForKey:@"decryptedMessage"]);
+    self.textViewMessageBody.text = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    [self hideLoadingView];
+    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewMessageBody.text];
+}
+
 - (void)setupController {
     
     self.viewNavigation.layer.shadowColor = [[UIColor navigationShadowColor] CGColor];
@@ -106,12 +124,7 @@
         self.labelSenderName.frame = CGRectMake(self.imageViewProfile.frame.origin.x + self.imageViewProfile.frame.size.width + 5, self.labelSenderName.frame.origin.y, profileNameWidth, self.labelSenderName.frame.size.height);
         if (!modelMessage.body) {
             [self showLoadingView];
-            @weakify(self);
-            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId completionBlock:^(NSString *body, ErrorDataModel *error) {
-                @strongify(self);
-                self.textViewMessageBody.text = body;
-                [self hideLoadingView];
-            }];
+            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
         }
         else {
             self.textViewMessageBody.text = modelMessage.body;

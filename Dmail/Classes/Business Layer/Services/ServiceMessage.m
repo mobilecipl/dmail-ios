@@ -69,6 +69,11 @@
     return arrayItems;
 }
 
+- (BOOL)hasInboxMessages {
+    
+    return [self.daoMessage hasInboxMessages];
+}
+
 - (VMInboxMessageItem *)getInboxMessageWithMessageId:(NSString *)messageId {
     
     ModelMessage *modelMessage = [self.daoMessage getMessageWithMessageId:messageId];
@@ -85,16 +90,24 @@
     return sentMessageVM;
 }
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
+- (NSString *)getClientKey {
     
-    [self.daoMessage getMessageBodyWithMessageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
-        completionBlock(data, error);
-    }];
+    return [self.daoMessage generatePublicKey];
 }
 
-- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+- (NSString *)getClientKeyWithMessageId:(NSString *)messageId {
     
-    [self.daoMessage sendMessage:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc completionBlock:^(id data, ErrorDataModel *error) {
+     return [self.daoMessage getClientKeyWithMessageId:messageId];
+}
+
+- (void)getMessageBodyWithIdentifier:(NSString *)messageId {
+    
+    [self.daoMessage getMessageBodyWithMessageId:messageId];
+}
+
+- (void)sendMessage:(NSString *)encryptedBody clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+    
+    [self.daoMessage sendMessage:encryptedBody clientKey:clientKey messageSubject:messageSubject to:to cc:cc bcc:bcc completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data,error);
     }];
 }
@@ -118,9 +131,26 @@
     [self.daoMessage deleteMessageWithMessageId:messageId];
 }
 
+- (void)unreadMessageWithMessageId:(NSString *)messageId {
+    
+    [self.daoMessage unreadMessageWithMessageId:messageId];
+}
+
+- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock {
+    
+    [self.daoMessage archiveMessageWithFrom:from subject:subject CompletionBlock:^(id data, ErrorDataModel *error) {
+        
+    }];
+}
+
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
     
     [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];
+}
+
+- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
+    
+    [self.daoMessage revokeMessageWithMessageId:messageId participant:participant];
 }
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {
@@ -131,6 +161,11 @@
 - (void)clearAllData {
     
     [self.daoMessage clearAllData];
+}
+
+- (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body {
+    
+    [self.daoMessage writeDecryptedBodyWithMessageId:messageId body:body];
 }
 
 @end

@@ -291,7 +291,8 @@ withMessageFontSize:(CGFloat)messageFontSize
         for (NSInteger i = 0; i < [buttonTitles count]; ++i) {
             NSDictionary *dictionary = [buttonTitles objectAtIndex:i];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button setFrame:CGRectMake(buttonOryginX, self.oryginY, kButtonWidth, kButtonHeight)];
+            CGFloat buttonWidth = (self.demoView.frame.size.width - 3*kButtonOriginX)/2;
+            [button setFrame:CGRectMake(buttonOryginX, self.oryginY, buttonWidth, kButtonHeight)];
             [button addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
             [button setTag:i];
             [button setTitle:[dictionary objectForKey:@"title"] forState:UIControlStateNormal];
@@ -300,7 +301,7 @@ withMessageFontSize:(CGFloat)messageFontSize
             [button.titleLabel setFont:[UIFont fontWithName:[dictionary objectForKey:@"font"] size:[[dictionary objectForKey:@"fontSize"] floatValue]]];
             button.layer.cornerRadius = 3;
             [container addSubview:button];
-            buttonOryginX += self.demoView.frame.size.width - 2*kButtonOriginX - kButtonWidth;
+            buttonOryginX += self.demoView.frame.size.width - 2*kButtonOriginX - buttonWidth;
         }
     }
     else if ([buttonTitles count] == 1) {

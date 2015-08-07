@@ -44,6 +44,8 @@ static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed"
 static NSString * const NotificationRevokeSuccess = @"NotificationRevokeSuccess";
 static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";
 
+static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
+
 
 typedef NS_ENUM(NSInteger, MessageLabel) {
     Inbox = 1,

@@ -13,7 +13,7 @@
 - (void)drawRect:(CGRect)rect {
 
     self.layer.masksToBounds = NO;
-    self.layer.shadowOffset = CGSizeMake(0, 2);
+    self.layer.shadowOffset = CGSizeMake(0, 1);
     self.layer.shadowColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     self.layer.shadowRadius = 5;
     self.layer.shadowOpacity = 0.8;

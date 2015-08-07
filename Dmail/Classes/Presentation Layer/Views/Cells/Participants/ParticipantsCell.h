@@ -33,7 +33,7 @@
 
 
 - (void)configureCell:(NSInteger)row hideCcBcc:(BOOL)hideCcBcc;
-- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId;
+- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants participantsType:(NSString *)participantsType messageId:(NSString *)messageId;
 - (void)addParticipantWithContactModel:(ContactModel *)contactModel;
 
 @end

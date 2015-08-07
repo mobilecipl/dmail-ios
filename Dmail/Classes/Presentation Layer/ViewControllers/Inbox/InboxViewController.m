@@ -8,6 +8,9 @@
 
 #import "InboxViewController.h"
 
+// local storage
+#import <Realm/Realm.h>
+
 // controller
 #import "ComposeViewController.h"
 #import "InboxMessageViewController.h"
@@ -15,6 +18,7 @@
 #import "SWRevealViewController.h"
 
 // service
+#import "ServiceGmailMessage.h"
 #import "ServiceMessage.h"
 
 // data source
@@ -23,22 +27,27 @@
 // view model
 #import "VMInboxMessageItem.h"
 
+// RM model
+#import "RMModelMessage.h"
+
 // view
 #import "InboxCell.h"
 
 //colors
 #import "UIColor+AppColors.h"
 
-@interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
+@interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate, InboxCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewInbox;
-@property (weak, nonatomic) IBOutlet UILabel *labelNavigationTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewNavigationIcon;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRevealMenu;
+@property (weak, nonatomic) IBOutlet UIView *viewInboxZero;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
 @property (strong, nonatomic) TableViewDataSource *dataSourceInbox;
+@property (strong, nonatomic) InboxCell *editedCell;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) VMInboxMessageItem *selectedMessage;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
@@ -52,6 +61,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _serviceMessage = [[ServiceMessage alloc] init];
+        _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
     }
     return self;
 }
@@ -77,6 +87,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
 }
 
 - (void)setupController {
@@ -84,13 +95,24 @@
     self.arrayMesages = [[NSMutableArray alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self.buttonRevealMenu addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    
+    BOOL success = [self.serviceMessage hasInboxMessages];
+    if (success) {
+        [self showLoadingView];
+        self.viewInboxZero.hidden = YES;
+    }
+    else {
+        self.viewInboxZero.hidden = NO;
+    }
 }
 
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(InboxCell *cell, VMInboxMessageItem *item) {
+    TableViewCellBlock configureCell = ^(InboxCell *cell, VMInboxMessageItem *item, NSIndexPath *indexPath) {
         [cell configureCell:item];
+        cell.delegate = self;
+        cell.row = indexPath.row;
     };
     
     self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
@@ -112,10 +134,18 @@
     [self.refreshControl endRefreshing];
     
     self.arrayMesages = [[self.serviceMessage getInboxMessages] mutableCopy];
-    self.dataSourceInbox.items = self.arrayMesages;
-    [self.tableViewInbox reloadData];
+    if ([self.arrayMesages count] > 0) {
+        self.viewInboxZero.hidden = YES;
+        self.dataSourceInbox.items = self.arrayMesages;
+        [self.tableViewInbox reloadData];
+    }
+    [self hideLoadingView];
 }
 
+- (void)messageSentSuccess {
+    
+    [self showMessageSentSuccess];
+}
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -127,28 +157,76 @@
 #pragma mark - UITableViewDelegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (self.editedCell) {
+        [self.editedCell movePanelToLeft];
+    }
     self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromInboxToInboxView" sender:self];
 }
 
 
-#pragma mark - TableViewDataSourceDelegate Methods
-- (void)deleteMessageWithIndexPath:(NSIndexPath *)indexPath {
+#pragma mark - InboxCellDelegate Methods
+- (void)messageDelete:(id)cell {
     
-//    MessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-//    [self.serviceMessage deleteMessageWithMessageItem:messageItem];
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)cell];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId];
+    
+    [self.arrayMesages removeObjectAtIndex:indexPath.row];
+    self.dataSourceInbox.items = self.arrayMesages;
+    [self.tableViewInbox reloadData];
 }
 
-- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)messageArchive:(id)cell {
     
-    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-        [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId];
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    NSString *gmailID = [self getGmailIDWithMessageId:messageItem.messageId];
+    
+    [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
+        if (data) {
+            NSLog(@"ARCHIVED");
+            [self messageDelete:cell];
+        } else {
+            NSLog(@"FAILED TO ARCHIVE");
+        }
     }];
-    button.backgroundColor = [UIColor cellDeleteButtonColor];
-    
-    return @[button];
 }
+
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
+    
+    NSString *messageID;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate;
+    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
+    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
+    RMModelMessage *message = [resultsGmailMessages firstObject];
+    if (message) {
+        messageID = message.gmailId;
+    }
+    
+    return messageID;
+}
+
+- (void)messageUnread:(id)cell {
+    
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self.serviceMessage unreadMessageWithMessageId:messageItem.messageId];
+}
+
+- (void)panelMovedOnRight:(id)cell {
+    
+    InboxCell *selectedCell = (InboxCell *)cell;
+    if (self.editedCell && selectedCell.row != self.editedCell.row) {
+        [self.editedCell movePanelToLeft];
+        self.editedCell = (InboxCell *)cell;
+    }
+    if (!self.editedCell) {
+        self.editedCell = (InboxCell *)cell;
+    }
+}
+
 
 #pragma mark - UIStoryboardSegue Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -166,7 +244,6 @@
     [self hideLoadingView];
     [self loadMessages];
 }
-
 
 - (void)dealloc {
     

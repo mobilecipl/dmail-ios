@@ -8,6 +8,9 @@
 
 #import "DAOGmailMessage.h"
 
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+
 // network
 #import "NetworkGmailMessage.h"
 
@@ -142,6 +145,31 @@
 - (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
+}
+
+- (void)getMessageLabelsWithMessageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
+    
+    NSString *userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    
+    [self.networkGmailMessage getMessageLabelsWithMessageId:messageID userId:userID completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+        if (!error) {
+            if ([data[@"labelIds"] isKindOfClass:[NSArray class]]) {
+                completionBlock(data[@"labelIds"], nil);
+            } else {
+                completionBlock(nil, error);
+            }
+        } else {
+            completionBlock(nil, error);
+        }
+    }];
+}
+
+- (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
+    
+    NSString *userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    [self.networkGmailMessage deleteMessageLabels:labels messageId:messageID userId:userID completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }

@@ -11,6 +11,7 @@ pod 'Google-API-Client/Gmail', '~> 1.0'
 # view
 pod 'UICollectionViewEmptyState'
 pod 'TBAlertController'
+pod 'VENTokenField', '~> 2.0'
 
 # images
 pod 'LBBlurredImage'

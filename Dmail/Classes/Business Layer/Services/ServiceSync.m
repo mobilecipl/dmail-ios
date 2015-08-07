@@ -107,10 +107,8 @@
                 @strongify(self);
                 self.syncInProgressDmail = NO;
                 if ([hasNewData isEqual:@(YES)]) {
-                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
                 } else {
-                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                 }
             }];

@@ -8,10 +8,15 @@
 
 #import "BaseViewController.h"
 #import "CustomAlertView.h"
+#import "UIColor+AppColors.h"
 
 @interface BaseViewController () <CustomAlertViewDelegate>
 
 @property (nonatomic, strong) UIView *viewLoading;
+@property (nonatomic, strong) UIView *viewMessageSent;
+@property (nonatomic, strong) UIView *viewMessageDestroyed;
+@property (nonatomic, assign) BOOL viewMessageSentVisible;
+@property (nonatomic, assign) BOOL viewMessageDestroyedVisible;
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
 
 @end
@@ -34,11 +39,87 @@
 
 
 #pragma mark - Public Methods
+- (void)showMessageSentSuccess {
+    
+    if (!self.viewMessageSentVisible) {
+        if (!self.viewMessageSent) {
+            self.viewMessageSent = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, 42)];
+            self.viewMessageSent.userInteractionEnabled = YES;
+            self.viewMessageSent.backgroundColor = [UIColor cellSelected];
+            [self.view addSubview:self.viewMessageSent];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewMessageSent.frame.size.width, self.viewMessageSent.frame.size.height)];
+            label.backgroundColor = [UIColor clearColor];
+            label.textColor = [UIColor whiteColor];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.text = @"success! your secure message has been sent";
+            label.font = [UIFont fontWithName:@"ProximaNova-Light" size:15];
+            [self.viewMessageSent addSubview:label];
+        }
+        self.viewMessageSentVisible = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            CGRect frame = self.viewMessageSent.frame;
+            self.viewMessageSent.frame = CGRectMake(frame.origin.x, frame.origin.y - frame.size.height, frame.size.width, frame.size.height);
+            [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(hideMessageSentSuccess) userInfo:nil repeats:NO];
+        }];
+    }
+}
+
+- (void)hideMessageSentSuccess {
+    
+    self.viewMessageSentVisible = NO;
+    [UIView animateWithDuration:0.5 animations:^{
+        CGRect frame = self.viewMessageSent.frame;
+        self.viewMessageSent.frame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
+    }];
+}
+
+- (void)showMessageDestroyedSuccess:(BOOL)revoke {
+    
+    if (!self.viewMessageDestroyedVisible) {
+        if (!self.viewMessageDestroyed) {
+            self.viewMessageDestroyed = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, 42)];
+            self.viewMessageDestroyed.userInteractionEnabled = YES;
+            self.viewMessageDestroyed.backgroundColor = [UIColor cellDeleteButtonColor];
+            [self.view addSubview:self.viewMessageDestroyed];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewMessageDestroyed.frame.size.width, self.viewMessageDestroyed.frame.size.height)];
+            label.backgroundColor = [UIColor clearColor];
+            label.textColor = [UIColor whiteColor];
+            label.textAlignment = NSTextAlignmentCenter;
+            if (revoke) {
+                label.text = @"Participant revoked";
+            }
+            else {
+                label.text = @"Message destroyed";
+            }
+            label.font = [UIFont fontWithName:@"ProximaNova-Light" size:15];
+            [self.viewMessageDestroyed addSubview:label];
+        }
+        self.viewMessageDestroyedVisible = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            CGRect frame = self.viewMessageDestroyed.frame;
+            self.viewMessageDestroyed.frame = CGRectMake(frame.origin.x, frame.origin.y - frame.size.height, frame.size.width, frame.size.height);
+            [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(hideMessageDestroyedSuccess) userInfo:nil repeats:NO];
+        }];
+    }
+}
+
+- (void)hideMessageDestroyedSuccess {
+    
+    self.viewMessageDestroyedVisible = NO;
+    [UIView animateWithDuration:0.5 animations:^{
+        CGRect frame = self.viewMessageDestroyed.frame;
+        self.viewMessageDestroyed.frame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
+    }];
+}
+
+
 - (void)showLoadingView {
     
     if (!self.viewLoading) {
         self.viewLoading = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        self.viewLoading.userInteractionEnabled = NO;
+        self.viewLoading.userInteractionEnabled = YES;
         self.viewLoading.backgroundColor = [UIColor blackColor];
         self.viewLoading.alpha = 0.4;
         [self.view addSubview:self.viewLoading];

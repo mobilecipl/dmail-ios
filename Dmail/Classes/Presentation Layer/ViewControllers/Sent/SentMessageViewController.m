@@ -36,11 +36,13 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
+@property (nonatomic, weak) IBOutlet UIWebView *webViewDecryption;
 
-@property (nonatomic, strong) NSMutableArray *arrayTableItems;
 @property (nonatomic, strong) NSArray *arrayTo;
 @property (nonatomic, strong) NSArray *arrayCc;
 @property (nonatomic, strong) NSArray *arrayBcc;
+@property (nonatomic, strong) NSString *encryptedMessage;
+@property (nonatomic, strong) NSString *clientKey;
 @property (nonatomic, assign) CGFloat toCellHeight;
 @property (nonatomic, assign) CGFloat ccCellHeight;
 @property (nonatomic, assign) CGFloat bccCellHeight;
@@ -49,7 +51,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 @property (nonatomic, strong) NSString *revokedEmail;
 @property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
 @property (nonatomic, strong) NSString *body;
-
+@property (nonatomic, assign) NSInteger tableRowNumbers;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) VMSentMessage *modelMessage;
@@ -68,12 +70,13 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     return self;
 }
 
+
 #pragma mark Class methods
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
-    self.arrayTableItems = [[NSMutableArray alloc] init];
+    self.tableRowNumbers = 2;
     [self loadData];
     [self setupController];
 }
@@ -83,43 +86,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [super viewWillAppear:animated];
     
     [self registerNotifications];
-}
-
-- (void)registerNotifications {
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessSuccess) name:NotificationRevokeSuccess object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessFailed) name:NotificationRevokeFailed object:nil];
-}
-
-- (void)loadData {
-    
-    if (self.messageId) {
-        self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
-        self.arrayTo = self.modelMessage.arrayTo;
-        self.arrayCc = self.modelMessage.arrayCc;
-        self.arrayBcc = self.modelMessage.arrayBcc;
-        [self createTableItems];
-        if (!self.modelMessage.body) {
-            [self showLoadingView];
-            @weakify(self);
-            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId completionBlock:^(NSString *body, ErrorDataModel *error) {
-                @strongify(self);
-                self.body = body;
-                NSInteger bodyRow = [self getBodyRow];
-                NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
-                NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
-                [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-                
-                [self hideLoadingView];
-            }];
-        }
-        else {
-            self.body = self.modelMessage.body;
-        }
-    }
-    [self.tableView reloadData];
 }
 
 
@@ -158,24 +124,56 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [alertView show];
 }
 
-- (NSMutableArray *)getAllParticipants {
-
-    self.arrayAllParticipants = [[NSMutableArray alloc] init];
-    for (NSString *to in self.modelMessage.arrayTo) {
-        [self.arrayAllParticipants addObject:to];
-    }
-    for (NSString *cc in self.modelMessage.arrayCc) {
-        [self.arrayAllParticipants addObject:cc];
-    }
-    for (NSString *bcc in self.modelMessage.arrayBcc) {
-        [self.arrayAllParticipants addObject:bcc];
-    }
-    
-    return self.arrayAllParticipants;
-}
-
 
 #pragma mark - Private Methods
+- (void)registerNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDecryptedMessage:) name:NotificationGetDecryptedMessage object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(revokeSuccess) name:NotificationRevokeSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(revokeFailed) name:NotificationRevokeFailed object:nil];
+}
+
+- (void)getDecryptedMessage:(NSNotification *)notification {
+    
+    self.body = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    NSInteger bodyRow = [self getBodyRow];
+    NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
+    NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+    [self hideLoadingView];
+    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.body];
+}
+
+- (void)loadData {
+    
+    if (self.messageId) {
+        self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
+        self.arrayTo = self.modelMessage.arrayTo;
+        self.arrayCc = self.modelMessage.arrayCc;
+        self.arrayBcc = self.modelMessage.arrayBcc;
+        [self createTableItems];
+        if (!self.modelMessage.body) {
+            [self showLoadingView];
+            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
+        }
+        else {
+            self.body = self.modelMessage.body;
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void)revokeSuccess {
+    
+    [self hideLoadingView];
+    [self showMessageDestroyedSuccess:YES];
+}
+
+- (void)revokeFailed {
+    
+    [self hideLoadingView];
+}
+
 - (void)setupController {
     
     self.viewNavigation.layer.shadowColor = [[UIColor navigationShadowColor] CGColor];
@@ -212,24 +210,15 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.ccCellHeight = 0;
     self.bccCellHeight = 0;
     self.messageContentCellHeight = 450;
-    if ([self.arrayTo count] > 0) {
-        [self.arrayTableItems addObject:@"1"];
-        self.toCellHeight = 57;
-    }
+    self.toCellHeight = 57;
     if ([self.arrayCc count] > 0) {
         self.ccCellHeight = 57;
-        [self.arrayTableItems addObject:@"2"];
+        self.tableRowNumbers++;
     }
     if ([self.arrayBcc count] > 0) {
         self.bccCellHeight = 57;
-        if ([self.arrayCc count] > 0) {
-        }
-        else {
-            [self.arrayTableItems addObject:@"2"];
-            [self.arrayTableItems addObject:@"3"];
-        }
+        self.tableRowNumbers++;
     }
-    [self.arrayTableItems addObject:@"4"];
 }
 
 - (NSInteger)getBodyRow {
@@ -247,6 +236,22 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     return row;
 }
 
+- (NSMutableArray *)getAllParticipants {
+    
+    self.arrayAllParticipants = [[NSMutableArray alloc] init];
+    for (NSString *to in self.modelMessage.arrayTo) {
+        [self.arrayAllParticipants addObject:to];
+    }
+    for (NSString *cc in self.modelMessage.arrayCc) {
+        [self.arrayAllParticipants addObject:cc];
+    }
+    for (NSString *bcc in self.modelMessage.arrayBcc) {
+        [self.arrayAllParticipants addObject:bcc];
+    }
+    
+    return self.arrayAllParticipants;
+}
+
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -257,7 +262,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat rowHeight = 0;
-    if ([self.arrayTableItems count] == 2) {
+    if (self.tableRowNumbers == 2) {
         if (indexPath.row == 0) {
             rowHeight = self.toCellHeight;
         }
@@ -265,13 +270,13 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
         }
     }
-    else if ([self.arrayTableItems count] == 3) {
+    else if (self.tableRowNumbers == 3) {
         switch (indexPath.row) {
             case 0:
                 rowHeight = self.toCellHeight;
                 break;
             case 1:
-                rowHeight = self.ccCellHeight;
+                rowHeight = [self.arrayCc count]>0?self.ccCellHeight:self.bccCellHeight;
                 break;
             case 2:
                 rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
@@ -301,17 +306,17 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.arrayTableItems.count;
+    return self.tableRowNumbers;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.arrayTableItems count] == 2) {
+    if (self.tableRowNumbers == 2) {
         switch (indexPath.row) {
             case 0: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -330,20 +335,30 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 break;
         }
     }
-    else if ([self.arrayTableItems count] == 3) {
+    else if (self.tableRowNumbers == 3) {
         switch (indexPath.row) {
             case 0: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return participantsCell;
             }
             case 1: {
+                NSArray *arrayParticipants;
+                NSString *participantType;
+                if ([self.arrayCc count] > 0) {
+                    arrayParticipants = [NSArray arrayWithArray:self.arrayCc];
+                    participantType = @"Cc";
+                }
+                else {
+                    arrayParticipants = [NSArray arrayWithArray:self.arrayBcc];
+                    participantType = @"Bcc";
+                }
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:arrayParticipants participantsType:participantType messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -366,7 +381,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -375,7 +390,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 1: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc participantsType:@"Cc" messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -384,7 +399,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             case 2: {
                 ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
                 participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc messageId:self.messageId];
+                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc participantsType:@"Bcc" messageId:self.messageId];
                 participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 return participantsCell;
@@ -448,7 +463,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     [alertView close];
     if (alertView.tag == Revoke) {
         if (buttonIndex == 1) {
-            [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:self.revokedEmail];
+            [self.serviceMessage revokeMessageWithMessageId:self.modelMessage.dmailId participant:self.revokedEmail];
         }
     }
     else {

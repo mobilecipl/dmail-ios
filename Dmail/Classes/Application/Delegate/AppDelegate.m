@@ -35,7 +35,6 @@
     [self realmMigration];
     
     [self setupGoogleSignIn];
-    
     return YES;
 }
 
@@ -76,6 +75,7 @@
             // And will update the schema on disk automatically
         }
     }];
+    NSLog(@"RLMRealm path: %@", [RLMRealm defaultRealm].path);
 }
 
 - (void)setupGoogleSignIn {

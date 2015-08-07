@@ -42,7 +42,7 @@
 }
 
 - (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
-
+    
     [self.daoGmailMessage sendWithEncodedBody:encodedBody userId:userID completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
@@ -53,6 +53,48 @@
     [self.daoGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
+}
+
+- (void)archiveMessageWithMessageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
+    
+    [self getMessageLabelsWithMessageId:messageID completionBlock:^(NSArray *data, ErrorDataModel *error) {
+        if (!error) {
+            NSArray *filteredLabels = [self filterLabelsArray:data];
+            [self deleteMessageLabels:filteredLabels messageId:messageID completionBlock:^(id data, ErrorDataModel *error) {
+                if (!error) {
+                    completionBlock(@(YES), nil);
+                } else {
+                    completionBlock(nil, error);
+                }
+            }];
+        } else {
+            completionBlock(nil, error);
+        }
+    }];
+}
+
+- (void)getMessageLabelsWithMessageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
+    
+    [self.daoGmailMessage getMessageLabelsWithMessageId:messageID completionBlock:^(NSArray *data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
+}
+
+- (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
+    
+    [self.daoGmailMessage deleteMessageLabels:labels messageId:messageID completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
+}
+
+- (NSArray*)filterLabelsArray:(NSArray *)labelsArr {
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:labelsArr];
+    
+    [arr removeObject:@"SENT"];
+    [arr removeObject:@"DRAFT"];
+    
+    return [NSArray arrayWithArray:arr];
 }
 
 @end

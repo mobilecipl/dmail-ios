@@ -18,4 +18,8 @@
 
 - (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
 
+- (void)getMessageLabelsWithMessageId:(NSString *)messageID userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
+
+- (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
+
 @end

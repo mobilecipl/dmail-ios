@@ -13,9 +13,7 @@
 
 - (void)showLoadingView;
 - (void)hideLoadingView;
-- (void)handleDestroyAccessSuccess;
-- (void)handleDestroyAccessFailed;
-- (void)handleRevokeAccessSuccess;
-- (void)handleRevokeAccessFailed;
+- (void)showMessageSentSuccess;
+- (void)showMessageDestroyedSuccess:(BOOL)revoke;
 
 @end

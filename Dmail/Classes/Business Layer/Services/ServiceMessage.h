@@ -14,6 +14,8 @@
 
 @interface ServiceMessage : BaseService
 
+- (BOOL)hasInboxMessages;
+
 - (NSArray *)getInboxMessages;
 
 - (NSArray *)getSentMessages;
@@ -22,9 +24,13 @@
 
 - (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId;
 
-- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock;
+- (NSString *)getClientKey;
 
-- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
+- (NSString *)getClientKeyWithMessageId:(NSString *)messageId;
+
+- (void)getMessageBodyWithIdentifier:(NSString *)messageIdentifier;
+
+- (void)sendMessage:(NSString *)encryptedBody clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sendRecipientEmail:(NSString *)recipientEmail key:(NSString *)key recipientType:(NSString *)recipientType messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
@@ -32,10 +38,18 @@
 
 - (void)deleteMessageWithMessageId:(NSString *)messageId;
 
+- (void)unreadMessageWithMessageId:(NSString *)messageId;
+
+- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock;
+
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
+
+- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
 - (void)clearAllData;
+
+- (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body;
 
 @end

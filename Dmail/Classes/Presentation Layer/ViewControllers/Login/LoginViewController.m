@@ -8,11 +8,7 @@
 
 #import "LoginViewController.h"
 
-// controller
-
 // service
-#import "ServiceSync.h"
-
 #import "ServiceProfile.h"
 
 // model
@@ -22,23 +18,12 @@
 
 @interface LoginViewController () <GIDSignInDelegate>
 
-@property (nonatomic, strong) ServiceSync *serviceSync;
-
 @end
 
 @implementation LoginViewController
 
 
 #pragma mark - Class Methods
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        _serviceSync = [[ServiceSync alloc] init];
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -53,7 +38,7 @@
     [GIDSignInButton class];
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/"];
+    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
     googleSignIn.shouldFetchBasicProfile = YES;
     googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
@@ -78,11 +63,7 @@
     }
     else {
         [[ServiceProfile sharedInstance] updateUserDetails:user];
-        
-        // TODO: sync
-        [self.serviceSync sync];
-        
-        [self performSegueWithIdentifier:@"fromLoginToRoot" sender:self];
+        [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
     }
 }
 

@@ -9,6 +9,7 @@
 #import "ParticipantsCell.h"
 #import "ParticipantView.h"
 #import "ContactModel.h"
+#import "VENTokenField.h"
 
 #import <Realm/Realm.h>
 #import "RMModelRecipient.h"
@@ -21,13 +22,16 @@ CGFloat kHeightBetweenParticipants = 30;
 CGFloat kSpaceBetweenParticipantViewAndCellBottom = 9;
 CGFloat kfirstParticipantOriginX = 34;
 
-@interface ParticipantsCell () <ParticipantViewDelegate>
+@interface ParticipantsCell () <ParticipantViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
+@property (weak, nonatomic) IBOutlet VENTokenField *tokenField;
 @property (nonatomic, weak) IBOutlet UIView *viewContainer;
 @property (nonatomic, weak) IBOutlet UILabel *labelTo;
 @property (nonatomic, weak) IBOutlet UIButton *buttonCcBcc;
 @property (nonatomic, weak) IBOutlet UIButton *buttonArrowUp;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldParticipant;
+
+@property (strong, nonatomic) NSMutableArray *names;
 
 @property (nonatomic, strong) NSString *messageId;
 @property (nonatomic, strong) NSMutableArray *arrayParticipantView;
@@ -52,6 +56,11 @@ CGFloat kfirstParticipantOriginX = 34;
     
     [super setSelected:selected animated:animated];
 //    [self.textFieldParticipant becomeFirstResponder];
+}
+
+- (void)prepareForReuse {
+    
+    self.textFieldParticipant.text = nil;
 }
 
 
@@ -168,53 +177,46 @@ CGFloat kfirstParticipantOriginX = 34;
 #pragma mark - Public Methods
 - (void)configureCell:(NSInteger)row hideCcBcc:(BOOL)hideCcBcc {
     
-    self.textFieldParticipant.tag = 1;
-    self.row = row;
+    self.names = [NSMutableArray array];
+    self.tokenField.delegate = self;
+    self.tokenField.dataSource = self;
     switch (row) {
         case 0:
-            self.labelTo.text = @"To:";
+            self.tokenField.toLabelText = @"To:";
             self.buttonCcBcc.hidden = hideCcBcc;
             self.buttonArrowUp.hidden = !hideCcBcc;
             break;
         case 1:
-            self.labelTo.text = @"Cc:";
+            self.tokenField.toLabelText = @"Cc:";
             self.buttonCcBcc.hidden = YES;
             self.buttonArrowUp.hidden = YES;
             break;
         case 2:
-            self.labelTo.text = @"Bcc:";
+            self.tokenField.toLabelText = @"Bcc:";
             self.buttonCcBcc.hidden = YES;
             self.buttonArrowUp.hidden = YES;
             break;
-            
         default:
             break;
     }
+    [self.tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+    self.tokenField.delimiters = @[@",", @";", @"--"];
+    [self.tokenField becomeFirstResponder];
+    
+//    self.textFieldParticipant.tag = 1;
+//    self.row = row;
 }
 
-- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+- (void)configureCellForSentWithRow:(NSInteger)row withParticipants:(NSArray *)arrayParticipants participantsType:(NSString *)participantsType messageId:(NSString *)messageId {
     
+    self.labelTo.text = participantsType;
+    self.labelTo.text = [self.labelTo.text stringByAppendingString:@":"];
     self.messageId = messageId;
     self.sentScreen = YES;
     self.buttonCcBcc.hidden = YES;
     self.buttonArrowUp.hidden = YES;
     self.textFieldParticipant.hidden = YES;
     self.row = row;
-    switch (row) {
-        case 0:
-            self.labelTo.text = @"To:";
-            break;
-        case 1:
-            self.labelTo.text = @"Cc:";
-            break;
-        case 2:
-            self.labelTo.text = @"Bcc:";
-            break;
-            
-        default:
-            break;
-    }
-    
     for (NSString *email in arrayParticipants) {
         [self createParticipantWithEmail:email withName:nil];
     }
@@ -302,6 +304,40 @@ CGFloat kfirstParticipantOriginX = 34;
     if ([self.delegate respondsToSelector:@selector(revokeParticipantWithEmail: name:)]) {
         [self.delegate revokeParticipantWithEmail:revokedParticipant.email name:revokedParticipant.name];
     }
+}
+
+
+
+#pragma mark - VENTokenFieldDelegate
+
+- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text
+{
+    [self.names addObject:text];
+    [self.tokenField reloadData];
+}
+
+- (void)tokenField:(VENTokenField *)tokenField didDeleteTokenAtIndex:(NSUInteger)index
+{
+    [self.names removeObjectAtIndex:index];
+    [self.tokenField reloadData];
+}
+
+
+#pragma mark - VENTokenFieldDataSource
+
+- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index
+{
+    return self.names[index];
+}
+
+- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField
+{
+    return [self.names count];
+}
+
+- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField
+{
+    return [NSString stringWithFormat:@"%tu people", [self.names count]];
 }
 
 @end

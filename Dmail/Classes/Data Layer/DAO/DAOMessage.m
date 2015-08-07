@@ -15,6 +15,7 @@
 // network
 #import "NetworkMessage.h"
 #import "NetworkGmailMessage.h"
+#import "NetworkGmailMessageArchive.h"
 
 // model
 #import "ModelMessage.h"
@@ -38,13 +39,19 @@
 #import <NSDate+DateTools.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 
-@interface DAOMessage ()
+@interface DAOMessage () <UIWebViewDelegate>
 
 @property (nonatomic, strong) NetworkMessage *networkMessage;
 @property (nonatomic, strong) NetworkGmailMessage *networkGmailMessage;
+@property (nonatomic, strong)NetworkGmailMessageArchive *networkGmailMessageArchive;
 @property (nonatomic, strong) DAOGmailMessage *daoGmailMessage;
+@property (nonatomic, strong) UIWebView *webViewEncryptDecrypt;
+@property (nonatomic, strong) NSString *encryptedMessage;
+@property (nonatomic, strong) NSString *messageForEncrypt;
+@property (nonatomic, strong) NSString *publicKey;
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, assign) NSInteger participantIndex;
+@property (nonatomic, assign) BOOL encryption;
 
 @end
 
@@ -57,7 +64,10 @@
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
         _networkGmailMessage = [[NetworkGmailMessage alloc] init];
+        _networkGmailMessageArchive = [[NetworkGmailMessageArchive alloc] init];
         _daoGmailMessage = [[DAOGmailMessage alloc] init];
+        _webViewEncryptDecrypt = [[UIWebView alloc] init];
+        _webViewEncryptDecrypt.delegate = self;
     }
     
     return self;
@@ -65,16 +75,30 @@
 
 
 #pragma mark - Public Methods
-- (void)sendMessage:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+- (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
     
-    [self sendMessage:messageBody completionBlock:^(NSString *messageId, ErrorDataModel *error) {
+    [self sendMessage:encryptedBopdy clientKey:(NSString *)clientKey completionBlock:^(NSString *messageId, ErrorDataModel *error) {
         if (messageId) {
             NSArray *arrayAllParticipants = [self createParticipantsArray:to arrayCc:cc arrayBcc:bcc];
             self.index = 0;
-            [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
+            [self sendEncodedBodyWith:encryptedBopdy messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
+        }
+        completionBlock(messageId, error);
+    }];
+}
+
+- (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey completionBlock:(CompletionBlock)completionBlock {
+    
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *model = [daoProfile getProfile];
+    [self.networkMessage sendEncryptedMessage:encryptedBopdy senderEmail:model.email completionBlock:^(id data, ErrorDataModel *error) {
+        NSString *messageId = nil;
+        if (data) {
+            messageId = data[@"message_id"];
+            [self saveMessageWithMessageId:messageId clientKey:clientKey];
         }
         completionBlock(messageId, error);
     }];
@@ -211,22 +235,6 @@
     return [NSArray arrayWithArray:arrayParticipants];
 }
 
-- (void)sendMessage:(NSString *)messageBody completionBlock:(CompletionBlock)completionBlock {
-    
-    NSString *clientKey = [self generatePublicKey];
-    NSString *encodedBody = [self encodeMessage:messageBody clientKey:clientKey];
-    DAOProfile *daoProfile = [[DAOProfile alloc] init];
-    ProfileModel *model = [daoProfile getProfile];
-    [self.networkMessage sendEncryptedMessage:encodedBody senderEmail:model.email completionBlock:^(id data, ErrorDataModel *error) {
-        NSString *messageId = nil;
-        if (data) {
-            messageId = data[@"message_id"];
-            [self saveMessageWithMessageId:messageId clientKey:clientKey];
-        }
-        completionBlock(messageId, error);
-    }];
-}
-
 - (NSString *)getClientKeyWithMessageId:(NSString *)messageId {
     
     NSString *clientKey;
@@ -291,6 +299,19 @@
     }];
 }
 
+- (BOOL)hasInboxMessages {
+
+    BOOL success = NO;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    DAOProfile *daoProfile = [[DAOProfile alloc] init];
+    ProfileModel *modelProfile = [daoProfile getProfile];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
+    if ([recipients count] > 0) {
+        success = YES;
+    }
+    return success;
+}
+
 - (NSArray *)getInboxMessages {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -306,6 +327,7 @@
             modelInbox.messageId = rmRecipient.messageId;
             modelInbox.subject = modelMessage.subject;
             modelInbox.internalDate = modelMessage.internalDate;
+            modelInbox.fromEmail = modelMessage.fromEmail;
             modelInbox.read = modelMessage.read;
             modelInbox.imageUrl = [self getRecipientImageUrlWithMessageId:rmRecipient.messageId];
             RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"SENDER", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
@@ -370,7 +392,7 @@
     return name;
 }
 
-- (void)getMessageBodyWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageBodyWithMessageId:(NSString *)messageId {
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *model = [daoProfile getProfile];
@@ -378,23 +400,22 @@
     if (model) {
         [self.networkMessage getEncryptedMessage:messageId recipientEmail:model.email completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
             NSLog(@"%@", data);
-            NSString *encodedMessage = data[@"encrypted_message"];
-            NSString *decodedMessage;
-            
-            //TODO: get public key and decode
-            NSString *publicKey = modelMessage.publicKey;
-            decodedMessage = [self decodeMessage:encodedMessage key:publicKey];
-            
-            RLMRealm *realm = [RLMRealm defaultRealm];
-            RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
-            RMModelMessage *rmMessage = [results firstObject];
-            [realm beginWriteTransaction];
-            rmMessage.body = decodedMessage;
-            [realm commitWriteTransaction];
-            
-            completionBlock(decodedMessage, error);
+            self.encryptedMessage = data[@"encrypted_message"];
+            self.encryption = NO;
+            self.publicKey = modelMessage.publicKey;
+            [self.webViewEncryptDecrypt loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"GiberishEnc" ofType:@"html"]isDirectory:NO]]];
         }];
     }
+}
+
+- (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+    RMModelMessage *rmMessage = [results firstObject];
+    [realm beginWriteTransaction];
+    rmMessage.body = body;
+    [realm commitWriteTransaction];
 }
 
 - (NSString *)generatePublicKey {
@@ -563,6 +584,29 @@
     }];
 }
 
+- (void)unreadMessageWithMessageId:(NSString *)messageId {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageId = %@", messageId];
+    RMModelMessage *realmModel = [results firstObject];
+    [realm beginWriteTransaction];
+    realmModel.read = NO;
+    [realm commitWriteTransaction];
+}
+
+- (void)archiveMessageWithFrom:(NSString *)from subject:(NSString *)subject CompletionBlock:(CompletionBlock)completionBlock {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+    RMModelProfile *profile = [resultsProfiles firstObject];
+    
+    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *to = profile.email;
+    [self.networkGmailMessageArchive archiveMessageWithFrom:from to:to subject:subject userID:userID CompletionBlock:^(id data, ErrorDataModel *error) {
+        
+    }];
+}
+
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
     
     self.participantIndex = 0;
@@ -596,27 +640,37 @@
                 self.participantIndex++;
                 if (self.participantIndex > [arrayParticipants count] - 1) {
                     self.participantIndex = 0;
-                    if([arrayParticipants count] > 1) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
-                    }
-                    else {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeSuccess object:nil];
-                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
                 }
                 else {
                     [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
                 }
             }
             else {
-                if([arrayParticipants count] > 1) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
-                }
-                else {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeFailed object:nil];
-                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
             }
         }];
     }
+}
+
+- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
+    
+    self.participantIndex = 0;
+    [self.networkMessage revokeUserWithMessageId:messageId email:participant completionBlock:^(id data, ErrorDataModel *error) {
+        if ([data isEqual:@(YES)]) {
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",participant, messageId];
+            [realm beginWriteTransaction];
+            for (RMModelRecipient *model in results) {
+                model.access = @"REVOKED";
+            }
+            [realm commitWriteTransaction];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeSuccess object:nil];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeFailed object:nil];
+        }
+    }];
 }
 
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {
@@ -659,6 +713,28 @@
     [realm beginWriteTransaction];
     [realm deleteAllObjects];
     [realm commitWriteTransaction];
+}
+
+
+#pragma mark - UIWebViewDelegate Methods
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+    if(self.encryption) {
+        NSString *jsFunction = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.messageForEncrypt, self.publicKey];
+        NSString *decryptedMessage = [self.webViewEncryptDecrypt stringByEvaluatingJavaScriptFromString:jsFunction];
+        NSDictionary *userInfo = @{@"decryptedMessage" : decryptedMessage};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGetDecryptedMessage object:nil userInfo:userInfo];
+    }
+    else {
+        self.encryptedMessage = [self.encryptedMessage stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        NSString *jsFunction = [NSString stringWithFormat:@"GibberishAES.dec('%@', '%@')",self.encryptedMessage, self.publicKey];
+        NSLog(@"=========================== %@ ==========================",jsFunction);
+        NSString *decryptedMessage = [self.webViewEncryptDecrypt stringByEvaluatingJavaScriptFromString:jsFunction];
+        NSDictionary *userInfo = @{@"decryptedMessage" : decryptedMessage};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGetDecryptedMessage object:nil userInfo:userInfo];
+    }
+    self.encryptedMessage = nil;
+    self.publicKey = nil;
 }
 
 @end

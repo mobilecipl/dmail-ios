@@ -1633,25 +1633,19 @@ const int FrontViewPositionNone = 0xff;
 
 // Load any defined front/rear controllers from the storyboard
 // This method is intended to be overrided in case the default behavior will not meet your needs
-- (void)loadStoryboardControllers
-{
-    if ( self.storyboard && _rearViewController == nil )
-    {
+- (void)loadStoryboardControllers {
+    
+    if ( self.storyboard && _rearViewController == nil ) {
         //Try each segue separately so it doesn't break prematurely if either Rear or Right views are not used.
-        @try
-        {
+        @try {
             [self performSegueWithIdentifier:SWSegueRearIdentifier sender:nil];
         }
         @catch(NSException *exception) {}
-        
-        @try
-        {
+        @try {
             [self performSegueWithIdentifier:SWSegueFrontIdentifier sender:nil];
         }
         @catch(NSException *exception) {}
-        
-        @try
-        {
+        @try {
             [self performSegueWithIdentifier:SWSegueRightIdentifier sender:nil];
         }
         @catch(NSException *exception) {}

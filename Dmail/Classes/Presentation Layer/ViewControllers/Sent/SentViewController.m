@@ -91,10 +91,9 @@
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessSuccess) name:NotificationDestroySuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDestroyAccessFailed) name:NotificationDestroyFailed object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessSuccess) name:NotificationRevokeSuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRevokeAccessFailed) name:NotificationRevokeFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedSuccess) name:NotificationDestroySuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedFailed) name:NotificationDestroyFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
 }
 
 - (void)setupController {
@@ -106,7 +105,7 @@
 - (void)setupTableView {
     
     // Initilaize collection view.
-    TableViewCellBlock configureCell = ^(SentCell *cell, VMSentMessageItem *item) {
+    TableViewCellBlock configureCell = ^(SentCell *cell, VMSentMessageItem *item, NSIndexPath *indexPath) {
         [cell configureCell:item];
     };
     
@@ -131,6 +130,28 @@
     self.arrayMesages = [[self.serviceMessage getSentMessages] mutableCopy];
     self.dataSourceInbox.items = self.arrayMesages;
     [self.tableViewSent reloadData];
+}
+
+- (void)messageDestroyedSuccess {
+    
+    [self hideLoadingView];
+    [self showMessageDestroyedSuccess:NO];
+}
+
+- (void)messageDestroyedFailed {
+    
+    [self hideLoadingView];
+}
+
+- (void)messageSentSuccess {
+    
+    [self showMessageSentSuccess];
+}
+
+- (void)updateInboxScreen:(id)messageItem {
+    
+    [self hideLoadingView];
+    [self loadMessages];
 }
 
 
@@ -177,12 +198,6 @@
             sentMessageVC.messageId = self.selectedMessage.messageId;
         }
     }
-}
-
-- (void)updateInboxScreen:(id)messageItem {
-    
-    [self hideLoadingView];
-    [self loadMessages];
 }
 
 @end

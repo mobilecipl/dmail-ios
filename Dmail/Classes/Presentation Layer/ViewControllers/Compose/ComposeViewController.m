@@ -13,38 +13,49 @@
 #import "ServiceContact.h"
 
 // view
-
 #import "ParticipantsCell.h"
 #import "MessageComposeCell.h"
 #import "ContactCell.h"
+#import "VENTokenField.h"
 
 // model
 #import "ContactModel.h"
 
-@interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate>
+@interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
+@property (nonatomic, weak) IBOutlet UIView *viewMessageCompose;
 @property (nonatomic, weak) IBOutlet UIButton *buttonSend;
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIButton *buttonCcBcc;
+@property (nonatomic, weak) IBOutlet UIButton *buttonUpArrow;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
+@property (nonatomic, weak) IBOutlet UITextView *textViewBody;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraitHeight;
+
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldTo;
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldCc;
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldBcc;
+@property (nonatomic, weak) IBOutlet VENTokenField *selectedToken;
+
+@property (nonatomic, strong) NSMutableArray *arrayTo;
+@property (nonatomic, strong) NSMutableArray *arrayCc;
+@property (nonatomic, strong) NSMutableArray *arrayBcc;
+@property (nonatomic, strong) NSMutableArray *arrayTempTo;
+@property (nonatomic, strong) NSMutableArray *arrayTempCc;
+@property (nonatomic, strong) NSMutableArray *arrayTempBcc;
+@property (nonatomic, strong) ContactModel *tempContactModel;
+
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
+@property (nonatomic, weak) IBOutlet UIWebView *webEncryptor;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceContact *serviceContact;
 
-@property (nonatomic, strong) NSMutableArray *arrayTableItems;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
-@property (nonatomic, strong) NSMutableArray *arrayTo;
-@property (nonatomic, strong) NSMutableArray *arrayCc;
-@property (nonatomic, strong) NSMutableArray *arrayBcc;
-@property (nonatomic, strong) NSString *messageSubject;
-@property (nonatomic, strong) NSString *messageBody;
-@property (nonatomic, strong) NSString *participantEmail;
-@property (nonatomic, assign) CGFloat toCellHeight;
-@property (nonatomic, assign) CGFloat ccCellHeight;
-@property (nonatomic, assign) CGFloat bccCellHeight;
-@property (nonatomic, assign) CGFloat messageContentCellHeight;
-@property (nonatomic, assign) NSInteger selectedRow;
+
+@property (nonatomic, strong) NSString *messagebody;
+@property (nonatomic, assign) CGFloat keyboardHeight;
 @property (nonatomic, assign) BOOL backClicked;
 
 @end
@@ -69,6 +80,10 @@
     [super viewDidLoad];
     
     [self setupController];
+    
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:@"Subject" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:48.0/255.0 green:56.0/255.0 blue:61.0/255.0 alpha:1],
+                                                                                                     NSFontAttributeName : [UIFont fontWithName:@"ProximaNova-Semibold" size:15]}];
+    self.textFieldSubject.attributedPlaceholder = string;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -85,16 +100,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
-    if (self.replyedRecipientEmail) {
-        ContactModel *contactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
-        ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
-        participantCell.participantSet = YES;
-        [participantCell addParticipantWithContactModel:contactModel];
-        [self addParticipantsEmail:contactModel.email row:self.selectedRow];
-        [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
-        [self.tableView reloadData];
-    }
 }
 
 - (void)dealloc {
@@ -107,12 +112,11 @@
 - (IBAction)sendClicked:(id)sender {
     
     [self.view endEditing:YES];
-    if ([self.arrayTo count] > 0 && !self.backClicked) {
-        [self showLoadingView];
-        [self.serviceMessage sendMessage:self.messageBody messageSubject:self.messageSubject to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
-            
-        }];
-    }
+//    if ([self.arrayTo count] > 0 && !self.backClicked) {
+//        
+//    }
+    [self showLoadingView];
+    [self.webEncryptor loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"GiberishEnc" ofType:@"html"]isDirectory:NO]]];
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -121,37 +125,74 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-#pragma mark - Private Methods
-- (void)keyboardWillShow:(NSNotification*)notification {
+- (IBAction)onCcBccClickedd:(id)sender {
     
-    NSDictionary* keyboardInfo = [notification userInfo];
-    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    CGRect frame = self.tableViewContacts.frame;
-    self.tableViewContacts.translatesAutoresizingMaskIntoConstraints = YES;
-    self.tableViewContacts.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - frame.origin.y - keyboardFrameBeginRect.size.height);
+    self.constraitHeight.constant = 221;
+    self.fieldCc.alpha = 1;
+    self.fieldBcc.alpha = 1;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.buttonCcBcc.alpha = 0;
+                         self.buttonUpArrow.alpha = 1;
+                     }
+                     completion:nil];
 }
 
+- (IBAction)onArrowUpClicked:(id)sender {
+    
+    self.constraitHeight.constant = 101;
+    self.fieldCc.alpha = 0;
+    self.fieldBcc.alpha = 0;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.buttonCcBcc.alpha = 1;
+                         self.buttonUpArrow.alpha = 0;
+                     }
+                     completion:nil];
+}
+
+
+
+#pragma mark - Private Methods
 - (void)setupController {
     
+    self.viewMessageCompose.layer.masksToBounds = YES;
+    self.viewMessageCompose.layer.cornerRadius = 5;
+    self.viewMessageCompose.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewMessageCompose.layer.borderWidth = 1;
+    
+    self.tableViewContacts.layer.masksToBounds = YES;
+    self.tableViewContacts.layer.cornerRadius = 5;
+    self.tableViewContacts.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.tableViewContacts.layer.borderWidth = 1;
+    
+    self.arrayTo = [NSMutableArray array];
+    self.arrayTempTo = [NSMutableArray array];
+    self.fieldTo.delegate = self;
+    self.fieldTo.dataSource = self;
+    [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+    [self.fieldTo setFieldName:@"To"];
+    self.fieldTo.delimiters = @[@",", @";", @"--"];
+    [self.fieldTo becomeFirstResponder];
+    
+    self.arrayCc = [NSMutableArray array];
+    self.arrayTempCc = [NSMutableArray array];
+    self.fieldCc.delegate = self;
+    self.fieldCc.dataSource = self;
+    [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+    [self.fieldCc setFieldName:@"Cc"];
+    self.fieldCc.delimiters = @[@",", @";", @"--"];
+    
+    self.arrayBcc = [NSMutableArray array];
+    self.arrayTempBcc = [NSMutableArray array];
+    self.fieldBcc.delegate = self;
+    self.fieldBcc.dataSource = self;
+    [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+    [self.fieldBcc setFieldName:@"Bcc"];
+    self.fieldBcc.delimiters = @[@",", @";", @"--"];
+    
     self.tableViewContacts.hidden = YES;
-    self.messageBody = @"";
-    self.participantEmail = @"";
-    
-    self.arrayTableItems = [[NSMutableArray alloc] initWithObjects:@"1",@"4", nil];
-    [self createTableItems];
-    
-    self.messageContentCellHeight = [UIScreen mainScreen].bounds.size.height - (65 + self.toCellHeight + self.viewSecure.frame.size.height);
-    self.arrayTo = [[NSMutableArray alloc] init];
-    self.arrayCc = [[NSMutableArray alloc] init];
-    self.arrayBcc = [[NSMutableArray alloc] init];
-    
-//    self.viewNavigation.layer.masksToBounds = NO;
-//    self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 2);
-//    self.viewNavigation.layer.shadowColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
-//    self.viewNavigation.layer.shadowRadius = 5;
-//    self.viewNavigation.layer.shadowOpacity = 0.8;
+    self.messagebody = @"";
     
     UIBezierPath *secureMaskPath = [UIBezierPath bezierPathWithRoundedRect:self.viewSecure.bounds byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
@@ -168,33 +209,12 @@
     [self.viewSecure.layer addSublayer:borderLayer];
 }
 
-- (void)createTableItems {
+- (void)keyboardWillShow:(NSNotification*)notification {
     
-    self.toCellHeight = 57;
-    self.ccCellHeight = 0;
-    self.bccCellHeight = 0;
-//    [self.arrayTableItems addObject:@"1"];
-//    [self.arrayTableItems addObject:@"4"];
-//    self.bccCellHeight = 0;
-//    self.messageContentCellHeight = 450;
-//    if ([self.arrayTo count] > 0) {
-//        [self.arrayTableItems addObject:@"1"];
-//        self.toCellHeight = 57;
-//    }
-//    if ([self.arrayCc count] > 0) {
-//        self.ccCellHeight = 57;
-//        [self.arrayTableItems addObject:@"2"];
-//    }
-//    if ([self.arrayBcc count] > 0) {
-//        self.bccCellHeight = 57;
-//        if ([self.arrayCc count] > 0) {
-//        }
-//        else {
-//            [self.arrayTableItems addObject:@"2"];
-//            [self.arrayTableItems addObject:@"3"];
-//        }
-//    }
-//    [self.arrayTableItems addObject:@"4"];
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    self.keyboardHeight = keyboardFrameBeginRect.size.height;
 }
 
 - (void)newMessageSent {
@@ -210,6 +230,91 @@
     [alert show];
 }
 
+- (void)addRecipientWithField:(VENTokenField *)tokenField withName:(id)name {
+    
+    if (self.tempContactModel) {
+        if (tokenField == self.fieldTo) {
+            [self.arrayTempTo addObject:self.tempContactModel];
+        }
+        else if (tokenField == self.fieldCc) {
+            [self.arrayTempCc addObject:self.tempContactModel];
+        }
+        else if (tokenField == self.fieldCc) {
+            [self.arrayTempBcc addObject:self.tempContactModel];
+        }
+    }
+    else {
+        if (tokenField == self.fieldTo) {
+            [self.arrayTempTo addObject:name];
+        }
+        else if (tokenField == self.fieldCc) {
+            [self.arrayTempCc addObject:name];
+        }
+        else if (tokenField == self.fieldBcc) {
+            [self.arrayTempBcc addObject:name];
+        }
+    }
+    self.tempContactModel = nil;
+}
+
+- (void)removRecipientWithField:(VENTokenField *)tokenField index:(NSInteger)index {
+    
+    if (tokenField == self.fieldTo) {
+        [self.arrayTempTo removeObjectAtIndex:index];
+    }
+    else if (tokenField == self.fieldCc) {
+        [self.arrayTempCc removeObjectAtIndex:index];
+    }
+    else if (tokenField == self.fieldBcc) {
+        [self.arrayTempBcc removeObjectAtIndex:index];
+    }
+}
+
+- (NSMutableArray *)cleanUnusedNamesFromRecipients:(NSMutableArray *)arrayRecipient {
+    
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    for (id object in arrayRecipient) {
+        NSString *addedEmail;
+        if ([object isKindOfClass:[NSString class]]) {
+            addedEmail = object;
+        }
+        else if ([object isKindOfClass:[ContactModel class]]) {
+            ContactModel *contactModel = (ContactModel *)object;
+            addedEmail = contactModel.email;
+        }
+        BOOL success = YES;
+        for (NSString *email in array) {
+            if ([addedEmail isEqualToString:email]) {
+                success = NO;
+                break;
+            }
+        }
+        if (success) {
+            [array addObject:addedEmail];
+        }
+    }
+    
+    return array;
+}
+
+
+#pragma mark - UIWebViewDelegate Methods
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+
+    NSString *clientKey = [self.serviceMessage getClientKey];
+    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.textViewBody.text, clientKey];// @"GibberishAES.enc('Test', 'd2165134-5624-f1cf-98a4-b0feab22054d')";
+    NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+    NSLog(@"Area is: %@", result);
+    
+    self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
+    self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
+    self.arrayBcc = [self cleanUnusedNamesFromRecipients:self.arrayTempBcc];
+    [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
+        
+    }];
+}
+
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -219,130 +324,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat rowHeight = 0;
-    if (tableView == self.tableView) {
-        if ([self.arrayTableItems count] == 2) {
-            if (indexPath.row == 0) {
-                rowHeight = self.toCellHeight;
-            }
-            else {
-                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);//self.messageContentCellHeight;
-            }
-        }
-        else {
-            switch (indexPath.row) {
-                case 0:
-                    rowHeight = self.toCellHeight;
-                    break;
-                case 1:
-                    rowHeight = self.ccCellHeight;
-                    break;
-                case 2:
-                    rowHeight = self.bccCellHeight;
-                    break;
-                case 3:
-                    rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);//[UIScreen mainScreen].bounds.size.height - 65;//(65 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    else {
-        rowHeight = 44;
-    }
-    return rowHeight;
+    return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (tableView == self.tableView) {
-        return [self.arrayTableItems count];
-    }
-    else {
-        return [self.arrayContacts count];
-    }
+    return [self.arrayContacts count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (tableView == self.tableView) {
-        if ([self.arrayTableItems count] == 2) {
-            switch (indexPath.row) {
-                case 0: {
-                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                    participantsCell.delegate = self;
-                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return participantsCell;
-                }
-                    break;
-                case 1: {
-                    MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                    messageComposeCell.delegate = self;
-                    [messageComposeCell configureCell];
-                    messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return messageComposeCell;
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-        else {
-            switch (indexPath.row) {
-                case 0: {
-                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                    participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
-                    participantsCell.delegate = self;
-                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return participantsCell;
-                }
-                    break;
-                case 1: {
-                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                    participantsCell.delegate = self;
-                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return participantsCell;
-                }
-                    break;
-                case 2: {
-                    ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                    participantsCell.delegate = self;
-                    [participantsCell configureCell:indexPath.row hideCcBcc:([self.arrayTableItems count]==2?NO:YES)];
-                    participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return participantsCell;
-                }
-                    break;
-                case 3: {
-                    MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                    messageComposeCell.delegate = self;
-                    [messageComposeCell configureCell];
-                    messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    return messageComposeCell;
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    else {
-        ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
-        [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row] searchText:self.participantEmail];
-        
-        return contactCell;
-    }
+    ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
+    [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row]];
     
-    return nil;
+    return contactCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -350,83 +345,84 @@
     if (tableView == self.tableViewContacts) {
         ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
         if (contactModel.email) {
-            ParticipantsCell *participantCell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedRow inSection:0]];
-            participantCell.participantSet = YES;
-            [participantCell addParticipantWithContactModel:contactModel];
             self.tableViewContacts.hidden = YES;
-            [self addParticipantsEmail:contactModel.email row:self.selectedRow];
-            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+            if (contactModel.fullName.length > 0) {
+                self.tempContactModel = contactModel;
+//                [self addRecipientWithField:self.selectedToken withName:contactModel];
+                [self.selectedToken checkAndAddTokenWithString:contactModel.fullName];
+            }
+            else {
+                [self.selectedToken checkAndAddTokenWithString:contactModel.email];
+            }
         }
     }
 }
 
 
-#pragma mark - ParticipantsCellDelegate Methods
-- (void)onCCBCCClickedd {
+#pragma mark - VENTokenFieldDelegate
+- (void)setSelectedField:(VENTokenField *)venTokenField {
     
-    [self.arrayTableItems addObject:@"2"];
-    [self.arrayTableItems addObject:@"3"];
-    self.ccCellHeight = 57;
-    self.bccCellHeight = 57;
-    NSIndexPath *indexPathCc = [NSIndexPath indexPathForRow:1 inSection:0];
-    NSIndexPath *indexPathBcc = [NSIndexPath indexPathForRow:2 inSection:0];
-    
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:@[indexPathCc,indexPathBcc] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-    
-    ParticipantsCell *cell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    [cell configureCell:0 hideCcBcc:YES];
+    self.selectedToken = venTokenField;
 }
 
-- (void)onArrowUpClicked {
+- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text fieldName:(NSString *)fieldName {
     
-    [self.arrayTableItems removeObjectAtIndex:[self.arrayTableItems count] - 1];
-    [self.arrayTableItems removeObjectAtIndex:[self.arrayTableItems count] - 1];
-    self.ccCellHeight = 0;
-    self.bccCellHeight = 0;
-    NSIndexPath *indexPathCc = [NSIndexPath indexPathForRow:1 inSection:0];
-    NSIndexPath *indexPathBcc = [NSIndexPath indexPathForRow:2 inSection:0];
-    
-    [self.tableView beginUpdates];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPathCc,indexPathBcc] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-    
-    ParticipantsCell *cell = (ParticipantsCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    [cell configureCell:0 hideCcBcc:NO];
+    [self addRecipientWithField:tokenField withName:text];
+    if ([fieldName isEqualToString:@"To"]) {
+        [self.arrayTo addObject:text];
+        [self.fieldTo reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        [self.arrayCc addObject:text];
+        [self.fieldCc reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        [self.arrayBcc addObject:text];
+        [self.fieldBcc reloadData];
+    }
+    [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
+    self.buttonSend.enabled = YES;
 }
 
-- (void)changeCellHeightWith:(CGFloat)height cellRow:(NSInteger)row {
+- (void)tokenField:(VENTokenField *)tokenField didDeleteTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
     
-    switch (row) {
-        case 0:
-            self.toCellHeight = height;
-            break;
-        case 1:
-            self.ccCellHeight = height;
-            break;
-        case 2:
-            self.bccCellHeight = height;
-            break;
-            
-        default:
-            break;
+    [self removRecipientWithField:tokenField index:index];
+    if ([fieldName isEqualToString:@"To"]) {
+        [self.arrayTo removeObjectAtIndex:index];
+        [self.fieldTo reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        [self.arrayCc removeObjectAtIndex:index];
+        [self.fieldCc reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        [self.arrayBcc removeObjectAtIndex:index];
+        [self.fieldBcc reloadData];
     }
     
-    [self.tableView reloadData];
+    if ([self.arrayTo count] == 0 && [self.arrayCc count] == 0 && [self.arrayBcc count] == 0) {
+        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
+        self.buttonSend.enabled = NO;
+    }
 }
 
-- (void)participantEmail:(NSString *)email {
+
+#pragma mark - VENTokenFieldDataSource
+- (void)tokenField:(VENTokenField *)tokenField didChangeText:(NSString *)text {
     
-    if ([email isEqualToString:@""]) {
-        self.participantEmail = [self.participantEmail substringToIndex:self.participantEmail.length - 1];
-    }
-    else {
-        self.participantEmail = [self.participantEmail stringByAppendingString:email];
-    }
-    
-    self.arrayContacts = [self.serviceContact getContactsWithName:self.participantEmail];
+    self.arrayContacts = [self.serviceContact getContactsWithName:text];
     if ([self.arrayContacts count] > 0) {
+        CGFloat originY;
+        if (self.selectedToken == self.fieldTo) {
+            originY = 120;
+        }
+        else if (self.selectedToken == self.fieldCc) {
+            originY = 180;
+        }
+        else {
+            originY = 240;
+        }
+        self.tableViewContacts.frame = CGRectMake(10, originY, [UIScreen mainScreen].bounds.size.width - 2*10, [UIScreen mainScreen].bounds.size.height - self.keyboardHeight - originY);
         self.tableViewContacts.hidden = NO;
         [self.tableViewContacts reloadData];
     }
@@ -435,98 +431,69 @@
     }
 }
 
-- (void)startEditparticipantName:(NSInteger)cellRow {
+- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
     
-    self.participantEmail = @"";
-    self.selectedRow = cellRow;
-    switch (cellRow) {
-        case 0:
-            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
-            break;
-        case 1:
-            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, self.toCellHeight) animated:YES];
-            break;
-        case 2:
-            [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, self.toCellHeight + self.ccCellHeight) animated:YES];
-            break;
-        default:
-            break;
+    if ([fieldName isEqualToString:@"To"]) {
+        return self.arrayTo[index];
     }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return self.arrayCc[index];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return self.arrayBcc[index];
+    }
+    
+    return nil;
 }
 
-- (void)addParticipantsEmail:(NSString *)email row:(NSInteger)row {
+- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
     
-    switch (row) {
-        case 0:
-            [self.arrayTo addObject:email];
-            break;
-        case 1:
-            [self.arrayCc addObject:email];
-            break;
-        case 2:
-            [self.arrayBcc addObject:email];
-            break;
-            
-        default:
-            break;
+    if ([fieldName isEqualToString:@"To"]) {
+        return [self.arrayTo count];
     }
-    if ([self.arrayTo count] > 0 || [self.arrayCc count] > 0 || [self.arrayBcc count] > 0) {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
-        self.buttonSend.enabled = YES;
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return [self.arrayCc count];
     }
-    else {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
-        self.buttonSend.enabled = NO;
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return [self.arrayBcc count];
     }
-    self.tableViewContacts.hidden = YES;
+    
+    return 0;
 }
 
-- (void)removeParticipantsEmail:(NSString *)email row:(NSInteger)row {
+- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
     
-    switch (row) {
-        case 0:
-            [self.arrayTo removeObject:email];
-            break;
-        case 1:
-            [self.arrayCc removeObject:email];
-            break;
-        case 2:
-            [self.arrayBcc removeObject:email];
-            break;
-            
-        default:
-            break;
+    if ([fieldName isEqualToString:@"To"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayTo count]];
     }
-    if ([self.arrayTo count] > 0 || [self.arrayCc count] > 0 || [self.arrayBcc count] > 0) {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendEnable"] forState:UIControlStateNormal];
-        self.buttonSend.enabled = YES;
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayCc count]];
     }
-    else {
-        [self.buttonSend setImage:[UIImage imageNamed:@"buttonSendDisable"] forState:UIControlStateNormal];
-        self.buttonSend.enabled = NO;
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayBcc count]];
     }
-}
-
-- (void)changeTableOffsetY {
     
-    [self.tableView setContentOffset:CGPointMake(self.tableView.contentOffset.x, 0) animated:YES];
+    return nil;
 }
 
 
-#pragma mark - MessageComposeCellDelegate Methods
-- (void)messageSubject:(NSString *)subject {
+#pragma mark - UItextViewDelegate Methods
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
-    self.messageSubject = subject;
-}
-
-- (void)messageBody:(NSString *)letter {
+//    if ([text isEqualToString:@"\n"]) {
+//        self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
+//        NSLog(@"text === %@", text);
+//    }
+//    else {
+//        if ([text isEqualToString:@""]) {
+//            self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
+//        }
+//        else {
+//            self.messagebody = [self.messagebody stringByAppendingString:text];
+//        }
+//    }
     
-    if ([letter isEqualToString:@""]) {
-        self.messageBody = [self.messageBody substringToIndex:self.messageBody.length - 1];
-    }
-    else {
-        self.messageBody = [self.messageBody stringByAppendingString:letter];
-    }
+    return YES;
 }
 
 @end
