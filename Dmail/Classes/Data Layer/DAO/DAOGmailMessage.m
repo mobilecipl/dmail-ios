@@ -139,6 +139,12 @@
     rmMessage.publicKey = modelGmailMessage.publicKey;
     rmMessage.internalDate = [modelGmailMessage.internalDate longLongValue];
     rmMessage.status = MessageFetchedFull;
+    if ([modelGmailMessage.arrayLabels containsObject:@"UNREAD"]) {
+        rmMessage.read = NO;
+    }
+    else {
+        rmMessage.read = YES;
+    }
     [realm commitWriteTransaction];
 }
 

@@ -100,6 +100,11 @@
      return [self.daoMessage getClientKeyWithMessageId:messageId];
 }
 
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
+    
+    return [self.daoMessage getGmailIDWithMessageId:messageId];
+}
+
 - (void)getMessageBodyWithIdentifier:(NSString *)messageId {
     
     [self.daoMessage getMessageBodyWithMessageId:messageId];

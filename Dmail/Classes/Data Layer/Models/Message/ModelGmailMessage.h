@@ -19,6 +19,7 @@
 @property ModelGmailPayload *payload;
 @property NSString *snippet;
 @property NSString *publicKey;
+@property NSArray *arrayLabels;
 
 
 //@property NSString *dmailId;

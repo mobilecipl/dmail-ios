@@ -11,6 +11,7 @@
 
 // service
 #import "ServiceMessage.h"
+#import "ServiceGmailMessage.h"
 
 // view model
 #import "VMInboxMessageItem.h"
@@ -31,6 +32,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
+
 @end
 
 @implementation InboxMessageViewController
@@ -41,6 +44,7 @@
     if (self) {
         
         _serviceMessage = [[ServiceMessage alloc] init];
+        _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
     }
     return self;
 }
@@ -130,7 +134,14 @@
         else {
             self.textViewMessageBody.text = modelMessage.body;
         }
-        [self.serviceMessage changeMessageStatusToReadWithMessageId:self.messageId];
+        if (!modelMessage.read) {
+            NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:modelMessage.messageId];
+            [self.serviceGmailMessage deleteMessageLabels:@[@"UNREAD"] messageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
+                if (data) {
+                    [self.serviceMessage changeMessageStatusToReadWithMessageId:self.messageId];
+                }
+            }];
+        }
     }
 }
 

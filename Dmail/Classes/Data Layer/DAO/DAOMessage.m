@@ -325,6 +325,7 @@
         if (modelMessage) {
             ModelInboxMessage *modelInbox = [[ModelInboxMessage alloc] init];
             modelInbox.messageId = rmRecipient.messageId;
+            modelInbox.messageIdentifier = rmRecipient.messageIdentifier;
             modelInbox.subject = modelMessage.subject;
             modelInbox.internalDate = modelMessage.internalDate;
             modelInbox.fromEmail = modelMessage.fromEmail;
@@ -682,6 +683,21 @@
             }
         }];
     }
+}
+
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
+    
+    NSString *messageID;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    NSPredicate *predicate;
+    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
+    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
+    RMModelMessage *message = [resultsGmailMessages firstObject];
+    if (message) {
+        messageID = message.gmailId;
+    }
+    
+    return messageID;
 }
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {

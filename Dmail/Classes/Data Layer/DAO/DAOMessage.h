@@ -55,4 +55,6 @@
 
 - (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body;
 
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId;
+
 @end

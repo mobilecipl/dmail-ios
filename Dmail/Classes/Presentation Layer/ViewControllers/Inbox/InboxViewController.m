@@ -210,7 +210,7 @@
     
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    NSString *gmailID = [self getGmailIDWithMessageId:messageItem.messageId];
+    NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:messageItem.messageId];
     
     [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
         if (data) {
@@ -239,21 +239,6 @@
     if (!self.editedCell) {
         self.editedCell = (InboxCell *)cell;
     }
-}
-
-- (NSString *)getGmailIDWithMessageId:(NSString *)messageId {
-    
-    NSString *messageID;
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    NSPredicate *predicate;
-    predicate = [NSPredicate predicateWithFormat:@"messageId = %@", messageId];
-    RLMResults *resultsGmailMessages = [RMModelMessage objectsInRealm:realm withPredicate:predicate];
-    RMModelMessage *message = [resultsGmailMessages firstObject];
-    if (message) {
-        messageID = message.gmailId;
-    }
-    
-    return messageID;
 }
 
 

@@ -11,6 +11,7 @@
 @interface ModelInboxMessage : NSObject
 
 @property (nonatomic) NSString *messageId;
+@property (nonatomic) NSString *messageIdentifier;
 @property (nonatomic) NSString *fromName;
 @property (nonatomic) NSString *fromEmail;
 @property (nonatomic) NSString *subject;

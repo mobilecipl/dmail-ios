@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *messageSubject;
 @property (nonatomic, strong) NSString *messageDate;
 @property (nonatomic, strong) NSString *messageId;
+@property (nonatomic, strong) NSString *messageIdentifier;
 @property (nonatomic, getter=isRead) BOOL read;
 
 @end

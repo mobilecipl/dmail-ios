@@ -24,6 +24,8 @@
 
 - (VMSentMessage *)getSentMessageWithMessageId:(NSString *)messageId;
 
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId;
+
 - (NSString *)getClientKey;
 
 - (NSString *)getClientKeyWithMessageId:(NSString *)messageId;

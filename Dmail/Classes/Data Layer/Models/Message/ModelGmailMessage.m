@@ -17,6 +17,7 @@
         _gmailId = dict[@"id"];
         _snippet = dict[@"snippet"];
         _publicKey = [self getPublicKeyFromSnippet:_snippet];
+        _arrayLabels = dict[@"labelIds"];
     }
     
     return self;

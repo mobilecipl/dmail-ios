@@ -27,6 +27,7 @@
         self.messageSubject = modelMessage.subject;
         self.imageUrl = modelMessage.imageUrl;
         self.messageId = modelMessage.messageId;
+        self.messageIdentifier = modelMessage.messageIdentifier;
         self.read = modelMessage.read;
     }
     
