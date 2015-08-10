@@ -111,7 +111,9 @@
 
 - (void)tapOnView {
     
-    [self.revealViewController revealToggle:self];
+    if (!self.viewDeactivateScreen.hidden) {
+        [self.revealViewController revealToggle:self];
+    }
 }
 
 - (void)setupController {

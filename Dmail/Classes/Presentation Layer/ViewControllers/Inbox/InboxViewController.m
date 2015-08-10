@@ -103,7 +103,9 @@
 
 - (void)menuClosed {
     
-    self.viewDeactivateScreen.hidden = YES;
+    if (!self.viewDeactivateScreen.hidden) {
+        self.viewDeactivateScreen.hidden = YES;
+    }
 }
 
 - (void)tapOnView {
