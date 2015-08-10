@@ -7,6 +7,7 @@
 //
 
 #import "SentMessageViewController.h"
+#import "VENTokenField.h"
 
 // service
 #import "ServiceMessage.h"
@@ -30,10 +31,18 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     Destroy
 };
 
-@interface SentMessageViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate, CustomAlertViewDelegate>
+@interface SentMessageViewController () <CustomAlertViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, weak) IBOutlet UIView *viewSecure;
+
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldTo;
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldCc;
+@property (nonatomic, weak) IBOutlet VENTokenField *fieldBcc;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
+@property (nonatomic, weak) IBOutlet UITextView *textViewBody;
+@property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitBetweenCcAndSubject;
+
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 @property (nonatomic, weak) IBOutlet UIWebView *webViewDecryption;
@@ -43,15 +52,9 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 @property (nonatomic, strong) NSArray *arrayBcc;
 @property (nonatomic, strong) NSString *encryptedMessage;
 @property (nonatomic, strong) NSString *clientKey;
-@property (nonatomic, assign) CGFloat toCellHeight;
-@property (nonatomic, assign) CGFloat ccCellHeight;
-@property (nonatomic, assign) CGFloat bccCellHeight;
-@property (nonatomic, assign) CGFloat messageContentCellHeight;
 
 @property (nonatomic, strong) NSString *revokedEmail;
 @property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
-@property (nonatomic, strong) NSString *body;
-@property (nonatomic, assign) NSInteger tableRowNumbers;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) VMSentMessage *modelMessage;
@@ -76,7 +79,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     
     [super viewDidLoad];
     
-    self.tableRowNumbers = 2;
     [self loadData];
     [self setupController];
 }
@@ -135,32 +137,80 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
-    self.body = [[notification userInfo] valueForKey:@"decryptedMessage"];
-    NSInteger bodyRow = [self getBodyRow];
-    NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:bodyRow inSection:0];
-    NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
-    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+    self.textViewBody.text = [[notification userInfo] valueForKey:@"decryptedMessage"];
     [self hideLoadingView];
-    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.body];
+    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewBody.text];
 }
 
 - (void)loadData {
     
     if (self.messageId) {
         self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
+        self.arrayTo = [NSMutableArray array];
         self.arrayTo = self.modelMessage.arrayTo;
+        if([self.arrayTo count] > 0) {
+            self.fieldTo.forInboxOrSent = YES;
+            self.fieldTo.delegate = self;
+            self.fieldTo.dataSource = self;
+            [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+            [self.fieldTo setFieldName:@"To"];
+            for (NSString *string in self.arrayTo) {
+                [self.fieldTo checkAndAddTokenWithString:string];
+            }
+        }
+        
+        self.arrayCc = [NSMutableArray array];
         self.arrayCc = self.modelMessage.arrayCc;
+        if([self.arrayCc count] > 0) {
+            self.fieldCc.forInboxOrSent = YES;
+            self.fieldCc.delegate = self;
+            self.fieldCc.dataSource = self;
+            [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+            [self.fieldCc setFieldName:@"Cc"];
+            for (NSString *string in self.arrayCc) {
+                [self.fieldCc checkAndAddTokenWithString:string];
+            }
+        }
+        
+        self.arrayBcc = [NSMutableArray array];
         self.arrayBcc = self.modelMessage.arrayBcc;
-        [self createTableItems];
+        if([self.arrayBcc count] > 0) {
+            self.fieldBcc.forInboxOrSent = YES;
+            self.fieldBcc.delegate = self;
+            self.fieldBcc.dataSource = self;
+            [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+            [self.fieldBcc setFieldName:@"Bcc"];
+            for (NSString *string in self.arrayBcc) {
+                [self.fieldBcc checkAndAddTokenWithString:string];
+            }
+        }
+        
+        if ([self.arrayCc count] > 0 && [self.arrayBcc count] == 0) {
+            self.constraitHeight.constant = 161;
+            self.constraitBetweenCcAndSubject.constant = 41;
+            self.fieldCc.alpha = 1;
+        }
+        else if ([self.arrayBcc count] > 0 && [self.arrayCc count] == 0) {
+            self.constraitHeight.constant = 161;
+            self.fieldBcc.alpha = 1;
+        }
+        else if ([self.arrayCc count] > 0 && [self.arrayBcc count] > 0){
+            self.constraitHeight.constant = 221;
+            self.fieldCc.alpha = 1;
+            self.fieldBcc.alpha = 1;
+        }
+        
+        self.textFieldSubject.text = self.modelMessage.messageSubject;
+        
         if (!self.modelMessage.body) {
             [self showLoadingView];
             [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
         }
         else {
-            self.body = self.modelMessage.body;
+            self.textViewBody.text = self.modelMessage.body;
+//            self.textViewBody.text = @"asasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sd";
         }
     }
-    [self.tableView reloadData];
 }
 
 - (void)revokeSuccess {
@@ -181,44 +231,14 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.viewNavigation.layer.shadowRadius = 0.5;
     self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 1);
     
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.viewSecure.bounds byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.view.bounds;
-    maskLayer.path  = maskPath.CGPath;
-    self.viewSecure.layer.mask = maskLayer;
-    
-    CAShapeLayer *borderLayer = [[CAShapeLayer alloc] init];
-    borderLayer.frame = self.view.bounds;
-    borderLayer.path  = maskPath.CGPath;
-    borderLayer.lineWidth   = 2.0f;
-    borderLayer.strokeColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
-    borderLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.viewSecure.layer addSublayer:borderLayer];
+    self.viewMessageBody.layer.masksToBounds = YES;
+    self.viewMessageBody.layer.cornerRadius = 5;
+    self.viewMessageBody.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewMessageBody.layer.borderWidth = 1;
     
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
-}
-
-- (void)fillFields {
-    
-    
-}
-
-- (void)createTableItems {
-    
-    self.ccCellHeight = 0;
-    self.bccCellHeight = 0;
-    self.messageContentCellHeight = 450;
-    self.toCellHeight = 57;
-    if ([self.arrayCc count] > 0) {
-        self.ccCellHeight = 57;
-        self.tableRowNumbers++;
-    }
-    if ([self.arrayBcc count] > 0) {
-        self.bccCellHeight = 57;
-        self.tableRowNumbers++;
-    }
 }
 
 - (NSInteger)getBodyRow {
@@ -253,207 +273,65 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 }
 
 
-#pragma mark - TableView DataSource & Delegate Methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#pragma mark - VENTokenFieldDelegate
+- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text fieldName:(NSString *)fieldName {
     
-    return 1;
+    if ([fieldName isEqualToString:@"To"]) {
+        [self.fieldTo reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        [self.fieldCc reloadData];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        [self.fieldBcc reloadData];
+    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    CGFloat rowHeight = 0;
-    if (self.tableRowNumbers == 2) {
-        if (indexPath.row == 0) {
-            rowHeight = self.toCellHeight;
-        }
-        else {
-            rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight + self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-        }
-    }
-    else if (self.tableRowNumbers == 3) {
-        switch (indexPath.row) {
-            case 0:
-                rowHeight = self.toCellHeight;
-                break;
-            case 1:
-                rowHeight = [self.arrayCc count]>0?self.ccCellHeight:self.bccCellHeight;
-                break;
-            case 2:
-                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-                break;
-        }
-    }
-    else {
-        switch (indexPath.row) {
-            case 0:
-                rowHeight = self.toCellHeight;
-                break;
-            case 1:
-                rowHeight = self.ccCellHeight;
-                break;
-            case 2:
-                rowHeight = self.bccCellHeight;
-                break;
-            case 3:
-                rowHeight = [UIScreen mainScreen].bounds.size.height - (70 + self.toCellHeight +self.ccCellHeight + self.bccCellHeight + self.viewSecure.frame.size.height);
-                break;
-            default:
-                break;
-        }
-    }
-    return rowHeight;
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#pragma mark - VENTokenFieldDataSource
+- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
     
-    return self.tableRowNumbers;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (self.tableRowNumbers == 2) {
-        switch (indexPath.row) {
-            case 0: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 1: {
-                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                messageComposeCell.delegate = self;
-                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
-                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return messageComposeCell;
-            }
-                break;
-            default:
-                break;
-        }
+    if ([fieldName isEqualToString:@"To"]) {
+        return self.arrayTo[index];
     }
-    else if (self.tableRowNumbers == 3) {
-        switch (indexPath.row) {
-            case 0: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                return participantsCell;
-            }
-            case 1: {
-                NSArray *arrayParticipants;
-                NSString *participantType;
-                if ([self.arrayCc count] > 0) {
-                    arrayParticipants = [NSArray arrayWithArray:self.arrayCc];
-                    participantType = @"Cc";
-                }
-                else {
-                    arrayParticipants = [NSArray arrayWithArray:self.arrayBcc];
-                    participantType = @"Bcc";
-                }
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:arrayParticipants participantsType:participantType messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 2: {
-                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                messageComposeCell.delegate = self;
-                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
-                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return messageComposeCell;
-            }
-                break;
-        }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return self.arrayCc[index];
     }
-    else {
-        switch (indexPath.row) {
-            case 0: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.translatesAutoresizingMaskIntoConstraints = YES;
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayTo participantsType:@"To" messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 1: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayCc participantsType:@"Cc" messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 2: {
-                ParticipantsCell *participantsCell = [tableView dequeueReusableCellWithIdentifier:@"participantsCellId"];
-                participantsCell.delegate = self;
-                [participantsCell configureCellForSentWithRow:indexPath.row withParticipants:self.arrayBcc participantsType:@"Bcc" messageId:self.messageId];
-                participantsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return participantsCell;
-            }
-                break;
-            case 3: {
-                MessageComposeCell *messageComposeCell = [tableView dequeueReusableCellWithIdentifier:@"messageComposeCellId"];
-                messageComposeCell.delegate = self;
-                [messageComposeCell configureCellWithBody:self.body subject:self.modelMessage.messageSubject internalDate:self.modelMessage.internalDate];
-                messageComposeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                
-                return messageComposeCell;
-            }
-                break;
-            default:
-                break;
-        }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return self.arrayBcc[index];
     }
     
     return nil;
 }
 
+- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
+    
+    if ([fieldName isEqualToString:@"To"]) {
+        return [self.arrayTo count];
+    }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return [self.arrayCc count];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return [self.arrayBcc count];
+    }
+    
+    return 0;
+}
 
-#pragma mark - ParticipantCellDelegate Methods
-- (void)revokeParticipantWithEmail:(NSString *)email name:(NSString *)name {
+- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
     
-    self.revokedEmail = email;
+    if ([fieldName isEqualToString:@"To"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayTo count]];
+    }
+    else if ([fieldName isEqualToString:@"Cc"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayCc count]];
+    }
+    else if ([fieldName isEqualToString:@"Bcc"]) {
+        return [NSString stringWithFormat:@"%tu people", [self.arrayBcc count]];
+    }
     
-    NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to revoke acces to %@",name];
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Revoke access?"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:alertMessage
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *cancelButton = @{@"title" : @"Cancel",
-                                   @"titleColor" : [UIColor whiteColor],
-                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                                   @"font" : @"ProximaNova-Regular",
-                                   @"fontSize" : @"15"};
-    NSDictionary *revokeButton = @{@"title" : @"Revoke",
-                                    @"titleColor" : [UIColor whiteColor],
-                                    @"backgroundColor" : [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1],
-                                    @"font" : @"ProximaNova-Regular",
-                                    @"fontSize" : @"15"};
-    alertView.tag = Revoke;
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton,revokeButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
+    return nil;
 }
 
 
