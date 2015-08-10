@@ -13,21 +13,25 @@
 
 @interface DAOMessage : BaseDAO
 
-- (BOOL)hasInboxMessages;
+- (void)getMessageBodyWithMessageId:(NSString *)messageId;
+
+- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
 
 - (NSArray *)getInboxMessages;
 
 - (NSArray *)getSentMessages;
 
-- (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
+- (NSString *)getClientKeyWithMessageId:(NSString *)messageId;
 
-- (void)getMessageBodyWithMessageId:(NSString *)messageId;
-
-- (RMModelMessage *)getLastGmailUniqueId;
+- (NSString *)getGmailIDWithMessageId:(NSString *)messageId;
 
 - (NSString *)getLastGmailMessageId;
 
 - (NSNumber *)getLastDmailPosition;
+
+- (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
+
+- (RMModelMessage *)getLastGmailUniqueId;
 
 - (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock;
 
@@ -43,18 +47,14 @@
 
 - (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
-- (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock;
-
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
 - (void)clearAllData;
 
 - (NSString *)generatePublicKey;
 
-- (NSString *)getClientKeyWithMessageId:(NSString *)messageId;
-
 - (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body;
 
-- (NSString *)getGmailIDWithMessageId:(NSString *)messageId;
+- (BOOL)hasInboxMessages;
 
 @end

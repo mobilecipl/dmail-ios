@@ -8,9 +8,6 @@
 
 #import "InboxViewController.h"
 
-// local storage
-#import <Realm/Realm.h>
-
 // controller
 #import "ComposeViewController.h"
 #import "InboxMessageViewController.h"
