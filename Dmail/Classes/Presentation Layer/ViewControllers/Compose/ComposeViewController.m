@@ -13,8 +13,6 @@
 #import "ServiceContact.h"
 
 // view
-#import "ParticipantsCell.h"
-#import "MessageComposeCell.h"
 #import "ContactCell.h"
 #import "VENTokenField.h"
 #import "TextViewPlaceHolder.h"
@@ -22,7 +20,7 @@
 // model
 #import "ContactModel.h"
 
-@interface ComposeViewController () <ParticipantsCellDelegate, MessageComposeCellDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
+@interface ComposeViewController () <VENTokenFieldDelegate, VENTokenFieldDataSource>
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;

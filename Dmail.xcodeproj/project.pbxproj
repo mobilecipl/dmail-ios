@@ -118,9 +118,6 @@
 		C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D8D1B41AB1C00295A94 /* MenuViewController.m */; };
 		C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */; };
 		C08C2DFF1B41AB1C00295A94 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9B1B41AB1C00295A94 /* MenuCell.m */; };
-		C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D9E1B41AB1C00295A94 /* MessageComposeCell.m */; };
-		C08C2E011B41AB1C00295A94 /* ParticipantsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DA11B41AB1C00295A94 /* ParticipantsCell.m */; };
-		C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DA31B41AB1C00295A94 /* ParticipantView.m */; };
 		C08C2E031B41AB1C00295A94 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA51B41AB1C00295A94 /* LaunchScreen.xib */; };
 		C08C2E041B41AB1C00295A94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C08C2DA61B41AB1C00295A94 /* Main.storyboard */; };
 		C08C2E061B41AB1C00295A94 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2DAA1B41AB1C00295A94 /* main.m */; };
@@ -359,12 +356,6 @@
 		C08C2D931B41AB1C00295A94 /* SentMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentMessageViewController.m; sourceTree = "<group>"; };
 		C08C2D9A1B41AB1C00295A94 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
 		C08C2D9B1B41AB1C00295A94 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
-		C08C2D9D1B41AB1C00295A94 /* MessageComposeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposeCell.h; sourceTree = "<group>"; };
-		C08C2D9E1B41AB1C00295A94 /* MessageComposeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposeCell.m; sourceTree = "<group>"; };
-		C08C2DA01B41AB1C00295A94 /* ParticipantsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCell.h; sourceTree = "<group>"; };
-		C08C2DA11B41AB1C00295A94 /* ParticipantsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsCell.m; sourceTree = "<group>"; };
-		C08C2DA21B41AB1C00295A94 /* ParticipantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantView.h; sourceTree = "<group>"; };
-		C08C2DA31B41AB1C00295A94 /* ParticipantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantView.m; sourceTree = "<group>"; };
 		C08C2DA51B41AB1C00295A94 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C08C2DA61B41AB1C00295A94 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C08C2DA81B41AB1C00295A94 /* dmail.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dmail.pch; sourceTree = "<group>"; };
@@ -1156,8 +1147,6 @@
 			isa = PBXGroup;
 			children = (
 				C08C2D951B41AB1C00295A94 /* Cells */,
-				C08C2DA21B41AB1C00295A94 /* ParticipantView.h */,
-				C08C2DA31B41AB1C00295A94 /* ParticipantView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1168,8 +1157,6 @@
 				C09C27B61B4BD3BB0067B7F2 /* Message */,
 				9C6CA55B1B4AA4F000679E67 /* Contacts */,
 				C08C2D991B41AB1C00295A94 /* Menu */,
-				C08C2D9C1B41AB1C00295A94 /* MessageCompose */,
-				C08C2D9F1B41AB1C00295A94 /* Participants */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1181,24 +1168,6 @@
 				C08C2D9B1B41AB1C00295A94 /* MenuCell.m */,
 			);
 			path = Menu;
-			sourceTree = "<group>";
-		};
-		C08C2D9C1B41AB1C00295A94 /* MessageCompose */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2D9D1B41AB1C00295A94 /* MessageComposeCell.h */,
-				C08C2D9E1B41AB1C00295A94 /* MessageComposeCell.m */,
-			);
-			path = MessageCompose;
-			sourceTree = "<group>";
-		};
-		C08C2D9F1B41AB1C00295A94 /* Participants */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2DA01B41AB1C00295A94 /* ParticipantsCell.h */,
-				C08C2DA11B41AB1C00295A94 /* ParticipantsCell.m */,
-			);
-			path = Participants;
 			sourceTree = "<group>";
 		};
 		C08C2DA41B41AB1C00295A94 /* Storyboard */ = {
@@ -1489,7 +1458,6 @@
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */,
-				C08C2E001B41AB1C00295A94 /* MessageComposeCell.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
@@ -1527,7 +1495,6 @@
 				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */,
-				C08C2E021B41AB1C00295A94 /* ParticipantView.m in Sources */,
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
@@ -1536,7 +1503,6 @@
 				C08C2DDE1B41AB1C00295A94 /* BaseSearchBar.m in Sources */,
 				C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */,
 				C08C2DC31B41AB1C00295A94 /* CommonMethods.m in Sources */,
-				C08C2E011B41AB1C00295A94 /* ParticipantsCell.m in Sources */,
 				C08C2DCC1B41AB1C00295A94 /* TableViewSectionDataSource.m in Sources */,
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,

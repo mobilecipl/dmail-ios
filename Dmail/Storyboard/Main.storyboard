@@ -1706,6 +1706,7 @@
                         <outlet property="fieldCc" destination="Xmb-RB-BpV" id="nak-9o-vMB"/>
                         <outlet property="fieldTo" destination="2IJ-BP-jyE" id="69E-WO-AQT"/>
                         <outlet property="imageViewProfile" destination="UT4-gO-CCz" id="cuc-jN-dHb"/>
+                        <outlet property="labelTime" destination="cIK-Rf-qFf" id="AxB-hU-Aa5"/>
                         <outlet property="textFieldSubject" destination="NE4-Qk-brC" id="XMU-2e-MSv"/>
                         <outlet property="textViewBody" destination="0qZ-Wo-73i" id="zhg-gg-rhH"/>
                         <outlet property="viewMessageBody" destination="34x-pb-Iu8" id="XTm-VE-W7X"/>

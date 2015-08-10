@@ -15,13 +15,10 @@
 // view model
 #import "VMSentMessage.h"
 
-// model
-#import "ParticipantsCell.h"
-#import "MessageComposeCell.h"
-
 //Categories
 #import "UIColor+AppColors.h"
 #import "UIImageView+WebCache.h"
+#import <NSDate+DateTools.h>
 
 //helpers
 #import "CustomAlertView.h"
@@ -40,6 +37,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
+@property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitBetweenCcAndSubject;
 
@@ -210,6 +208,9 @@ typedef NS_ENUM(NSInteger, AlertTags) {
             self.textViewBody.text = self.modelMessage.body;
 //            self.textViewBody.text = @"asasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sd";
         }
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
+        self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
     }
 }
 
