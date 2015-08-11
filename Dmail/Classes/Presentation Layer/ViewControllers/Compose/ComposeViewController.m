@@ -52,6 +52,7 @@
 @property (nonatomic, strong) NSMutableArray *arrayTempCc;
 @property (nonatomic, strong) NSMutableArray *arrayTempBcc;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
+@property (nonatomic, strong) NSMutableArray *arrayTextEnteredRanges;
 @property (nonatomic, strong) NSString *messagebody;
 
 @property (nonatomic, assign) CGFloat textViewHeight;
@@ -153,6 +154,8 @@
 
 #pragma mark - Private Methods
 - (void)setupController {
+    
+    self.arrayTextEnteredRanges = [[NSMutableArray alloc] init];
     
     self.viewMessageCompose.layer.masksToBounds = YES;
     self.viewMessageCompose.layer.cornerRadius = 5;
@@ -299,7 +302,7 @@
                 break;
             }
         }
-        if (success) {
+        if (success && addedEmail) {
             [array addObject:addedEmail];
         }
     }
@@ -318,8 +321,10 @@
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 
+    self.messagebody = [self.textViewBody.text stringByReplacingOccurrencesOfString:@"\n" withString:@"'\\n'"];
+    self.messagebody = [self.messagebody stringByReplacingOccurrencesOfString:@"'" withString:@""];
     NSString *clientKey = [self.serviceMessage getClientKey];
-    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.textViewBody.text, clientKey];
+    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.messagebody, clientKey];
     NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
     
     self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
@@ -373,7 +378,7 @@
 }
 
 
-#pragma mark - VENTokenFieldDelegate
+#pragma mark - VENTokenFieldDelegate Methods
 - (void)setSelectedField:(VENTokenField *)venTokenField {
     
     self.selectedToken = venTokenField;
@@ -421,7 +426,7 @@
 }
 
 
-#pragma mark - VENTokenFieldDataSource
+#pragma mark - VENTokenFieldDataSource Methods
 - (void)tokenField:(VENTokenField *)tokenField didChangeText:(NSString *)text {
     
     self.arrayContacts = [self.serviceContact getContactsWithName:text];
@@ -518,9 +523,11 @@
 #pragma mark - UItextViewDelegate Methods
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
 
+    NSLog(@"text ==== %@", text);
+    NSLog(@"range ==== %lu", (unsigned long)range.location);
     if ([text isEqualToString:@"\n"]) {
         self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
-        NSLog(@"text === %@", text);
+        [self.arrayTextEnteredRanges addObject:[NSString stringWithFormat:@"%lu", (unsigned long)range.location]];
     }
     else {
         if ([text isEqualToString:@""]) {

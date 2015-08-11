@@ -82,7 +82,6 @@
 		C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D191B41AB1C00295A94 /* BaseRealmModel.m */; };
 		C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D1C1B41AB1C00295A94 /* BaseService.m */; };
 		C08C2DD71B41AB1C00295A94 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D2B1B41AB1C00295A94 /* BaseViewModel.m */; };
-		C08C2DD81B41AB1C00295A94 /* BaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D2E1B41AB1C00295A94 /* BaseButton.m */; };
 		C08C2DD91B41AB1C00295A94 /* BaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D301B41AB1C00295A94 /* BaseCollectionView.m */; };
 		C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D321B41AB1C00295A94 /* BaseImageView.m */; };
 		C08C2DDB1B41AB1C00295A94 /* BaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D341B41AB1C00295A94 /* BaseLabel.m */; };
@@ -283,8 +282,6 @@
 		C08C2D1C1B41AB1C00295A94 /* BaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		C08C2D2A1B41AB1C00295A94 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
 		C08C2D2B1B41AB1C00295A94 /* BaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewModel.m; sourceTree = "<group>"; };
-		C08C2D2D1B41AB1C00295A94 /* BaseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseButton.h; sourceTree = "<group>"; };
-		C08C2D2E1B41AB1C00295A94 /* BaseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseButton.m; sourceTree = "<group>"; };
 		C08C2D2F1B41AB1C00295A94 /* BaseCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCollectionView.h; sourceTree = "<group>"; };
 		C08C2D301B41AB1C00295A94 /* BaseCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCollectionView.m; sourceTree = "<group>"; };
 		C08C2D311B41AB1C00295A94 /* BaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseImageView.h; sourceTree = "<group>"; };
@@ -849,8 +846,6 @@
 		C08C2D2C1B41AB1C00295A94 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D2D1B41AB1C00295A94 /* BaseButton.h */,
-				C08C2D2E1B41AB1C00295A94 /* BaseButton.m */,
 				C08C2D2F1B41AB1C00295A94 /* BaseCollectionView.h */,
 				C08C2D301B41AB1C00295A94 /* BaseCollectionView.m */,
 				C08C2D311B41AB1C00295A94 /* BaseImageView.h */,
@@ -1511,7 +1506,6 @@
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,
 				9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */,
 				58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */,
-				C08C2DD81B41AB1C00295A94 /* BaseButton.m in Sources */,
 				9C2360AD1B428CB50020B348 /* User.m in Sources */,
 				C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */,
 				58CFBBA71B4BCC79005DA506 /* NetworkGmailMessage.m in Sources */,

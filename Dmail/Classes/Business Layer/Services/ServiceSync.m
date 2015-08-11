@@ -47,17 +47,21 @@
     
     if (self) {
         
-        _syncInProgressDmail = NO;
-        _syncInProgressGmail = NO;
-        _syncInProgressGmailMessages = NO;
+        self = [super init];
         
-        _syncInProgressContact = NO;
-        
-        _daoSync = [[DAOSync alloc] init];
-        _daoMessage = [[DAOMessage alloc] init];
-        _daoContact = [[DAOContact alloc] init];
-        
-        _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+        if (self) {
+            _syncInProgressDmail = NO;
+            _syncInProgressGmail = NO;
+            _syncInProgressGmailMessages = NO;
+            
+            _syncInProgressContact = NO;
+            
+            _daoSync = [[DAOSync alloc] init];
+            _daoMessage = [[DAOMessage alloc] init];
+            _daoContact = [[DAOContact alloc] init];
+            
+            _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+        }
     }
     
     [self setupNotifications];

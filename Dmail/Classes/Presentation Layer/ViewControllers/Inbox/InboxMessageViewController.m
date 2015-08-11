@@ -60,8 +60,28 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    [super viewWillAppear:animated];
     [self registerNotifications];
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"fromInboxViewToCompose"]) {
+        ComposeViewController *composeViewController = (ComposeViewController *)segue.destinationViewController;
+        if ([composeViewController isKindOfClass:[ComposeViewController class]]) {
+            VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithMessageId:self.messageId];
+            composeViewController.replyedRecipientEmail = modelMessage.senderEmail;
+            composeViewController.replyedRecipientName = modelMessage.senderName;
+            composeViewController.replyedMessageSubject = modelMessage.messageSubject;
+        }
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    
+    [super didReceiveMemoryWarning];
+}
+
 
 
 #pragma mark - Action Methods
@@ -122,7 +142,7 @@
         self.labelSenderName.text = modelMessage.senderName;
         self.labelTime.text = modelMessage.messageDate;
         [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:modelMessage.imageUrl]];
-        CGFloat profileNameWidth = [[CommonMethods sharedInstance] textWidthWithText:modelMessage.senderName height:self.labelSenderName.frame.size.height fontName:@"ProximaNova-Regular" fontSize:12];
+        CGFloat profileNameWidth = [self textWidthWithText:modelMessage.senderName height:self.labelSenderName.frame.size.height fontName:@"ProximaNova-Regular" fontSize:12];
         CGFloat profileImageAndNameWidth = self.imageViewProfile.frame.size.width + profileNameWidth + 5;
         CGFloat imageOryginX = ([UIScreen mainScreen].bounds.size.width - profileImageAndNameWidth)/2;
         self.imageViewProfile.frame = CGRectMake(imageOryginX, self.imageViewProfile.frame.origin.y, self.imageViewProfile.frame.size.width, self.imageViewProfile.frame.size.height);
@@ -145,22 +165,14 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (CGFloat)textWidthWithText:(NSString *)text height:(CGFloat)height fontName:(NSString *)fontName fontSize:(CGFloat)fontSize {
     
-    if ([segue.identifier isEqualToString:@"fromInboxViewToCompose"]) {
-        ComposeViewController *composeViewController = (ComposeViewController *)segue.destinationViewController;
-        if ([composeViewController isKindOfClass:[ComposeViewController class]]) {
-            VMInboxMessageItem *modelMessage = [self.serviceMessage getInboxMessageWithMessageId:self.messageId];
-            composeViewController.replyedRecipientEmail = modelMessage.senderEmail;
-            composeViewController.replyedRecipientName = modelMessage.senderName;
-            composeViewController.replyedMessageSubject = modelMessage.messageSubject;
-        }
-    }
-}
-
-- (void)didReceiveMemoryWarning {
-    
-    [super didReceiveMemoryWarning];
+    NSDictionary *headerAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:fontName size:fontSize], NSFontAttributeName, nil];
+    CGRect textSize = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX,height)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:headerAttributes
+                                         context:nil];
+    return textSize.size.width;
 }
 
 @end

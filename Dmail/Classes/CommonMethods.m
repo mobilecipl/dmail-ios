@@ -49,7 +49,6 @@
     NSString *email;
     NSArray *arraySubStrings = [value componentsSeparatedByString:@"<"];
     if ([arraySubStrings count] > 1) {
-        NSLog(@"arraySubStrings ==== %@", arraySubStrings);
         email = [[arraySubStrings objectAtIndex:1] substringToIndex:[[arraySubStrings objectAtIndex:1] length]-1];
     }
     else {
@@ -65,7 +64,6 @@
     
     NSArray *arraySubStrings = [value componentsSeparatedByString:@"<"];
     if ([arraySubStrings count] > 1) {
-        NSLog(@"arraySubStrings ==== %@", arraySubStrings);
         name = [arraySubStrings firstObject];
         name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }

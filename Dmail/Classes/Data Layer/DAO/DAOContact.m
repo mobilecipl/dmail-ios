@@ -38,6 +38,7 @@ const NSInteger contactsUpdateTime = 12;
 #pragma mark - Intsance Methods
 - (instancetype)init {
     
+    self = [super init];
     if (self) {
         _networkContacts = [[NetworkContacts alloc] init];
     }

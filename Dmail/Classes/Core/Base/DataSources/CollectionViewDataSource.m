@@ -74,7 +74,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // NSLog(@"indxe: %li", (long)indexPath.row);
     
     id item = [self itemAtIndexPath:indexPath];
     

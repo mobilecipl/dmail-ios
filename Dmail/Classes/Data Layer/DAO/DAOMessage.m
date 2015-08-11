@@ -59,6 +59,7 @@
 #pragma mark - Intsance Methods
 - (instancetype)init {
     
+    self = [super init];
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
         _networkGmailMessage = [[NetworkGmailMessage alloc] init];

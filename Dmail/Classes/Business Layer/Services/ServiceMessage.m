@@ -36,6 +36,7 @@
 
 - (instancetype)init {
     
+    self = [super init];
     if (self) {
         _daoMessage = [[DAOMessage alloc] init];
     }
