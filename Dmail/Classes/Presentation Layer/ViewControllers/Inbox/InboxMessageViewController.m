@@ -19,8 +19,6 @@
 #import "UIColor+AppColors.h"
 #import "UIImageView+WebCache.h"
 
-#import "CommonMethods.h"
-
 @interface InboxMessageViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *viewNavigation;

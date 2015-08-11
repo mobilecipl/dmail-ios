@@ -66,7 +66,6 @@
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
 		C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */; };
 		C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF51B41AB1C00295A94 /* UIColor+AppColors.m */; };
-		C08C2DC31B41AB1C00295A94 /* CommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF71B41AB1C00295A94 /* CommonMethods.m */; };
 		C08C2DC41B41AB1C00295A94 /* BaseDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CFD1B41AB1C00295A94 /* BaseDAO.m */; };
 		C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D001B41AB1C00295A94 /* BaseDataModel.m */; };
 		C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D021B41AB1C00295A94 /* ErrorDataModel.m */; };
@@ -249,8 +248,6 @@
 		C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+UIColorToCGColor.m"; sourceTree = "<group>"; };
 		C08C2CF41B41AB1C00295A94 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColors.h"; sourceTree = "<group>"; };
 		C08C2CF51B41AB1C00295A94 /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColors.m"; sourceTree = "<group>"; };
-		C08C2CF61B41AB1C00295A94 /* CommonMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMethods.h; sourceTree = "<group>"; };
-		C08C2CF71B41AB1C00295A94 /* CommonMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonMethods.m; sourceTree = "<group>"; };
 		C08C2CFA1B41AB1C00295A94 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		C08C2CFC1B41AB1C00295A94 /* BaseDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDAO.h; sourceTree = "<group>"; };
 		C08C2CFD1B41AB1C00295A94 /* BaseDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseDAO.m; sourceTree = "<group>"; };
@@ -599,8 +596,6 @@
 		C08C2CC01B41AB1B00295A94 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2CF61B41AB1C00295A94 /* CommonMethods.h */,
-				C08C2CF71B41AB1C00295A94 /* CommonMethods.m */,
 				C08C2CC11B41AB1B00295A94 /* Application */,
 				C08C2CC81B41AB1B00295A94 /* Business Layer */,
 				C08C2CEC1B41AB1C00295A94 /* Categories */,
@@ -1491,7 +1486,6 @@
 				9C21B8861B46A2780080B132 /* DAOContact.m in Sources */,
 				C08C2DDE1B41AB1C00295A94 /* BaseSearchBar.m in Sources */,
 				C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */,
-				C08C2DC31B41AB1C00295A94 /* CommonMethods.m in Sources */,
 				C08C2DCC1B41AB1C00295A94 /* TableViewSectionDataSource.m in Sources */,
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
