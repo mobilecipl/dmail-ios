@@ -57,4 +57,6 @@
 
 - (BOOL)hasInboxMessages;
 
+- (void)cancelAllRequests;
+
 @end

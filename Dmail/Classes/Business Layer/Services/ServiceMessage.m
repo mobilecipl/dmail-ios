@@ -158,6 +158,7 @@
 
 - (void)clearAllData {
     
+    
     [self.daoMessage clearAllData];
 }
 

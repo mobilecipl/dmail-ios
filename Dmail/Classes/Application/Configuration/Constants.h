@@ -30,6 +30,7 @@ static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed"
 static NSString * const NotificationRevokeSuccess = @"NotificationRevokeSuccess";
 static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
+static NSString * const NotificationLogOut = @"NotificationLogOut";
 static NSString * const NotificationMenuOpened = @"menuOpened";
 static NSString * const NotificationMenuClosed = @"menuClosed";
 

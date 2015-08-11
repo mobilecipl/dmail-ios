@@ -31,6 +31,9 @@
 @property (nonatomic, strong) DAOMessage *daoMessage;
 @property (nonatomic, strong) DAOContact *daoContact;
 
+@property (nonatomic, strong) NSTimer *timerSyncDmailMessages;
+@property (nonatomic, strong) NSTimer *timerSyncGoogleContacts;
+
 @property __block BOOL syncInProgressDmail;
 @property __block BOOL syncInProgressGmail;
 @property __block BOOL syncInProgressGmailMessages;
@@ -39,18 +42,6 @@
 @end
 
 @implementation ServiceSync
-
-+ (ServiceSync *)sharedInstance {
-    
-    static ServiceSync *sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        sharedInstance = [[ServiceSync alloc] init];
-    });
-    
-    return sharedInstance;
-}
 
 - (instancetype)init {
     
@@ -78,10 +69,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationGMailUniqueFetched object:nil];
-    
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailUniqueFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationLogOut object:nil];
 }
 
 - (void)sync {
@@ -90,8 +80,8 @@
     [self syncDmailMessages];
     [self syncGoogleContacts];
     
-    [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncDmailMessages) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(syncGoogleContacts) userInfo:nil repeats:YES];
+    self.timerSyncDmailMessages = [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncDmailMessages) userInfo:nil repeats:YES];
+    self.timerSyncGoogleContacts = [NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(syncGoogleContacts) userInfo:nil repeats:YES];
 }
 
 - (void)syncDmailMessages {
@@ -109,7 +99,7 @@
                 if ([hasNewData isEqual:@(YES)]) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
                 } else {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                 }
             }];
         } else {
@@ -183,6 +173,14 @@
     [self.daoMessage getTemplateWithCompletionBlock:^(NSString *template, ErrorDataModel *error) {
 
     }];
+}
+
+- (void)stopSync {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.timerSyncDmailMessages invalidate];
+    [self.timerSyncGoogleContacts invalidate];
+    [self.daoMessage cancelAllRequests];
 }
 
 - (void)dealloc {

@@ -11,5 +11,6 @@
 @interface ServiceSync : BaseService
 
 - (void)sync;
+- (void)stopSync;
 
 @end

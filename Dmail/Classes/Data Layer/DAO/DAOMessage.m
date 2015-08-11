@@ -15,7 +15,6 @@
 // network
 #import "NetworkMessage.h"
 #import "NetworkGmailMessage.h"
-#import "NetworkGmailMessageArchive.h"
 
 // model
 #import "ModelMessage.h"
@@ -43,7 +42,6 @@
 
 @property (nonatomic, strong) NetworkMessage *networkMessage;
 @property (nonatomic, strong) NetworkGmailMessage *networkGmailMessage;
-@property (nonatomic, strong)NetworkGmailMessageArchive *networkGmailMessageArchive;
 @property (nonatomic, strong) DAOGmailMessage *daoGmailMessage;
 @property (nonatomic, strong) UIWebView *webViewEncryptDecrypt;
 @property (nonatomic, strong) NSString *encryptedMessage;
@@ -64,7 +62,6 @@
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
         _networkGmailMessage = [[NetworkGmailMessage alloc] init];
-        _networkGmailMessageArchive = [[NetworkGmailMessageArchive alloc] init];
         _daoGmailMessage = [[DAOGmailMessage alloc] init];
         _webViewEncryptDecrypt = [[UIWebView alloc] init];
         _webViewEncryptDecrypt.delegate = self;
@@ -314,26 +311,28 @@
 
 - (NSArray *)getInboxMessages {
     
-    RLMRealm *realm = [RLMRealm defaultRealm];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *modelProfile = [daoProfile getProfile];
-    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelRecipient *rmRecipient in recipients) {
-        RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-        ModelMessage *modelMessage = [messages firstObject];
-        if (modelMessage) {
-            ModelInboxMessage *modelInbox = [[ModelInboxMessage alloc] init];
-            modelInbox.messageId = rmRecipient.messageId;
-            modelInbox.messageIdentifier = rmRecipient.messageIdentifier;
-            modelInbox.subject = modelMessage.subject;
-            modelInbox.internalDate = modelMessage.internalDate;
-            modelInbox.fromEmail = modelMessage.fromEmail;
-            modelInbox.read = modelMessage.read;
-            modelInbox.imageUrl = [self getRecipientImageUrlWithMessageId:rmRecipient.messageId];
-            RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"SENDER", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-            modelInbox.fromName = [self getRecipientsName:recipients];
-            [arrayItems addObject:modelInbox];
+    if (modelProfile.email) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
+        for (RMModelRecipient *rmRecipient in recipients) {
+            RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+            ModelMessage *modelMessage = [messages firstObject];
+            if (modelMessage) {
+                ModelInboxMessage *modelInbox = [[ModelInboxMessage alloc] init];
+                modelInbox.messageId = rmRecipient.messageId;
+                modelInbox.messageIdentifier = rmRecipient.messageIdentifier;
+                modelInbox.subject = modelMessage.subject;
+                modelInbox.internalDate = modelMessage.internalDate;
+                modelInbox.fromEmail = modelMessage.fromEmail;
+                modelInbox.read = modelMessage.read;
+                modelInbox.imageUrl = [self getRecipientImageUrlWithMessageId:rmRecipient.messageId];
+                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"SENDER", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+                modelInbox.fromName = [self getRecipientsName:recipients];
+                [arrayItems addObject:modelInbox];
+            }
         }
     }
     
@@ -342,22 +341,24 @@
 
 - (NSArray *)getSentMessages {
     
-    RLMRealm *realm = [RLMRealm defaultRealm];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *modelProfile = [daoProfile getProfile];
-    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"SENDER", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
     NSMutableArray *arrayItems = [@[] mutableCopy];
-    for (RMModelRecipient *rmRecipient in recipients) {
-        RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-        ModelMessage *modelMessage = [messages firstObject];
-        if (modelMessage) {
-            ModelSentMessage *modelSent = [[ModelSentMessage alloc] init];
-            modelSent.messageId = rmRecipient.messageId;
-            modelSent.subject = modelMessage.subject;
-            modelSent.internalDate = modelMessage.internalDate;
-            RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-            modelSent.recipientName = [self getRecipientsName:recipients];
-            [arrayItems addObject:modelSent];
+    if (modelProfile.email) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"SENDER", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
+        for (RMModelRecipient *rmRecipient in recipients) {
+            RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+            ModelMessage *modelMessage = [messages firstObject];
+            if (modelMessage) {
+                ModelSentMessage *modelSent = [[ModelSentMessage alloc] init];
+                modelSent.messageId = rmRecipient.messageId;
+                modelSent.subject = modelMessage.subject;
+                modelSent.internalDate = modelMessage.internalDate;
+                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+                modelSent.recipientName = [self getRecipientsName:recipients];
+                [arrayItems addObject:modelSent];
+            }
         }
     }
     
@@ -456,7 +457,6 @@
     ModelMessage *modelMessage = nil;
     
     if (message) {
-//        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:message.fromEmail];
         modelMessage = [[ModelMessage alloc] init];
         modelMessage.messageIdentifier = message.messageIdentifier;
         modelMessage.internalDate = message.internalDate;
@@ -477,21 +477,6 @@
         modelMessage.fromName = message.fromName;
         modelMessage.fromEmail = message.fromEmail;
         modelMessage.publicKey = message.publicKey;
-        
-//        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", message.messageId];
-//        RMModelRecipient *recipient = [recipients firstObject];
-//        
-//        RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
-//        RMModelProfile *profile = [resultsProfiles firstObject];
-//        NSString *imageUrl;
-//        if ([recipient.recipient isEqualToString:profile.email]) {
-//            imageUrl = profile.imageUrl;
-//        }
-//        else {
-//            NSString *token = profile.token;
-//            imageUrl = [NSString stringWithFormat:@"%@?access_token=%@", contact.imageUrl, token];
-//        }
-//        modelMessage.imageUrl = imageUrl;
         modelMessage.imageUrl = [self getRecipientImageUrlWithMessageId:message.messageId];
     }
     
@@ -716,6 +701,12 @@
     [realm beginWriteTransaction];
     [realm deleteAllObjects];
     [realm commitWriteTransaction];
+}
+
+- (void)cancelAllRequests {
+    
+    [self.networkMessage cancellAllRequests];
+    [self.networkGmailMessage cancellAllRequests];
 }
 
 

@@ -56,4 +56,9 @@
     }];
 }
 
+- (void)cancelAllRequests {
+    
+    [self.daoContact cancelAllRequests];
+}
+
 @end

@@ -236,4 +236,9 @@ const NSInteger contactsUpdateTime = 12;
     [realm commitWriteTransaction];
 }
 
+- (void)cancelAllRequests {
+    
+    [self.networkContacts cancellAllRequests];
+}
+
 @end

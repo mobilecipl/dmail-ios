@@ -16,4 +16,6 @@
 
 - (void)getContactsWithPagingForEmail:(NSString *)email maxResult:(NSString *)maxResult completionBlock:(CompletionBlock)completionBlock;
 
+- (void)cancelAllRequests;
+
 @end

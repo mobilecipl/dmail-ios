@@ -16,5 +16,4 @@
                   maxResult:(NSString *)maxResult
                  updatedMin:(NSString *)updatedMin
             completionBlock:(CompletionBlock)completionBlock;
-
 @end

@@ -21,6 +21,7 @@
 #import <Realm.h>
 #import "RMModelMessage.h"
 #import "RMModelRecipient.h"
+#import "RMModelProfile.h"
 
 @interface DAOSync ()
 @property (nonatomic, strong) NetworkMessage *networkMessage;
@@ -41,31 +42,29 @@
     
     [self.networkMessage syncMessagesForEmail:recipientEmail position:position count:count completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         if (!error) {
-            
-            NSArray *recipients = data[@"recipients"];
-            
-            if ([recipients isKindOfClass:[NSArray class]]) {
-
-                BOOL hasNewData = NO;
-                
-                for (NSDictionary *dict in recipients) {
-                    ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:dict];
-                    [self saveRecipient:recipient];
-                    
-                    RLMRealm *realm = [RLMRealm defaultRealm];
-                    ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
-                    RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
-                    if (!tempMessage) {
-                        hasNewData = YES;
-                        [self saveMessage:message];
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+            RMModelProfile *profile = [resultsProfiles firstObject];
+            if (profile.email) {
+                NSArray *recipients = data[@"recipients"];
+                if ([recipients isKindOfClass:[NSArray class]]) {
+                    BOOL hasNewData = NO;
+                    for (NSDictionary *dict in recipients) {
+                        ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:dict];
+                        [self saveRecipient:recipient];
+                        RLMRealm *realm = [RLMRealm defaultRealm];
+                        ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
+                        RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
+                        if (!tempMessage) {
+                            hasNewData = YES;
+                            [self saveMessage:message];
+                        }
                     }
+                    completionBlock(@(hasNewData), nil);
+                } else {
+                    completionBlock(nil, error);
                 }
-                completionBlock(@(hasNewData), nil);
-            } else {
-               
-                completionBlock(nil, error);
             }
-            
         } else {
             completionBlock(nil, error);
         }

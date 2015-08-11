@@ -18,6 +18,7 @@
 #import "ServiceProfile.h"
 #import "ServiceMessage.h"
 #import "ServiceContact.h"
+#import "ServiceSync.h"
 
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
@@ -28,6 +29,7 @@
 
 @property (strong, nonatomic) ServiceProfile *serviceProfile;
 @property (strong, nonatomic) ServiceMessage *serviceMessage;
+@property (strong, nonatomic) ServiceSync *serviceSync;
 @property (strong, nonatomic) ServiceContact *serviceContact;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
 @property (nonatomic, strong) NSArray *arrayCellIds;
@@ -45,6 +47,7 @@
         _serviceProfile = [[ServiceProfile alloc] init];
         _serviceMessage = [[ServiceMessage alloc] init];
         _serviceContact = [[ServiceContact alloc] init];
+        _serviceSync = [[ServiceSync alloc] init];
     }
     return self;
 }
@@ -123,6 +126,8 @@
 - (void)clearAllDBAndRedirectInLoginScreen {
     
     //Clear all info.
+    [self.serviceSync stopSync];
+    [self.serviceContact cancelAllRequests];
     [self.serviceMessage clearAllData];
     
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -194,6 +199,7 @@
         };
     }
 }
+
 
 #pragma mark - GIDSignInDelegate Methods
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {

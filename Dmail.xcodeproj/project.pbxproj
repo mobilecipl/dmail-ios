@@ -30,7 +30,6 @@
 		9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8E1B540F8600464883 /* ModelSentMessage.m */; };
 		9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C60DC011B4FB2090081DFF9 /* ModelMessage.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
-		9C702A5F1B67C415005D1E9B /* NetworkGmailMessageArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C702A5E1B67C415005D1E9B /* NetworkGmailMessageArchive.m */; };
 		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
 		9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE6461B58FFB000F3CE89 /* BaseNavigationController.m */; };
 		9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE64A1B592C5400F3CE89 /* CustomAlertView.m */; };
@@ -183,8 +182,6 @@
 		9C60DC011B4FB2090081DFF9 /* ModelMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelMessage.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
-		9C702A5D1B67C415005D1E9B /* NetworkGmailMessageArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkGmailMessageArchive.h; sourceTree = "<group>"; };
-		9C702A5E1B67C415005D1E9B /* NetworkGmailMessageArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkGmailMessageArchive.m; sourceTree = "<group>"; };
 		9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailMessage.h; sourceTree = "<group>"; };
 		9C7285801B4D15C000996A35 /* ModelGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelGmailMessage.m; sourceTree = "<group>"; };
 		9C8AE6451B58FFB000F3CE89 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -1045,8 +1042,6 @@
 				9C21B8881B46A2DF0080B132 /* NetworkContacts.m */,
 				58CFBBA51B4BCC79005DA506 /* NetworkGmailMessage.h */,
 				58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */,
-				9C702A5D1B67C415005D1E9B /* NetworkGmailMessageArchive.h */,
-				9C702A5E1B67C415005D1E9B /* NetworkGmailMessageArchive.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1461,7 +1456,6 @@
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
-				9C702A5F1B67C415005D1E9B /* NetworkGmailMessageArchive.m in Sources */,
 				9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */,
 				C08C2DCF1B41AB1C00295A94 /* AutoDefaultsRMLObject.m in Sources */,
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,

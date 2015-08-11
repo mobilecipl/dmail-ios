@@ -23,6 +23,7 @@
 
 #import "RMModelMessage.h"
 #import "RMModelRecipient.h"
+#import "RMModelProfile.h"
 
 @interface DAOGmailMessage ()
 
@@ -49,7 +50,10 @@
             if ([messages isKindOfClass:[NSArray class]]) {
                 for (NSDictionary *dict in messages) {
                     NSString *gmailId = dict[@"id"];
-                    if (gmailId) {
+                    RLMRealm *realm = [RLMRealm defaultRealm];
+                    RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+                    RMModelProfile *profile = [resultsProfiles firstObject];
+                    if (gmailId && profile.email) {
                         [self updateMessageWithUniqueId:messageIdentifier gmailId:gmailId serverId:serverId];
                     }
                 }
@@ -68,12 +72,17 @@
 - (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     [self.networkGmailMessage getMessageWithMessageId:messageId userId:userID completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
-        if (!error) {
-            ModelGmailMessage *modelGmailMessage = [[ModelGmailMessage alloc] initWithDictionary:data];
-            [self updateMessageWithGmailId:messageId gmailModel:modelGmailMessage];
-            completionBlock(modelGmailMessage.payload.messageIdentifier, nil);
-        } else {
-            completionBlock(nil, error);
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
+        RMModelProfile *profile = [resultsProfiles firstObject];
+        if(profile.email) {
+            if (!error) {
+                ModelGmailMessage *modelGmailMessage = [[ModelGmailMessage alloc] initWithDictionary:data];
+                [self updateMessageWithGmailId:messageId gmailModel:modelGmailMessage];
+                completionBlock(modelGmailMessage.payload.messageIdentifier, nil);
+            } else {
+                completionBlock(nil, error);
+            }
         }
     }];
 }
