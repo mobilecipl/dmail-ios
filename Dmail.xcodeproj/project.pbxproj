@@ -51,7 +51,6 @@
 		C00B20E11B4EB90400D892DA /* ModelGmailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E01B4EB90400D892DA /* ModelGmailHeader.m */; };
 		C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */; };
 		C00B20EA1B50113100D892DA /* VMSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20E91B50113100D892DA /* VMSentMessage.m */; };
-		C00B20ED1B50115300D892DA /* VMInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C00B20EC1B50115300D892DA /* VMInboxMessage.m */; };
 		C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD11B42E0D800248B91 /* DAOMessage.m */; };
 		C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C05C0CD41B42E22000248B91 /* ServiceMessage.m */; };
 		C08C2DAB1B41AB1C00295A94 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBA1B41AB1B00295A94 /* ProximaNova-Light.ttf */; };
@@ -221,8 +220,6 @@
 		C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMSentMessageItem.m; sourceTree = "<group>"; };
 		C00B20E81B50113100D892DA /* VMSentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSentMessage.h; sourceTree = "<group>"; };
 		C00B20E91B50113100D892DA /* VMSentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMSentMessage.m; sourceTree = "<group>"; };
-		C00B20EB1B50115300D892DA /* VMInboxMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMInboxMessage.h; sourceTree = "<group>"; };
-		C00B20EC1B50115300D892DA /* VMInboxMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMInboxMessage.m; sourceTree = "<group>"; };
 		C05C0CD01B42E0D800248B91 /* DAOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOMessage.h; sourceTree = "<group>"; };
 		C05C0CD11B42E0D800248B91 /* DAOMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOMessage.m; sourceTree = "<group>"; };
 		C05C0CD31B42E22000248B91 /* ServiceMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceMessage.h; sourceTree = "<group>"; };
@@ -549,8 +546,6 @@
 				C00B20DA1B4EB44900D892DA /* VMInboxMessageItem.m */,
 				C00B20E21B4FE58B00D892DA /* VMSentMessageItem.h */,
 				C00B20E31B4FE58B00D892DA /* VMSentMessageItem.m */,
-				C00B20EB1B50115300D892DA /* VMInboxMessage.h */,
-				C00B20EC1B50115300D892DA /* VMInboxMessage.m */,
 				C00B20E81B50113100D892DA /* VMSentMessage.h */,
 				C00B20E91B50113100D892DA /* VMSentMessage.m */,
 			);
@@ -1494,7 +1489,6 @@
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */,
-				C00B20ED1B50115300D892DA /* VMInboxMessage.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,
 				C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */,
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,

@@ -26,10 +26,27 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
 - (void)getEncryptedMessage:(NSString *)messageId recipientEmail:(NSString *)recipientEmail completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+//        NSLog(@"getEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200:
-            case 201: {
-                completionBlock(@(YES), nil);
+            case 200: { //Success Response
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    //TODO:
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                    else {
+                        
+                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
+                        completionBlock(nil, error);
+                    }
+                } else {
+                    
+                    ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                    error.statusCode = @400;
+                    error.message = kErrorMessageNoServer;
+                    completionBlock(nil, error);
+                }
             }
                 break;
             default: {
@@ -54,8 +71,9 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                                  @"encrypted_message" : encryptedMessage};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"sendEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 201: {
+            case 201: { //Success Response
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -272,10 +290,24 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
         switch (operation.response.statusCode) {
-            case 200:
-            case 201: { //Success Response
-                completionBlock(@(YES), nil);
+            case 200: { //Success Response
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    if (completionBlock) {
+                        completionBlock(responseObject, nil);
+                    }
+                    else {
+                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
+                        completionBlock(nil, error);
+                    }
+                }
+                else {
+                    ErrorDataModel *error = [[ErrorDataModel alloc] init];
+                    error.statusCode = @400;
+                    error.message = kErrorMessageNoServer;
+                    completionBlock(nil, error);
+                }
             }
                 break;
             default: {
