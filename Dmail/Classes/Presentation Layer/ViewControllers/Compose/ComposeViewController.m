@@ -165,10 +165,10 @@
         self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
         if (self.replyedRecipientName) {
             self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
-            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientName];
+            [self.fieldTo addTokenWithString:self.replyedRecipientName];
         }
         else {
-            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientEmail];
+            [self.fieldTo addTokenWithString:self.replyedRecipientEmail];
         }
     }
 }
@@ -194,7 +194,8 @@
     self.fieldTo.delegate = self;
     self.fieldTo.dataSource = self;
     [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-    [self.fieldTo setFieldName:@"To"];
+    self.fieldTo.toLabelText = @"To:";
+//    [self.fieldTo setFieldName:@"To"];
     self.fieldTo.delimiters = @[@",", @";", @"--"];
     [self.fieldTo becomeFirstResponder];
     
@@ -203,7 +204,8 @@
     self.fieldCc.delegate = self;
     self.fieldCc.dataSource = self;
     [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-    [self.fieldCc setFieldName:@"Cc"];
+    self.fieldCc.toLabelText = @"Cc:";
+//    [self.fieldCc setFieldName:@"Cc:"];
     self.fieldCc.delimiters = @[@",", @";", @"--"];
     
     self.arrayBcc = [NSMutableArray array];
@@ -211,7 +213,8 @@
     self.fieldBcc.delegate = self;
     self.fieldBcc.dataSource = self;
     [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-    [self.fieldBcc setFieldName:@"Bcc"];
+    self.fieldBcc.toLabelText = @"Bcc:";
+//    [self.fieldBcc setFieldName:@"Bcc:"];
     self.fieldBcc.delimiters = @[@",", @";", @"--"];
 }
 
@@ -245,7 +248,7 @@
         else if (tokenField == self.fieldCc) {
             [self.arrayTempCc addObject:self.tempContactModel];
         }
-        else if (tokenField == self.fieldCc) {
+        else if (tokenField == self.fieldBcc) {
             [self.arrayTempBcc addObject:self.tempContactModel];
         }
     }
@@ -362,10 +365,10 @@
             self.tableViewContacts.hidden = YES;
             if (contactModel.fullName.length > 0) {
                 self.tempContactModel = contactModel;
-                [self.selectedToken checkAndAddTokenWithString:contactModel.fullName];
+                [self.selectedToken addTokenWithString:contactModel.fullName];
             }
             else {
-                [self.selectedToken checkAndAddTokenWithString:contactModel.email];
+                [self.selectedToken addTokenWithString:contactModel.email];
             }
         }
     }
@@ -378,18 +381,18 @@
     self.selectedToken = venTokenField;
 }
 
-- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text fieldName:(NSString *)fieldName {
+- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
     [self addRecipientWithField:tokenField withName:text];
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         [self.arrayTo addObject:text];
         [self.fieldTo reloadData];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         [self.arrayCc addObject:text];
         [self.fieldCc reloadData];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         [self.arrayBcc addObject:text];
         [self.fieldBcc reloadData];
     }
@@ -397,18 +400,18 @@
     self.buttonSend.enabled = YES;
 }
 
-- (void)tokenField:(VENTokenField *)tokenField didDeleteTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
+- (void)tokenField:(VENTokenField *)tokenField didDeleteTokenAtIndex:(NSUInteger)index {
     
     [self removRecipientWithField:tokenField index:index];
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         [self.arrayTo removeObjectAtIndex:index];
         [self.fieldTo reloadData];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         [self.arrayCc removeObjectAtIndex:index];
         [self.fieldCc reloadData];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         [self.arrayBcc removeObjectAtIndex:index];
         [self.fieldBcc reloadData];
     }
@@ -444,45 +447,45 @@
     }
 }
 
-- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
+- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return self.arrayTo[index];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return self.arrayCc[index];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return self.arrayBcc[index];
     }
     
     return nil;
 }
 
-- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
+- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return [self.arrayTo count];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return [self.arrayCc count];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return [self.arrayBcc count];
     }
     
     return 0;
 }
 
-- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
+- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayTo count]];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayCc count]];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayBcc count]];
     }
     
@@ -517,8 +520,6 @@
 #pragma mark - UItextViewDelegate Methods
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
 
-    NSLog(@"text ==== %@", text);
-    NSLog(@"range ==== %lu", (unsigned long)range.location);
     if ([text isEqualToString:@"\n"]) {
         self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
         [self.arrayTextEnteredRanges addObject:[NSString stringWithFormat:@"%lu", (unsigned long)range.location]];

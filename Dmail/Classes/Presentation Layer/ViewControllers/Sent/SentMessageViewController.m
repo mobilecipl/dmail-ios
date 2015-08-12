@@ -146,9 +146,9 @@
             self.fieldTo.delegate = self;
             self.fieldTo.dataSource = self;
             [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            [self.fieldTo setFieldName:@"To"];
+            self.fieldTo.toLabelText = @"To:";
             for (NSString *string in self.arrayTo) {
-                [self.fieldTo checkAndAddTokenWithString:string];
+                [self.fieldTo addTokenWithString:string];
             }
         }
         
@@ -159,9 +159,9 @@
             self.fieldCc.delegate = self;
             self.fieldCc.dataSource = self;
             [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            [self.fieldCc setFieldName:@"Cc"];
+            self.fieldCc.toLabelText = @"Cc:";
             for (NSString *string in self.arrayCc) {
-                [self.fieldCc checkAndAddTokenWithString:string];
+                [self.fieldCc addTokenWithString:string];
             }
         }
         
@@ -172,9 +172,9 @@
             self.fieldBcc.delegate = self;
             self.fieldBcc.dataSource = self;
             [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            [self.fieldBcc setFieldName:@"Bcc"];
+            self.fieldBcc.toLabelText = @"Bcc:";
             for (NSString *string in self.arrayBcc) {
-                [self.fieldBcc checkAndAddTokenWithString:string];
+                [self.fieldBcc addTokenWithString:string];
             }
         }
         
@@ -244,60 +244,60 @@
 
 
 #pragma mark - VENTokenFieldDelegate
-- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text fieldName:(NSString *)fieldName {
+- (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         [self.fieldTo reloadData];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         [self.fieldCc reloadData];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         [self.fieldBcc reloadData];
     }
 }
 
 
 #pragma mark - VENTokenFieldDataSource
-- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index fieldName:(NSString *)fieldName {
+- (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return self.arrayTo[index];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return self.arrayCc[index];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return self.arrayBcc[index];
     }
     
     return nil;
 }
 
-- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
+- (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return [self.arrayTo count];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return [self.arrayCc count];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return [self.arrayBcc count];
     }
     
     return 0;
 }
 
-- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField fieldName:(NSString *)fieldName{
+- (NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField {
     
-    if ([fieldName isEqualToString:@"To"]) {
+    if ([tokenField.toLabelText isEqualToString:@"To:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayTo count]];
     }
-    else if ([fieldName isEqualToString:@"Cc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Cc:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayCc count]];
     }
-    else if ([fieldName isEqualToString:@"Bcc"]) {
+    else if ([tokenField.toLabelText isEqualToString:@"Bcc:"]) {
         return [NSString stringWithFormat:@"%tu people", [self.arrayBcc count]];
     }
     
