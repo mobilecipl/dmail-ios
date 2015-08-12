@@ -204,7 +204,13 @@
         }
         
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
-        self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
+        NSInteger days = [[NSDate date] daysFrom:date];
+        if (days > 30) {
+            self.labelTime.text = [NSString stringWithFormat:@"%ldw",(long)days/7];
+        }
+        else {
+            self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
+        }
     }
 }
 

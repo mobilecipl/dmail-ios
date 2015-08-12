@@ -20,7 +20,13 @@
     self = [super init];
     if (self) {
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:modelMessage.internalDate/1000];
-        self.messageDate = [NSDate shortTimeAgoSinceDate:date];
+        NSInteger days = [[NSDate date] daysFrom:date];
+        if (days > 30) {
+            self.messageDate = [NSString stringWithFormat:@"%ldw",(long)days/7];
+        }
+        else {
+            self.messageDate = [NSDate shortTimeAgoSinceDate:date];
+        }
         self.body = modelMessage.body;
         self.senderName = modelMessage.fromName;
         self.senderEmail = modelMessage.fromEmail;
