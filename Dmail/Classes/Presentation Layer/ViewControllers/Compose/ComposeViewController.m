@@ -155,7 +155,25 @@
 #pragma mark - Private Methods
 - (void)setupController {
     
+    [self setupViewLayers];
+    [self setupRecipientsFields];
+    
     self.arrayTextEnteredRanges = [[NSMutableArray alloc] init];
+    self.messagebody = @"";
+    
+    if (self.replyedMessageSubject) {
+        self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
+        if (self.replyedRecipientName) {
+            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
+            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientName];
+        }
+        else {
+            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientEmail];
+        }
+    }
+}
+
+- (void)setupViewLayers {
     
     self.viewMessageCompose.layer.masksToBounds = YES;
     self.viewMessageCompose.layer.cornerRadius = 5;
@@ -166,6 +184,10 @@
     self.tableViewContacts.layer.cornerRadius = 5;
     self.tableViewContacts.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     self.tableViewContacts.layer.borderWidth = 1;
+    self.tableViewContacts.hidden = YES;
+}
+
+- (void)setupRecipientsFields {
     
     self.arrayTo = [NSMutableArray array];
     self.arrayTempTo = [NSMutableArray array];
@@ -191,34 +213,6 @@
     [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     [self.fieldBcc setFieldName:@"Bcc"];
     self.fieldBcc.delimiters = @[@",", @";", @"--"];
-    
-    self.tableViewContacts.hidden = YES;
-    self.messagebody = @"";
-    
-    UIBezierPath *secureMaskPath = [UIBezierPath bezierPathWithRoundedRect:self.viewSecure.bounds byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.view.bounds;
-    maskLayer.path  = secureMaskPath.CGPath;
-    self.viewSecure.layer.mask = maskLayer;
-    
-    CAShapeLayer *borderLayer = [[CAShapeLayer alloc] init];
-    borderLayer.frame = self.view.bounds;
-    borderLayer.path  = secureMaskPath.CGPath;
-    borderLayer.lineWidth   = 2.0f;
-    borderLayer.strokeColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
-    borderLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.viewSecure.layer addSublayer:borderLayer];
-    
-    if (self.replyedMessageSubject) {
-        self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
-        if (self.replyedRecipientName) {
-            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
-            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientName];
-        }
-        else {
-            [self.fieldTo checkAndAddTokenWithString:self.replyedRecipientEmail];
-        }
-    }
 }
 
 - (void)keyboardWillShow:(NSNotification*)notification {

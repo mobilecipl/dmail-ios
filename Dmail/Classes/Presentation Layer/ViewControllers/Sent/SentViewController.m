@@ -7,6 +7,7 @@
 //
 
 #import "SentViewController.h"
+
 // controller
 #import "ComposeViewController.h"
 #import "InboxMessageViewController.h"
@@ -27,8 +28,6 @@
 
 // view
 #import "SentCell.h"
-
-// sdwebimage
 
 //colors
 #import "UIColor+AppColors.h"
@@ -200,7 +199,6 @@
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        NSLog(@"Action to perform with Button 1");
         [self showLoadingView];
         VMSentMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
         [self.serviceMessage destroyMessageWithMessageId:messageItem.messageId participant:nil];

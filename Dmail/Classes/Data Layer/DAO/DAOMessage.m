@@ -627,26 +627,6 @@
     }
 }
 
-- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
-    
-    self.participantIndex = 0;
-    [self.networkMessage revokeUserWithMessageId:messageId email:participant completionBlock:^(id data, ErrorDataModel *error) {
-        if ([data isEqual:@(YES)]) {
-            RLMRealm *realm = [RLMRealm defaultRealm];
-            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",participant, messageId];
-            [realm beginWriteTransaction];
-            for (RMModelRecipient *model in results) {
-                model.access = @"REVOKED";
-            }
-            [realm commitWriteTransaction];
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeSuccess object:nil];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationRevokeFailed object:nil];
-        }
-    }];
-}
-
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {
     
     RLMRealm *realm = [RLMRealm defaultRealm];

@@ -18,8 +18,6 @@ static NSString * const kUrlMessagesDelete = @"%@/messages/%@?key=%@";
 static NSString * const kUrlMessagesArchive = @"%@/messages/%@?key=%@";
 static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
 
-//https://www.googleapis.com/gmail/v1/users/%@/messages/%@?key=%@
-
 @implementation NetworkGmailMessage
 
 - (instancetype)init {

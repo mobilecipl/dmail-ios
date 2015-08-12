@@ -8,7 +8,6 @@
 
 #import "NetworkMessage.h"
 #import "Constants.h"
-
 #import "DAOProfile.h"
 #import "ProfileModel.h"
 

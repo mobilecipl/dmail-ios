@@ -12,7 +12,6 @@
 #import "ContactModel.h"
 
 static NSString * const kUrlGetContacts = @"https://www.google.com/m8/feeds/contacts/";
-
 static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&max-results=%@&updated-min=%@";
 
 @implementation NetworkContacts

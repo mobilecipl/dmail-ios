@@ -114,7 +114,6 @@
     }];
 }
 
-
 - (void)showLoadingView {
     
     if (!self.viewLoading) {

@@ -44,8 +44,6 @@
 
 - (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
 
-- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant;
-
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
 - (void)clearAllData;

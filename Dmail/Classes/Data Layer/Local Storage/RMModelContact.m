@@ -27,7 +27,6 @@
         _fullName = model.fullName;
         _contactId = model.contactId;
         _imageUrl = model.urlPhoto;
-//        _updated = model.updated;
     }
     
     return self;

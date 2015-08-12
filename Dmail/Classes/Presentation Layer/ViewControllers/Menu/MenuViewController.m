@@ -27,10 +27,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMenuu;
 
-@property (strong, nonatomic) ServiceProfile *serviceProfile;
-@property (strong, nonatomic) ServiceMessage *serviceMessage;
-@property (strong, nonatomic) ServiceSync *serviceSync;
-@property (strong, nonatomic) ServiceContact *serviceContact;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceContact *serviceContact;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
 @property (nonatomic, strong) NSArray *arrayCellIds;
 @property (nonatomic, assign) NSInteger selectedCellIndex;

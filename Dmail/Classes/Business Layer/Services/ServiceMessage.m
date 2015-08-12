@@ -147,11 +147,6 @@
     [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];
 }
 
-- (void)revokeMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
-    
-    [self.daoMessage revokeMessageWithMessageId:messageId participant:participant];
-}
-
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {
     
     [self.daoMessage changeMessageStatusToReadWithMessageId:messageId];

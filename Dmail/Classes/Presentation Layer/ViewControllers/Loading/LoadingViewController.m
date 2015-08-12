@@ -13,10 +13,7 @@
 
 // service
 #import "ServiceSync.h"
-
 #import "ServiceProfile.h"
-
-// model
 
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
@@ -24,7 +21,6 @@
 @interface LoadingViewController () <GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
-
 @property (nonatomic, strong) ServiceSync *serviceSync;
 
 @end
@@ -47,7 +43,6 @@
     
     [self.indicator startAnimating];
     
-    // TODO: check if signed in
     if ([[ServiceProfile sharedInstance] googleId]) {
         [self autoSignIn];
     }
@@ -64,8 +59,6 @@
     
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
     googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
-//    googleSignIn.shouldFetchBasicProfile = YES;
-//    googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
     [googleSignIn signInSilently];
 }

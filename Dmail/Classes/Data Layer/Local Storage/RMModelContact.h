@@ -18,7 +18,6 @@
 @property NSString *email;
 @property NSString *contactId;
 @property NSString *imageUrl;
-//@property NSDate *updated;
 
 - (instancetype)initWithContactModel:(ContactModel *)model;
 

@@ -23,11 +23,6 @@
 //helpers
 #import "CustomAlertView.h"
 
-typedef NS_ENUM(NSInteger, AlertTags) {
-    Revoke = 1,
-    Destroy
-};
-
 @interface SentMessageViewController () <CustomAlertViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
 
@@ -114,7 +109,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
                                         @"backgroundColor" : [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1],
                                         @"font" : @"ProximaNova-Regular",
                                         @"fontSize" : @"15"};
-    alertView.tag = Destroy;
     [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton,destroyButton, nil]];
     [alertView setDelegate:self];
     [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
@@ -144,6 +138,7 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     
     if (self.messageId) {
         self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
+        
         self.arrayTo = [NSMutableArray array];
         self.arrayTo = self.modelMessage.arrayTo;
         if([self.arrayTo count] > 0) {
@@ -206,7 +201,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
         }
         else {
             self.textViewBody.text = self.modelMessage.body;
-//            self.textViewBody.text = @"asasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sdasasd asd asd asd asd as da sd asd a sd";
         }
         
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
@@ -240,37 +234,6 @@ typedef NS_ENUM(NSInteger, AlertTags) {
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
-}
-
-- (NSInteger)getBodyRow {
-    
-    NSInteger row = 1;
-    if ([self.arrayCc count] > 0) {
-        row = 2;
-    }
-    if ([self.arrayBcc count] > 0) {
-        if ([self.arrayCc count] > 0) {
-            row = 3;
-        }
-    }
-    
-    return row;
-}
-
-- (NSMutableArray *)getAllParticipants {
-    
-    self.arrayAllParticipants = [[NSMutableArray alloc] init];
-    for (NSString *to in self.modelMessage.arrayTo) {
-        [self.arrayAllParticipants addObject:to];
-    }
-    for (NSString *cc in self.modelMessage.arrayCc) {
-        [self.arrayAllParticipants addObject:cc];
-    }
-    for (NSString *bcc in self.modelMessage.arrayBcc) {
-        [self.arrayAllParticipants addObject:bcc];
-    }
-    
-    return self.arrayAllParticipants;
 }
 
 
@@ -340,15 +303,8 @@ typedef NS_ENUM(NSInteger, AlertTags) {
 - (void)customIOS7dialogButtonTouchUpInside: (CustomAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     [alertView close];
-    if (alertView.tag == Revoke) {
-        if (buttonIndex == 1) {
-            [self.serviceMessage revokeMessageWithMessageId:self.modelMessage.dmailId participant:self.revokedEmail];
-        }
-    }
-    else {
-        if (buttonIndex == 1) {
-            [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:nil];
-        }
+    if (buttonIndex == 1) {
+        [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:nil];
     }
 }
 

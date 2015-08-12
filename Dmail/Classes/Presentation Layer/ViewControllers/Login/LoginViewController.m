@@ -11,8 +11,6 @@
 // service
 #import "ServiceProfile.h"
 
-// model
-
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
 
@@ -21,14 +19,6 @@
 @end
 
 @implementation LoginViewController
-
-
-#pragma mark - Class Methods
-- (void)viewDidLoad {
-    
-    [super viewDidLoad];
-}
-
 
 #pragma mark - IBAction Methods
 - (IBAction)gmailLoginClicked:(id)sender {

@@ -59,7 +59,6 @@
 		C08C2DAE1B41AB1C00295A94 /* ProximaNova-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBD1B41AB1B00295A94 /* ProximaNova-Thin.ttf */; };
 		C08C2DAF1B41AB1C00295A94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBF1B41AB1B00295A94 /* Images.xcassets */; };
 		C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CC71B41AB1B00295A94 /* AppDelegate.m */; };
-		C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CE21B41AB1C00295A94 /* NetworkManager.m */; };
 		C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */; };
 		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
 		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
@@ -233,8 +232,6 @@
 		C08C2CC41B41AB1B00295A94 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C08C2CC61B41AB1B00295A94 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C08C2CC71B41AB1B00295A94 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C08C2CE11B41AB1C00295A94 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
-		C08C2CE21B41AB1C00295A94 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfile.h; sourceTree = "<group>"; };
 		C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProfile.m; sourceTree = "<group>"; };
 		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
@@ -644,7 +641,6 @@
 				C08C2CCA1B41AB1B00295A94 /* Data Manager */,
 				C08C2CD91B41AB1C00295A94 /* Dmail Manager */,
 				C08C2CDC1B41AB1C00295A94 /* Gmail Manager */,
-				C08C2CDF1B41AB1C00295A94 /* Network Manager */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -677,15 +673,6 @@
 			children = (
 			);
 			path = "Gmail Manager";
-			sourceTree = "<group>";
-		};
-		C08C2CDF1B41AB1C00295A94 /* Network Manager */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2CE11B41AB1C00295A94 /* NetworkManager.h */,
-				C08C2CE21B41AB1C00295A94 /* NetworkManager.m */,
-			);
-			path = "Network Manager";
 			sourceTree = "<group>";
 		};
 		C08C2CE31B41AB1C00295A94 /* Services */ = {
@@ -1468,7 +1455,6 @@
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
-				C08C2DBA1B41AB1C00295A94 /* NetworkManager.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
 				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
