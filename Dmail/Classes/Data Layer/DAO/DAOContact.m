@@ -78,35 +78,23 @@ const NSInteger contactsUpdateTime = 12;
 
 
 #pragma mark - Private Methods
-- (void)getContactsForEmail:(NSString *)email
-                 startIndex:(NSString *)startIndex
-                  maxResult:(NSString *)maxResult
-            completionBlock:(CompletionBlock)completionBlock {
+- (void)getContactsForEmail:(NSString *)email startIndex:(NSString *)startIndex maxResult:(NSString *)maxResult completionBlock:(CompletionBlock)completionBlock {
     
     NSString *updatedMinTime = [self getLastUpdateTime];
     
-    [self.networkContacts getContactsForEmail:email
-                                   startIndex:startIndex
-                                    maxResult:maxResult
-                                   updatedMin:updatedMinTime
-                              completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
-                                  
-                                  if (!error) {
-                                      NSArray *contacts = [self parseContactsWithDictionary:data];
-                                      [self saveContacts:contacts];
-                                      
-                                      
-                                      if (contacts == nil || contacts.count < maxResult.intValue) {
-                                          //finishLoading
-                                          [self saveLastUpdateTimeWithDictionaryIfNeeded:data];
-                                          
-                                      }
-                                      completionBlock(contacts, nil);
-                                  } else {
-                                      completionBlock(nil, error);
-                                  }
-                              }];
-    
+    [self.networkContacts getContactsForEmail:email startIndex:startIndex maxResult:maxResult updatedMin:updatedMinTime completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+        if (!error) {
+            NSArray *contacts = [self parseContactsWithDictionary:data];
+            [self saveContacts:contacts];
+            if (contacts == nil || contacts.count < maxResult.intValue) {
+                //finishLoading
+                [self saveLastUpdateTimeWithDictionaryIfNeeded:data];
+            }
+            completionBlock(contacts, nil);
+        } else {
+            completionBlock(nil, error);
+        }
+    }];
 }
 
 - (NSArray *)parseContactsWithDictionary:(NSDictionary *)data {
@@ -116,15 +104,12 @@ const NSInteger contactsUpdateTime = 12;
     NSDictionary *dictFeed = data[@"feed"];
     NSArray *entryFeed = dictFeed[@"entry"];
     for (NSDictionary *dict in entryFeed) {
-        
         NSString *email;
         NSString *firstName;
         NSString *lastName;
         NSString *fullName;
         NSString *contactId;
         NSString *urlPhoto;
-//        NSDate *updated;
-        
         if ([[dict allKeys] containsObject:@"gd$email"]) {
             NSArray *emailArray = dict[@"gd$email"];
             for (NSDictionary *emailDict in emailArray) {
@@ -161,12 +146,6 @@ const NSInteger contactsUpdateTime = 12;
             }
         }
         
-//        if ([[dict allKeys] containsObject:@"updated"]) {
-//            NSDictionary *updatedDict = dict[@"updated"];
-//            
-//            updated = [NSDate dateWithString:updatedDict[@"$t"] formatString:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"];
-//        }
-        
         ContactModel *model = [[ContactModel alloc] initWithEmail:email
                                                          fullName:fullName
                                                         firstName:firstName
@@ -200,11 +179,10 @@ const NSInteger contactsUpdateTime = 12;
     RMModelProfile *profile = [profiles firstObject];
 
     if ( !([profile.contactLastUpdateDate isEqualToString:@""] || profile.contactLastUpdateDate == nil) ) {
-        
         return profile.contactLastUpdateDate;
     }
 
-    return @"2007-03-16T00:00:00";
+    return @"2001-03-16T00:00:00";
 }
 
 - (void)saveLastUpdateTimeWithDictionaryIfNeeded:(NSDictionary *)data {
@@ -212,13 +190,10 @@ const NSInteger contactsUpdateTime = 12;
     NSDictionary *dictFeed = data[@"feed"];
     NSDictionary *updatedDict = dictFeed[@"updated"];
     NSString *updatedTime = updatedDict[@"$t"];
-    
     NSString *updatedTimeRM = [self getLastUpdateTime];
     
     NSComparisonResult result = [updatedTime compare:updatedTimeRM];
-    
     if (result == NSOrderedDescending) { // stringOne > stringTwo
-        
         [self updateProfileWithLastUpdateTime:updatedTime];
     }
 }
@@ -230,10 +205,7 @@ const NSInteger contactsUpdateTime = 12;
     RMModelProfile *profile = [profiles firstObject];
     
     [realm beginWriteTransaction];
-    
     profile.contactLastUpdateDate = time;
-//    [RMModelProfile createOrUpdateInRealm:realm withValue:profile];
-    
     [realm commitWriteTransaction];
 }
 

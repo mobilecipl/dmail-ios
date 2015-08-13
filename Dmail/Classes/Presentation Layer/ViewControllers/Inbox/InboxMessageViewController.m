@@ -16,6 +16,7 @@
 // view model
 #import "VMInboxMessageItem.h"
 
+// categories
 #import "UIColor+AppColors.h"
 #import "UIImageView+WebCache.h"
 
@@ -40,7 +41,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
         _serviceMessage = [[ServiceMessage alloc] init];
         _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
     }
@@ -87,11 +87,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)buttonReplayClicked:(id)sender {
-    
-    
-}
-
 
 #pragma mark - Private Methods
 - (void)registerNotifications {
@@ -101,7 +96,6 @@
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
-    NSLog(@"decryptedMessage ======= %@", [[notification userInfo] valueForKey:@"decryptedMessage"]);
     self.textViewMessageBody.text = [[notification userInfo] valueForKey:@"decryptedMessage"];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewMessageBody.text];
@@ -166,10 +160,7 @@
 - (CGFloat)textWidthWithText:(NSString *)text height:(CGFloat)height fontName:(NSString *)fontName fontSize:(CGFloat)fontSize {
     
     NSDictionary *headerAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:fontName size:fontSize], NSFontAttributeName, nil];
-    CGRect textSize = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX,height)
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:headerAttributes
-                                         context:nil];
+    CGRect textSize = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX,height) options:NSStringDrawingUsesLineFragmentOrigin attributes:headerAttributes context:nil];
     return textSize.size.width;
 }
 

@@ -669,7 +669,6 @@
     else {
         self.encryptedMessage = [self.encryptedMessage stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         NSString *jsFunction = [NSString stringWithFormat:@"GibberishAES.dec('%@', '%@')",self.encryptedMessage, self.publicKey];
-        NSLog(@"=========================== %@ ==========================",jsFunction);
         NSString *decryptedMessage = [self.webViewEncryptDecrypt stringByEvaluatingJavaScriptFromString:jsFunction];
         NSDictionary *userInfo = @{@"decryptedMessage" : decryptedMessage};
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGetDecryptedMessage object:nil userInfo:userInfo];

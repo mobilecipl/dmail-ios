@@ -163,7 +163,6 @@
     
     [self hideLoadingView];
     [self showMessageDestroyedSuccess:NO];
-//    [self loadMessages];
 }
 
 - (void)messageDestroyedFailed {
@@ -195,11 +194,6 @@
     
     self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromSentToSentView" sender:self];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return @"Destroy";
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
