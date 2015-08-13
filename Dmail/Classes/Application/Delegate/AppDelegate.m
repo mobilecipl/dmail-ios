@@ -15,9 +15,6 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-// util
-#import "NSString+AESCrypt.h"
-
 #import <Realm.h>
 
 @interface AppDelegate ()

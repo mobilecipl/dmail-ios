@@ -34,7 +34,6 @@
 #import "RMModelProfile.h"
 
 // service
-#import "NSString+AESCrypt.h"
 #import <NSDate+DateTools.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 
@@ -429,22 +428,6 @@
     clientKey = [NSString stringWithFormat:@"%f", timeInterval];
     
     return clientKey;
-}
-
-- (NSString *)encodeMessage:(NSString *)message clientKey:(NSString *)clientKey{
-    
-    NSString *encryptedText = [message AES256EncryptWithKey:clientKey];
-    if (!encryptedText) {
-        encryptedText = @"";
-    }
-    
-    return encryptedText;
-}
-
-- (NSString *)decodeMessage:(NSString *)encodedMessage key:(NSString *)publicKey{
-    
-    NSString *decryptedText = [encodedMessage AES256DecryptWithKey:publicKey];
-    return decryptedText;
 }
 
 - (ModelMessage *)getMessageWithMessageId:(NSString *)messageId{

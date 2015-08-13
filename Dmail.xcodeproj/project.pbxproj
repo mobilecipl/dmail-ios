@@ -55,8 +55,6 @@
 		C08C2DAF1B41AB1C00295A94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08C2CBF1B41AB1B00295A94 /* Images.xcassets */; };
 		C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CC71B41AB1B00295A94 /* AppDelegate.m */; };
 		C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */; };
-		C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */; };
-		C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */; };
 		C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */; };
 		C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CF51B41AB1C00295A94 /* UIColor+AppColors.m */; };
 		C08C2DC41B41AB1C00295A94 /* BaseDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2CFD1B41AB1C00295A94 /* BaseDAO.m */; };
@@ -220,10 +218,6 @@
 		C08C2CC71B41AB1B00295A94 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C08C2CEA1B41AB1C00295A94 /* ServiceProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfile.h; sourceTree = "<group>"; };
 		C08C2CEB1B41AB1C00295A94 /* ServiceProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProfile.m; sourceTree = "<group>"; };
-		C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AESCrypt.h"; sourceTree = "<group>"; };
-		C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AESCrypt.m"; sourceTree = "<group>"; };
-		C08C2CF01B41AB1C00295A94 /* NSString+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AESCrypt.h"; sourceTree = "<group>"; };
-		C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AESCrypt.m"; sourceTree = "<group>"; };
 		C08C2CF21B41AB1C00295A94 /* CALayer+UIColorToCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+UIColorToCGColor.h"; sourceTree = "<group>"; };
 		C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+UIColorToCGColor.m"; sourceTree = "<group>"; };
 		C08C2CF41B41AB1C00295A94 /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColors.h"; sourceTree = "<group>"; };
@@ -640,24 +634,12 @@
 		C08C2CEC1B41AB1C00295A94 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2CED1B41AB1C00295A94 /* AES */,
 				C08C2CF21B41AB1C00295A94 /* CALayer+UIColorToCGColor.h */,
 				C08C2CF31B41AB1C00295A94 /* CALayer+UIColorToCGColor.m */,
 				C08C2CF41B41AB1C00295A94 /* UIColor+AppColors.h */,
 				C08C2CF51B41AB1C00295A94 /* UIColor+AppColors.m */,
 			);
 			path = Categories;
-			sourceTree = "<group>";
-		};
-		C08C2CED1B41AB1C00295A94 /* AES */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2CEE1B41AB1C00295A94 /* NSData+AESCrypt.h */,
-				C08C2CEF1B41AB1C00295A94 /* NSData+AESCrypt.m */,
-				C08C2CF01B41AB1C00295A94 /* NSString+AESCrypt.h */,
-				C08C2CF11B41AB1C00295A94 /* NSString+AESCrypt.m */,
-			);
-			path = AES;
 			sourceTree = "<group>";
 		};
 		C08C2CF81B41AB1C00295A94 /* Core */ = {
@@ -1370,7 +1352,6 @@
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
-				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
 				9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */,
 				C08C2DCF1B41AB1C00295A94 /* AutoDefaultsRMLObject.m in Sources */,
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,
@@ -1432,7 +1413,6 @@
 				58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */,
 				C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */,
 				C08C2DE11B41AB1C00295A94 /* BaseTableViewCell.m in Sources */,
-				C08C2DBF1B41AB1C00295A94 /* NSData+AESCrypt.m in Sources */,
 				9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */,
 				9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */,
 				C08C2DDF1B41AB1C00295A94 /* BaseSegmentedControl.m in Sources */,
