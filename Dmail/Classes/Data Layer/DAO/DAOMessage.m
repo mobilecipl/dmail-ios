@@ -564,50 +564,33 @@
     [realm commitWriteTransaction];
 }
 
-- (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
+- (void)destroyMessageWithMessageId:(NSString *)messageId {
     
-    self.participantIndex = 0;
-    if (participant) {
-        [self destroWithArrayParticipants:@[participant] messageId:messageId];
-    }
-    else {
-        NSMutableArray *arrayRecipients = [[NSMutableArray alloc] init];
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageId];
-        for (RMModelRecipient *rmRecipient in recipients) {
-            [arrayRecipients addObject:rmRecipient.recipient];
-        }
-        [self destroWithArrayParticipants:arrayRecipients messageId:messageId];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageId];
+    RMModelRecipient *rmRecipient = [recipients firstObject];
+    if (rmRecipient) {
+        [self destroRecipient:rmRecipient.recipient messageId:messageId];
     }
 }
 
-- (void)destroWithArrayParticipants:(NSArray *)arrayParticipants messageId:(NSString *)messageId {
+- (void)destroRecipient:(NSString *)recipient messageId:(NSString *)messageId {
     
-    if ([arrayParticipants count] > 0) {
-        [self.networkMessage revokeUserWithMessageId:messageId email:[arrayParticipants objectAtIndex:self.participantIndex] completionBlock:^(id data, ErrorDataModel *error) {
-            if ([data isEqual:@(YES)]) {
-                RLMRealm *realm = [RLMRealm defaultRealm];
-                RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",[arrayParticipants objectAtIndex:self.participantIndex], messageId];
-                [realm beginWriteTransaction];
-                for (RMModelRecipient *model in results) {
-                    model.access = @"REVOKED";
-                }
-                [realm commitWriteTransaction];
-                
-                self.participantIndex++;
-                if (self.participantIndex > [arrayParticipants count] - 1) {
-                    self.participantIndex = 0;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
-                }
-                else {
-                    [self destroWithArrayParticipants:arrayParticipants messageId:messageId];
-                }
+    [self.networkMessage revokeUserWithMessageId:messageId email:recipient completionBlock:^(id data, ErrorDataModel *error) {
+        if ([data isEqual:@(YES)]) {
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",recipient, messageId];
+            [realm beginWriteTransaction];
+            for (RMModelRecipient *model in results) {
+                model.access = @"REVOKED";
             }
-            else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
-            }
-        }];
-    }
+            [realm commitWriteTransaction];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
+        }
+    }];
 }
 
 - (void)getTemplateWithCompletionBlock:(CompletionBlock)completionBlock {

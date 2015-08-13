@@ -142,9 +142,9 @@
     [self.daoMessage unreadMessageWithMessageId:messageId];
 }
 
-- (void)destroyMessageWithMessageId:(NSString *)messageId participant:(NSString *)participant {
+- (void)destroyMessageWithMessageId:(NSString *)messageId {
     
-    [self.daoMessage destroyMessageWithMessageId:messageId participant:participant];
+    [self.daoMessage destroyMessageWithMessageId:messageId];
 }
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId {

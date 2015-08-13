@@ -50,6 +50,7 @@
 @property (nonatomic, strong) VMSentMessageItem *selectedMessage;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
+@property (nonatomic, strong) VMSentMessageItem *destroyedMessageItem;
 
 @end
 
@@ -156,8 +157,13 @@
 
 - (void)messageDestroyedSuccess {
     
+    [self.arrayMesages removeObject:self.destroyedMessageItem];
+    self.dataSourceInbox.items = self.arrayMesages;
+    [self.tableViewSent reloadData];
+    
     [self hideLoadingView];
     [self showMessageDestroyedSuccess:NO];
+//    [self loadMessages];
 }
 
 - (void)messageDestroyedFailed {
@@ -200,8 +206,8 @@
     
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [self showLoadingView];
-        VMSentMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-        [self.serviceMessage destroyMessageWithMessageId:messageItem.messageId participant:nil];
+        self.destroyedMessageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+        [self.serviceMessage destroyMessageWithMessageId:self.destroyedMessageItem.messageId];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     

@@ -25,10 +25,8 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
 - (void)getEncryptedMessage:(NSString *)messageId recipientEmail:(NSString *)recipientEmail completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-//        NSLog(@"getEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
+            case 200: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -70,9 +68,8 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                                  @"encrypted_message" : encryptedMessage};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"sendEncryptedMessage JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 201: { //Success Response
+            case 201: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -107,9 +104,8 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                                  @"recipient_email" : recipientEmail};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"sendRecipientEmail JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 201: { //Success Response
+            case 201: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -144,9 +140,8 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
     
     NSDictionary *parameters = @{@"recipient_email" : recipientEmail};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"deleteRecipientEmail JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
+            case 200: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -184,9 +179,8 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
                                  @"sender_email" : senderEmail};
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"EmailAlredySent JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
+            case 200: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     if (completionBlock) {
@@ -225,7 +219,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"syncMessages JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
+            case 200: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -265,7 +259,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         NSLog(@"syncMessages JSON: %@", responseObject);
         switch (operation.response.statusCode) {
             case 200:
-            case 201: { //Success Response
+            case 201: {
                 completionBlock(@(YES), nil);
             }
                 break;
@@ -291,7 +285,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
+            case 200: { 
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     if (completionBlock) {
                         completionBlock(responseObject, nil);

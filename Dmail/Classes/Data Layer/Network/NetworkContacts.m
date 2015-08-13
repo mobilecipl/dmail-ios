@@ -32,17 +32,13 @@ static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&ma
     
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-//        NSLog(@"GetContacts JSON: %@", responseObject);
         switch (operation.response.statusCode) {
-            case 200: { //Success Response
-                
+            case 200: {
                 if (completionBlock) {
                     completionBlock(responseObject, nil);
                 }
             }
                 break;
-                
             default: {
                 ErrorDataModel *error = [[ErrorDataModel alloc] init];
                 error.statusCode = @(operation.response.statusCode);
@@ -53,10 +49,7 @@ static NSString * const kUrlGetWithPaging = @"%@/full?alt=json&start-index=%@&ma
     };
     
     NSString *urlRequest = [NSString stringWithFormat:kUrlGetWithPaging, email, startIndex, maxResult, updatedMin];
-    
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
-    
-    
     [self makeGetRequest:urlRequest withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 

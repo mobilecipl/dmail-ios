@@ -195,8 +195,7 @@
     self.fieldTo.dataSource = self;
     [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     self.fieldTo.toLabelText = @"To:";
-//    [self.fieldTo setFieldName:@"To"];
-    self.fieldTo.delimiters = @[@",", @";", @"--"];
+    self.fieldTo.delimiters = @[@",", @";"];
     [self.fieldTo becomeFirstResponder];
     
     self.arrayCc = [NSMutableArray array];
@@ -205,8 +204,7 @@
     self.fieldCc.dataSource = self;
     [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     self.fieldCc.toLabelText = @"Cc:";
-//    [self.fieldCc setFieldName:@"Cc:"];
-    self.fieldCc.delimiters = @[@",", @";", @"--"];
+    self.fieldCc.delimiters = @[@",", @";"];
     
     self.arrayBcc = [NSMutableArray array];
     self.arrayTempBcc = [NSMutableArray array];
@@ -214,8 +212,7 @@
     self.fieldBcc.dataSource = self;
     [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     self.fieldBcc.toLabelText = @"Bcc:";
-//    [self.fieldBcc setFieldName:@"Bcc:"];
-    self.fieldBcc.delimiters = @[@",", @";", @"--"];
+    self.fieldBcc.delimiters = @[@",", @";"];
 }
 
 - (void)keyboardWillShow:(NSNotification*)notification {

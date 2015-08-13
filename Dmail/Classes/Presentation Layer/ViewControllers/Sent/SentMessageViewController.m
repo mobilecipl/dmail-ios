@@ -310,7 +310,7 @@
     
     [alertView close];
     if (buttonIndex == 1) {
-        [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId participant:nil];
+        [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId];
     }
 }
 
