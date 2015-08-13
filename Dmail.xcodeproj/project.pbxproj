@@ -19,10 +19,6 @@
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
 		9C21B8861B46A2780080B132 /* DAOContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8851B46A2780080B132 /* DAOContact.m */; };
 		9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8881B46A2DF0080B132 /* NetworkContacts.m */; };
-		9C2360A71B428B120020B348 /* Dmail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */; };
-		9C2360AD1B428CB50020B348 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AC1B428CB50020B348 /* User.m */; };
-		9C2360B01B428CB50020B348 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360AF1B428CB50020B348 /* Profile.m */; };
-		9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2360B21B428CB50020B348 /* DmailMessage.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
@@ -40,7 +36,6 @@
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
 		9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RMModelProfile.m */; };
-		9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD873681B440BFE0021C44E /* GmailMessage.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
@@ -157,13 +152,6 @@
 		9C21B8851B46A2780080B132 /* DAOContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOContact.m; sourceTree = "<group>"; };
 		9C21B8871B46A2DF0080B132 /* NetworkContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkContacts.h; sourceTree = "<group>"; };
 		9C21B8881B46A2DF0080B132 /* NetworkContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkContacts.m; sourceTree = "<group>"; };
-		9C2360A61B428B120020B348 /* Dmail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dmail.xcdatamodel; sourceTree = "<group>"; };
-		9C2360AB1B428CB50020B348 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		9C2360AC1B428CB50020B348 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		9C2360AE1B428CB50020B348 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
-		9C2360AF1B428CB50020B348 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
-		9C2360B11B428CB50020B348 /* DmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailMessage.h; sourceTree = "<group>"; };
-		9C2360B21B428CB50020B348 /* DmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailMessage.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
 		9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewPlaceHolder.m; sourceTree = "<group>"; };
 		9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -198,8 +186,6 @@
 		9CC2D0F51B46D47E00182C2B /* RMModelContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelContact.m; sourceTree = "<group>"; };
 		9CC2D0F71B46D49400182C2B /* RMModelProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelProfile.h; sourceTree = "<group>"; };
 		9CC2D0F81B46D49400182C2B /* RMModelProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelProfile.m; sourceTree = "<group>"; };
-		9CD873671B440BFE0021C44E /* GmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailMessage.h; sourceTree = "<group>"; };
-		9CD873681B440BFE0021C44E /* GmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailMessage.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfile.h; sourceTree = "<group>"; };
@@ -629,50 +615,9 @@
 			isa = PBXGroup;
 			children = (
 				C00B20D81B4EB42500D892DA /* View Model */,
-				C08C2CC91B41AB1B00295A94 /* Managers */,
 				C08C2CE31B41AB1C00295A94 /* Services */,
 			);
 			path = "Business Layer";
-			sourceTree = "<group>";
-		};
-		C08C2CC91B41AB1B00295A94 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				C08C2CCA1B41AB1B00295A94 /* Data Manager */,
-				C08C2CD91B41AB1C00295A94 /* Dmail Manager */,
-				C08C2CDC1B41AB1C00295A94 /* Gmail Manager */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		C08C2CCA1B41AB1B00295A94 /* Data Manager */ = {
-			isa = PBXGroup;
-			children = (
-				9CD873671B440BFE0021C44E /* GmailMessage.h */,
-				9CD873681B440BFE0021C44E /* GmailMessage.m */,
-				9C2360B11B428CB50020B348 /* DmailMessage.h */,
-				9C2360B21B428CB50020B348 /* DmailMessage.m */,
-				9C2360AE1B428CB50020B348 /* Profile.h */,
-				9C2360AF1B428CB50020B348 /* Profile.m */,
-				9C2360AB1B428CB50020B348 /* User.h */,
-				9C2360AC1B428CB50020B348 /* User.m */,
-				9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */,
-			);
-			path = "Data Manager";
-			sourceTree = "<group>";
-		};
-		C08C2CD91B41AB1C00295A94 /* Dmail Manager */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Dmail Manager";
-			sourceTree = "<group>";
-		};
-		C08C2CDC1B41AB1C00295A94 /* Gmail Manager */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Gmail Manager";
 			sourceTree = "<group>";
 		};
 		C08C2CE31B41AB1C00295A94 /* Services */ = {
@@ -1421,10 +1366,8 @@
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
 				C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */,
 				C08C2DEF1B41AB1C00295A94 /* ComposeModelItem.m in Sources */,
-				9C2360A71B428B120020B348 /* Dmail.xcdatamodeld in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
-				9CD873691B440BFE0021C44E /* GmailMessage.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
 				C08C2DC01B41AB1C00295A94 /* NSString+AESCrypt.m in Sources */,
@@ -1440,7 +1383,6 @@
 				58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */,
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
 				C08C2DCE1B41AB1C00295A94 /* ReachabilityManager.m in Sources */,
-				9C2360B01B428CB50020B348 /* Profile.m in Sources */,
 				C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */,
 				C08C2DF81B41AB1C00295A94 /* InboxViewController.m in Sources */,
 				C08C2DC41B41AB1C00295A94 /* BaseDAO.m in Sources */,
@@ -1474,13 +1416,11 @@
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
-				9C2360B31B428CB50020B348 /* DmailMessage.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,
 				C08C2DDA1B41AB1C00295A94 /* BaseImageView.m in Sources */,
 				C08C2DC71B41AB1C00295A94 /* SuccessDataModel.m in Sources */,
 				9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */,
 				58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */,
-				9C2360AD1B428CB50020B348 /* User.m in Sources */,
 				C05C0CD21B42E0D800248B91 /* DAOMessage.m in Sources */,
 				58CFBBA71B4BCC79005DA506 /* NetworkGmailMessage.m in Sources */,
 				C08C2DDD1B41AB1C00295A94 /* BaseScrollView.m in Sources */,
@@ -1634,7 +1574,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Debug;
 		};
@@ -1655,7 +1595,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Release;
 		};
@@ -1726,19 +1666,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		9C2360A51B428B120020B348 /* Dmail.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				9C2360A61B428B120020B348 /* Dmail.xcdatamodel */,
-			);
-			currentVersion = 9C2360A61B428B120020B348 /* Dmail.xcdatamodel */;
-			path = Dmail.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 9C9E2AEA1B2AEB64008F3C8E /* Project object */;
 }
