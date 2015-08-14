@@ -33,11 +33,12 @@
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UIView *viewRecipients;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
+@property (nonatomic, weak) IBOutlet UIView *viewSecure;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitTopCc;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitTopBcc;
-
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeightMessageBody;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
 @property (nonatomic, weak) IBOutlet UIWebView *webViewDecryption;
@@ -47,12 +48,11 @@
 @property (nonatomic, strong) NSArray *arrayBcc;
 @property (nonatomic, strong) NSString *encryptedMessage;
 @property (nonatomic, strong) NSString *clientKey;
-
 @property (nonatomic, strong) NSString *revokedEmail;
 @property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
-
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) VMSentMessage *modelMessage;
+@property (nonatomic, assign) CGFloat heightMessageBodyView;
 
 @end
 
@@ -62,7 +62,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
         _serviceMessage = [[ServiceMessage alloc] init];
     }
     return self;
@@ -94,7 +93,14 @@
     
     [super viewDidAppear:animated];
     
-    [self setupScrollView];
+    CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
+    if (bodyHeight > self.textViewBody.frame.size.height) {
+        self.constraitHeightMessageBody.constant = self.textViewBody.frame.size.height + bodyHeight;
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height + (bodyHeight - self.constraitHeightMessageBody.constant));
+    }
+    else {
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height);
+    }
 }
 
 
@@ -226,11 +232,6 @@
     [self hideLoadingView];
 }
 
-- (void)setupScrollView {
-    
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height);
-}
-
 - (void)setupUI {
     
     if ([self.arrayCc count] > 0 && [self.arrayBcc count] == 0) {
@@ -253,6 +254,8 @@
         self.fieldBcc.alpha = 1;
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 1200);
     }
+    
+    self.heightMessageBodyView = self.viewMessageBody.frame.size.height;
 }
 
 - (void)setupController {
@@ -267,11 +270,22 @@
     self.viewMessageBody.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     self.viewMessageBody.layer.borderWidth = 1;
     
+    self.viewSecure.layer.masksToBounds = YES;
+    self.viewSecure.layer.cornerRadius = 5;
+    self.viewSecure.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewSecure.layer.borderWidth = 1;
+    
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
 }
 
+- (CGFloat)textHeightWithText:(NSString *)text width:(CGFloat)width fontName:(NSString *)fontName fontSize:(CGFloat)fontSize {
+    
+    NSDictionary *headerAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:fontName size:fontSize], NSFontAttributeName, nil];
+    CGRect textSize = [text boundingRectWithSize:CGSizeMake(width,CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:headerAttributes context:nil];
+    return textSize.size.height;
+}
 
 #pragma mark - VENTokenFieldDelegate
 - (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
@@ -337,8 +351,16 @@
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
 
+//    CGRect frame = self.viewMessageBody.frame;
+//    frame.size.height = self.heightMessageBodyView + scrollView.contentOffset.y;
+//    self.viewMessageBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.heightMessageBodyView + scrollView.contentOffset.y);
+//    [self.view layoutIfNeeded];
+//    self.constraitHeightMessageBody.constant = self.viewMessageBody.frame.size.height + scrollView.contentOffset.y;
+//    [self.viewMessageBody layoutIfNeeded];
+//    NSLog(@"self.viewMessageBody.frame === %f", self.viewMessageBody.frame.size.height);
+//    NSLog(@"CONSTRAINT === %f", self.constraitHeightMessageBody.constant);
+    self.constraitHeightMessageBody.constant += scrollView.contentOffset.y;
 }
 
 
