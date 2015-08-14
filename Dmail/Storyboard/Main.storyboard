@@ -1600,7 +1600,7 @@ Label</string>
                                             <constraint firstItem="r6V-QC-YVj" firstAttribute="top" secondItem="Ov7-Et-dxz" secondAttribute="bottom" id="G05-1c-Otd"/>
                                             <constraint firstAttribute="trailing" secondItem="r6V-QC-YVj" secondAttribute="trailing" id="M3N-FD-azw"/>
                                             <constraint firstItem="r6V-QC-YVj" firstAttribute="leading" secondItem="kgN-TX-FwK" secondAttribute="leading" id="Tew-XI-X1d"/>
-                                            <constraint firstAttribute="bottom" secondItem="34x-pb-Iu8" secondAttribute="bottom" priority="750" constant="-12" id="cOY-RF-NUT"/>
+                                            <constraint firstAttribute="bottom" secondItem="34x-pb-Iu8" secondAttribute="bottom" priority="250" constant="-12" id="cOY-RF-NUT"/>
                                             <constraint firstAttribute="trailing" secondItem="34x-pb-Iu8" secondAttribute="trailing" constant="10" id="cbP-av-D1x"/>
                                             <constraint firstItem="Ov7-Et-dxz" firstAttribute="leading" secondItem="kgN-TX-FwK" secondAttribute="leading" id="nC2-lE-H5n"/>
                                             <constraint firstItem="Ov7-Et-dxz" firstAttribute="top" secondItem="kgN-TX-FwK" secondAttribute="top" id="qsZ-jU-1WI"/>
@@ -1711,6 +1711,7 @@ Label</string>
                         <outlet property="scrollView" destination="Jrr-PY-Xh9" id="CsK-h1-j9C"/>
                         <outlet property="textViewBody" destination="0qZ-Wo-73i" id="zhg-gg-rhH"/>
                         <outlet property="viewMessageBody" destination="34x-pb-Iu8" id="XTm-VE-W7X"/>
+                        <outlet property="viewMessageSubject" destination="r6V-QC-YVj" id="Qem-fc-RKg"/>
                         <outlet property="viewNavigation" destination="qTV-KJ-4cp" id="0DI-Md-aa4"/>
                         <outlet property="viewRecipients" destination="Ov7-Et-dxz" id="OYf-2Q-cqz"/>
                         <outlet property="viewSecure" destination="l4e-8g-3sn" id="LQS-H7-5Xl"/>

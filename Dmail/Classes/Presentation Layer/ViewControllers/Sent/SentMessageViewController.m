@@ -32,6 +32,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
 @property (nonatomic, weak) IBOutlet UIView *viewRecipients;
+@property (nonatomic, weak) IBOutlet UIView *viewMessageSubject;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
@@ -78,7 +79,7 @@
         [self loadData];
         [self fillFields];
         [self setupController];
-        [self setupUI];
+        [self setupConstraits];
     }
 }
 
@@ -93,14 +94,7 @@
     
     [super viewDidAppear:animated];
     
-    CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
-    if (bodyHeight > self.textViewBody.frame.size.height) {
-        self.constraitHeightMessageBody.constant = self.textViewBody.frame.size.height + bodyHeight;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height + (bodyHeight - self.constraitHeightMessageBody.constant));
-    }
-    else {
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height);
-    }
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.constraitHeightMessageBody.constant + self.viewRecipients.frame.size.height + self.viewMessageSubject.frame.size.height);
 }
 
 
@@ -171,7 +165,6 @@
     
     self.arrayCc = [NSMutableArray array];
     self.arrayCc = self.modelMessage.arrayCc;
-//    self.arrayCc = @[@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa"];
     if([self.arrayCc count] > 0) {
         self.fieldCc.forInboxOrSent = YES;
         self.fieldCc.delegate = self;
@@ -185,7 +178,6 @@
     
     self.arrayBcc = [NSMutableArray array];
     self.arrayBcc = self.modelMessage.arrayBcc;
-//    self.arrayBcc = @[@"bbbbb"];
     if([self.arrayBcc count] > 0) {
         self.fieldBcc.forInboxOrSent = YES;
         self.fieldBcc.delegate = self;
@@ -201,7 +193,6 @@
 - (void)fillFields {
     
     self.labelSubject.text = self.modelMessage.messageSubject;
-//    self.labelSubject.text = @"Message Message Message Message MessageMessageMessage Message Message Message Message MessageMessage";
     
     if (!self.modelMessage.body) {
         [self showLoadingView];
@@ -209,6 +200,10 @@
     }
     else {
         self.textViewBody.text = self.modelMessage.body;
+    }
+    CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
+    if (bodyHeight > self.constraitHeightMessageBody.constant) {
+        self.constraitHeightMessageBody.constant = bodyHeight + 70;
     }
     
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
@@ -232,7 +227,7 @@
     [self hideLoadingView];
 }
 
-- (void)setupUI {
+- (void)setupConstraits {
     
     if ([self.arrayCc count] > 0 && [self.arrayBcc count] == 0) {
         self.constraitHeight.constant = 120;
@@ -352,15 +347,9 @@
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-//    CGRect frame = self.viewMessageBody.frame;
-//    frame.size.height = self.heightMessageBodyView + scrollView.contentOffset.y;
-//    self.viewMessageBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.heightMessageBodyView + scrollView.contentOffset.y);
-//    [self.view layoutIfNeeded];
-//    self.constraitHeightMessageBody.constant = self.viewMessageBody.frame.size.height + scrollView.contentOffset.y;
-//    [self.viewMessageBody layoutIfNeeded];
-//    NSLog(@"self.viewMessageBody.frame === %f", self.viewMessageBody.frame.size.height);
-//    NSLog(@"CONSTRAINT === %f", self.constraitHeightMessageBody.constant);
-    self.constraitHeightMessageBody.constant += scrollView.contentOffset.y;
+    if (scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height) {
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height);
+    }
 }
 
 
