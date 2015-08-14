@@ -25,16 +25,18 @@
 
 @interface SentMessageViewController () <CustomAlertViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource>
 
-
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldTo;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldCc;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldBcc;
-@property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
+@property (nonatomic, weak) IBOutlet UILabel *labelSubject;
 @property (nonatomic, weak) IBOutlet UITextView *textViewBody;
+@property (nonatomic, weak) IBOutlet UIView *viewRecipients;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitBetweenCcAndSubject;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitTopCc;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitTopBcc;
 
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
@@ -72,8 +74,13 @@
     
     [super viewDidLoad];
     
-    [self loadData];
-    [self setupController];
+    if (self.messageId) {
+        self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
+        [self loadData];
+        [self fillFields];
+        [self setupController];
+        [self setupUI];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,6 +88,13 @@
     [super viewWillAppear:animated];
     
     [self registerNotifications];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [self setupScrollView];
 }
 
 
@@ -136,81 +150,68 @@
 
 - (void)loadData {
     
-    if (self.messageId) {
-        self.modelMessage = [self.serviceMessage getSentMessageWithMessageId:self.messageId];
-        
-        self.arrayTo = [NSMutableArray array];
-        self.arrayTo = self.modelMessage.arrayTo;
-        if([self.arrayTo count] > 0) {
-            self.fieldTo.forInboxOrSent = YES;
-            self.fieldTo.delegate = self;
-            self.fieldTo.dataSource = self;
-            [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            self.fieldTo.toLabelText = @"To:";
-            for (NSString *string in self.arrayTo) {
-                [self.fieldTo addTokenWithString:string];
-            }
+    self.arrayTo = [NSMutableArray array];
+    self.arrayTo = self.modelMessage.arrayTo;
+    if([self.arrayTo count] > 0) {
+        self.fieldTo.forInboxOrSent = YES;
+        self.fieldTo.delegate = self;
+        self.fieldTo.dataSource = self;
+        [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+        self.fieldTo.toLabelText = @"To:";
+        for (NSString *string in self.arrayTo) {
+            [self.fieldTo addTokenWithString:string];
         }
-        
-        self.arrayCc = [NSMutableArray array];
-        self.arrayCc = self.modelMessage.arrayCc;
-        if([self.arrayCc count] > 0) {
-            self.fieldCc.forInboxOrSent = YES;
-            self.fieldCc.delegate = self;
-            self.fieldCc.dataSource = self;
-            [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            self.fieldCc.toLabelText = @"Cc:";
-            for (NSString *string in self.arrayCc) {
-                [self.fieldCc addTokenWithString:string];
-            }
+    }
+    
+    self.arrayCc = [NSMutableArray array];
+    self.arrayCc = self.modelMessage.arrayCc;
+//    self.arrayCc = @[@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa",@"aaaaaaa"];
+    if([self.arrayCc count] > 0) {
+        self.fieldCc.forInboxOrSent = YES;
+        self.fieldCc.delegate = self;
+        self.fieldCc.dataSource = self;
+        [self.fieldCc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+        self.fieldCc.toLabelText = @"Cc:";
+        for (NSString *string in self.arrayCc) {
+            [self.fieldCc addTokenWithString:string];
         }
-        
-        self.arrayBcc = [NSMutableArray array];
-        self.arrayBcc = self.modelMessage.arrayBcc;
-        if([self.arrayBcc count] > 0) {
-            self.fieldBcc.forInboxOrSent = YES;
-            self.fieldBcc.delegate = self;
-            self.fieldBcc.dataSource = self;
-            [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
-            self.fieldBcc.toLabelText = @"Bcc:";
-            for (NSString *string in self.arrayBcc) {
-                [self.fieldBcc addTokenWithString:string];
-            }
+    }
+    
+    self.arrayBcc = [NSMutableArray array];
+    self.arrayBcc = self.modelMessage.arrayBcc;
+//    self.arrayBcc = @[@"bbbbb"];
+    if([self.arrayBcc count] > 0) {
+        self.fieldBcc.forInboxOrSent = YES;
+        self.fieldBcc.delegate = self;
+        self.fieldBcc.dataSource = self;
+        [self.fieldBcc setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+        self.fieldBcc.toLabelText = @"Bcc:";
+        for (NSString *string in self.arrayBcc) {
+            [self.fieldBcc addTokenWithString:string];
         }
-        
-        if ([self.arrayCc count] > 0 && [self.arrayBcc count] == 0) {
-            self.constraitHeight.constant = 161;
-            self.constraitBetweenCcAndSubject.constant = 41;
-            self.fieldCc.alpha = 1;
-        }
-        else if ([self.arrayBcc count] > 0 && [self.arrayCc count] == 0) {
-            self.constraitHeight.constant = 161;
-            self.fieldBcc.alpha = 1;
-        }
-        else if ([self.arrayCc count] > 0 && [self.arrayBcc count] > 0){
-            self.constraitHeight.constant = 221;
-            self.fieldCc.alpha = 1;
-            self.fieldBcc.alpha = 1;
-        }
-        
-        self.textFieldSubject.text = self.modelMessage.messageSubject;
-        
-        if (!self.modelMessage.body) {
-            [self showLoadingView];
-            [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
-        }
-        else {
-            self.textViewBody.text = self.modelMessage.body;
-        }
-        
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
-        NSInteger days = [[NSDate date] daysFrom:date];
-        if (days > 30) {
-            self.labelTime.text = [NSString stringWithFormat:@"%ldw",(long)days/7];
-        }
-        else {
-            self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
-        }
+    }
+}
+
+- (void)fillFields {
+    
+    self.labelSubject.text = self.modelMessage.messageSubject;
+//    self.labelSubject.text = @"Message Message Message Message MessageMessageMessage Message Message Message Message MessageMessage";
+    
+    if (!self.modelMessage.body) {
+        [self showLoadingView];
+        [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
+    }
+    else {
+        self.textViewBody.text = self.modelMessage.body;
+    }
+    
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:self.modelMessage.internalDate/1000];
+    NSInteger days = [[NSDate date] daysFrom:date];
+    if (days > 30) {
+        self.labelTime.text = [NSString stringWithFormat:@"%ldw",(long)days/7];
+    }
+    else {
+        self.labelTime.text = [NSDate shortTimeAgoSinceDate:date];
     }
 }
 
@@ -223,6 +224,35 @@
 - (void)revokeFailed {
     
     [self hideLoadingView];
+}
+
+- (void)setupScrollView {
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + self.viewRecipients.frame.size.height);
+}
+
+- (void)setupUI {
+    
+    if ([self.arrayCc count] > 0 && [self.arrayBcc count] == 0) {
+        self.constraitHeight.constant = 120;
+        self.constraitTopCc.constant = 60;
+        self.fieldCc.alpha = 1;
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 60);
+    }
+    else if ([self.arrayBcc count] > 0 && [self.arrayCc count] == 0) {
+        self.constraitHeight.constant = 120;
+        self.constraitTopBcc.constant = 60;
+        self.fieldBcc.alpha = 1;
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 60);
+    }
+    else if ([self.arrayCc count] > 0 && [self.arrayBcc count] > 0){
+        self.constraitHeight.constant = 180;
+        self.constraitTopCc.constant = 60;
+        self.constraitTopBcc.constant = 120;
+        self.fieldCc.alpha = 1;
+        self.fieldBcc.alpha = 1;
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 1200);
+    }
 }
 
 - (void)setupController {
@@ -302,6 +332,13 @@
     }
     
     return nil;
+}
+
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+
 }
 
 
