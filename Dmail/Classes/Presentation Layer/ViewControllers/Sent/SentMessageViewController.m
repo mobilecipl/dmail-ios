@@ -53,7 +53,6 @@
 @property (nonatomic, strong) NSMutableArray *arrayAllParticipants;
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) VMSentMessage *modelMessage;
-@property (nonatomic, assign) CGFloat heightMessageBodyView;
 
 @end
 
@@ -233,13 +232,11 @@
         self.constraitHeight.constant = 120;
         self.constraitTopCc.constant = 60;
         self.fieldCc.alpha = 1;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 60);
     }
     else if ([self.arrayBcc count] > 0 && [self.arrayCc count] == 0) {
         self.constraitHeight.constant = 120;
         self.constraitTopBcc.constant = 60;
         self.fieldBcc.alpha = 1;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 60);
     }
     else if ([self.arrayCc count] > 0 && [self.arrayBcc count] > 0){
         self.constraitHeight.constant = 180;
@@ -247,10 +244,7 @@
         self.constraitTopBcc.constant = 120;
         self.fieldCc.alpha = 1;
         self.fieldBcc.alpha = 1;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height + 1200);
     }
-    
-    self.heightMessageBodyView = self.viewMessageBody.frame.size.height;
 }
 
 - (void)setupController {
