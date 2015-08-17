@@ -23,7 +23,8 @@
 @interface InboxMessageViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *viewNavigation;
-@property (nonatomic, weak) IBOutlet UIView *viewContainer;
+@property (nonatomic, weak) IBOutlet UIView *viewMessageBody;
+@property (nonatomic, weak) IBOutlet UIView *viewSecure;
 @property (nonatomic, weak) IBOutlet UILabel *labelSenderName;
 @property (nonatomic, weak) IBOutlet UILabel *labelMessageSubject;
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
@@ -108,9 +109,14 @@
     self.viewNavigation.layer.shadowRadius = 0.5;
     self.viewNavigation.layer.shadowOffset = CGSizeMake(0, 1);
     
-    self.viewContainer.layer.cornerRadius = 5;
-    self.viewContainer.layer.borderColor = [[UIColor borderColor] CGColor];
-    self.viewContainer.layer.borderWidth = 1;
+    self.viewMessageBody.layer.cornerRadius = 5;
+    self.viewMessageBody.layer.borderColor = [[UIColor borderColor] CGColor];
+    self.viewMessageBody.layer.borderWidth = 1;
+    
+    self.viewSecure.layer.masksToBounds = YES;
+    self.viewSecure.layer.cornerRadius = 5;
+    self.viewSecure.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewSecure.layer.borderWidth = 1;
     
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
