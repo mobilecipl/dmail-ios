@@ -140,11 +140,6 @@
         self.labelSenderName.text = modelMessage.senderName;
         self.labelTime.text = modelMessage.messageDate;
         [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:modelMessage.imageUrl]];
-        CGFloat profileNameWidth = [self textWidthWithText:modelMessage.senderName height:self.labelSenderName.frame.size.height fontName:@"ProximaNova-Regular" fontSize:12];
-        CGFloat profileImageAndNameWidth = self.imageViewProfile.frame.size.width + profileNameWidth + 5;
-        CGFloat imageOryginX = ([UIScreen mainScreen].bounds.size.width - profileImageAndNameWidth)/2;
-        self.imageViewProfile.frame = CGRectMake(imageOryginX, self.imageViewProfile.frame.origin.y, self.imageViewProfile.frame.size.width, self.imageViewProfile.frame.size.height);
-        self.labelSenderName.frame = CGRectMake(self.imageViewProfile.frame.origin.x + self.imageViewProfile.frame.size.width + 5, self.labelSenderName.frame.origin.y, profileNameWidth, self.labelSenderName.frame.size.height);
         if (!modelMessage.body) {
             [self showLoadingView];
             [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];

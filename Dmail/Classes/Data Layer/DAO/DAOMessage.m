@@ -401,7 +401,6 @@
     ModelMessage *modelMessage = [self getMessageWithMessageId:messageId];
     if (model) {
         [self.networkMessage getEncryptedMessage:messageId recipientEmail:model.email completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
-            NSLog(@"%@", data);
             self.encryptedMessage = data[@"encrypted_message"];
             self.encryption = NO;
             self.publicKey = modelMessage.publicKey;
