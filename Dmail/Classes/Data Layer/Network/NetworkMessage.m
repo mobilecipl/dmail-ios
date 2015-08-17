@@ -29,14 +29,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
             case 200: {
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
                     //TODO:
-                    if (completionBlock) {
-                        completionBlock(responseObject, nil);
-                    }
-                    else {
-                        
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
-                    }
+                    completionBlock(responseObject, nil);
                 } else {
                     
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];
@@ -287,13 +280,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         switch (operation.response.statusCode) {
             case 200: { 
                 if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                    if (completionBlock) {
-                        completionBlock(responseObject, nil);
-                    }
-                    else {
-                        ErrorDataModel *error = [[ErrorDataModel alloc] initWithDictionary:responseObject];
-                        completionBlock(nil, error);
-                    }
+                    completionBlock(responseObject, nil);
                 }
                 else {
                     ErrorDataModel *error = [[ErrorDataModel alloc] init];
