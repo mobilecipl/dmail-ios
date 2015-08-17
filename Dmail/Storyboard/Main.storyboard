@@ -487,7 +487,7 @@
                                                 <color key="textColor" red="0.47058823529411764" green="0.51764705882352935" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have hinted that I would often jerk poor Queequeg from between the whale and the ship." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8b4-Xo-yyq">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have hinted that I would often jerk poor Queequeg from between the whale and the ship." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="337" translatesAutoresizingMaskIntoConstraints="NO" id="8b4-Xo-yyq">
                                                 <rect key="frame" x="19" y="316" width="337" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="39" id="NNh-by-ib7"/>
@@ -793,7 +793,7 @@
                                     <constraint firstAttribute="width" constant="100" id="nKV-7k-fbE"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Self-Destructing Email Finally, email has a delete button" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuU-hf-ghK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Self-Destructing Email Finally, email has a delete button" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="tuU-hf-ghK">
                                 <rect key="frame" x="62" y="220" width="250" height="61"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="VDG-OX-RC2"/>
@@ -850,9 +850,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAi-n8-DQr">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAi-n8-DQr">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="90L-V1-SeJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egd-Of-sFR" userLabel="View:1">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
@@ -892,7 +896,7 @@
                                                     <constraint firstAttribute="width" constant="100" id="GZb-Yo-gCW"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3R-v4-Ui4">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="330" translatesAutoresizingMaskIntoConstraints="NO" id="f3R-v4-Ui4">
                                                 <rect key="frame" x="22" y="436" width="330" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="90" id="dVf-XH-hRp"/>
@@ -977,7 +981,7 @@
                                                     <constraint firstAttribute="width" constant="100" id="Tb9-FO-R1y"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1q-Ri-3pU">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="325" translatesAutoresizingMaskIntoConstraints="NO" id="s1q-Ri-3pU">
                                                 <rect key="frame" x="25" y="432" width="325" height="110"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="110" id="ljw-qc-qCt"/>
@@ -1057,7 +1061,7 @@
                                                     <constraint firstAttribute="width" constant="100" id="go5-AY-crj"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imk-KH-duh">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="349" translatesAutoresizingMaskIntoConstraints="NO" id="Imk-KH-duh">
                                                 <rect key="frame" x="13" y="418" width="349" height="89"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="89" id="HyN-HI-8yp"/>
@@ -1113,15 +1117,21 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="6Hk-qj-2Ni" secondAttribute="bottom" id="4W2-DG-zOE"/>
+                                    <constraint firstAttribute="centerX" secondItem="90L-V1-SeJ" secondAttribute="centerX" id="5dz-1y-doS"/>
+                                    <constraint firstAttribute="centerY" secondItem="90L-V1-SeJ" secondAttribute="centerY" id="ATO-wf-41b"/>
                                     <constraint firstItem="6Hk-qj-2Ni" firstAttribute="top" secondItem="rAi-n8-DQr" secondAttribute="top" id="WIT-da-NRS"/>
                                     <constraint firstItem="egd-Of-sFR" firstAttribute="top" secondItem="rAi-n8-DQr" secondAttribute="top" id="WOb-7F-LMx"/>
                                     <constraint firstItem="YQb-sJ-alv" firstAttribute="top" secondItem="rAi-n8-DQr" secondAttribute="top" id="XUO-Uc-GzK"/>
                                     <constraint firstAttribute="bottom" secondItem="egd-Of-sFR" secondAttribute="bottom" id="ZfZ-Ie-lxb"/>
+                                    <constraint firstAttribute="trailing" secondItem="90L-V1-SeJ" secondAttribute="trailing" id="dol-Dz-yPz"/>
                                     <constraint firstItem="6Hk-qj-2Ni" firstAttribute="leading" secondItem="YQb-sJ-alv" secondAttribute="trailing" id="eGu-Ii-BdY"/>
                                     <constraint firstItem="6Hk-qj-2Ni" firstAttribute="leading" secondItem="YQb-sJ-alv" secondAttribute="trailing" id="fz9-9g-Kja"/>
+                                    <constraint firstItem="90L-V1-SeJ" firstAttribute="top" secondItem="rAi-n8-DQr" secondAttribute="top" id="gHT-cU-vEe"/>
                                     <constraint firstItem="YQb-sJ-alv" firstAttribute="leading" secondItem="egd-Of-sFR" secondAttribute="trailing" id="iza-y3-CxO"/>
                                     <constraint firstAttribute="bottom" secondItem="YQb-sJ-alv" secondAttribute="bottom" id="n13-d0-jQ7"/>
                                     <constraint firstItem="egd-Of-sFR" firstAttribute="leading" secondItem="rAi-n8-DQr" secondAttribute="leading" id="osT-oB-Z1J"/>
+                                    <constraint firstItem="90L-V1-SeJ" firstAttribute="leading" secondItem="rAi-n8-DQr" secondAttribute="leading" id="qXL-Z7-R3O"/>
+                                    <constraint firstAttribute="bottom" secondItem="90L-V1-SeJ" secondAttribute="bottom" id="sYu-py-5jU"/>
                                     <constraint firstItem="YQb-sJ-alv" firstAttribute="leading" secondItem="egd-Of-sFR" secondAttribute="trailing" id="uDo-ib-SJB"/>
                                 </constraints>
                                 <connections>
@@ -1277,7 +1287,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83u-v1-OT0" userLabel="View:Subject">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-HR-ca4" userLabel="Subject">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="312" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-HR-ca4" userLabel="Subject">
                                                         <rect key="frame" x="9" y="14" width="312" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="9kC-Dm-g1v"/>
@@ -1596,7 +1606,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6V-QC-YVj" userLabel="View: Subject">
                                                 <rect key="frame" x="0.0" y="60" width="375" height="56"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3AO-tC-rQx" userLabel="Subject">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="308" translatesAutoresizingMaskIntoConstraints="NO" id="3AO-tC-rQx" userLabel="Subject">
                                                         <rect key="frame" x="10" y="0.0" width="308" height="45"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="1IG-Mr-qzr"/>
@@ -2188,7 +2198,7 @@ Label</string>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYS-lp-grK" userLabel="Main : View">
                                                             <rect key="frame" x="0.0" y="2" width="375" height="74"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Karen Petrosyan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxS-eI-l0Y" userLabel="Name : Label">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Karen Petrosyan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="87" translatesAutoresizingMaskIntoConstraints="NO" id="zxS-eI-l0Y" userLabel="Name : Label">
                                                                     <rect key="frame" x="15" y="16" width="87" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="9Th-4i-4N3"/>
@@ -2207,7 +2217,7 @@ Label</string>
                                                                     <color key="textColor" red="0.75294117650000003" green="0.78039215689999997" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E2-r4-OyH">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="352" translatesAutoresizingMaskIntoConstraints="NO" id="1E2-r4-OyH">
                                                                     <rect key="frame" x="15" y="32" width="352" height="38"/>
                                                                     <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
                                                                     <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -2346,7 +2356,7 @@ Label</string>
     <inferredMetricsTieBreakers>
         <segue reference="bzl-GS-gvY"/>
         <segue reference="SlQ-En-DJs"/>
-        <segue reference="hho-Yr-fmt"/>
+        <segue reference="msd-Ig-8Lo"/>
         <segue reference="AiN-2U-mFT"/>
         <segue reference="VKg-LO-uwx"/>
     </inferredMetricsTieBreakers>
