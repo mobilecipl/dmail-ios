@@ -24,12 +24,14 @@
 @implementation AppDelegate
 
 
+#pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [Fabric with:@[CrashlyticsKit]];
 
     //Realm
     [self realmMigration];
+    //Google
     [self setupGoogleSignIn];
     
     return YES;
@@ -78,7 +80,7 @@
 - (void)setupGoogleSignIn {
     
     [GIDSignIn sharedInstance].clientID = kGoogleClientID;
-    [[GIDSignIn sharedInstance] setScopes:[NSArray arrayWithObject:@"https://mail.google.com/"]];
+    [[GIDSignIn sharedInstance] setScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]];
 }
 
 @end

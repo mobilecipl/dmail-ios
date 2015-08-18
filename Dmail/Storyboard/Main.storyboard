@@ -1433,7 +1433,6 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonReplayClicked:" destination="y8g-Vk-ppM" eventType="touchUpInside" id="Xz3-J5-ftU"/>
                                             <segue destination="zbx-z7-Gyx" kind="push" identifier="fromInboxViewToCompose" id="VKg-LO-uwx"/>
                                         </connections>
                                     </button>
