@@ -352,7 +352,7 @@
     
     [alertView close];
     if (buttonIndex == 1) {
-        [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId];
+        [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId fromSentList:NO];
     }
 }
 

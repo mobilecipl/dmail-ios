@@ -72,13 +72,13 @@
     
     [self setupController];
     [self setupTableView];
+    [self registerNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
-    [self registerNotifications];
     [self loadMessages];
 }
 
@@ -92,6 +92,7 @@
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationDestroyFromSentViewSuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedSuccess) name:NotificationDestroySuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedFailed) name:NotificationDestroyFailed object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
@@ -201,7 +202,7 @@
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [self showLoadingView];
         self.destroyedMessageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-        [self.serviceMessage destroyMessageWithMessageId:self.destroyedMessageItem.messageId];
+        [self.serviceMessage destroyMessageWithMessageId:self.destroyedMessageItem.messageId fromSentList:YES];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     

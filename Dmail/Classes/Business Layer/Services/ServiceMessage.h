@@ -42,7 +42,7 @@
 
 - (void)unreadMessageWithMessageId:(NSString *)messageId;
 
-- (void)destroyMessageWithMessageId:(NSString *)messageId;
+- (void)destroyMessageWithMessageId:(NSString *)messageId fromSentList:(BOOL)fromSentList;
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 

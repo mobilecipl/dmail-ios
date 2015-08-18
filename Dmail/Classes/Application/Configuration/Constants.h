@@ -26,6 +26,7 @@ static NSString * const NotificationNewMessageSentError = @"NotificationNewMessa
 static NSString * const NotificationGMailUniqueFetched = @"NotificationGMailUniqueFetched";
 static NSString * const NotificationGMailMessageFetched = @"NotificationGMailMessageFetched";
 static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
+static NSString * const NotificationDestroyFromSentViewSuccess = @"NotificationDestroyFromSentViewSuccess";
 static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
 static NSString * const NotificationRevokeSuccess = @"NotificationRevokeSuccess";
 static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";

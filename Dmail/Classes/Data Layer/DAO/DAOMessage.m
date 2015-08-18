@@ -563,17 +563,17 @@
     [realm commitWriteTransaction];
 }
 
-- (void)destroyMessageWithMessageId:(NSString *)messageId {
+- (void)destroyMessageWithMessageId:(NSString *)messageId fromSentList:(BOOL)fromSentList {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageId];
     RMModelRecipient *rmRecipient = [recipients firstObject];
     if (rmRecipient) {
-        [self destroRecipient:rmRecipient.recipient messageId:messageId];
+        [self destroRecipient:rmRecipient.recipient messageId:messageId fromSentList:fromSentList];
     }
 }
 
-- (void)destroRecipient:(NSString *)recipient messageId:(NSString *)messageId {
+- (void)destroRecipient:(NSString *)recipient messageId:(NSString *)messageId fromSentList:(BOOL)fromSentList{
     
     [self.networkMessage revokeUserWithMessageId:messageId email:recipient completionBlock:^(id data, ErrorDataModel *error) {
         if ([data isEqual:@(YES)]) {
@@ -584,7 +584,12 @@
                 model.access = @"REVOKED";
             }
             [realm commitWriteTransaction];
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
+            if (fromSentList) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
+            }
+            else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFromSentViewSuccess object:nil];
+            }
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];
