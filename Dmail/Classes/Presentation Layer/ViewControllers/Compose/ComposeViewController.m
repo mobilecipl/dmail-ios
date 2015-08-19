@@ -523,7 +523,9 @@
     }
     else {
         if ([text isEqualToString:@""]) {
-            self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
+            if (self.messagebody.length > 0) {
+                self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
+            }
         }
         else {
             self.messagebody = [self.messagebody stringByAppendingString:text];

@@ -163,7 +163,6 @@ NSInteger const panelRightSlightLimit = 100;
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         UIView *cell = [gestureRecognizer view];
         CGPoint translation = [gestureRecognizer translationInView:[cell superview]];
-        
         if (fabs(translation.x) > fabs(translation.y)) {
             return YES;
         }

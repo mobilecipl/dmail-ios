@@ -87,7 +87,7 @@
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationNewMessageFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGmailMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuOpened) name:NotificationMenuOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuClosed) name:NotificationMenuClosed object:nil];
@@ -143,7 +143,7 @@
     };
     
     self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:InboxCellIdentifier configureCellBlock:configureCell];
-    
+    self.dataSourceInbox.editing = NO;
     self.dataSourceInbox.delegate = self;
     self.tableViewInbox.allowsMultipleSelectionDuringEditing = NO;
     
@@ -167,6 +167,59 @@
         [self.tableViewInbox reloadData];
     }
     [self hideLoadingView];
+}
+
+- (void)messageFetchedFromGmail {
+    
+    self.viewInboxZero.hidden = YES;
+    NSArray *arrayNewMessages = [self.serviceMessage getInboxMessages];
+    for (VMInboxMessageItem *item in arrayNewMessages) {
+        NSLog(@"++++++++++ item.messageSubject +++++++++++ %@", item.messageSubject);
+    }
+    
+    NSMutableArray *arrayIds = [[NSMutableArray alloc] init];
+    for (VMInboxMessageItem *item in self.arrayMesages) {
+        NSLog(@"---------- item.messageSubject ---------- %@", item.messageSubject);
+        [arrayIds addObject:item.messageId];
+    }
+    
+    
+    if ([arrayNewMessages count] > 0) {
+        if ([arrayNewMessages count] > [self.arrayMesages count]) {
+            for (NSInteger i = 0; i < [arrayNewMessages count]; i++) {
+                VMInboxMessageItem *messageItem = [arrayNewMessages objectAtIndex:i];
+                if (![arrayIds containsObject:messageItem.messageId]) {
+                    NSLog(@"messageItem.messageSubject ===== %@", messageItem.messageSubject);
+                    [self.arrayMesages insertObject:messageItem atIndex:i];
+                    self.dataSourceInbox.items = self.arrayMesages;
+                    NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                    [self.tableViewInbox beginUpdates];
+                    [self.tableViewInbox insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+                    [self.tableViewInbox endUpdates];
+                    break;
+                }
+//                BOOL objectExist = NO;
+//                for (NSInteger j = 0; j < [self.arrayMesages count]; j++) {
+//                    VMInboxMessageItem *_messageItem = [self.arrayMesages objectAtIndex:j];
+//                    if ([messageItem.messageId isEqualToString:_messageItem.messageId]) {
+//                        objectExist = YES;
+//                        break;
+//                    }
+//                }
+            }
+        }
+
+    }
+//
+//    if ([arrayNewMessages count] > 0) {
+//        self.viewInboxZero.hidden = YES;
+//        [self.arrayMesages addObject:[arrayNewMessages lastObject]];
+//        self.dataSourceInbox.items = self.arrayMesages;
+//        NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[self.arrayMesages count]-1 inSection:0]];
+//        [self.tableViewInbox beginUpdates];
+//        [self.tableViewInbox insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+//        [self.tableViewInbox endUpdates];
+//    }
 }
 
 - (void)messageSentSuccess {

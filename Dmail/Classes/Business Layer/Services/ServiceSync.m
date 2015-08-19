@@ -72,10 +72,9 @@
 - (void)setupNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationNewMessageFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationGMailUniqueFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailUniqueFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGMailMessageFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationLogOut object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailUniqueMessages) name:NotificationGmailUniqueFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGmailUniqueFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGmailMessages) name:NotificationGmailMessageFetched object:nil];
 }
 
 - (void)sync {
@@ -101,7 +100,7 @@
                 @strongify(self);
                 self.syncInProgressDmail = NO;
                 if ([hasNewData isEqual:@(YES)]) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
                 } else {
 //                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageFetched object:nil];
                 }
@@ -123,7 +122,7 @@
             [self.serviceGmailMessage getMessageIdWithUniqueId:message.messageIdentifier userId:userId serverId:message.serverId completionBlock:^(id data, ErrorDataModel *error) {
                 @strongify(self);
                 self.syncInProgressGmail = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailUniqueFetched object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
             }];
         }
         else {
@@ -140,8 +139,9 @@
         NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
         if (gmailMessageId) {
             @weakify(self);
+            NSLog(@"gmailMessageId === %@",gmailMessageId);
             [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:userId completionBlock:^(id data, ErrorDataModel *error) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGMailMessageFetched object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailMessageFetched object:nil];
                 @strongify(self);
                 self.syncInProgressGmailMessages = NO;
             }];

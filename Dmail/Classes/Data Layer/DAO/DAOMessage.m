@@ -580,16 +580,14 @@
             RLMRealm *realm = [RLMRealm defaultRealm];
             RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",recipient, messageId];
             [realm beginWriteTransaction];
+            NSString *messageId;
             for (RMModelRecipient *model in results) {
                 model.access = @"REVOKED";
+                messageId = model.messageId;
             }
             [realm commitWriteTransaction];
-            if (fromSentList) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil];
-            }
-            else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFromSentViewSuccess object:nil];
-            }
+            NSDictionary *dict = @{@"messageId" : messageId};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroySuccess object:nil userInfo:dict];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationDestroyFailed object:nil];

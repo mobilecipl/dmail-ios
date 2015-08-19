@@ -21,6 +21,7 @@ typedef void (^TableViewCellBlock)(id cell, id item, NSIndexPath *indexPath);
 // property
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, assign) id<TableViewDataSourceDelegate> delegate;
+@property (nonatomic, assign) BOOL editing;
 
 // method
 - (instancetype)initWithItems:(NSArray *)anItems

@@ -74,7 +74,7 @@
     }];
 }
 
-- (void)showMessageDestroyedSuccess:(BOOL)revoke {
+- (void)showMessageDestroyedSuccess {
     
     if (!self.viewMessageDestroyedVisible) {
         if (!self.viewMessageDestroyed) {
@@ -87,12 +87,7 @@
             label.backgroundColor = [UIColor clearColor];
             label.textColor = [UIColor whiteColor];
             label.textAlignment = NSTextAlignmentCenter;
-            if (revoke) {
-                label.text = @"Participant revoked";
-            }
-            else {
-                label.text = @"Message destroyed";
-            }
+            label.text = @"Message destroyed";
             label.font = [UIFont fontWithName:@"ProximaNova-Light" size:15];
             [self.viewMessageDestroyed addSubview:label];
         }

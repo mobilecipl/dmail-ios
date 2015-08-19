@@ -14,6 +14,6 @@
 - (void)showLoadingView;
 - (void)hideLoadingView;
 - (void)showMessageSentSuccess;
-- (void)showMessageDestroyedSuccess:(BOOL)revoke;
+- (void)showMessageDestroyedSuccess;
 
 @end

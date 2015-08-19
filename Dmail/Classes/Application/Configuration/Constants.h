@@ -23,15 +23,11 @@ static NSString * const kErrorMessageNoServer = @"Please try later\nWe are unabl
 static NSString * const NotificationNewMessageFetched = @"NotificationNewMessageFetched";
 static NSString * const NotificationNewMessageSent = @"NotificationNewMessageSent";
 static NSString * const NotificationNewMessageSentError = @"NotificationNewMessageSentError";
-static NSString * const NotificationGMailUniqueFetched = @"NotificationGMailUniqueFetched";
-static NSString * const NotificationGMailMessageFetched = @"NotificationGMailMessageFetched";
+static NSString * const NotificationGmailUniqueFetched = @"NotificationGmailUniqueFetched";
+static NSString * const NotificationGmailMessageFetched = @"NotificationGmailMessageFetched";
 static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
-static NSString * const NotificationDestroyFromSentViewSuccess = @"NotificationDestroyFromSentViewSuccess";
 static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
-static NSString * const NotificationRevokeSuccess = @"NotificationRevokeSuccess";
-static NSString * const NotificationRevokeFailed = @"NotificationRevokeFailed";
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
-static NSString * const NotificationLogOut = @"NotificationLogOut";
 static NSString * const NotificationMenuOpened = @"menuOpened";
 static NSString * const NotificationMenuClosed = @"menuClosed";
 

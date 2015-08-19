@@ -96,6 +96,11 @@
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.constraitHeightMessageBody.constant + self.viewRecipients.frame.size.height + self.viewMessageSubject.frame.size.height);
 }
 
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark - Action Methods
 - (IBAction)backClicked:(id)sender {
@@ -136,8 +141,7 @@
 - (void)registerNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDecryptedMessage:) name:NotificationGetDecryptedMessage object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(revokeSuccess) name:NotificationRevokeSuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(revokeFailed) name:NotificationRevokeFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(destroySuccess) name:NotificationDestroySuccess object:nil];
 }
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
@@ -215,15 +219,10 @@
     }
 }
 
-- (void)revokeSuccess {
+- (void)destroySuccess {
     
     [self hideLoadingView];
-    [self showMessageDestroyedSuccess:YES];
-}
-
-- (void)revokeFailed {
-    
-    [self hideLoadingView];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setupConstraits {
@@ -350,6 +349,7 @@
 #pragma mark - CustomAlertViewDelegate Methods
 - (void)customIOS7dialogButtonTouchUpInside: (CustomAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    [self showLoadingView];
     [alertView close];
     if (buttonIndex == 1) {
         [self.serviceMessage destroyMessageWithMessageId:self.modelMessage.dmailId fromSentList:NO];

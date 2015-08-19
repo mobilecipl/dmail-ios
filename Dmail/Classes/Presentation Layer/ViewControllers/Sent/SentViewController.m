@@ -73,12 +73,6 @@
     [self setupController];
     [self setupTableView];
     [self registerNotifications];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
-    
     [self loadMessages];
 }
 
@@ -91,9 +85,8 @@
 #pragma mark - Private Methods
 - (void)registerNotifications {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGMailMessageFetched object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationDestroyFromSentViewSuccess object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedSuccess) name:NotificationDestroySuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationGmailMessageFetched object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedSuccess:) name:NotificationDestroySuccess object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDestroyedFailed) name:NotificationDestroyFailed object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuOpened) name:NotificationMenuOpened object:nil];
@@ -135,6 +128,7 @@
     };
     
     self.dataSourceInbox = [[TableViewDataSource alloc] initWithItems:@[] cellIdentifier:SentCellIdentifier configureCellBlock:configureCell];
+    self.dataSourceInbox.editing = YES;
     self.dataSourceInbox.delegate = self;
     self.tableViewSent.allowsMultipleSelectionDuringEditing = NO;
     
@@ -156,14 +150,23 @@
     [self.tableViewSent reloadData];
 }
 
-- (void)messageDestroyedSuccess {
+- (void)messageDestroyedSuccess:(NSNotification *)notification {
     
-    [self.arrayMesages removeObject:self.destroyedMessageItem];
-    self.dataSourceInbox.items = self.arrayMesages;
-    [self.tableViewSent reloadData];
+    NSString *messageId = [[notification userInfo] valueForKey:@"messageId"];
+    for (NSInteger i = 0; i <[self.arrayMesages count]; i++) {
+        VMSentMessageItem *item = [self.arrayMesages objectAtIndex:i];
+        if ([item.messageId isEqualToString:messageId]) {
+            [self.arrayMesages removeObject:item];
+            self.dataSourceInbox.items = self.arrayMesages;
+            NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            [self.tableViewSent beginUpdates];
+            [self.tableViewSent deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableViewSent endUpdates];
+        }
+    }
     
     [self hideLoadingView];
-    [self showMessageDestroyedSuccess:NO];
+    [self showMessageDestroyedSuccess];
 }
 
 - (void)messageDestroyedFailed {
