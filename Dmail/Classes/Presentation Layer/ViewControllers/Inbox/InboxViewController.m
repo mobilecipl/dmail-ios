@@ -86,7 +86,6 @@
 #pragma mark - Private Methods
 - (void)registerNotifications {
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:NotificationNewMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageFetchedFromGmail) name:NotificationGmailMessageFetched object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageSentSuccess) name:NotificationNewMessageSent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuOpened) name:NotificationMenuOpened object:nil];

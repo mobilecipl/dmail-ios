@@ -71,7 +71,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
         _serviceMessage = [[ServiceMessage alloc] init];
         _serviceContact = [[ServiceContact alloc] init];
     }
@@ -196,7 +195,12 @@
     [self.fieldTo setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     self.fieldTo.toLabelText = @"To:";
     self.fieldTo.delimiters = @[@",", @";"];
-    [self.fieldTo becomeFirstResponder];
+    if (self.replyedMessageSubject) {
+        [self.textViewBody becomeFirstResponder];
+    }
+    else {
+        [self.fieldTo becomeFirstResponder];
+    }
     
     self.arrayCc = [NSMutableArray array];
     self.arrayTempCc = [NSMutableArray array];
