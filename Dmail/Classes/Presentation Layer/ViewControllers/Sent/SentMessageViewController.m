@@ -146,7 +146,8 @@
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
-    self.textViewBody.text = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    NSString *decryptedBody = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    self.textViewBody.text = [self findEntersOnBody:decryptedBody];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewBody.text];
 }
@@ -202,7 +203,7 @@
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
     }
     else {
-        self.textViewBody.text = self.modelMessage.body;
+        self.textViewBody.text = [self findEntersOnBody:self.modelMessage.body];
     }
     CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
     if (bodyHeight > self.constraitHeightMessageBody.constant) {
@@ -266,6 +267,31 @@
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
+}
+
+- (NSString *)findEntersOnBody:(NSString *)body {
+    
+    NSString *result;
+    NSArray *arrayDiv = [body componentsSeparatedByString:@"<div>"];
+    NSArray *array_Div = [body componentsSeparatedByString:@"</div>"];
+    if ([arrayDiv count] == [array_Div count]) {
+        for (NSInteger i = 0; i < [arrayDiv count]; i++) {
+            NSString *str = [arrayDiv objectAtIndex:i];
+            if (i == 0) {
+                result = str;
+            }
+            else {
+                result = [result stringByAppendingString:@"\n"];
+                result = [result stringByAppendingString:str];
+            }
+        }
+        result = [result stringByReplacingOccurrencesOfString:@"</div>" withString:@""];
+    }
+    else {
+        result = body;
+    }
+    
+    return result;
 }
 
 - (CGFloat)textHeightWithText:(NSString *)text width:(CGFloat)width fontName:(NSString *)fontName fontSize:(CGFloat)fontSize {

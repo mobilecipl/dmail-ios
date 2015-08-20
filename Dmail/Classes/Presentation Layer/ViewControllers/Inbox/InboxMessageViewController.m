@@ -97,7 +97,8 @@
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
-    self.textViewMessageBody.text = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    NSString *decryptedBody = [[notification userInfo] valueForKey:@"decryptedMessage"];
+    self.textViewMessageBody.text = [self findEntersOnBody:decryptedBody];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewMessageBody.text];
 }
@@ -145,7 +146,7 @@
             [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
         }
         else {
-            self.textViewMessageBody.text = modelMessage.body;
+            self.textViewMessageBody.text = [self findEntersOnBody:modelMessage.body];
         }
         if (!modelMessage.read) {
             NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:modelMessage.messageId];
@@ -156,6 +157,31 @@
             }];
         }
     }
+}
+
+- (NSString *)findEntersOnBody:(NSString *)body {
+    
+    NSString *result;
+    NSArray *arrayDiv = [body componentsSeparatedByString:@"<div>"];
+    NSArray *array_Div = [body componentsSeparatedByString:@"</div>"];
+    if ([arrayDiv count] == [array_Div count]) {
+        for (NSInteger i = 0; i < [arrayDiv count]; i++) {
+            NSString *str = [arrayDiv objectAtIndex:i];
+            if (i == 0) {
+                result = str;
+            }
+            else {
+                result = [result stringByAppendingString:@"\n"];
+                result = [result stringByAppendingString:str];
+            }
+        }
+        result = [result stringByReplacingOccurrencesOfString:@"</div>" withString:@""];
+    }
+    else {
+        result = body;
+    }
+    
+    return result;
 }
 
 - (CGFloat)textWidthWithText:(NSString *)text height:(CGFloat)height fontName:(NSString *)fontName fontSize:(CGFloat)fontSize {

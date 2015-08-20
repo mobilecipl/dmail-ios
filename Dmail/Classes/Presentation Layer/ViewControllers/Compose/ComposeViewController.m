@@ -319,8 +319,9 @@
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 
-    self.messagebody = [self.textViewBody.text stringByReplacingOccurrencesOfString:@"\n" withString:@"'\\n'"];
-    self.messagebody = [self.messagebody stringByReplacingOccurrencesOfString:@"'" withString:@""];
+//    self.messagebody = [self.textViewBody.text stringByReplacingOccurrencesOfString:@"\n" withString:@"'\\n'"];
+//    self.messagebody = [self.messagebody stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    self.messagebody = [self convertEntersToDiv:self.textViewBody.text];
     NSString *clientKey = [self.serviceMessage getClientKey];
     NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.messagebody, clientKey];
     NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
@@ -333,6 +334,29 @@
     }];
 }
 
+- (NSString *)convertEntersToDiv:(NSString *)body {
+    
+    NSString *result;
+    NSArray *array = [body componentsSeparatedByString:@"\n"];
+    if ([array count] > 1) {
+        for (NSInteger i = 0; i < [array count]; i++) {
+            NSString *str = [array objectAtIndex:i];
+            if (i == 0) {
+                result = str;
+            }
+            else {
+                result = [result stringByAppendingString:@"<div>"];
+                result = [result stringByAppendingString:str];
+                result = [result stringByAppendingString:@"</div>"];
+            }
+        }
+    }
+    else {
+        result = body;
+    }
+    
+    return result;
+}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
