@@ -547,7 +547,9 @@
     [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
         if ([data isEqual:@(YES)]) {
             [realm beginWriteTransaction];
-            [realm deleteObject:realmModel];
+            if(realmModel) {
+                [realm deleteObject:realmModel];
+            }
             [realm commitWriteTransaction];
         }
     }];

@@ -20,11 +20,12 @@ static NSString * const kErrorMessageNoServer = @"Please try later\nWe are unabl
 
 
 #pragma mark - Notifications
+static NSString * const NotificationGmailUniqueFetched = @"NotificationGmailUniqueFetched";
+static NSString * const NotificationGmailIdFetched = @"NotificationGmailIdFetched";
+static NSString * const NotificationGmailMessageFetched = @"NotificationGmailMessageFetched";
 static NSString * const NotificationNewMessageFetched = @"NotificationNewMessageFetched";
 static NSString * const NotificationNewMessageSent = @"NotificationNewMessageSent";
 static NSString * const NotificationNewMessageSentError = @"NotificationNewMessageSentError";
-static NSString * const NotificationGmailUniqueFetched = @"NotificationGmailUniqueFetched";
-static NSString * const NotificationGmailMessageFetched = @"NotificationGmailMessageFetched";
 static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
 static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";

@@ -10,11 +10,14 @@
 
 // service
 #import "ServiceProfile.h"
+#import "ServiceSync.h"
 
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
 
 @interface LoginViewController () <GIDSignInDelegate>
+
+@property (nonatomic, strong) ServiceSync *serviceSync;
 
 @end
 
@@ -53,7 +56,14 @@
     }
     else {
         [[ServiceProfile sharedInstance] updateUserDetails:user];
-        [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
+            [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
+        }
+        else {
+            self.serviceSync = [[ServiceSync alloc] init];
+            [self.serviceSync sync];
+            [self performSegueWithIdentifier:@"fromLoginToInbox" sender:self];
+        }
     }
 }
 

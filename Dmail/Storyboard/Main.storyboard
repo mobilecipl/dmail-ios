@@ -832,11 +832,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <segue destination="uK7-cJ-mh4" kind="push" identifier="fromLoginToOnboarding" id="SlQ-En-DJs"/>
+                        <segue destination="03h-Yh-uZr" kind="push" identifier="fromLoginToInbox" id="Mnb-cQ-FLp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7n-qD-xEN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="222.5" y="1263.5"/>
+            <point key="canvasLocation" x="211.5" y="1263.5"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="fZd-jB-zno">
@@ -2353,9 +2354,9 @@ Label</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bzl-GS-gvY"/>
-        <segue reference="SlQ-En-DJs"/>
+        <segue reference="Mnb-cQ-FLp"/>
         <segue reference="msd-Ig-8Lo"/>
+        <segue reference="SlQ-En-DJs"/>
         <segue reference="AiN-2U-mFT"/>
         <segue reference="VKg-LO-uwx"/>
     </inferredMetricsTieBreakers>

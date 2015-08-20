@@ -164,12 +164,14 @@ const NSInteger contactsUpdateTime = 12;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     
+    [realm beginWriteTransaction];
     for (ContactModel *contactModel in contacts) {
-        RMModelContact *realmModel = [[RMModelContact alloc] initWithContactModel:contactModel];
-        [realm beginWriteTransaction];
-        [RMModelContact createOrUpdateInRealm:realm withValue:realmModel];
-        [realm commitWriteTransaction];
+        if (contactModel.email) {
+            RMModelContact *realmModel = [[RMModelContact alloc] initWithContactModel:contactModel];
+            [RMModelContact createOrUpdateInRealm:realm withValue:realmModel];
+        }
     }
+    [realm commitWriteTransaction];
 }
 
 - (NSString *)getLastUpdateTime {

@@ -58,14 +58,14 @@
                         [self updateMessageWithUniqueId:messageIdentifier gmailId:gmailId serverId:serverId];
                     }
                 }
-                completionBlock(nil, nil);
+                completionBlock(@(YES), nil);
             } else {
                 [self deleteMessageWithIdentifier:messageIdentifier];
                 [self deleterecipientsWithIdentifier:messageIdentifier];
-                completionBlock(nil, nil);
+                completionBlock(@(NO), nil);
             }
         } else {
-            completionBlock(nil, error);
+            completionBlock(@(NO), error);
         }
     }];
 }

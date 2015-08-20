@@ -86,7 +86,9 @@
         // Delete all object with a transaction
         if (realmModel) {
             [realm beginWriteTransaction];
-            [realm deleteObject:realmModel];
+            if (realmModel) {
+                [realm deleteObject:realmModel];
+            }
             [realm commitWriteTransaction];
         }
     }

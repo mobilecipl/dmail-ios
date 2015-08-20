@@ -26,15 +26,7 @@
 @end
 
 @implementation LoadingViewController
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        
-        _serviceSync = [[ServiceSync alloc] init];
-    }
-    return self;
-}
+
 
 #pragma mark - Class Methods
 - (void)viewDidLoad {
@@ -74,6 +66,7 @@
     else {
         // TODO: sync
         [[ServiceProfile sharedInstance] updateUserDetails:user];
+        self.serviceSync = [[ServiceSync alloc] init];
         [self.serviceSync sync];
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
             [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
