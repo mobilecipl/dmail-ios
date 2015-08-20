@@ -52,8 +52,6 @@
 @property (nonatomic, strong) NSMutableArray *arrayTempCc;
 @property (nonatomic, strong) NSMutableArray *arrayTempBcc;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
-@property (nonatomic, strong) NSMutableArray *arrayTextEnteredRanges;
-@property (nonatomic, strong) NSString *messagebody;
 
 @property (nonatomic, assign) CGFloat textViewHeight;
 @property (nonatomic, assign) CGFloat keyboardHeight;
@@ -156,9 +154,6 @@
     
     [self setupViewLayers];
     [self setupRecipientsFields];
-    
-    self.arrayTextEnteredRanges = [[NSMutableArray alloc] init];
-    self.messagebody = @"";
     
     if (self.replyedMessageSubject) {
         self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
@@ -319,11 +314,9 @@
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 
-//    self.messagebody = [self.textViewBody.text stringByReplacingOccurrencesOfString:@"\n" withString:@"'\\n'"];
-//    self.messagebody = [self.messagebody stringByReplacingOccurrencesOfString:@"'" withString:@""];
-    self.messagebody = [self convertEntersToDiv:self.textViewBody.text];
+    NSString *messageBody = [self convertEntersToDiv:self.textViewBody.text];
     NSString *clientKey = [self.serviceMessage getClientKey];
-    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",self.messagebody, clientKey];
+    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
     NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
     
     self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
@@ -544,21 +537,6 @@
 
 #pragma mark - UItextViewDelegate Methods
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-
-    if ([text isEqualToString:@"\n"]) {
-        self.messagebody = [self.messagebody stringByAppendingString:@"\n"];
-        [self.arrayTextEnteredRanges addObject:[NSString stringWithFormat:@"%lu", (unsigned long)range.location]];
-    }
-    else {
-        if ([text isEqualToString:@""]) {
-            if (self.messagebody.length > 0) {
-                self.messagebody = [self.messagebody substringToIndex:self.messagebody.length - 1];
-            }
-        }
-        else {
-            self.messagebody = [self.messagebody stringByAppendingString:text];
-        }
-    }
     
     return YES;
 }
