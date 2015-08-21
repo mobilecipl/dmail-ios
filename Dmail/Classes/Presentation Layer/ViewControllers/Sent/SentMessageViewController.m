@@ -147,7 +147,7 @@
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
     NSString *decryptedBody = [[notification userInfo] valueForKey:@"decryptedMessage"];
-    self.textViewBody.text = [self findEntersOnBody:decryptedBody];
+    self.textViewBody.text = [self cleanText:decryptedBody];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewBody.text];
 }
@@ -203,7 +203,7 @@
         [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
     }
     else {
-        self.textViewBody.text = [self findEntersOnBody:self.modelMessage.body];
+        self.textViewBody.text = [self cleanText:self.modelMessage.body];
     }
     CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
     if (bodyHeight > self.constraitHeightMessageBody.constant) {
@@ -269,7 +269,7 @@
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:self.modelMessage.imageUrl]];
 }
 
-- (NSString *)findEntersOnBody:(NSString *)body {
+- (NSString *)cleanText:(NSString *)body {
     
     NSString *result;
     NSArray *arrayDiv = [body componentsSeparatedByString:@"<div>"];
@@ -290,6 +290,7 @@
     else {
         result = body;
     }
+    result = [result stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
     
     return result;
 }

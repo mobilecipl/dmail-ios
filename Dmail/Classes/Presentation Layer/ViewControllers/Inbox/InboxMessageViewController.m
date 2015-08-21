@@ -98,7 +98,7 @@
 - (void)getDecryptedMessage:(NSNotification *)notification {
     
     NSString *decryptedBody = [[notification userInfo] valueForKey:@"decryptedMessage"];
-    self.textViewMessageBody.text = [self findEntersOnBody:decryptedBody];
+    self.textViewMessageBody.text = [self cleanText:decryptedBody];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewMessageBody.text];
 }
@@ -146,7 +146,7 @@
             [self.serviceMessage getMessageBodyWithIdentifier:self.messageId];
         }
         else {
-            self.textViewMessageBody.text = [self findEntersOnBody:modelMessage.body];
+            self.textViewMessageBody.text = [self cleanText:modelMessage.body];
         }
         if (!modelMessage.read) {
             NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:modelMessage.messageId];
@@ -159,7 +159,7 @@
     }
 }
 
-- (NSString *)findEntersOnBody:(NSString *)body {
+- (NSString *)cleanText:(NSString *)body {
     
     NSString *result;
     NSArray *arrayDiv = [body componentsSeparatedByString:@"<div>"];
@@ -180,6 +180,8 @@
     else {
         result = body;
     }
+    
+    result = [result stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
     
     return result;
 }
