@@ -410,6 +410,7 @@
         ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
         if (contactModel.email) {
             self.tableViewContacts.hidden = YES;
+            self.selectedToken.selectEmailFromContacts = YES;
             if (contactModel.fullName.length > 0) {
                 self.tempContactModel = contactModel;
                 [self.selectedToken addTokenWithString:contactModel.fullName];
