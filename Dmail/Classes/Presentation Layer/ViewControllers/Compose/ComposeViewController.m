@@ -310,21 +310,21 @@
     self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
 }
 
-
-#pragma mark - UIWebViewDelegate Methods
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-
-    NSString *messageBody = [self convertEntersToDiv:self.textViewBody.text];
-    NSString *clientKey = [self.serviceMessage getClientKey];
-    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
-    NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+- (BOOL)verifyEmailAddresses:(NSArray *)arrayEmails {
     
-    self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
-    self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
-    self.arrayBcc = [self cleanUnusedNamesFromRecipients:self.arrayTempBcc];
-    [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
-        
-    }];
+    BOOL success = YES;
+    if ([arrayEmails count] > 0) {
+        NSString *emailReg = @"[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,4}";
+        NSPredicate *emailTest =[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
+        for (NSString *email in arrayEmails) {
+            success = [emailTest evaluateWithObject:email];
+            if (!success) {
+                break;
+            }
+        }
+    }
+    
+    return success;
 }
 
 - (NSString *)convertEntersToDiv:(NSString *)body {
@@ -350,6 +350,35 @@
     
     return result;
 }
+
+
+#pragma mark - UIWebViewDelegate Methods
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+
+    NSString *messageBody = [self convertEntersToDiv:self.textViewBody.text];
+    NSString *clientKey = [self.serviceMessage getClientKey];
+    NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
+    NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+    
+    self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
+    self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
+    self.arrayBcc = [self cleanUnusedNamesFromRecipients:self.arrayTempBcc];
+    if ([self verifyEmailAddresses:self.arrayTo] && [self verifyEmailAddresses:self.arrayCc] && [self verifyEmailAddresses:self.arrayBcc]) {
+        [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
+            
+        }];
+    }
+    else {
+        [self hideLoadingView];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                                        message:@"Please enter valid Email address"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
