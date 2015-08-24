@@ -28,6 +28,7 @@
 
 // view
 #import "SentCell.h"
+#import "CustomAlertView.h"
 
 //colors
 #import "UIColor+AppColors.h"
@@ -36,7 +37,7 @@
 #import "RMModelRecipient.h"
 
 
-@interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate>
+@interface SentViewController () <UITableViewDelegate, TableViewDataSourceDelegate, CustomAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableViewSent;
 @property (nonatomic, weak) IBOutlet UIView *viewDeactivateScreen;
@@ -185,6 +186,34 @@
     [self loadMessages];
 }
 
+- (void)showDestroyAlert {
+    
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Destroy message"
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:@"Are you sure you want to destroy this message?"
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    NSDictionary *cancelButton = @{@"title" : @"Cancel",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    NSDictionary *destroyButton = @{@"title" : @"Destroy",
+                                    @"titleColor" : [UIColor whiteColor],
+                                    @"backgroundColor" : [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1],
+                                    @"font" : @"ProximaNova-Regular",
+                                    @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton,destroyButton, nil]];
+    [alertView setDelegate:self];
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
+}
+
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -203,9 +232,8 @@
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Destroy" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [self showLoadingView];
         self.destroyedMessageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-        [self.serviceMessage destroyMessageWithMessageId:self.destroyedMessageItem.messageId fromSentList:YES];
+        [self showDestroyAlert];
     }];
     button.backgroundColor = [UIColor cellDeleteButtonColor];
     
@@ -222,6 +250,20 @@
             sentMessageVC.messageIdentifier = self.selectedMessage.messageIdentifier;
             sentMessageVC.messageId = self.selectedMessage.messageId;
         }
+    }
+}
+
+
+#pragma mark - CustomAlertViewDelegate Methods
+- (void)customIOS7dialogButtonTouchUpInside: (CustomAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    [self showLoadingView];
+    [alertView close];
+    if (buttonIndex == 1) {
+        [self.serviceMessage destroyMessageWithMessageId:self.destroyedMessageItem.messageId fromSentList:YES];
+    }
+    else {
+        [self hideLoadingView];
     }
 }
 
