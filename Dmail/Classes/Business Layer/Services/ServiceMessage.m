@@ -111,9 +111,9 @@
     [self.daoMessage getMessageBodyWithMessageId:messageId];
 }
 
-- (void)sendMessage:(NSString *)encryptedBody clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+- (void)sendMessage:(NSString *)encryptedBody clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc timer:(long long)timer completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoMessage sendMessage:encryptedBody clientKey:clientKey messageSubject:messageSubject to:to cc:cc bcc:bcc completionBlock:^(id data, ErrorDataModel *error) {
+    [self.daoMessage sendMessage:encryptedBody clientKey:clientKey messageSubject:messageSubject to:to cc:cc bcc:bcc timer:timer completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data,error);
     }];
 }

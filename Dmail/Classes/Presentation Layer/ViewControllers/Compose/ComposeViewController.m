@@ -16,11 +16,12 @@
 #import "ContactCell.h"
 #import "VENTokenField.h"
 #import "TextViewPlaceHolder.h"
+#import "CustomAlertView.h"
 
 // model
 #import "ContactModel.h"
 
-@interface ComposeViewController () <VENTokenFieldDelegate, VENTokenFieldDataSource>
+@interface ComposeViewController () <VENTokenFieldDelegate, VENTokenFieldDataSource, CustomAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
@@ -56,6 +57,7 @@
 @property (nonatomic, assign) CGFloat textViewHeight;
 @property (nonatomic, assign) CGFloat keyboardHeight;
 @property (nonatomic, assign) CGFloat scrollViewContentOffset;
+@property (nonatomic, assign) long long timer;
 @property (nonatomic, assign) BOOL backClicked;
 @property (nonatomic, assign) BOOL ccBccOpened;
 
@@ -351,6 +353,20 @@
     return result;
 }
 
+- (BOOL)validateEmails {
+    
+    BOOL valid = NO;
+    self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
+    self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
+    self.arrayBcc = [self cleanUnusedNamesFromRecipients:self.arrayTempBcc];
+    
+    if ([self verifyEmailAddresses:self.arrayTo] && [self verifyEmailAddresses:self.arrayCc] && [self verifyEmailAddresses:self.arrayBcc]) {
+        valid = YES;
+    }
+    
+    return valid;
+}
+
 
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -359,26 +375,52 @@
     NSString *clientKey = [self.serviceMessage getClientKey];
     NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
     NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+        
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    // Add this part to your code
+//    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+//    [formatter setTimeZone:timeZone];
+//    
+//    NSDate *now = [NSDate date];
+//    NSDate *dateToFire = [now dateByAddingTimeInterval:60*60];
+//    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
+//    NSLog(@"dateToFire ==== %f", timeInterval);
+//    timeInterval = [now timeIntervalSince1970];
+//    NSLog(@"now ==== %f", timeInterval);    
     
-    self.arrayTo = [self cleanUnusedNamesFromRecipients:self.arrayTempTo];
-    self.arrayCc = [self cleanUnusedNamesFromRecipients:self.arrayTempCc];
-    self.arrayBcc = [self cleanUnusedNamesFromRecipients:self.arrayTempBcc];
-    if ([self verifyEmailAddresses:self.arrayTo] && [self verifyEmailAddresses:self.arrayCc] && [self verifyEmailAddresses:self.arrayBcc]) {
-        [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc completionBlock:^(id data, ErrorDataModel *error) {
+    if ([self validateEmails]) {
+        [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {
             
         }];
     }
     else {
         [self hideLoadingView];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!"
-                                                        message:@"Please enter valid Email address"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
+        [self showInvalidEmailAlert];
     }
 }
 
+- (void)showInvalidEmailAlert {
+    
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Error!"
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:@"Please enter a valid email address"
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    NSDictionary *cancelButton = @{@"title" : @"Ok",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton, nil]];
+    [alertView setDelegate:self];
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
+}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -565,10 +607,32 @@
 }
 
 
-#pragma mark - UItextViewDelegate Methods
+#pragma mark - UITextFieldDelegate Methods
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    BOOL validEmails = [self validateEmails];
+    if (!validEmails) {
+        [self showInvalidEmailAlert];
+    }
+}
+
+#pragma mark - UITextViewDelegate Methods
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
     [self defineTextViewFrame];
+    
+    BOOL validEmails = [self validateEmails];
+    if (!validEmails) {
+        [self showInvalidEmailAlert];
+    }
 }
+
+
+#pragma mark - CustomAlertViewDelegate Methods
+- (void)customIOS7dialogButtonTouchUpInside: (CustomAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    [alertView close];
+}
+
 
 @end

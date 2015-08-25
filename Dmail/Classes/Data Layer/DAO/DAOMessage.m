@@ -72,13 +72,13 @@
 
 
 #pragma mark - Public Methods
-- (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc completionBlock:(CompletionBlock)completionBlock {
+- (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc timer:(long long)timer completionBlock:(CompletionBlock)completionBlock {
     
     [self sendMessage:encryptedBopdy clientKey:(NSString *)clientKey completionBlock:^(NSString *messageId, ErrorDataModel *error) {
         if (messageId) {
             NSArray *arrayAllParticipants = [self createParticipantsArray:to arrayCc:cc arrayBcc:bcc];
             self.index = 0;
-            [self sendEncodedBodyWith:encryptedBopdy messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
+            [self sendEncodedBodyWith:encryptedBopdy messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId timer:timer];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSentError object:nil];
@@ -101,7 +101,7 @@
     }];
 }
 
-- (void)sendEncodedBodyWith:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc arrayAllParticipants:(NSArray *)arrayAllParticipants messageId:(NSString *)messageId {
+- (void)sendEncodedBodyWith:(NSString *)messageBody messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc arrayAllParticipants:(NSArray *)arrayAllParticipants messageId:(NSString *)messageId timer:(long long)timer {
     
     NSDictionary *dict = [arrayAllParticipants objectAtIndex:self.index];
     [self sendRecipientEmail:dict[@"recipient_email"] key:nil recipientType:dict[@"recipient_type"] messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
@@ -120,7 +120,7 @@
                             if(messageIdentifier) {
                                 DAOProfile *daoProfile = [[DAOProfile alloc] init];
                                 ProfileModel *model = [daoProfile getProfile];
-                                [self.networkMessage sentEmail:model.email messageId:messageId messageIdentifier:messageIdentifier completionBlock:^(id data, ErrorDataModel *error) {
+                                [self.networkMessage sentEmail:model.email messageId:messageId messageIdentifier:messageIdentifier timer:timer completionBlock:^(id data, ErrorDataModel *error) {
                                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationNewMessageSent object:nil];
                                 }];
                             }
@@ -135,7 +135,7 @@
                 }];
             }
             else {
-                [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId];
+                [self sendEncodedBodyWith:messageBody messageSubject:messageSubject to:to cc:cc bcc:bcc arrayAllParticipants:arrayAllParticipants messageId:messageId timer:timer];
             }
         }
         else {

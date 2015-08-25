@@ -165,11 +165,20 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
     [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier completionBlock:(CompletionBlock)completionBlock {
+- (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier timer:(long long)timer completionBlock:(CompletionBlock)completionBlock {
     
-    NSDictionary *parameters = @{@"message_id" : messageId,
-                                 @"message_identifier" : messageIdentifier,
-                                 @"sender_email" : senderEmail};
+    NSDictionary *parameters;
+    if (timer != 0) {
+        parameters = @{@"message_id" : messageId,
+                       @"message_identifier" : messageIdentifier,
+                       @"sender_email" : senderEmail,
+                       @"timer" : [NSString stringWithFormat:@"%lld", timer]};
+    }
+    else {
+        parameters = @{@"message_id" : messageId,
+                       @"message_identifier" : messageIdentifier,
+                       @"sender_email" : senderEmail};
+    }
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {

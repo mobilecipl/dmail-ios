@@ -180,7 +180,7 @@ const NSInteger contactsUpdateTime = 12;
     RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
     RMModelProfile *profile = [profiles firstObject];
 
-    if ( !([profile.contactLastUpdateDate isEqualToString:@""] || profile.contactLastUpdateDate == nil) ) {
+    if (!([profile.contactLastUpdateDate isEqualToString:@""] || profile.contactLastUpdateDate == nil)) {
         return profile.contactLastUpdateDate;
     }
 
