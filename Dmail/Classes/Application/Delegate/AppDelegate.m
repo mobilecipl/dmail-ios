@@ -30,6 +30,7 @@
 #pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    NSLog(@"Test brunch");
     [Fabric with:@[CrashlyticsKit]];
 
     //Realm
