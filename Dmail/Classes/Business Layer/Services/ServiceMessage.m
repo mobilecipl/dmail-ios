@@ -132,9 +132,11 @@
     }];
 }
 
-- (void)deleteMessageWithMessageId:(NSString *)messageId {
+- (void)deleteMessageWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock{
     
-    [self.daoMessage deleteMessageWithMessageId:messageId];
+    [self.daoMessage deleteMessageWithMessageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
+        completionBlock(data, error);
+    }];
 }
 
 - (void)unreadMessageWithMessageId:(NSString *)messageId {
