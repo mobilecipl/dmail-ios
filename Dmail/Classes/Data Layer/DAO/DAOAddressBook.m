@@ -115,7 +115,6 @@ static BOOL shouldSyncAddressBookChanges = YES;
             lastName = @"";
         }
         NSString *fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-        NSLog(@"fullName === %@", fullName);
         
         // getting contact's all emails
         CFTypeRef phones = ABRecordCopyValue((__bridge ABRecordRef)person, kABPersonEmailProperty);
@@ -125,7 +124,6 @@ static BOOL shouldSyncAddressBookChanges = YES;
                 NSString *uniqueId = [NSString stringWithFormat:@"%d_%ld", recordId, i];
                 ContactModel *contact = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:uniqueId urlPhoto:nil addressBook:YES];
                 if (contact) {
-                    NSLog(@"email ==== %@", email);
                     [contacts addObject:contact];
                 }
             }
