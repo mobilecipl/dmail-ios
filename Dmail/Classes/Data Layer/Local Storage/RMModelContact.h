@@ -18,6 +18,7 @@
 @property NSString *email;
 @property NSString *contactId;
 @property NSString *imageUrl;
+@property BOOL addressBook;
 
 - (instancetype)initWithContactModel:(ContactModel *)model;
 

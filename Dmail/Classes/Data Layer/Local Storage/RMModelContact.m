@@ -27,6 +27,7 @@
         _fullName = model.fullName;
         _contactId = model.contactId;
         _imageUrl = model.urlPhoto;
+        _addressBook = model.addressBook;
     }
     
     return self;

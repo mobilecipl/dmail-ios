@@ -146,12 +146,7 @@ const NSInteger contactsUpdateTime = 12;
             }
         }
         
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email
-                                                         fullName:fullName
-                                                        firstName:firstName
-                                                         lastName:lastName
-                                                        contactId:contactId
-                                                         urlPhoto:urlPhoto];
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto addressBook:NO];
         if (model) {
             [arrayModels addObject:model];
         }

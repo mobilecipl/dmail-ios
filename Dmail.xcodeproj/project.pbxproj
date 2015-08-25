@@ -33,6 +33,7 @@
 		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
 		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
+		9CBD9D3F1B8C5C60007A30E2 /* DAOAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */; };
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
 		9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RMModelProfile.m */; };
@@ -178,6 +179,8 @@
 		9C9E2B111B2AEB65008F3C8E /* DmailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DmailTests.m; sourceTree = "<group>"; };
 		9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9CBD9D3D1B8C5C60007A30E2 /* DAOAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOAddressBook.h; sourceTree = "<group>"; };
+		9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOAddressBook.m; sourceTree = "<group>"; };
 		9CC2D0ED1B46CB8A00182C2B /* ContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModel.h; sourceTree = "<group>"; };
 		9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactModel.m; sourceTree = "<group>"; };
 		9CC2D0F41B46D47E00182C2B /* RMModelContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelContact.h; sourceTree = "<group>"; };
@@ -881,6 +884,8 @@
 				C05C0CD11B42E0D800248B91 /* DAOMessage.m */,
 				9C21B8841B46A2780080B132 /* DAOContact.h */,
 				9C21B8851B46A2780080B132 /* DAOContact.m */,
+				9CBD9D3D1B8C5C60007A30E2 /* DAOAddressBook.h */,
+				9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */,
 				9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */,
 				9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */,
 				58CFBBA81B4BFC80005DA506 /* DAOGmailMessage.h */,
@@ -1362,6 +1367,7 @@
 				C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */,
 				C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */,
 				58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */,
+				9CBD9D3F1B8C5C60007A30E2 /* DAOAddressBook.m in Sources */,
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
 				C08C2DCE1B41AB1C00295A94 /* ReachabilityManager.m in Sources */,
 				C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */,
@@ -1554,7 +1560,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Debug;
 		};
@@ -1575,7 +1581,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "288caf9b-c06f-49c0-bc7d-481cc0562ee4";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Release;
 		};

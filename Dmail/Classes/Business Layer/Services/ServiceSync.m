@@ -18,6 +18,7 @@
 #import "DAOSync.h"
 #import "DAOMessage.h"
 #import "DAOContact.h"
+#import "DAOAddressBook.h"
 
 
 // realm
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) DAOSync *daoSync;
 @property (nonatomic, strong) DAOMessage *daoMessage;
 @property (nonatomic, strong) DAOContact *daoContact;
+@property (nonatomic, strong) DAOAddressBook *daoAddressBook;
 
 @property (nonatomic, strong) NSTimer *timerSyncDmailMessages;
 @property (nonatomic, strong) NSTimer *timerSyncGoogleContacts;
@@ -51,26 +53,27 @@
         self = [super init];
         
         if (self) {
-            _syncInProgressDmail = NO;
-            _syncInProgressGmail = NO;
-            _syncInProgressGmailMessages = NO;
-            
-            _syncInProgressContact = NO;
-            
-            _daoSync = [[DAOSync alloc] init];
-            _daoMessage = [[DAOMessage alloc] init];
-            _daoContact = [[DAOContact alloc] init];
-            
-            _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            if(!appDelegate.signedIn) {
+                appDelegate.signedIn = YES;
+                
+                _syncInProgressDmail = NO;
+                _syncInProgressGmail = NO;
+                _syncInProgressGmailMessages = NO;
+                _syncInProgressContact = NO;
+                
+                _daoSync = [[DAOSync alloc] init];
+                _daoMessage = [[DAOMessage alloc] init];
+                _daoContact = [[DAOContact alloc] init];
+                _daoAddressBook = [[DAOAddressBook alloc] init];
+                
+                _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+                
+                [self setupNotifications];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"syncStarted"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
         }
-    }
-    
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if(!appDelegate.signedIn) {
-        appDelegate.signedIn = YES;
-        [self setupNotifications];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"syncStarted"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
     return self;
@@ -87,6 +90,7 @@
     [self syncTemplate];
     [self syncDmailMessages];
     [self syncGoogleContacts];
+    [self syncAddressBookContacts];
     
     self.timerSyncDmailMessages = [NSTimer scheduledTimerWithTimeInterval:kMessageUpdateTime target:self selector:@selector(syncDmailMessages) userInfo:nil repeats:YES];
     self.timerSyncGoogleContacts = [NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(syncGoogleContacts) userInfo:nil repeats:YES];
@@ -190,6 +194,11 @@
             self.syncInProgressContact = NO;
         }
     }
+}
+
+- (void)syncAddressBookContacts {
+    
+    [self.daoAddressBook syncAddressBook];
 }
 
 - (void)syncTemplate {

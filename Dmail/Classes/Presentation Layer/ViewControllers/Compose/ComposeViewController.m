@@ -160,7 +160,7 @@
     if (self.replyedMessageSubject) {
         self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
         if (self.replyedRecipientName) {
-            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil];
+            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil addressBook:NO];
             [self.fieldTo addTokenWithString:self.replyedRecipientName];
         }
         else {

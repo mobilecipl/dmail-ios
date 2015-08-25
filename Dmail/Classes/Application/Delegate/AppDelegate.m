@@ -17,6 +17,9 @@
 
 #import <Realm.h>
 
+//DAO
+#import "DAOAddressBook.h"
+
 @interface AppDelegate ()
 
 @end
@@ -48,6 +51,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
 
+    [DAOAddressBook setShouldSyncAddressBookChanges:YES];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
