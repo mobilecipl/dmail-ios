@@ -61,7 +61,7 @@
     
     [self.indicator stopAnimating];
     if (error) {
-        // TODO: Handle error
+        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
     }
     else {
         // TODO: sync

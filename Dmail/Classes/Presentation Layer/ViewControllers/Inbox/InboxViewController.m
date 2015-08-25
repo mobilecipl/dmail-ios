@@ -233,11 +233,17 @@
     
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)cell];
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId];
-    
-    [self.arrayMesages removeObjectAtIndex:indexPath.row];
-    self.dataSourceInbox.items = self.arrayMesages;
-    [self.tableViewInbox reloadData];
+    [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId completionBlock:^(id data, ErrorDataModel *error) {
+        [self hideLoadingView];
+        if ([data isEqual:@(YES)]) {
+            [self.arrayMesages removeObjectAtIndex:indexPath.row];
+            self.dataSourceInbox.items = self.arrayMesages;
+            [self.tableViewInbox reloadData];
+        }
+        else {
+            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to destroy the message at this time. Please try again."];
+        }
+    }];
 }
 
 - (void)messageArchive:(id)cell {
@@ -248,10 +254,9 @@
     
     [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
         if (data) {
-            NSLog(@"ARCHIVED");
             [self messageDelete:cell];
         } else {
-            NSLog(@"FAILED TO ARCHIVE");
+            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to archive this message at this time. Please try again."];
         }
     }];
 }

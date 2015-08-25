@@ -233,8 +233,7 @@
 - (void)messageSentError {
     
     [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail" message:@"Error With Sending Message" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+    [self showErrorAlertWithTitle:@"Error" message:@"Unable to send message at this time. Please try again."];
 }
 
 - (void)addRecipientWithField:(VENTokenField *)tokenField withName:(id)name {
@@ -395,32 +394,10 @@
     }
     else {
         [self hideLoadingView];
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 
-- (void)showInvalidEmailAlert {
-    
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Error!"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Please enter a valid email address"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *cancelButton = @{@"title" : @"Ok",
-                                   @"titleColor" : [UIColor whiteColor],
-                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                                   @"font" : @"ProximaNova-Regular",
-                                   @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
-}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -612,7 +589,7 @@
     
     BOOL validEmails = [self validateEmails];
     if (!validEmails) {
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 
@@ -623,7 +600,7 @@
     
     BOOL validEmails = [self validateEmails];
     if (!validEmails) {
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 

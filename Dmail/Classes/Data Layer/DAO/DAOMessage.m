@@ -535,7 +535,7 @@
     return position;
 }
 
-- (void)deleteMessageWithMessageId:(NSString *)messageId {
+- (void)deleteMessageWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
     NSString *gmailId;
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -545,13 +545,16 @@
     
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
     [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        BOOL success = NO;
         if ([data isEqual:@(YES)]) {
+            success = YES;
             [realm beginWriteTransaction];
             if(realmModel) {
                 [realm deleteObject:realmModel];
             }
             [realm commitWriteTransaction];
         }
+        completionBlock(@(success), nil);
     }];
 }
 

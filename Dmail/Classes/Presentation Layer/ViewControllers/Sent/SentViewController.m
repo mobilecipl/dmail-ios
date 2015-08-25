@@ -167,12 +167,13 @@
     }
     
     [self hideLoadingView];
-    [self showMessageDestroyedSuccess];
+    [self showPanelMessageDestroyedSuccess];
 }
 
 - (void)messageDestroyedFailed {
     
     [self hideLoadingView];
+    [self showErrorAlertWithTitle:@"Error!" message:@"Unable to destroy the message at this time. Please try again."];
 }
 
 - (void)messageSentSuccess {

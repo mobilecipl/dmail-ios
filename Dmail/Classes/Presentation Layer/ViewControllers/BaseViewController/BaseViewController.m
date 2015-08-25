@@ -39,6 +39,29 @@
 
 
 #pragma mark - Public Methods
+- (void)showErrorAlertWithTitle:(NSString *)title message:(NSString *)message {
+    
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:title
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:message
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    NSDictionary *cancelButton = @{@"title" : @"Ok",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton, nil]];
+    [alertView setDelegate:self];
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
+}
+
 - (void)showMessageSentSuccess {
     
     if (!self.viewMessageSentVisible) {
@@ -74,7 +97,7 @@
     }];
 }
 
-- (void)showMessageDestroyedSuccess {
+- (void)showPanelMessageDestroyedSuccess {
     
     if (!self.viewMessageDestroyedVisible) {
         if (!self.viewMessageDestroyed) {
@@ -132,102 +155,6 @@
         [self.indicatorView removeFromSuperview];
         [self.viewLoading removeFromSuperview];
     }
-}
-
-- (void)handleDestroyAccessSuccess {
-    
-    [self hideLoadingView];
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Participants are successfully destroyed"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *okButton = @{@"title" : @"Ok",
-                               @"titleColor" : [UIColor whiteColor],
-                               @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                               @"font" : @"ProximaNova-Regular",
-                               @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:okButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
-}
-
-- (void)handleDestroyAccessFailed {
-    
-    [self hideLoadingView];
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Destroy failed"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *okButton = @{@"title" : @"Ok",
-                               @"titleColor" : [UIColor whiteColor],
-                               @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                               @"font" : @"ProximaNova-Regular",
-                               @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:okButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
-}
-
-- (void)handleRevokeAccessSuccess {
-    
-    [self hideLoadingView];
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Participant is successfully revoked"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *okButton = @{@"title" : @"Ok",
-                               @"titleColor" : [UIColor whiteColor],
-                               @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                               @"font" : @"ProximaNova-Regular",
-                               @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:okButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
-}
-
-- (void)handleRevokeAccessFailed {
-    
-    [self hideLoadingView];
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Revoke failed"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *okButton = @{@"title" : @"Ok",
-                                       @"titleColor" : [UIColor whiteColor],
-                                       @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                                       @"font" : @"ProximaNova-Regular",
-                                       @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:okButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
 }
 
 - (void)customIOS7dialogButtonTouchUpInside:(CustomAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex {

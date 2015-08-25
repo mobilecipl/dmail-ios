@@ -38,7 +38,7 @@
 
 - (void)deleteRecipientEmail:(NSString *)recipientEmail messageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
-- (void)deleteMessageWithMessageId:(NSString *)messageId;
+- (void)deleteMessageWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock;
 
 - (void)unreadMessageWithMessageId:(NSString *)messageId;
 
