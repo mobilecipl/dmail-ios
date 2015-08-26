@@ -20,6 +20,12 @@
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
@@ -51,6 +57,7 @@
             <string>ProximaNova-Semibold</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Thin.ttf">
+            <string>ProximaNova-Thin</string>
             <string>ProximaNova-Thin</string>
             <string>ProximaNova-Thin</string>
         </mutableArray>
@@ -1797,17 +1804,259 @@ Label</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="imageBackgroundReserve" translatesAutoresizingMaskIntoConstraints="NO" id="pwE-Xz-PBj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageBackgroundReserve" translatesAutoresizingMaskIntoConstraints="NO" id="pwE-Xz-PBj">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X4p-3H-YG0">
+                                <rect key="frame" x="137.5" y="0.0" width="100" height="225"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="7oH-nD-xnT"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoBlackDmail" translatesAutoresizingMaskIntoConstraints="NO" id="G6k-wP-uug">
+                                <rect key="frame" x="100" y="225" width="175" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="5cH-8D-sB8"/>
+                                    <constraint firstAttribute="height" constant="50" id="GcV-W1-Ff8"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Self-Destructing Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6k-D1-emu">
+                                <rect key="frame" x="16" y="298" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="QNw-DS-fqx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="16"/>
+                                <color key="textColor" red="0.47058823529999999" green="0.51764705879999995" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HV5-dq-wnd">
+                                <rect key="frame" x="42.5" y="535" width="290" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="290" id="acC-lJ-u5P"/>
+                                    <constraint firstAttribute="height" constant="50" id="sst-uV-RcQ"/>
+                                </constraints>
+                                <state key="normal" title="Reserve my spot" backgroundImage="buttonReserveMySpot">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="N6k-D1-emu" secondAttribute="trailing" id="1EI-oS-yR6"/>
+                            <constraint firstItem="N6k-D1-emu" firstAttribute="leading" secondItem="mkh-iP-XPt" secondAttribute="leadingMargin" id="7FV-1F-GYw"/>
+                            <constraint firstItem="pwE-Xz-PBj" firstAttribute="top" secondItem="mkh-iP-XPt" secondAttribute="top" id="Ggm-S9-cEj"/>
+                            <constraint firstItem="3WI-6n-OUh" firstAttribute="top" secondItem="pwE-Xz-PBj" secondAttribute="bottom" id="RIG-vh-u0N"/>
+                            <constraint firstAttribute="centerX" secondItem="X4p-3H-YG0" secondAttribute="centerX" id="UX0-hp-kqM"/>
+                            <constraint firstAttribute="centerX" secondItem="G6k-wP-uug" secondAttribute="centerX" id="bbw-8J-q7w"/>
+                            <constraint firstItem="pwE-Xz-PBj" firstAttribute="leading" secondItem="mkh-iP-XPt" secondAttribute="leading" id="dKS-2L-p2c"/>
+                            <constraint firstAttribute="centerX" secondItem="HV5-dq-wnd" secondAttribute="centerX" id="ex1-3G-gU0"/>
+                            <constraint firstItem="G6k-wP-uug" firstAttribute="top" secondItem="X4p-3H-YG0" secondAttribute="bottom" id="fuH-gt-9JF"/>
+                            <constraint firstItem="X4p-3H-YG0" firstAttribute="height" secondItem="mkh-iP-XPt" secondAttribute="height" multiplier="225/667" id="hof-Pp-x2K"/>
+                            <constraint firstAttribute="trailing" secondItem="pwE-Xz-PBj" secondAttribute="trailing" id="jUd-yN-otF"/>
+                            <constraint firstItem="X4p-3H-YG0" firstAttribute="top" secondItem="mkh-iP-XPt" secondAttribute="top" id="kDz-p4-VI0"/>
+                            <constraint firstItem="3WI-6n-OUh" firstAttribute="top" secondItem="HV5-dq-wnd" secondAttribute="bottom" constant="82" id="nEB-98-UEx"/>
+                            <constraint firstItem="N6k-D1-emu" firstAttribute="top" secondItem="G6k-wP-uug" secondAttribute="bottom" constant="23" id="nXj-I2-c5h"/>
+                            <constraint firstAttribute="centerX" secondItem="N6k-D1-emu" secondAttribute="centerX" id="xfl-i2-ZP4"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OHm-qi-BrV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="735.5" y="3427.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="LPN-47-aME">
+            <objects>
+                <viewController id="kRA-RR-W6h" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u4W-G2-utx"/>
+                        <viewControllerLayoutGuide type="bottom" id="50A-TT-KnQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1pI-U2-lM1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="imageBackgroundPlaceInLine" translatesAutoresizingMaskIntoConstraints="NO" id="oNf-1f-Sik">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJl-Rp-Bk9" userLabel="View:Red spacer">
+                                <rect key="frame" x="137" y="0.0" width="100" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="JOz-5k-lP9"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoWhiteDmail" translatesAutoresizingMaskIntoConstraints="NO" id="bEo-lC-LUK">
+                                <rect key="frame" x="127" y="50" width="120" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="1pF-8S-7HP"/>
+                                    <constraint firstAttribute="height" constant="35" id="b58-U2-ah7"/>
+                                </constraints>
+                            </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CCg-DN-L8A" userLabel="View:Yellow spacer">
+                                <rect key="frame" x="137" y="85" width="100" height="67"/>
+                                <color key="backgroundColor" red="0.99607843139999996" green="0.85098039219999999" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Zna-Rg-1mU"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current place in line" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="78N-IJ-jr3">
+                                <rect key="frame" x="70" y="152" width="234" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="BJQ-uq-pOw"/>
+                                    <constraint firstAttribute="width" constant="234" id="KrR-kC-Xhe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="186" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWk-uD-7bA">
+                                <rect key="frame" x="41" y="173" width="292" height="112"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="112" id="2zV-68-OrI"/>
+                                    <constraint firstAttribute="width" constant="292" id="IEm-y7-IvG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Thin" family="Proxima Nova" pointSize="90"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="total in line" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dH3-lN-vrl">
+                                <rect key="frame" x="124" y="285" width="126" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="QKV-CW-je9"/>
+                                    <constraint firstAttribute="width" constant="126" id="e8e-eU-Ujm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="623,987" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wmx-DE-aRl">
+                                <rect key="frame" x="39" y="306" width="297" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="AM1-Lb-8QR"/>
+                                    <constraint firstAttribute="width" constant="297" id="ou5-yf-t5B"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CDA-8F-ZmH" userLabel="View:Set up security">
+                                <rect key="frame" x="30" y="451" width="327" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set up security pin and touch ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJ5-19-qV0">
+                                        <rect key="frame" x="65" y="14" width="227" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="0km-vy-UtY"/>
+                                            <constraint firstAttribute="width" constant="227" id="LeI-ej-VEs"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="15"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wj5-XN-37n">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="IuV-eh-YnE"/>
+                                            <constraint firstAttribute="width" constant="50" id="RJV-NM-td6"/>
+                                        </constraints>
+                                        <state key="normal" image="iconSetupSecurityPin">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="hJ5-19-qV0" secondAttribute="centerY" id="2JW-Ob-2qz"/>
+                                    <constraint firstItem="Wj5-XN-37n" firstAttribute="top" secondItem="CDA-8F-ZmH" secondAttribute="top" id="Chq-wX-99S"/>
+                                    <constraint firstItem="hJ5-19-qV0" firstAttribute="leading" secondItem="Wj5-XN-37n" secondAttribute="trailing" constant="15" id="GAC-UP-WAt"/>
+                                    <constraint firstAttribute="width" constant="327" id="NXq-ny-mke"/>
+                                    <constraint firstItem="Wj5-XN-37n" firstAttribute="leading" secondItem="CDA-8F-ZmH" secondAttribute="leading" id="UFv-i2-Ivs"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wj5-XN-37n" secondAttribute="bottom" id="fTd-SB-o7s"/>
+                                    <constraint firstAttribute="height" constant="50" id="nvP-ov-TK4"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAR-aF-Ggu" userLabel="View:Get Notified">
+                                <rect key="frame" x="30" y="521" width="327" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dL-oa-pE0">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="ce8-xi-Z8u"/>
+                                            <constraint firstAttribute="width" constant="50" id="tgr-VZ-bUw"/>
+                                        </constraints>
+                                        <state key="normal" image="iconGetNotified">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get notified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zuw-CI-qCg">
+                                        <rect key="frame" x="65" y="14" width="165" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="USX-qF-TCa"/>
+                                            <constraint firstAttribute="width" constant="165" id="ugX-Uh-MJm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="15"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="Zuw-CI-qCg" secondAttribute="centerY" id="0D8-3n-hUU"/>
+                                    <constraint firstAttribute="height" constant="50" id="PWf-07-mWE"/>
+                                    <constraint firstItem="Zuw-CI-qCg" firstAttribute="leading" secondItem="3dL-oa-pE0" secondAttribute="trailing" constant="15" id="Pgs-lX-r9J"/>
+                                    <constraint firstItem="3dL-oa-pE0" firstAttribute="top" secondItem="tAR-aF-Ggu" secondAttribute="top" id="QHX-59-ech"/>
+                                    <constraint firstItem="3dL-oa-pE0" firstAttribute="leading" secondItem="tAR-aF-Ggu" secondAttribute="leading" id="UFY-mX-LDy"/>
+                                    <constraint firstAttribute="bottom" secondItem="3dL-oa-pE0" secondAttribute="bottom" id="yUP-xP-cpb"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sbo-jk-r1o">
+                                <rect key="frame" x="15" y="602" width="345" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="U9Q-DE-2pi"/>
+                                    <constraint firstAttribute="width" constant="345" id="wtV-6x-j9e"/>
+                                </constraints>
+                                <state key="normal" title="Invite friends">
+                                    <color key="titleColor" red="0.29411764705882354" green="0.72156862745098038" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CDA-8F-ZmH" firstAttribute="leading" secondItem="1pI-U2-lM1" secondAttribute="leading" constant="30" id="2wJ-zK-BFL"/>
+                            <constraint firstAttribute="centerX" secondItem="78N-IJ-jr3" secondAttribute="centerX" id="3pQ-iC-by9"/>
+                            <constraint firstItem="bEo-lC-LUK" firstAttribute="top" secondItem="SJl-Rp-Bk9" secondAttribute="bottom" id="63v-7r-SDE"/>
+                            <constraint firstAttribute="trailing" secondItem="tAR-aF-Ggu" secondAttribute="trailing" constant="18" id="9oc-tv-HHm"/>
+                            <constraint firstItem="Wmx-DE-aRl" firstAttribute="top" secondItem="dH3-lN-vrl" secondAttribute="bottom" id="GNx-8t-GWb"/>
+                            <constraint firstItem="Sbo-jk-r1o" firstAttribute="top" secondItem="tAR-aF-Ggu" secondAttribute="bottom" constant="31" id="JZB-e9-4gQ"/>
+                            <constraint firstItem="tAR-aF-Ggu" firstAttribute="leading" secondItem="1pI-U2-lM1" secondAttribute="leading" constant="30" id="JZx-KP-tFp"/>
+                            <constraint firstItem="SJl-Rp-Bk9" firstAttribute="height" secondItem="1pI-U2-lM1" secondAttribute="height" multiplier="50/667" id="KiN-aQ-yCo"/>
+                            <constraint firstAttribute="centerX" secondItem="CCg-DN-L8A" secondAttribute="centerX" id="MAi-7T-Anb"/>
+                            <constraint firstItem="tAR-aF-Ggu" firstAttribute="top" secondItem="CDA-8F-ZmH" secondAttribute="bottom" constant="20" id="MrN-ME-m7J"/>
+                            <constraint firstAttribute="centerX" secondItem="bEo-lC-LUK" secondAttribute="centerX" id="OUw-hv-6In"/>
+                            <constraint firstAttribute="height" secondItem="CCg-DN-L8A" secondAttribute="height" multiplier="667/67" id="VHK-SD-lUZ"/>
+                            <constraint firstAttribute="centerX" secondItem="CWk-uD-7bA" secondAttribute="centerX" id="XV2-8A-JAQ"/>
+                            <constraint firstItem="dH3-lN-vrl" firstAttribute="top" secondItem="CWk-uD-7bA" secondAttribute="bottom" id="Zrb-gn-YId"/>
+                            <constraint firstItem="CCg-DN-L8A" firstAttribute="top" secondItem="bEo-lC-LUK" secondAttribute="bottom" id="a2A-Ba-kbu"/>
+                            <constraint firstAttribute="centerX" secondItem="dH3-lN-vrl" secondAttribute="centerX" id="b1T-0H-vNY"/>
+                            <constraint firstAttribute="centerX" secondItem="SJl-Rp-Bk9" secondAttribute="centerX" id="eMI-bz-Cno"/>
+                            <constraint firstItem="SJl-Rp-Bk9" firstAttribute="top" secondItem="1pI-U2-lM1" secondAttribute="topMargin" id="j5P-Mv-eOe"/>
+                            <constraint firstAttribute="centerX" secondItem="Sbo-jk-r1o" secondAttribute="centerX" id="kI0-cY-e3X"/>
+                            <constraint firstItem="50A-TT-KnQ" firstAttribute="top" secondItem="Sbo-jk-r1o" secondAttribute="bottom" constant="15" id="o4a-g1-cfw"/>
+                            <constraint firstItem="78N-IJ-jr3" firstAttribute="top" secondItem="CCg-DN-L8A" secondAttribute="bottom" id="skJ-nO-6fV"/>
+                            <constraint firstItem="CWk-uD-7bA" firstAttribute="top" secondItem="78N-IJ-jr3" secondAttribute="bottom" id="vip-Yg-cwO"/>
+                            <constraint firstAttribute="centerX" secondItem="Wmx-DE-aRl" secondAttribute="centerX" id="yLH-go-spo"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zoA-VS-nTd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1208.5" y="3427.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="nSR-OP-Rqu">
@@ -1829,7 +2078,7 @@ Label</string>
                                 <color key="backgroundColor" red="0.5607843137254902" green="0.5725490196078431" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqE-Ii-Oaa" userLabel="View:Spacer">
-                                <rect key="frame" x="138" y="0.0" width="100" height="128"/>
+                                <rect key="frame" x="137.5" y="0.0" width="100" height="128"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="xgC-uN-5fo"/>
@@ -2670,15 +2919,19 @@ Label</string>
         <image name="buttonMenu" width="24" height="11"/>
         <image name="buttonNavigationBack" width="9" height="16"/>
         <image name="buttonReply" width="60" height="43"/>
+        <image name="buttonReserveMySpot" width="290" height="50"/>
         <image name="buttonSendDisable" width="17" height="16"/>
         <image name="buttonUnread" width="34" height="33"/>
         <image name="iconDmail" width="25" height="25"/>
         <image name="iconDmailLoading" width="206" height="61"/>
+        <image name="iconGetNotified" width="51" height="51"/>
         <image name="iconKey" width="30" height="30"/>
         <image name="iconPinConfirmed" width="17" height="13"/>
+        <image name="iconSetupSecurityPin" width="51" height="51"/>
         <image name="imageBackgroundOnbarding1" width="375" height="667"/>
         <image name="imageBackgroundOnbarding2" width="375" height="667"/>
         <image name="imageBackgroundOnbarding3" width="375" height="667"/>
+        <image name="imageBackgroundPlaceInLine" width="375" height="667"/>
         <image name="imageBackgroundReserve" width="375" height="667"/>
         <image name="imageBackroundPin" width="375" height="667"/>
         <image name="imageCellLine" width="320" height="2"/>
@@ -2694,6 +2947,8 @@ Label</string>
         <image name="imageProfile1" width="25" height="25"/>
         <image name="imageProfile2" width="30" height="30"/>
         <image name="imageProfileMask" width="25" height="25"/>
+        <image name="logoBlackDmail" width="175" height="50"/>
+        <image name="logoWhiteDmail" width="120" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
