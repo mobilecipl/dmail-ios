@@ -26,6 +26,8 @@
     [super viewDidLoad];
     
     [self setupController];
+    
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(pushToNextView) userInfo:nil repeats:nil];
 }
 
 
@@ -36,6 +38,10 @@
     self.buttonShare.layer.cornerRadius = 5;
 }
 
+- (void)pushToNextView {
+    
+    [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+}
 
 #pragma mark - Action Methods
 - (IBAction)setupSecurityPinClicked:(id)sender {

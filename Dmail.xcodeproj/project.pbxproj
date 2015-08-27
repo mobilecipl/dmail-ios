@@ -22,6 +22,7 @@
 		9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */; };
 		9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5201B8F3066004C8A0C /* ReserveViewController.m */; };
 		9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5241B8F3474004C8A0C /* QueuViewController.m */; };
+		9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
@@ -160,6 +161,8 @@
 		9C41C5201B8F3066004C8A0C /* ReserveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveViewController.m; sourceTree = "<group>"; };
 		9C41C5231B8F3474004C8A0C /* QueuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueuViewController.h; sourceTree = "<group>"; };
 		9C41C5241B8F3474004C8A0C /* QueuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueuViewController.m; sourceTree = "<group>"; };
+		9C41C5271B8F589E004C8A0C /* GetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetStartedViewController.h; sourceTree = "<group>"; };
+		9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetStartedViewController.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
 		9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewPlaceHolder.m; sourceTree = "<group>"; };
 		9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -415,6 +418,15 @@
 				9C41C5241B8F3474004C8A0C /* QueuViewController.m */,
 			);
 			path = QueuViewController;
+			sourceTree = "<group>";
+		};
+		9C41C5261B8F5889004C8A0C /* GetStartViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C5271B8F589E004C8A0C /* GetStartedViewController.h */,
+				9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */,
+			);
+			path = GetStartViewController;
 			sourceTree = "<group>";
 		};
 		9C4F23531B4BC652004F9AFC /* TextViewPlaceHolder */ = {
@@ -1001,6 +1013,7 @@
 			children = (
 				9C41C51E1B8F3050004C8A0C /* ReserveViewController */,
 				9C41C5221B8F346A004C8A0C /* QueuViewController */,
+				9C41C5261B8F5889004C8A0C /* GetStartViewController */,
 				9C41C51A1B8EF4A0004C8A0C /* EnterPinController */,
 				9C979E6A1B68F44100008C6A /* Onboarding */,
 				9C8AE6441B58FF9600F3CE89 /* BaseNavigationController */,
@@ -1442,6 +1455,7 @@
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
 				9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
+				9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */,
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,

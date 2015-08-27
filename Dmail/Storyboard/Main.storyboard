@@ -54,6 +54,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.ttf">
             <string>ProximaNova-Semibold</string>
@@ -2083,17 +2084,17 @@ Label</string>
                         <outlet property="buttonGetNotified" destination="3dL-oa-pE0" id="ITs-dG-ptH"/>
                         <outlet property="buttonSetupPin" destination="Wj5-XN-37n" id="s64-6s-sfN"/>
                         <outlet property="buttonShare" destination="Sbo-jk-r1o" id="blT-nk-uBO"/>
-                        <segue destination="Dj7-4d-gU2" kind="push" id="inO-G9-Fbd"/>
+                        <segue destination="Dj7-4d-gU2" kind="push" identifier="fromQueuToGetStarted" id="inO-G9-Fbd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoA-VS-nTd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="210.5" y="2103.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Get Started View Controller-->
         <scene sceneID="voo-oG-1vH">
             <objects>
-                <viewController id="Dj7-4d-gU2" sceneMemberID="viewController">
+                <viewController id="Dj7-4d-gU2" customClass="GetStartedViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zsp-Sz-Sn5"/>
                         <viewControllerLayoutGuide type="bottom" id="dSJ-58-y6A"/>
@@ -2129,7 +2130,7 @@ Label</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien metus, scelerisque nec pharetra id, tempor a tortor." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dI4-Gd-WOy">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien metus, scelerisque nec pharetra id, tempor a tortor." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="273" translatesAutoresizingMaskIntoConstraints="NO" id="dI4-Gd-WOy">
                                 <rect key="frame" x="51" y="319" width="273" height="71"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="273" id="BZv-ga-a8g"/>
@@ -2139,25 +2140,43 @@ Label</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" alpha="0.14999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKC-UY-9ca">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5K-nZ-PnC">
                                 <rect key="frame" x="42" y="535" width="290" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.14999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKC-UY-9ca">
+                                        <rect key="frame" x="0.0" y="0.0" width="290" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get started" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fi2-Qn-jAI">
+                                        <rect key="frame" x="68" y="14" width="155" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="155" id="7Lh-ka-XZj"/>
+                                            <constraint firstAttribute="height" constant="21" id="yPr-50-aij"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="bYn-t7-4Px"/>
+                                    <constraint firstAttribute="trailing" secondItem="yKC-UY-9ca" secondAttribute="trailing" id="6jT-H3-Hd2"/>
+                                    <constraint firstItem="yKC-UY-9ca" firstAttribute="leading" secondItem="Z5K-nZ-PnC" secondAttribute="leading" id="Ech-83-SEK"/>
+                                    <constraint firstAttribute="bottom" secondItem="yKC-UY-9ca" secondAttribute="bottom" id="FE5-iL-QTB"/>
+                                    <constraint firstAttribute="centerY" secondItem="Fi2-Qn-jAI" secondAttribute="centerY" id="PGl-Dr-Q7h"/>
+                                    <constraint firstItem="yKC-UY-9ca" firstAttribute="top" secondItem="Z5K-nZ-PnC" secondAttribute="top" id="Vgi-lQ-3cZ"/>
+                                    <constraint firstAttribute="centerX" secondItem="Fi2-Qn-jAI" secondAttribute="centerX" id="rQX-SJ-Jhf"/>
+                                    <constraint firstAttribute="height" constant="50" id="udb-IG-BW1"/>
                                 </constraints>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zjm-KU-hif" firstAttribute="top" secondItem="49C-30-aJh" secondAttribute="top" id="0va-7C-TiA"/>
-                            <constraint firstItem="dSJ-58-y6A" firstAttribute="top" secondItem="yKC-UY-9ca" secondAttribute="bottom" constant="82" id="1qC-x5-sdT"/>
-                            <constraint firstItem="yKC-UY-9ca" firstAttribute="leading" secondItem="49C-30-aJh" secondAttribute="leading" constant="42" id="4hQ-pK-0fI"/>
                             <constraint firstAttribute="centerX" secondItem="U0D-yJ-LpQ" secondAttribute="centerX" id="8Wb-2P-idq"/>
-                            <constraint firstAttribute="centerX" secondItem="yKC-UY-9ca" secondAttribute="centerX" id="BZV-Jk-FHM"/>
-                            <constraint firstAttribute="trailing" secondItem="yKC-UY-9ca" secondAttribute="trailing" constant="43" id="CT1-9u-bKt"/>
                             <constraint firstItem="Ans-3v-1U9" firstAttribute="top" secondItem="Zsp-Sz-Sn5" secondAttribute="bottom" id="Cv4-y9-C49"/>
                             <constraint firstItem="Ans-3v-1U9" firstAttribute="leading" secondItem="49C-30-aJh" secondAttribute="leading" id="GzE-qO-APT"/>
                             <constraint firstItem="dI4-Gd-WOy" firstAttribute="top" secondItem="Gkr-CC-0Q3" secondAttribute="bottom" constant="15" id="IuT-PQ-6IZ"/>
@@ -2165,14 +2184,20 @@ Label</string>
                             <constraint firstAttribute="trailing" secondItem="Ans-3v-1U9" secondAttribute="trailing" id="PHr-RP-xkX"/>
                             <constraint firstItem="U0D-yJ-LpQ" firstAttribute="top" secondItem="Zsp-Sz-Sn5" secondAttribute="bottom" constant="50" id="Ubi-NA-Zvf"/>
                             <constraint firstItem="zjm-KU-hif" firstAttribute="leading" secondItem="49C-30-aJh" secondAttribute="leading" id="had-fs-ILM"/>
+                            <constraint firstItem="dSJ-58-y6A" firstAttribute="top" secondItem="Z5K-nZ-PnC" secondAttribute="bottom" constant="82" id="jQ8-li-Q2a"/>
+                            <constraint firstItem="Z5K-nZ-PnC" firstAttribute="leading" secondItem="49C-30-aJh" secondAttribute="leading" constant="42" id="nKU-s8-3nw"/>
                             <constraint firstAttribute="centerX" secondItem="Gkr-CC-0Q3" secondAttribute="centerX" id="oAw-Nv-1fa"/>
                             <constraint firstAttribute="centerX" secondItem="dI4-Gd-WOy" secondAttribute="centerX" id="qNc-lg-G5V"/>
                             <constraint firstAttribute="trailing" secondItem="zjm-KU-hif" secondAttribute="trailing" id="xqY-lh-ZU7"/>
+                            <constraint firstAttribute="trailing" secondItem="Z5K-nZ-PnC" secondAttribute="trailing" constant="43" id="zKf-oP-erR"/>
                             <constraint firstItem="Gkr-CC-0Q3" firstAttribute="top" secondItem="Ans-3v-1U9" secondAttribute="bottom" id="zSQ-BO-Thw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ChG-5H-0mC"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="buttonGetStarted" destination="yKC-UY-9ca" id="ZGC-KS-wNT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="40c-uW-T7O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
