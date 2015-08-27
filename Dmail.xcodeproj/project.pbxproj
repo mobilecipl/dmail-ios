@@ -19,6 +19,9 @@
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
 		9C21B8861B46A2780080B132 /* DAOContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8851B46A2780080B132 /* DAOContact.m */; };
 		9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8881B46A2DF0080B132 /* NetworkContacts.m */; };
+		9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */; };
+		9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5201B8F3066004C8A0C /* ReserveViewController.m */; };
+		9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5241B8F3474004C8A0C /* QueuViewController.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
@@ -151,6 +154,12 @@
 		9C21B8851B46A2780080B132 /* DAOContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOContact.m; sourceTree = "<group>"; };
 		9C21B8871B46A2DF0080B132 /* NetworkContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkContacts.h; sourceTree = "<group>"; };
 		9C21B8881B46A2DF0080B132 /* NetworkContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkContacts.m; sourceTree = "<group>"; };
+		9C41C51B1B8EF4D5004C8A0C /* EnterPinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterPinViewController.h; sourceTree = "<group>"; };
+		9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterPinViewController.m; sourceTree = "<group>"; };
+		9C41C51F1B8F3066004C8A0C /* ReserveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveViewController.h; sourceTree = "<group>"; };
+		9C41C5201B8F3066004C8A0C /* ReserveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveViewController.m; sourceTree = "<group>"; };
+		9C41C5231B8F3474004C8A0C /* QueuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueuViewController.h; sourceTree = "<group>"; };
+		9C41C5241B8F3474004C8A0C /* QueuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueuViewController.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
 		9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewPlaceHolder.m; sourceTree = "<group>"; };
 		9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -378,6 +387,34 @@
 				9C216E711B675D3100C531BA /* GiberishEnc.html */,
 			);
 			path = AES256JS;
+			sourceTree = "<group>";
+		};
+		9C41C51A1B8EF4A0004C8A0C /* EnterPinController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C51B1B8EF4D5004C8A0C /* EnterPinViewController.h */,
+				9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */,
+			);
+			name = EnterPinController;
+			path = "Dmail/Classes/Presentation Layer/ViewControllers/EnterPinController";
+			sourceTree = SOURCE_ROOT;
+		};
+		9C41C51E1B8F3050004C8A0C /* ReserveViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C51F1B8F3066004C8A0C /* ReserveViewController.h */,
+				9C41C5201B8F3066004C8A0C /* ReserveViewController.m */,
+			);
+			path = ReserveViewController;
+			sourceTree = "<group>";
+		};
+		9C41C5221B8F346A004C8A0C /* QueuViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C5231B8F3474004C8A0C /* QueuViewController.h */,
+				9C41C5241B8F3474004C8A0C /* QueuViewController.m */,
+			);
+			path = QueuViewController;
 			sourceTree = "<group>";
 		};
 		9C4F23531B4BC652004F9AFC /* TextViewPlaceHolder */ = {
@@ -962,6 +999,9 @@
 		C08C2D791B41AB1C00295A94 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9C41C51E1B8F3050004C8A0C /* ReserveViewController */,
+				9C41C5221B8F346A004C8A0C /* QueuViewController */,
+				9C41C51A1B8EF4A0004C8A0C /* EnterPinController */,
 				9C979E6A1B68F44100008C6A /* Onboarding */,
 				9C8AE6441B58FF9600F3CE89 /* BaseNavigationController */,
 				C08C2D7A1B41AB1C00295A94 /* BaseViewController */,
@@ -1400,6 +1440,7 @@
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
+				9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
@@ -1422,7 +1463,9 @@
 				9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */,
 				9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */,
 				C08C2DDF1B41AB1C00295A94 /* BaseSegmentedControl.m in Sources */,
+				9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */,
 				C08C2DF91B41AB1C00295A94 /* LoadingViewController.m in Sources */,
+				9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */,
 				C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */,
 				C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
@@ -1560,7 +1603,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Debug;
 		};
@@ -1581,7 +1624,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
+				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
 			};
 			name = Release;
 		};
