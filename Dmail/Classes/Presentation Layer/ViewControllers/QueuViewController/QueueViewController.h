@@ -1,5 +1,5 @@
 //
-//  QueuViewController.h
+//  QueueViewController.h
 //  Dmail
 //
 //  Created by Karen Petrosyan on 8/27/15.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-@interface QueuViewController : BaseViewController
+@interface QueueViewController : BaseViewController
 
 @end

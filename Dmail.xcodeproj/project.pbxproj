@@ -21,7 +21,7 @@
 		9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8881B46A2DF0080B132 /* NetworkContacts.m */; };
 		9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */; };
 		9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5201B8F3066004C8A0C /* ReserveViewController.m */; };
-		9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5241B8F3474004C8A0C /* QueuViewController.m */; };
+		9C41C5251B8F3474004C8A0C /* QueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5241B8F3474004C8A0C /* QueueViewController.m */; };
 		9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
@@ -41,8 +41,12 @@
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
 		9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RMModelProfile.m */; };
+		9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD3FD1B943E650091958B /* ServiceQueue.m */; };
+		9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4001B943EAE0091958B /* DAOQueue.m */; };
+		9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4031B943EE40091958B /* NetworkQueue.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
 		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
 		9CE2B5E41B55114A0020A2E0 /* ModelInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE2B5E31B55114A0020A2E0 /* ModelInboxMessage.m */; };
@@ -159,8 +163,8 @@
 		9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterPinViewController.m; sourceTree = "<group>"; };
 		9C41C51F1B8F3066004C8A0C /* ReserveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveViewController.h; sourceTree = "<group>"; };
 		9C41C5201B8F3066004C8A0C /* ReserveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveViewController.m; sourceTree = "<group>"; };
-		9C41C5231B8F3474004C8A0C /* QueuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueuViewController.h; sourceTree = "<group>"; };
-		9C41C5241B8F3474004C8A0C /* QueuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueuViewController.m; sourceTree = "<group>"; };
+		9C41C5231B8F3474004C8A0C /* QueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueViewController.h; sourceTree = "<group>"; };
+		9C41C5241B8F3474004C8A0C /* QueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueViewController.m; sourceTree = "<group>"; };
 		9C41C5271B8F589E004C8A0C /* GetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetStartedViewController.h; sourceTree = "<group>"; };
 		9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetStartedViewController.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
@@ -199,8 +203,16 @@
 		9CC2D0F51B46D47E00182C2B /* RMModelContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelContact.m; sourceTree = "<group>"; };
 		9CC2D0F71B46D49400182C2B /* RMModelProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelProfile.h; sourceTree = "<group>"; };
 		9CC2D0F81B46D49400182C2B /* RMModelProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelProfile.m; sourceTree = "<group>"; };
+		9CCFD3FC1B943E650091958B /* ServiceQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceQueue.h; sourceTree = "<group>"; };
+		9CCFD3FD1B943E650091958B /* ServiceQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceQueue.m; sourceTree = "<group>"; };
+		9CCFD3FF1B943EAE0091958B /* DAOQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOQueue.h; sourceTree = "<group>"; };
+		9CCFD4001B943EAE0091958B /* DAOQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOQueue.m; sourceTree = "<group>"; };
+		9CCFD4021B943EE40091958B /* NetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkQueue.h; sourceTree = "<group>"; };
+		9CCFD4031B943EE40091958B /* NetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkQueue.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CDD05BF1B9098E50056E341 /* EnableTouchIdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnableTouchIdViewController.h; sourceTree = "<group>"; };
+		9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnableTouchIdViewController.m; sourceTree = "<group>"; };
 		9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfile.h; sourceTree = "<group>"; };
 		9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOProfile.m; sourceTree = "<group>"; };
 		9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileModel.h; sourceTree = "<group>"; };
@@ -414,8 +426,8 @@
 		9C41C5221B8F346A004C8A0C /* QueuViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9C41C5231B8F3474004C8A0C /* QueuViewController.h */,
-				9C41C5241B8F3474004C8A0C /* QueuViewController.m */,
+				9C41C5231B8F3474004C8A0C /* QueueViewController.h */,
+				9C41C5241B8F3474004C8A0C /* QueueViewController.m */,
 			);
 			path = QueuViewController;
 			sourceTree = "<group>";
@@ -559,6 +571,15 @@
 			path = "Local Storage";
 			sourceTree = "<group>";
 		};
+		9CDD05BE1B9098CF0056E341 /* EnableTouchIdController */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD05BF1B9098E50056E341 /* EnableTouchIdViewController.h */,
+				9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */,
+			);
+			path = EnableTouchIdController;
+			sourceTree = "<group>";
+		};
 		9CDD15551B4A6E7B00E54CE1 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,6 +700,8 @@
 				58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */,
 				C09C27C51B4BEF700067B7F2 /* ServiceSync.h */,
 				C09C27C61B4BEF700067B7F2 /* ServiceSync.m */,
+				9CCFD3FC1B943E650091958B /* ServiceQueue.h */,
+				9CCFD3FD1B943E650091958B /* ServiceQueue.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -941,6 +964,8 @@
 				58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */,
 				C09C27C81B4BFE440067B7F2 /* DAOSync.h */,
 				C09C27C91B4BFE440067B7F2 /* DAOSync.m */,
+				9CCFD3FF1B943EAE0091958B /* DAOQueue.h */,
+				9CCFD4001B943EAE0091958B /* DAOQueue.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -995,6 +1020,8 @@
 				9C21B8881B46A2DF0080B132 /* NetworkContacts.m */,
 				58CFBBA51B4BCC79005DA506 /* NetworkGmailMessage.h */,
 				58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */,
+				9CCFD4021B943EE40091958B /* NetworkQueue.h */,
+				9CCFD4031B943EE40091958B /* NetworkQueue.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1015,6 +1042,7 @@
 				9C41C5221B8F346A004C8A0C /* QueuViewController */,
 				9C41C5261B8F5889004C8A0C /* GetStartViewController */,
 				9C41C51A1B8EF4A0004C8A0C /* EnterPinController */,
+				9CDD05BE1B9098CF0056E341 /* EnableTouchIdController */,
 				9C979E6A1B68F44100008C6A /* Onboarding */,
 				9C8AE6441B58FF9600F3CE89 /* BaseNavigationController */,
 				C08C2D7A1B41AB1C00295A94 /* BaseViewController */,
@@ -1433,15 +1461,18 @@
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
 				C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */,
+				9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */,
 				C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */,
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
+				9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
 				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */,
+				9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */,
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
@@ -1453,7 +1484,7 @@
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
-				9C41C5251B8F3474004C8A0C /* QueuViewController.m in Sources */,
+				9C41C5251B8F3474004C8A0C /* QueueViewController.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
 				9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */,
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
@@ -1489,6 +1520,7 @@
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */,
 				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,
+				9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */,
 				C09C27C71B4BEF700067B7F2 /* ServiceSync.m in Sources */,
 				C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */,
 				C08C2DD91B41AB1C00295A94 /* BaseCollectionView.m in Sources */,
@@ -1617,7 +1649,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
 			};
 			name = Debug;
 		};
@@ -1638,7 +1670,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90b48ee5-f30c-4c78-a9a0-be6e0be40a44";
+				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
 			};
 			name = Release;
 		};

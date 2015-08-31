@@ -15,7 +15,6 @@ typedef void(^mainCompletionBlock)(NSDictionary *requestData, NSInteger statusCo
 static NSString * kGlobalAlertMessageBasicFailure = @"Something went wrong\nPlease try again.";
 static NSString * kGlobalAlertMessageRequestTimeOutReplaceler = @"Looks like there's a bad connection. Please try again in a minute or so!";
 static NSString * kGlobalAlertMessageInvalidLoginCridentials = @"Please check your login information and try again.";
-
 static NSString * const kErrorMessageNoServer = @"Please try later\nWe are unable to connect to the server";
 
 
@@ -29,6 +28,7 @@ static NSString * const NotificationNewMessageSentError = @"NotificationNewMessa
 static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
 static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
+static NSString * const NotificationToken = @"NotificationToken";
 static NSString * const NotificationMenuOpened = @"menuOpened";
 static NSString * const NotificationMenuClosed = @"menuClosed";
 
@@ -58,5 +58,12 @@ typedef NS_ENUM(NSInteger, MessageStatus) {
 static NSInteger kMessageUpdateTime = 10;
 static NSInteger kMessageGetCount = 30;
 static NSInteger kProfileImageSize = 50;
+
+
+#pragma mark - User Defoults
+static NSString * const GetStarted = @"getStarted";
+static NSString * const OnboardingWasShowed = @"onboardingWasShowed";
+static NSString * const SetupPin = @"setupPin";
+static NSString * const Token = @"token";
 
 #endif

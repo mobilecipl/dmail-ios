@@ -38,6 +38,24 @@
     //Google
     [self setupGoogleSignIn];
     
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *viewController;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GetStarted]) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
+            viewController = [storyBoard instantiateViewControllerWithIdentifier:@"onboarding"];
+        }
+        else {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:SetupPin]) {
+                viewController = [storyBoard instantiateViewControllerWithIdentifier:@"setupPin"];
+            }
+            else {
+                viewController = [storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
+            }
+        }
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        self.window.rootViewController = navController;
+    }
     return YES;
 }
 
@@ -55,16 +73,19 @@
     [DAOAddressBook setShouldSyncAddressBookChanges:YES];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
+    if ([deviceToken length] > 0) {
+        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:Token];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSDictionary *dict = @{Token : deviceToken};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationToken object:nil userInfo:dict];
+    }
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    
+    [application registerForRemoteNotifications];
 }
 
 
@@ -86,6 +107,22 @@
     
     [GIDSignIn sharedInstance].clientID = kGoogleClientID;
     [[GIDSignIn sharedInstance] setScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]];
+}
+
+
+#pragma mark - Public Methods 
+- (void)registerNotifications {
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType userNotificationType = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *userNotificationSettings = [UIUserNotificationSettings settingsForTypes:userNotificationType categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:userNotificationSettings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    else {
+        UIRemoteNotificationType remoteNotificationType = (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:remoteNotificationType];
+    }
 }
 
 @end

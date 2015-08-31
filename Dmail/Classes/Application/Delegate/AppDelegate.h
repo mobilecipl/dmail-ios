@@ -13,5 +13,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, assign) BOOL signedIn;
 
+- (void)registerNotifications;
+
 @end
 
