@@ -41,7 +41,8 @@
     [super viewDidLoad];
     
     [self setupController];
-    [self getQueue];
+//    [self getQueue];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pushToNextView) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,8 +59,32 @@
     self.buttonShare.layer.masksToBounds = YES;
     self.buttonShare.layer.cornerRadius = 5;
     
-    self.queu = 5;
+    BOOL getNotified = [[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification];
+    if (getNotified) {
+        [self.buttonGetNotified setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
+        self.buttonGetNotified.userInteractionEnabled = NO;
+    }
+    
+    BOOL setupPin = [[NSUserDefaults standardUserDefaults] boolForKey:SetupPin];
+    if (setupPin) {
+        [self.buttonSetupPin setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
+        self.buttonSetupPin.userInteractionEnabled = NO;
+    }
+    
+    self.queu = 15;
     self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)self.queu];
+}
+
+- (void)pushToNextView {
+    
+    self.queu--;
+    if (self.queu < 0) {
+        [self.timer invalidate];
+        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+    }
+    else {
+        self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld",(long)self.queu];
+    }
 }
 
 - (void)getQueue {
@@ -79,7 +104,7 @@
             self.labelTotalInLine.text = data[@""];
         }
         else {
-            // TODO - error message
+            [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
         }
     }];
 }
@@ -87,8 +112,7 @@
 - (void)sendDeviceToken {
     
     [self showLoadingView];
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication];
-    [appDelegate registerNotifications];
+    [[AppDelegate sharedDelegate] registerNotifications];
 }
 
 - (void)getToken:(NSNotification *)notification {
@@ -98,11 +122,12 @@
     if (token && token.length > 0) {
         [self.serviceQueue sendTokenWithDeviceId:deviceId token:token completionBlock:^(id data, ErrorDataModel *error) {
             [self hideLoadingView];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ActivatePushNotification];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }];
     }
     else {
         [self hideLoadingView];
-        // TODO - error message
     }
 }
 
@@ -110,31 +135,22 @@
 #pragma mark - Action Methods
 - (IBAction)setupSecurityPinClicked:(id)sender {
     
-    BOOL setupPin = [[NSUserDefaults standardUserDefaults] boolForKey:@"setupPin"];
-    if (setupPin) {
-        [self.buttonSetupPin setImage:[UIImage imageNamed:@"iconSetupSecurityPin"] forState:UIControlStateNormal];
-    }
-    else {
+    BOOL setupPin = [[NSUserDefaults standardUserDefaults] boolForKey:SetupPin];
+    if (!setupPin) {
         [self.buttonSetupPin setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
     }
-    setupPin = !setupPin;
-    [[NSUserDefaults standardUserDefaults] setBool:setupPin forKey:@"setupPin"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction)getNotifiedClicked:(id)sender {
     
-    BOOL getNotified = [[NSUserDefaults standardUserDefaults] boolForKey:@"getNotified"];
-    if (getNotified) {
-        [self.buttonGetNotified setImage:[UIImage imageNamed:@"iconGetNotified"] forState:UIControlStateNormal];
-    }
-    else {
+    BOOL getNotified = [[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification];
+    if (!getNotified) {
         [self.buttonGetNotified setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
     }
     
-    getNotified = !getNotified;
-    [[NSUserDefaults standardUserDefaults] setBool:getNotified forKey:@"getNotified"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self sendDeviceToken];
 }
 
 - (IBAction)shareClicked:(id)sender {

@@ -1878,10 +1878,10 @@ Label</string>
             </objects>
             <point key="canvasLocation" x="-2331.5" y="409.5"/>
         </scene>
-        <!--Queu View Controller-->
+        <!--Queue View Controller-->
         <scene sceneID="LPN-47-aME">
             <objects>
-                <viewController id="kRA-RR-W6h" customClass="QueuViewController" sceneMemberID="viewController">
+                <viewController id="kRA-RR-W6h" customClass="QueueViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u4W-G2-utx"/>
                         <viewControllerLayoutGuide type="bottom" id="50A-TT-KnQ"/>

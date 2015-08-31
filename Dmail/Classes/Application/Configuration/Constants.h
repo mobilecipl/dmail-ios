@@ -65,5 +65,6 @@ static NSString * const GetStarted = @"getStarted";
 static NSString * const OnboardingWasShowed = @"onboardingWasShowed";
 static NSString * const SetupPin = @"setupPin";
 static NSString * const Token = @"token";
+static NSString * const ActivatePushNotification = @"activatePushNotification";
 
 #endif

@@ -38,6 +38,8 @@
     //Google
     [self setupGoogleSignIn];
     
+    [self registerNotifications];
+    
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController;
@@ -111,17 +113,19 @@
 
 
 #pragma mark - Public Methods 
++ (AppDelegate *)sharedDelegate {
+    
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 - (void)registerNotifications {
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        UIUserNotificationType userNotificationType = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-        UIUserNotificationSettings *userNotificationSettings = [UIUserNotificationSettings settingsForTypes:userNotificationType categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:userNotificationSettings];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
     else {
-        UIRemoteNotificationType remoteNotificationType = (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert);
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:remoteNotificationType];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
     }
 }
 
