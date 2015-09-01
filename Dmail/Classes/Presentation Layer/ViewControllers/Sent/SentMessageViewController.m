@@ -142,6 +142,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDecryptedMessage:) name:NotificationGetDecryptedMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(destroySuccess) name:NotificationDestroySuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(destroyFailed) name:NotificationDestroyFailed object:nil];
 }
 
 - (void)getDecryptedMessage:(NSNotification *)notification {
@@ -224,6 +225,12 @@
     
     [self hideLoadingView];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)destroyFailed {
+    
+    [self hideLoadingView];
+    [self showErrorAlertWithTitle:@"Error!" message:@"Unable to destroy the message at this time. Please try again."];
 }
 
 - (void)setupConstraits {

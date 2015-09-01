@@ -165,7 +165,6 @@
     
     NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:encodedString options:0];
     NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", decodedString);
     
     return decodedString;
 }
@@ -203,7 +202,6 @@
     messageBody = [messageBody stringByReplacingOccurrencesOfString:@"{{" withString:dmailId];
     messageBody = [messageBody stringByReplacingOccurrencesOfString:@"}}" withString:publicKey];
   
-    NSLog(@"messageBody ====== %@", messageBody);
     return messageBody;
 }
 
@@ -535,7 +533,7 @@
     return position;
 }
 
-- (void)deleteMessageWithMessageId:(NSString *)messageId {
+- (void)deleteMessageWithMessageId:(NSString *)messageId completionBlock:(CompletionBlock)completionBlock {
     
     NSString *gmailId;
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -545,13 +543,16 @@
     
     NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
     [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+        BOOL success = NO;
         if ([data isEqual:@(YES)]) {
+            success = YES;
             [realm beginWriteTransaction];
             if(realmModel) {
                 [realm deleteObject:realmModel];
             }
             [realm commitWriteTransaction];
         }
+        completionBlock(@(success), nil);
     }];
 }
 

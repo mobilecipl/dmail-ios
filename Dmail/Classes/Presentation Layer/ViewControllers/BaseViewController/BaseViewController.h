@@ -14,6 +14,7 @@
 - (void)showLoadingView;
 - (void)hideLoadingView;
 - (void)showMessageSentSuccess;
-- (void)showMessageDestroyedSuccess;
+- (void)showPanelMessageDestroyedSuccess;
+- (void)showErrorAlertWithTitle:(NSString *)title message:(NSString *)message;
 
 @end

@@ -233,8 +233,7 @@
 - (void)messageSentError {
     
     [self hideLoadingView];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dmail" message:@"Error With Sending Message" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+    [self showErrorAlertWithTitle:@"Error" message:@"Unable to send message at this time. Please try again."];
 }
 
 - (void)addRecipientWithField:(VENTokenField *)tokenField withName:(id)name {
@@ -277,6 +276,13 @@
     }
 }
 
+- (void)defineTextViewFrame {
+    
+    CGRect frame = self.textViewBody.frame;
+    CGFloat textViewOriginY = self.scrollView.frame.origin.y + self.viewTextViewContainer.frame.origin.y + self.textViewBody.frame.origin.y;
+    self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
+}
+
 - (NSMutableArray *)cleanUnusedNamesFromRecipients:(NSMutableArray *)arrayRecipient {
     
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -303,30 +309,6 @@
     }
     
     return array;
-}
-
-- (void)defineTextViewFrame {
-    
-    CGRect frame = self.textViewBody.frame;
-    CGFloat textViewOriginY = self.scrollView.frame.origin.y + self.viewTextViewContainer.frame.origin.y + self.textViewBody.frame.origin.y;
-    self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
-}
-
-- (BOOL)verifyEmailAddresses:(NSArray *)arrayEmails {
-    
-    BOOL success = YES;
-    if ([arrayEmails count] > 0) {
-        NSString *emailReg = @"[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,4}";
-        NSPredicate *emailTest =[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
-        for (NSString *email in arrayEmails) {
-            success = [emailTest evaluateWithObject:email];
-            if (!success) {
-                break;
-            }
-        }
-    }
-    
-    return success;
 }
 
 - (NSString *)convertEntersToDiv:(NSString *)body {
@@ -367,6 +349,23 @@
     return valid;
 }
 
+- (BOOL)verifyEmailAddresses:(NSArray *)arrayEmails {
+    
+    BOOL success = YES;
+    if ([arrayEmails count] > 0) {
+        NSString *emailReg = @"[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,4}";
+        NSPredicate *emailTest =[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
+        for (NSString *email in arrayEmails) {
+            success = [emailTest evaluateWithObject:email];
+            if (!success) {
+                break;
+            }
+        }
+    }
+    
+    return success;
+}
+
 
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -374,53 +373,32 @@
     NSString *messageBody = [self convertEntersToDiv:self.textViewBody.text];
     NSString *clientKey = [self.serviceMessage getClientKey];
     NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
-    NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+    NSString *encyptedBody = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
         
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    // Add this part to your code
-//    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-//    [formatter setTimeZone:timeZone];
-//    
-//    NSDate *now = [NSDate date];
-//    NSDate *dateToFire = [now dateByAddingTimeInterval:60*60];
-//    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
-//    NSLog(@"dateToFire ==== %f", timeInterval);
-//    timeInterval = [now timeIntervalSince1970];
-//    NSLog(@"now ==== %f", timeInterval);    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    // Add this part to your code
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [formatter setTimeZone:timeZone];
+    
+    NSDate *now = [NSDate date];
+    NSDate *dateToFire = [now dateByAddingTimeInterval:1*60];
+    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
+    NSLog(@"dateToFire ==== %f", timeInterval);
+    timeInterval = [now timeIntervalSince1970];
+    NSLog(@"now ==== %f", timeInterval);
+    self.timer = timeInterval;
     
     if ([self validateEmails]) {
-        [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {
+        [self.serviceMessage sendMessage:encyptedBody clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {
             
         }];
     }
     else {
         [self hideLoadingView];
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 
-- (void)showInvalidEmailAlert {
-    
-    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Error!"
-                                                               withFont:@"ProximaNova-Semibold"
-                                                               withSize:20
-                                                            withMessage:@"Please enter a valid email address"
-                                                        withMessageFont:@"ProximaNova-Regular"
-                                                    withMessageFontSize:15
-                                                         withDeactivate:NO];
-    NSDictionary *cancelButton = @{@"title" : @"Ok",
-                                   @"titleColor" : [UIColor whiteColor],
-                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
-                                   @"font" : @"ProximaNova-Regular",
-                                   @"fontSize" : @"15"};
-    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton, nil]];
-    [alertView setDelegate:self];
-    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
-        [alertView close];
-    }];
-    [alertView setUseMotionEffects:true];
-    [alertView show];
-}
 
 #pragma mark - TableView DataSource & Delegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -612,7 +590,7 @@
     
     BOOL validEmails = [self validateEmails];
     if (!validEmails) {
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 
@@ -623,7 +601,7 @@
     
     BOOL validEmails = [self validateEmails];
     if (!validEmails) {
-        [self showInvalidEmailAlert];
+        [self showErrorAlertWithTitle:@"Error!" message:@"Please enter a valid email address"];
     }
 }
 

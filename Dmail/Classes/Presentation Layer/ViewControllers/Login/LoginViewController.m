@@ -51,7 +51,7 @@
     
     [self hideLoadingView];
     if (error) {
-        // TO DO Handle error
+        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
         return;
     }
     else {
