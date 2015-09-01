@@ -165,7 +165,6 @@
     
     NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:encodedString options:0];
     NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", decodedString);
     
     return decodedString;
 }
@@ -203,7 +202,6 @@
     messageBody = [messageBody stringByReplacingOccurrencesOfString:@"{{" withString:dmailId];
     messageBody = [messageBody stringByReplacingOccurrencesOfString:@"}}" withString:publicKey];
   
-    NSLog(@"messageBody ====== %@", messageBody);
     return messageBody;
 }
 

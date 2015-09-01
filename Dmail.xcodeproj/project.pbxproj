@@ -13,12 +13,15 @@
 		58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */; };
 		58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E4BC071B4D7E08003BDD52 /* ModelContact.m */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
-		86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */; };
 		9C216E721B675D3100C531BA /* GibberishAES.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C216E701B675D3100C531BA /* GibberishAES.js */; };
 		9C216E731B675D3100C531BA /* GiberishEnc.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C216E711B675D3100C531BA /* GiberishEnc.html */; };
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
 		9C21B8861B46A2780080B132 /* DAOContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8851B46A2780080B132 /* DAOContact.m */; };
 		9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8881B46A2DF0080B132 /* NetworkContacts.m */; };
+		9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */; };
+		9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5201B8F3066004C8A0C /* ReserveViewController.m */; };
+		9C41C5251B8F3474004C8A0C /* QueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5241B8F3474004C8A0C /* QueueViewController.m */; };
+		9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */; };
 		9C4F23561B4BC674004F9AFC /* TextViewPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */; };
 		9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */; };
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
@@ -30,15 +33,18 @@
 		9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE6461B58FFB000F3CE89 /* BaseNavigationController.m */; };
 		9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE64A1B592C5400F3CE89 /* CustomAlertView.m */; };
 		9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C979E6C1B68F45500008C6A /* OnboardingViewController.m */; };
-		9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E2B111B2AEB65008F3C8E /* DmailTests.m */; };
 		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
 		9CBD9D3F1B8C5C60007A30E2 /* DAOAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */; };
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
 		9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F81B46D49400182C2B /* RMModelProfile.m */; };
+		9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD3FD1B943E650091958B /* ServiceQueue.m */; };
+		9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4001B943EAE0091958B /* DAOQueue.m */; };
+		9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4031B943EE40091958B /* NetworkQueue.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
 		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
 		9CE2B5E41B55114A0020A2E0 /* ModelInboxMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE2B5E31B55114A0020A2E0 /* ModelInboxMessage.m */; };
@@ -94,7 +100,6 @@
 		C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D5D1B41AB1C00295A94 /* ModalTransitionAnimator.m */; };
 		C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D601B41AB1C00295A94 /* MTReachabilityManager.m */; };
 		C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D631B41AB1C00295A94 /* SoundManager.m */; };
-		C08C2DEF1B41AB1C00295A94 /* ComposeModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */; };
 		C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */; };
 		C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6C1B41AB1C00295A94 /* MessageItem.m */; };
 		C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6E1B41AB1C00295A94 /* ProfileItem.m */; };
@@ -119,16 +124,6 @@
 		C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = C09C27D31B4D7A140067B7F2 /* ModelGmailPayload.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9C9E2B0C1B2AEB65008F3C8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9C9E2AEA1B2AEB64008F3C8E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9C9E2AF11B2AEB64008F3C8E;
-			remoteInfo = Dmail;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DmailTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests.release.xcconfig"; sourceTree = "<group>"; };
 		58CFBBA51B4BCC79005DA506 /* NetworkGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkGmailMessage.h; sourceTree = "<group>"; };
@@ -151,6 +146,14 @@
 		9C21B8851B46A2780080B132 /* DAOContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOContact.m; sourceTree = "<group>"; };
 		9C21B8871B46A2DF0080B132 /* NetworkContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkContacts.h; sourceTree = "<group>"; };
 		9C21B8881B46A2DF0080B132 /* NetworkContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkContacts.m; sourceTree = "<group>"; };
+		9C41C51B1B8EF4D5004C8A0C /* EnterPinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterPinViewController.h; sourceTree = "<group>"; };
+		9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterPinViewController.m; sourceTree = "<group>"; };
+		9C41C51F1B8F3066004C8A0C /* ReserveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveViewController.h; sourceTree = "<group>"; };
+		9C41C5201B8F3066004C8A0C /* ReserveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveViewController.m; sourceTree = "<group>"; };
+		9C41C5231B8F3474004C8A0C /* QueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueViewController.h; sourceTree = "<group>"; };
+		9C41C5241B8F3474004C8A0C /* QueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueViewController.m; sourceTree = "<group>"; };
+		9C41C5271B8F589E004C8A0C /* GetStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetStartedViewController.h; sourceTree = "<group>"; };
+		9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetStartedViewController.m; sourceTree = "<group>"; };
 		9C4F23541B4BC674004F9AFC /* TextViewPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewPlaceHolder.h; sourceTree = "<group>"; };
 		9C4F23551B4BC674004F9AFC /* TextViewPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewPlaceHolder.m; sourceTree = "<group>"; };
 		9C4F23581B4C2A2B004F9AFC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -174,9 +177,6 @@
 		9C979E6B1B68F45500008C6A /* OnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingViewController.h; sourceTree = "<group>"; };
 		9C979E6C1B68F45500008C6A /* OnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingViewController.m; sourceTree = "<group>"; };
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C9E2B0B1B2AEB65008F3C8E /* DmailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DmailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C9E2B101B2AEB65008F3C8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9C9E2B111B2AEB65008F3C8E /* DmailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DmailTests.m; sourceTree = "<group>"; };
 		9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9CBD9D3D1B8C5C60007A30E2 /* DAOAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOAddressBook.h; sourceTree = "<group>"; };
@@ -187,8 +187,17 @@
 		9CC2D0F51B46D47E00182C2B /* RMModelContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelContact.m; sourceTree = "<group>"; };
 		9CC2D0F71B46D49400182C2B /* RMModelProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelProfile.h; sourceTree = "<group>"; };
 		9CC2D0F81B46D49400182C2B /* RMModelProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelProfile.m; sourceTree = "<group>"; };
+		9CCFD3FC1B943E650091958B /* ServiceQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceQueue.h; sourceTree = "<group>"; };
+		9CCFD3FD1B943E650091958B /* ServiceQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceQueue.m; sourceTree = "<group>"; };
+		9CCFD3FF1B943EAE0091958B /* DAOQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOQueue.h; sourceTree = "<group>"; };
+		9CCFD4001B943EAE0091958B /* DAOQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOQueue.m; sourceTree = "<group>"; };
+		9CCFD4021B943EE40091958B /* NetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkQueue.h; sourceTree = "<group>"; };
+		9CCFD4031B943EE40091958B /* NetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkQueue.m; sourceTree = "<group>"; };
+		9CCFD4051B94B2200091958B /* Dmail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Dmail.entitlements; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CDD05BF1B9098E50056E341 /* EnableTouchIdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnableTouchIdViewController.h; sourceTree = "<group>"; };
+		9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnableTouchIdViewController.m; sourceTree = "<group>"; };
 		9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfile.h; sourceTree = "<group>"; };
 		9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOProfile.m; sourceTree = "<group>"; };
 		9CDD15561B4A6E8C00E54CE1 /* ProfileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileModel.h; sourceTree = "<group>"; };
@@ -298,8 +307,6 @@
 		C08C2D601B41AB1C00295A94 /* MTReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTReachabilityManager.m; sourceTree = "<group>"; };
 		C08C2D621B41AB1C00295A94 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		C08C2D631B41AB1C00295A94 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
-		C08C2D671B41AB1C00295A94 /* ComposeModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModelItem.h; sourceTree = "<group>"; };
-		C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModelItem.m; sourceTree = "<group>"; };
 		C08C2D691B41AB1C00295A94 /* DmailEntityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailEntityItem.h; sourceTree = "<group>"; };
 		C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailEntityItem.m; sourceTree = "<group>"; };
 		C08C2D6B1B41AB1C00295A94 /* MessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageItem.h; sourceTree = "<group>"; };
@@ -360,14 +367,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C9E2B081B2AEB65008F3C8E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				86C33D1115A6B8746EA9B83E /* libPods-DmailTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -378,6 +377,43 @@
 				9C216E711B675D3100C531BA /* GiberishEnc.html */,
 			);
 			path = AES256JS;
+			sourceTree = "<group>";
+		};
+		9C41C51A1B8EF4A0004C8A0C /* EnterPinController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C51B1B8EF4D5004C8A0C /* EnterPinViewController.h */,
+				9C41C51C1B8EF4D5004C8A0C /* EnterPinViewController.m */,
+			);
+			name = EnterPinController;
+			path = "Dmail/Classes/Presentation Layer/ViewControllers/EnterPinController";
+			sourceTree = SOURCE_ROOT;
+		};
+		9C41C51E1B8F3050004C8A0C /* ReserveViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C51F1B8F3066004C8A0C /* ReserveViewController.h */,
+				9C41C5201B8F3066004C8A0C /* ReserveViewController.m */,
+			);
+			path = ReserveViewController;
+			sourceTree = "<group>";
+		};
+		9C41C5221B8F346A004C8A0C /* QueuViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C5231B8F3474004C8A0C /* QueueViewController.h */,
+				9C41C5241B8F3474004C8A0C /* QueueViewController.m */,
+			);
+			path = QueuViewController;
+			sourceTree = "<group>";
+		};
+		9C41C5261B8F5889004C8A0C /* GetStartViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C41C5271B8F589E004C8A0C /* GetStartedViewController.h */,
+				9C41C5281B8F589E004C8A0C /* GetStartedViewController.m */,
+			);
+			path = GetStartViewController;
 			sourceTree = "<group>";
 		};
 		9C4F23531B4BC652004F9AFC /* TextViewPlaceHolder */ = {
@@ -440,18 +476,17 @@
 				9CD8EA2A1B383DFB0052210D /* Fabric.framework */,
 				9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */,
 				9C9E2AF41B2AEB64008F3C8E /* Dmail */,
-				9C9E2B0E1B2AEB65008F3C8E /* DmailTests */,
 				9C9E2AF31B2AEB64008F3C8E /* Products */,
 				EFAF3DA5F47E99AF4EA39098 /* Pods */,
 				D83BFC4667FC4E4708232089 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		9C9E2AF31B2AEB64008F3C8E /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				9C9E2AF21B2AEB64008F3C8E /* Dmail.app */,
-				9C9E2B0B1B2AEB65008F3C8E /* DmailTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -459,29 +494,13 @@
 		9C9E2AF41B2AEB64008F3C8E /* Dmail */ = {
 			isa = PBXGroup;
 			children = (
+				9CCFD4051B94B2200091958B /* Dmail.entitlements */,
 				C08C2DA41B41AB1C00295A94 /* Storyboard */,
 				C08C2CB71B41AB1B00295A94 /* Assets */,
 				C08C2CC01B41AB1B00295A94 /* Classes */,
 				C08C2DA71B41AB1C00295A94 /* Supporting Files */,
 			);
 			path = Dmail;
-			sourceTree = "<group>";
-		};
-		9C9E2B0E1B2AEB65008F3C8E /* DmailTests */ = {
-			isa = PBXGroup;
-			children = (
-				9C9E2B111B2AEB65008F3C8E /* DmailTests.m */,
-				9C9E2B0F1B2AEB65008F3C8E /* Supporting Files */,
-			);
-			path = DmailTests;
-			sourceTree = "<group>";
-		};
-		9C9E2B0F1B2AEB65008F3C8E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				9C9E2B101B2AEB65008F3C8E /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		9CC2D0EC1B46CB7600182C2B /* Contact */ = {
@@ -508,6 +527,15 @@
 				9CC2D0F81B46D49400182C2B /* RMModelProfile.m */,
 			);
 			path = "Local Storage";
+			sourceTree = "<group>";
+		};
+		9CDD05BE1B9098CF0056E341 /* EnableTouchIdController */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD05BF1B9098E50056E341 /* EnableTouchIdViewController.h */,
+				9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */,
+			);
+			path = EnableTouchIdController;
 			sourceTree = "<group>";
 		};
 		9CDD15551B4A6E7B00E54CE1 /* Profile */ = {
@@ -630,6 +658,8 @@
 				58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */,
 				C09C27C51B4BEF700067B7F2 /* ServiceSync.h */,
 				C09C27C61B4BEF700067B7F2 /* ServiceSync.m */,
+				9CCFD3FC1B943E650091958B /* ServiceQueue.h */,
+				9CCFD3FD1B943E650091958B /* ServiceQueue.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -892,6 +922,8 @@
 				58CFBBA91B4BFC80005DA506 /* DAOGmailMessage.m */,
 				C09C27C81B4BFE440067B7F2 /* DAOSync.h */,
 				C09C27C91B4BFE440067B7F2 /* DAOSync.m */,
+				9CCFD3FF1B943EAE0091958B /* DAOQueue.h */,
+				9CCFD4001B943EAE0091958B /* DAOQueue.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -899,8 +931,6 @@
 		C08C2D661B41AB1C00295A94 /* Items */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D671B41AB1C00295A94 /* ComposeModelItem.h */,
-				C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */,
 				C08C2D691B41AB1C00295A94 /* DmailEntityItem.h */,
 				C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */,
 				C08C2D6B1B41AB1C00295A94 /* MessageItem.h */,
@@ -946,6 +976,8 @@
 				9C21B8881B46A2DF0080B132 /* NetworkContacts.m */,
 				58CFBBA51B4BCC79005DA506 /* NetworkGmailMessage.h */,
 				58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */,
+				9CCFD4021B943EE40091958B /* NetworkQueue.h */,
+				9CCFD4031B943EE40091958B /* NetworkQueue.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -962,6 +994,11 @@
 		C08C2D791B41AB1C00295A94 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9C41C51E1B8F3050004C8A0C /* ReserveViewController */,
+				9C41C5221B8F346A004C8A0C /* QueuViewController */,
+				9C41C5261B8F5889004C8A0C /* GetStartViewController */,
+				9C41C51A1B8EF4A0004C8A0C /* EnterPinController */,
+				9CDD05BE1B9098CF0056E341 /* EnableTouchIdController */,
 				9C979E6A1B68F44100008C6A /* Onboarding */,
 				9C8AE6441B58FF9600F3CE89 /* BaseNavigationController */,
 				C08C2D7A1B41AB1C00295A94 /* BaseViewController */,
@@ -1183,26 +1220,6 @@
 			productReference = 9C9E2AF21B2AEB64008F3C8E /* Dmail.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9C9E2B0A1B2AEB65008F3C8E /* DmailTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9C9E2B181B2AEB65008F3C8E /* Build configuration list for PBXNativeTarget "DmailTests" */;
-			buildPhases = (
-				FDBEB7512E05096DE4745B5E /* Check Pods Manifest.lock */,
-				9C9E2B071B2AEB65008F3C8E /* Sources */,
-				9C9E2B081B2AEB65008F3C8E /* Frameworks */,
-				9C9E2B091B2AEB65008F3C8E /* Resources */,
-				1DDA650C054AEE19D34FDEB1 /* Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9C9E2B0D1B2AEB65008F3C8E /* PBXTargetDependency */,
-			);
-			name = DmailTests;
-			productName = DmailTests;
-			productReference = 9C9E2B0B1B2AEB65008F3C8E /* DmailTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1214,11 +1231,17 @@
 				TargetAttributes = {
 					9C9E2AF11B2AEB64008F3C8E = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = X24QFW733V;
-					};
-					9C9E2B0A1B2AEB65008F3C8E = {
-						CreatedOnToolsVersion = 6.3.1;
-						TestTargetID = 9C9E2AF11B2AEB64008F3C8E;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -1236,7 +1259,6 @@
 			projectRoot = "";
 			targets = (
 				9C9E2AF11B2AEB64008F3C8E /* Dmail */,
-				9C9E2B0A1B2AEB65008F3C8E /* DmailTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1258,31 +1280,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C9E2B091B2AEB65008F3C8E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1DDA650C054AEE19D34FDEB1 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		61A43B1D1C486FF6CA330822 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1325,21 +1325,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		FDBEB7512E05096DE4745B5E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1352,7 +1337,6 @@
 				C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */,
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
 				C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */,
-				C08C2DEF1B41AB1C00295A94 /* ComposeModelItem.m in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
@@ -1380,15 +1364,18 @@
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
 				C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */,
+				9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */,
 				C09C27B91B4BD3BB0067B7F2 /* MessageCell.m in Sources */,
 				9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */,
 				C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */,
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
+				9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
 				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
 				9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */,
+				9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */,
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
@@ -1400,7 +1387,9 @@
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
+				9C41C5251B8F3474004C8A0C /* QueueViewController.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,
+				9C41C5291B8F589E004C8A0C /* GetStartedViewController.m in Sources */,
 				9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */,
 				C08C2DF61B41AB1C00295A94 /* ComposeViewController.m in Sources */,
 				C05C0CD51B42E22000248B91 /* ServiceMessage.m in Sources */,
@@ -1422,7 +1411,9 @@
 				9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */,
 				9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */,
 				C08C2DDF1B41AB1C00295A94 /* BaseSegmentedControl.m in Sources */,
+				9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */,
 				C08C2DF91B41AB1C00295A94 /* LoadingViewController.m in Sources */,
+				9C41C5211B8F3066004C8A0C /* ReserveViewController.m in Sources */,
 				C08C2DF51B41AB1C00295A94 /* BaseViewController.m in Sources */,
 				C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
@@ -1432,6 +1423,7 @@
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */,
 				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,
+				9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */,
 				C09C27C71B4BEF700067B7F2 /* ServiceSync.m in Sources */,
 				C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */,
 				C08C2DD91B41AB1C00295A94 /* BaseCollectionView.m in Sources */,
@@ -1444,23 +1436,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C9E2B071B2AEB65008F3C8E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9C9E2B121B2AEB65008F3C8E /* DmailTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9C9E2B0D1B2AEB65008F3C8E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9C9E2AF11B2AEB64008F3C8E /* Dmail */;
-			targetProxy = 9C9E2B0C1B2AEB65008F3C8E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9C9E2B131B2AEB65008F3C8E /* Debug */ = {
@@ -1480,7 +1456,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1502,6 +1479,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1523,7 +1501,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1538,6 +1517,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1549,8 +1529,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1560,7 +1540,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
+				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
 			};
 			name = Debug;
 		};
@@ -1570,8 +1550,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1581,43 +1561,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3fd2e2fc-45a5-43ca-a6ff-b4ddd3764c63";
-			};
-			name = Release;
-		};
-		9C9E2B191B2AEB65008F3C8E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED20293C14CBDB7F64341C27 /* Pods-DmailTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DmailTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dmail.app/Dmail";
-			};
-			name = Debug;
-		};
-		9C9E2B1A1B2AEB65008F3C8E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0619A2EC829210ED2EFCD877 /* Pods-DmailTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DmailTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dmail.app/Dmail";
+				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
 			};
 			name = Release;
 		};
@@ -1638,15 +1582,6 @@
 			buildConfigurations = (
 				9C9E2B161B2AEB65008F3C8E /* Debug */,
 				9C9E2B171B2AEB65008F3C8E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9C9E2B181B2AEB65008F3C8E /* Build configuration list for PBXNativeTarget "DmailTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9C9E2B191B2AEB65008F3C8E /* Debug */,
-				9C9E2B1A1B2AEB65008F3C8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -276,6 +276,13 @@
     }
 }
 
+- (void)defineTextViewFrame {
+    
+    CGRect frame = self.textViewBody.frame;
+    CGFloat textViewOriginY = self.scrollView.frame.origin.y + self.viewTextViewContainer.frame.origin.y + self.textViewBody.frame.origin.y;
+    self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
+}
+
 - (NSMutableArray *)cleanUnusedNamesFromRecipients:(NSMutableArray *)arrayRecipient {
     
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -302,30 +309,6 @@
     }
     
     return array;
-}
-
-- (void)defineTextViewFrame {
-    
-    CGRect frame = self.textViewBody.frame;
-    CGFloat textViewOriginY = self.scrollView.frame.origin.y + self.viewTextViewContainer.frame.origin.y + self.textViewBody.frame.origin.y;
-    self.textViewBody.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [UIScreen mainScreen].bounds.size.height - textViewOriginY - self.keyboardHeight + self.scrollView.contentOffset.y - 5);
-}
-
-- (BOOL)verifyEmailAddresses:(NSArray *)arrayEmails {
-    
-    BOOL success = YES;
-    if ([arrayEmails count] > 0) {
-        NSString *emailReg = @"[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,4}";
-        NSPredicate *emailTest =[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
-        for (NSString *email in arrayEmails) {
-            success = [emailTest evaluateWithObject:email];
-            if (!success) {
-                break;
-            }
-        }
-    }
-    
-    return success;
 }
 
 - (NSString *)convertEntersToDiv:(NSString *)body {
@@ -366,6 +349,23 @@
     return valid;
 }
 
+- (BOOL)verifyEmailAddresses:(NSArray *)arrayEmails {
+    
+    BOOL success = YES;
+    if ([arrayEmails count] > 0) {
+        NSString *emailReg = @"[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,4}";
+        NSPredicate *emailTest =[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
+        for (NSString *email in arrayEmails) {
+            success = [emailTest evaluateWithObject:email];
+            if (!success) {
+                break;
+            }
+        }
+    }
+    
+    return success;
+}
+
 
 #pragma mark - UIWebViewDelegate Methods
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -373,22 +373,23 @@
     NSString *messageBody = [self convertEntersToDiv:self.textViewBody.text];
     NSString *clientKey = [self.serviceMessage getClientKey];
     NSString *function = [NSString stringWithFormat:@"GibberishAES.enc('%@', '%@')",messageBody, clientKey];
-    NSString *result = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
+    NSString *encyptedBody = [self.webEncryptor stringByEvaluatingJavaScriptFromString:function];
         
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    // Add this part to your code
-//    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-//    [formatter setTimeZone:timeZone];
-//    
-//    NSDate *now = [NSDate date];
-//    NSDate *dateToFire = [now dateByAddingTimeInterval:60*60];
-//    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
-//    NSLog(@"dateToFire ==== %f", timeInterval);
-//    timeInterval = [now timeIntervalSince1970];
-//    NSLog(@"now ==== %f", timeInterval);    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    // Add this part to your code
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [formatter setTimeZone:timeZone];
+    
+    NSDate *now = [NSDate date];
+    NSDate *dateToFire = [now dateByAddingTimeInterval:1*60];
+    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
+    NSLog(@"dateToFire ==== %f", timeInterval);
+    timeInterval = [now timeIntervalSince1970];
+    NSLog(@"now ==== %f", timeInterval);
+    self.timer = timeInterval;
     
     if ([self validateEmails]) {
-        [self.serviceMessage sendMessage:result clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {
+        [self.serviceMessage sendMessage:encyptedBody clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {
             
         }];
     }

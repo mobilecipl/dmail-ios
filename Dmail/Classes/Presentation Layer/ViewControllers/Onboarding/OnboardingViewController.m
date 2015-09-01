@@ -26,6 +26,7 @@
     [super viewDidLoad];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.serviceSync = [[ServiceSync alloc] init];
 }
 
@@ -48,9 +49,14 @@
 #pragma mark - Action Methods
 - (IBAction)letsGoClicked:(id)sender {
     
-    [self performSegueWithIdentifier:@"fromOnboardingToInbox" sender:self];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:SetupPin]) {
+        [self performSegueWithIdentifier:@"fromOnboardingToSetPin" sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromOnboardingToInbox" sender:self];
+    }
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"onboardingWasShowed"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OnboardingWasShowed];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self.serviceSync sync];
