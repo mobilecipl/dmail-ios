@@ -3341,9 +3341,9 @@ Label</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xxz-lM-Avx"/>
-        <segue reference="3ji-Qa-bqI"/>
+        <segue reference="bzl-GS-gvY"/>
         <segue reference="Jjg-do-4sL"/>
         <segue reference="COF-Ci-usR"/>
+        <segue reference="xxz-lM-Avx"/>
     </inferredMetricsTieBreakers>
 </document>

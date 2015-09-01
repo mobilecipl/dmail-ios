@@ -30,16 +30,12 @@
 #pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSLog(@"Test brunch");
     [Fabric with:@[CrashlyticsKit]];
 
     //Realm
     [self realmMigration];
     //Google
     [self setupGoogleSignIn];
-    
-    [self registerNotifications];
-    
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController;

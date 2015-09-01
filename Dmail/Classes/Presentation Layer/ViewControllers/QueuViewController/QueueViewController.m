@@ -41,8 +41,8 @@
     [super viewDidLoad];
     
     [self setupController];
-//    [self getQueue];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pushToNextView) userInfo:nil repeats:YES];
+    [self getQueue];
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pushToNextView) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,7 +71,7 @@
         self.buttonSetupPin.userInteractionEnabled = NO;
     }
     
-    self.queu = 15;
+    self.queu = 5;
     self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)self.queu];
 }
 

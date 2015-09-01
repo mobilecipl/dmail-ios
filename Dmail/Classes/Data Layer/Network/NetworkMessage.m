@@ -172,7 +172,7 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
         parameters = @{@"message_id" : messageId,
                        @"message_identifier" : messageIdentifier,
                        @"sender_email" : senderEmail,
-                       @"timer" : [NSString stringWithFormat:@"%lld", timer]};
+                       @"timer" : [NSNumber numberWithLongLong:timer]};
     }
     else {
         parameters = @{@"message_id" : messageId,

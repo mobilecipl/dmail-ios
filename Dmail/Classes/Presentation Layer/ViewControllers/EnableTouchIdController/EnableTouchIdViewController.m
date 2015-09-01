@@ -32,7 +32,13 @@
                 }
                 if (success) {
                     [self.imageViewTouchId setImage:[UIImage imageNamed:@"imageFingerTouch"]];
-                    [self showErrorAlertWithTitle:@"Success" message:@"You are the device owner!"];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                                    message:@"You are the device owner!"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil, nil];
+                    alert.delegate = self;
+                    [alert show];
                 } else {
                     [self showErrorAlertWithTitle:@"Error" message:@"You are not the device owner."];
                 }

@@ -224,44 +224,41 @@
     NSString *savedPin = [[NSUserDefaults standardUserDefaults] objectForKey:@"pin"];
     if (savedPin) {
         if ([savedPin isEqualToString:pin]) {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"touchId"]) {
-                [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
-            }
-            else {
-                [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
-            }
-            [UIView animateWithDuration:1
+            [UIView animateWithDuration:0.3
                              animations:^{
                                  self.viewPins.alpha = 0;
                                  self.viewPinConfirmed.alpha = 1;
                              }
                              completion:^(BOOL finished) {
+                                 sleep(1);
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"touchId"]) {
+                                     [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
+                                 }
+                                 else {
+                                     [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
+                                 }
                              }];
         }
         else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!"
-                                                            message:@"You typed wrong pin"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Ok"
-                                                  otherButtonTitles:nil, nil];
-            [alert show];
+            [self showErrorAlertWithTitle:@"Error" message:@"You typed wrong pin"];
         }
     }
     else {
-        [UIView animateWithDuration:1
+        [[NSUserDefaults standardUserDefaults] setObject:pin forKey:@"pin"];
+        [UIView animateWithDuration:0.3
                          animations:^{
                              self.viewPins.alpha = 0;
                              self.viewPinConfirmed.alpha = 1;
                          }
                          completion:^(BOOL finished) {
+                             sleep(1);
+                             if (self.switchOn) {
+                                 [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
+                             }
+                             else {
+                                 [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
+                             }
                          }];
-        [[NSUserDefaults standardUserDefaults] setObject:pin forKey:@"pin"];
-        if (self.switchOn) {
-            [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
-        }
-        else {
-            [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
-        }
     }
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"setupPin"];

@@ -10,12 +10,12 @@
 
 @implementation NetworkQueue
 
-static NSString * const kUrlGetQueu = @"%@";
-static NSString * const kUrlSendToken = @"%@/%@";
+static NSString * const kUrlGetQueu = @"mobile/checkQueue";
+static NSString * const kUrlSendToken = @"mobile/updateToken";
 
 - (void)getQueueWithUserId:(NSString *)deviceId completionBlock:(CompletionBlock)completionBlock {
     
-    NSDictionary *parameters = @{@"userId" : deviceId};
+    NSDictionary *parameters = @{@"device_id" : deviceId};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
             case 200: {
@@ -41,14 +41,14 @@ static NSString * const kUrlSendToken = @"%@/%@";
         }
     };
     
-    NSString *urlString = [NSString stringWithFormat:kUrlGetQueu, deviceId];
+    NSString *urlString = [NSString stringWithFormat:kUrlGetQueu];
     [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)sendTokenWithDeviceId:(NSString *)deviceId token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    NSDictionary *parameters = @{@"userId" : deviceId,
-                                 @"token" : token};
+    NSDictionary *parameters = @{@"device_id" : deviceId,
+                                 @"device_token" : token};
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
             case 200: {
@@ -74,7 +74,7 @@ static NSString * const kUrlSendToken = @"%@/%@";
         }
     };
     
-    NSString *urlString = [NSString stringWithFormat:kUrlSendToken, deviceId, token];
+    NSString *urlString = [NSString stringWithFormat:kUrlSendToken];
     [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 

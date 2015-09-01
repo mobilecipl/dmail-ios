@@ -26,6 +26,7 @@
     [super viewDidLoad];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.serviceSync = [[ServiceSync alloc] init];
 }
 
