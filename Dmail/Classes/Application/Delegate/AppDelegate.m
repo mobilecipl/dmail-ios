@@ -74,9 +74,13 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     if ([deviceToken length] > 0) {
-        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:Token];
+        NSString *token = [[deviceToken description] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
+        token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:token forKey:Token];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        NSDictionary *dict = @{Token : deviceToken};
+        NSDictionary *dict = @{Token : token};
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationToken object:nil userInfo:dict];
     }
 }

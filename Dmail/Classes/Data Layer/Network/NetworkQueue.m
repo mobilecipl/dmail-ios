@@ -42,7 +42,7 @@ static NSString * const kUrlSendToken = @"mobile/updateToken";
     };
     
     NSString *urlString = [NSString stringWithFormat:kUrlGetQueu];
-    [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makePostRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 - (void)sendTokenWithDeviceId:(NSString *)deviceId token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
@@ -75,7 +75,7 @@ static NSString * const kUrlSendToken = @"mobile/updateToken";
     };
     
     NSString *urlString = [NSString stringWithFormat:kUrlSendToken];
-    [self makeDeleteRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
+    [self makePostRequest:urlString withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
 @end

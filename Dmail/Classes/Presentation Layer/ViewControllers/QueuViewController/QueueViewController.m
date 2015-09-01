@@ -19,7 +19,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelTotalInLine;
 @property (nonatomic, strong) ServiceQueue *serviceQueue;
 @property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, assign) NSInteger queu;
+@property (nonatomic, assign) BOOL startRequest;
 
 @end
 
@@ -42,7 +42,7 @@
     
     [self setupController];
     [self getQueue];
-//    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pushToNextView) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getQueue) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,49 +70,49 @@
         [self.buttonSetupPin setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
         self.buttonSetupPin.userInteractionEnabled = NO;
     }
-    
-    self.queu = 5;
-    self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)self.queu];
-}
-
-- (void)pushToNextView {
-    
-    self.queu--;
-    if (self.queu < 0) {
-        [self.timer invalidate];
-        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
-    }
-    else {
-        self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld",(long)self.queu];
-    }
 }
 
 - (void)getQueue {
     
     [self showLoadingView];
     NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
-        [self hideLoadingView];
-        if (data && [data isKindOfClass:[NSDictionary class]]) {
-            if (YES) {
-                [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+    if (!self.startRequest) {
+        self.startRequest = YES;
+        [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
+            self.startRequest = NO;
+            [self hideLoadingView];
+            if (data && [data isKindOfClass:[NSDictionary class]]) {
+                if ([[data allKeys] containsObject:@"access"]) {
+                    if ([data[@"access"] isEqualToString:@"GRANTED"]) {
+                        [self.timer invalidate];
+                        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+                    }
+                }
+                else {
+                    self.labelCurrentPlace.text = data[@"position"];
+                    self.labelTotalInLine.text = data[@"queueSize"];
+                    [self checkQueueStatusWithPosition:[data[@"position"] integerValue] total:[data[@"queueSize"] integerValue]];
+                }
             }
             else {
-                
+                [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
             }
-            self.labelCurrentPlace.text = data[@""];
-            self.labelTotalInLine.text = data[@""];
-        }
-        else {
-            [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
-        }
-    }];
+        }];
+    }
 }
 
 - (void)sendDeviceToken {
     
     [self showLoadingView];
     [[AppDelegate sharedDelegate] registerNotifications];
+}
+
+- (void)checkQueueStatusWithPosition:(NSInteger)position total:(NSInteger)total {
+    
+    if (position == total) {
+        [self.timer invalidate];
+        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+    }
 }
 
 - (void)getToken:(NSNotification *)notification {
