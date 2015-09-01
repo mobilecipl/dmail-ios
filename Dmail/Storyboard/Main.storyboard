@@ -1202,25 +1202,6 @@
             </objects>
             <point key="canvasLocation" x="-893.5" y="409.5"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="eyq-xw-7AK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="gzo-a6-0Wx" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3Dh-A3-PJH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="CDO-SS-yZ5"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DaO-bd-gy4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="357.5" y="-494.5"/>
-        </scene>
         <!--Inbox Message View Controller-->
         <scene sceneID="pSc-gb-EOX">
             <objects>
@@ -3360,8 +3341,8 @@ Label</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bzl-GS-gvY"/>
         <segue reference="xxz-lM-Avx"/>
+        <segue reference="3ji-Qa-bqI"/>
         <segue reference="Jjg-do-4sL"/>
         <segue reference="COF-Ci-usR"/>
     </inferredMetricsTieBreakers>

@@ -100,7 +100,6 @@
 		C08C2DEC1B41AB1C00295A94 /* ModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D5D1B41AB1C00295A94 /* ModalTransitionAnimator.m */; };
 		C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D601B41AB1C00295A94 /* MTReachabilityManager.m */; };
 		C08C2DEE1B41AB1C00295A94 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D631B41AB1C00295A94 /* SoundManager.m */; };
-		C08C2DEF1B41AB1C00295A94 /* ComposeModelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */; };
 		C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */; };
 		C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6C1B41AB1C00295A94 /* MessageItem.m */; };
 		C08C2DF21B41AB1C00295A94 /* ProfileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2D6E1B41AB1C00295A94 /* ProfileItem.m */; };
@@ -308,8 +307,6 @@
 		C08C2D601B41AB1C00295A94 /* MTReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTReachabilityManager.m; sourceTree = "<group>"; };
 		C08C2D621B41AB1C00295A94 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		C08C2D631B41AB1C00295A94 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
-		C08C2D671B41AB1C00295A94 /* ComposeModelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeModelItem.h; sourceTree = "<group>"; };
-		C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeModelItem.m; sourceTree = "<group>"; };
 		C08C2D691B41AB1C00295A94 /* DmailEntityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DmailEntityItem.h; sourceTree = "<group>"; };
 		C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DmailEntityItem.m; sourceTree = "<group>"; };
 		C08C2D6B1B41AB1C00295A94 /* MessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageItem.h; sourceTree = "<group>"; };
@@ -933,8 +930,6 @@
 		C08C2D661B41AB1C00295A94 /* Items */ = {
 			isa = PBXGroup;
 			children = (
-				C08C2D671B41AB1C00295A94 /* ComposeModelItem.h */,
-				C08C2D681B41AB1C00295A94 /* ComposeModelItem.m */,
 				C08C2D691B41AB1C00295A94 /* DmailEntityItem.h */,
 				C08C2D6A1B41AB1C00295A94 /* DmailEntityItem.m */,
 				C08C2D6B1B41AB1C00295A94 /* MessageItem.h */,
@@ -1342,7 +1337,6 @@
 				C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */,
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
 				C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */,
-				C08C2DEF1B41AB1C00295A94 /* ComposeModelItem.m in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
