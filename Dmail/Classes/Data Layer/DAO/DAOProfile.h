@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Karen Petrosyan. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "BaseDAO.h"
 
 @class ProfileModel;
@@ -15,5 +14,9 @@
 
 - (ProfileModel *)getProfile;
 - (void)addProfileWithProfileModel:(ProfileModel *)profileModel;
+- (void)removeProfileWithEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
+- (ProfileModel *)getSelectedProfile;
+- (NSString *)getSelectedProfileEmail;
+- (NSString *)getSelectedProfileUserId;
 
 @end

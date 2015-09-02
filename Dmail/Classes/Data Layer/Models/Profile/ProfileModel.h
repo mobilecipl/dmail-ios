@@ -19,11 +19,17 @@
 @property NSString *token;
 @property NSString *imageUrl;
 @property NSString *bodyTemplate;
-@property long long templateLastUpdateDate;
-
 @property NSString *lastContactsUpdate;
+@property long long templateLastUpdateDate;
+@property BOOL selected;
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSString *)contactLastUpdateDate token:(NSString *)token;
+- (instancetype)initWithEmail:(NSString *)email
+                     fullName:(NSString *)fullName
+                     googleId:(NSString *)googleId
+                     imageUrl:(NSString *)imageUrl
+        contactLastUpdateDate:(NSString *)contactLastUpdateDate
+                        token:(NSString *)token
+                     selected:(BOOL)selected;
 - (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 
 @end

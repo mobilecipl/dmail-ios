@@ -30,6 +30,7 @@
 @property (nonatomic) long long internalDate;
 @property (nonatomic) NSString *subject;
 @property (nonatomic) NSString *body;
+@property (nonatomic) NSString *profile;
 
 
 @property NSString *fromName;

@@ -16,6 +16,7 @@
 @property NSString *recipient;
 @property NSString *serverId;
 @property NSString *type;
+@property NSString *profile;
 @property long long position;
 
 @property NSString *name;

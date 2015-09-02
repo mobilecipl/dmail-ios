@@ -22,6 +22,7 @@
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
 
 @end
 
@@ -29,13 +30,24 @@
 
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceSync = [[ServiceSync alloc] init];
+        _serviceProfile = [[ServiceProfile alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     [self.indicator startAnimating];
+    self.serviceProfile = [[ServiceProfile alloc] init];
     
-    if ([[ServiceProfile sharedInstance] googleId]) {
+    if (self.serviceProfile.googleId) {
         [self autoSignIn];
     }
     else {  
@@ -65,8 +77,7 @@
     }
     else {
         // TODO: sync
-        [[ServiceProfile sharedInstance] updateUserDetails:user];
-        self.serviceSync = [[ServiceSync alloc] init];
+        [self.serviceProfile updateUserDetails:user];
         [self.serviceSync sync];
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
             [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];

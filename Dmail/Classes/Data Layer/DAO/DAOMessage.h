@@ -27,7 +27,7 @@
 
 - (NSString *)getLastGmailMessageId;
 
-- (NSNumber *)getLastDmailPosition;
+- (NSNumber *)getLastDmailPositionWithEmail:(NSString *)email;
 
 - (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
 

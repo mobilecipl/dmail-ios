@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NetworkMessage *networkMessage;
 @property (nonatomic, strong) NetworkGmailMessage *networkGmailMessage;
 @property (nonatomic, strong) DAOGmailMessage *daoGmailMessage;
+@property (nonatomic, strong) DAOProfile *daoProfile;
 @property (nonatomic, strong) UIWebView *webViewEncryptDecrypt;
 @property (nonatomic, strong) NSString *encryptedMessage;
 @property (nonatomic, strong) NSString *messageForEncrypt;
@@ -63,6 +64,7 @@
         _networkMessage = [[NetworkMessage alloc] init];
         _networkGmailMessage = [[NetworkGmailMessage alloc] init];
         _daoGmailMessage = [[DAOGmailMessage alloc] init];
+        _daoProfile = [[DAOProfile alloc] init];
         _webViewEncryptDecrypt = [[UIWebView alloc] init];
         _webViewEncryptDecrypt.delegate = self;
     }
@@ -260,6 +262,7 @@
     
     [self.networkMessage sendRecipientEmail:recipientEmail key:key recipientType:recipientType messageId:messageId completionBlock:^(id data, ErrorDataModel *error) {
         ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:data];
+        recipient.profile = [self.daoProfile getSelectedProfileEmail];
         [self saveRecipient:recipient];
         completionBlock(data, error);
     }];
@@ -270,6 +273,7 @@
     ModelMessage *modelMessage = [[ModelMessage alloc] init];
     modelMessage.messageId = messageId;
     modelMessage.publicKey = clientKey;
+    modelMessage.profile = [self.daoProfile getSelectedProfileEmail];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:modelMessage];
@@ -327,7 +331,8 @@
                 modelInbox.fromEmail = modelMessage.fromEmail;
                 modelInbox.read = modelMessage.read;
                 modelInbox.imageUrl = [self getRecipientImageUrlWithMessageId:rmRecipient.messageId];
-                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"SENDER", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+                NSString *profile = [self.daoProfile getSelectedProfileEmail];
+                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@ AND profile = %@", @"SENDER", rmRecipient.messageId, profile] sortedResultsUsingProperty:@"position" ascending:NO];
                 modelInbox.fromName = [self getRecipientsName:recipients];
                 [arrayItems addObject:modelInbox];
             }
@@ -344,16 +349,17 @@
     NSMutableArray *arrayItems = [@[] mutableCopy];
     if (modelProfile.email) {
         RLMRealm *realm = [RLMRealm defaultRealm];
-        RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"SENDER", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
+        NSString *profile = [self.daoProfile getSelectedProfileEmail];
+        RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@ AND profile = %@", @"SENDER", @"GRANTED", modelProfile.email, profile] sortedResultsUsingProperty:@"position" ascending:NO];
         for (RMModelRecipient *rmRecipient in recipients) {
-            RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+            RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != '' AND profile = %@",rmRecipient.messageId, profile] sortedResultsUsingProperty:@"position" ascending:NO];
             ModelMessage *modelMessage = [messages firstObject];
             if (modelMessage) {
                 ModelSentMessage *modelSent = [[ModelSentMessage alloc] init];
                 modelSent.messageId = rmRecipient.messageId;
                 modelSent.subject = modelMessage.subject;
                 modelSent.internalDate = modelMessage.internalDate;
-                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
+                RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@ AND profile = %@", @"TO", @"CC", @"BCC", rmRecipient.messageId, profile] sortedResultsUsingProperty:@"position" ascending:NO];
                 modelSent.recipientName = [self getRecipientsName:recipients];
                 [arrayItems addObject:modelSent];
             }
@@ -448,11 +454,12 @@
         if (message.body.length != 0) {
             modelMessage.body = message.body;
         }
-        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"TO", message.messageId];
+        NSString *profile = [self.daoProfile getSelectedProfileEmail];
+        RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@ AND profile = %@", @"TO", message.messageId, profile];
         modelMessage.to = [self arrayRecipients:recipients];
-        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"CC", message.messageId];
+        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@ AND profile = %@", @"CC", message.messageId, profile];
         modelMessage.cc = [self arrayRecipients:recipients];
-        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@", @"BCC", message.messageId];
+        recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND messageId = %@ AND profile = %@", @"BCC", message.messageId, profile];
         modelMessage.bcc = [self arrayRecipients:recipients];
         modelMessage.subject = message.subject;
         modelMessage.fromName = message.fromName;
@@ -469,7 +476,8 @@
     NSString *imageUrl;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@", @"SENDER", @"GRANTED", messageId];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND messageId = %@ AND profile = %@", @"SENDER", @"GRANTED", messageId, profile];
     RMModelRecipient *modelRecipient = [recipients firstObject];
     if (modelRecipient) {
         RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:modelRecipient.recipient];
@@ -501,7 +509,8 @@
 - (RMModelMessage *)getLastGmailUniqueId {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"access = %@ AND gmailId = ''", @"GRANTED"] sortedResultsUsingProperty:@"position" ascending:NO];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"access = %@ AND gmailId = '' AND profile = %@", @"GRANTED", profile] sortedResultsUsingProperty:@"position" ascending:NO];
     RMModelMessage *message = [messages firstObject];
     
     return message;
@@ -512,23 +521,24 @@
     NSString *gmailMessageId = nil;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"gmailId != '' AND internalDate = 0"] sortedResultsUsingProperty:@"position" ascending:NO];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"gmailId != '' AND internalDate = 0 AND profile = %@", profile] sortedResultsUsingProperty:@"position" ascending:NO];
     RMModelMessage *message = [messages firstObject];
     gmailMessageId = message.gmailId;
     
     return gmailMessageId;
 }
 
-- (NSNumber *)getLastDmailPosition {
+- (NSNumber *)getLastDmailPositionWithEmail:(NSString *)email {
     
     NSNumber *position = @0;
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *recipients = [[RMModelRecipient allObjectsInRealm:realm] sortedResultsUsingProperty:@"position" ascending:NO];
-    for (RMModelRecipient *recipient in recipients) {
-        // get first result
-        position = @(recipient.position);
-        break;
-    }
+//    RLMRealm *realm = [RLMRealm defaultRealm];
+//    RLMResults *recipients = [[RMModelRecipient allObjectsInRealm:realm] sortedResultsUsingProperty:@"position" ascending:NO];
+
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *recipients = [[RMModelRecipient objectsWhere:@"recipient = %@ AND profile = %@",email, profile] sortedResultsUsingProperty:@"position" ascending:NO];
+    RMModelRecipient *recipient = [recipients firstObject];
+    position = @(recipient.position);
     
     return position;
 }
@@ -569,7 +579,8 @@
 - (void)destroyMessageWithMessageId:(NSString *)messageId fromSentList:(BOOL)fromSentList {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@", @"TO", @"CC", @"BCC", messageId];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *recipients = [RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND messageId = %@ AND profile = %@", @"TO", @"CC", @"BCC", messageId, profile];
     RMModelRecipient *rmRecipient = [recipients firstObject];
     if (rmRecipient) {
         [self destroRecipient:rmRecipient.recipient messageId:messageId fromSentList:fromSentList];
@@ -581,7 +592,8 @@
     [self.networkMessage revokeUserWithMessageId:messageId email:recipient completionBlock:^(id data, ErrorDataModel *error) {
         if ([data isEqual:@(YES)]) {
             RLMRealm *realm = [RLMRealm defaultRealm];
-            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@",recipient, messageId];
+            NSString *profile = [self.daoProfile getSelectedProfileEmail];
+            RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"recipient = %@  AND messageId = %@ AND profile = %@",recipient, messageId, profile];
             [realm beginWriteTransaction];
             NSString *messageId;
             for (RMModelRecipient *model in results) {

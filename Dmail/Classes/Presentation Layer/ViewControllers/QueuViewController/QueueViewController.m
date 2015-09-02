@@ -75,7 +75,7 @@
 - (void)getQueue {
     
     [self showLoadingView];
-    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *deviceId = @"D";//[[[UIDevice currentDevice] identifierForVendor] UUIDString];
     if (!self.startRequest) {
         self.startRequest = YES;
         [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
@@ -89,9 +89,10 @@
                     }
                 }
                 else {
-                    self.labelCurrentPlace.text = data[@"position"];
-                    self.labelTotalInLine.text = data[@"queueSize"];
-                    [self checkQueueStatusWithPosition:[data[@"position"] integerValue] total:[data[@"queueSize"] integerValue]];
+                    NSInteger position = [data[@"position"] integerValue];
+                    NSInteger queueSize = [data[@"queueSize"] integerValue];
+                    self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)position];
+                    self.labelTotalInLine.text = [NSString stringWithFormat:@"%ld", (long)queueSize];
                 }
             }
             else {
@@ -105,14 +106,6 @@
     
     [self showLoadingView];
     [[AppDelegate sharedDelegate] registerNotifications];
-}
-
-- (void)checkQueueStatusWithPosition:(NSInteger)position total:(NSInteger)total {
-    
-    if (position == total) {
-        [self.timer invalidate];
-        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
-    }
 }
 
 - (void)getToken:(NSNotification *)notification {

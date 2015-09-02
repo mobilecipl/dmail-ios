@@ -19,31 +19,50 @@
 
 @implementation ServiceProfile
 
-+ (ServiceProfile *)sharedInstance {
-    static ServiceProfile *sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[ServiceProfile alloc] init];
-        
-        DAOProfile *daoProfile = [[DAOProfile alloc] init];
-        ProfileModel *model = [daoProfile getProfile];
-        if (model) {
-            sharedInstance.email = model.email;
-            sharedInstance.fullName = model.fullName;
-            sharedInstance.googleId = model.googleId;
-            sharedInstance.imageUrl = model.imageUrl;
-            sharedInstance.token = model.token;
-        }
-    });
+//+ (ServiceProfile *)sharedInstance {
+//    static ServiceProfile *sharedInstance;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        sharedInstance = [[ServiceProfile alloc] init];
+//        
+//        DAOProfile *daoProfile = [[DAOProfile alloc] init];
+//        ProfileModel *model = [daoProfile getProfile];
+//        if (model) {
+//            sharedInstance.email = model.email;
+//            sharedInstance.fullName = model.fullName;
+//            sharedInstance.googleId = model.googleId;
+//            sharedInstance.imageUrl = model.imageUrl;
+//            sharedInstance.token = model.token;
+//        }
+//    });
+//    
+//    return sharedInstance;
+//}
+
+- (instancetype)init {
     
-    return sharedInstance;
+    self = [super init];
+    if (self) {
+        _daoProfile = [[DAOProfile alloc] init];
+        ProfileModel *model = [_daoProfile getSelectedProfile];
+        if (model) {
+            _email = model.email;
+            _fullName = model.fullName;
+            _googleId = model.googleId;
+            _imageUrl = model.imageUrl;
+            _token = model.token;
+        }
+    }
+    
+    return self;
 }
+
 
 - (void)updateUserDetails:(GIDGoogleUser *)user {
     
     NSString *imageUrl = [[user.profile imageURLWithDimension:kProfileImageSize] absoluteString];
     NSString *token = [[user valueForKeyPath:@"authentication.accessToken"] description];
-    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil token:token];
+    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil token:token selected:YES];
     if (self.profileModel) {
         self.email = self.profileModel.email;
         self.fullName = self.profileModel.fullName;
@@ -53,6 +72,16 @@
         self.daoProfile = [[DAOProfile alloc] init];
         [self.daoProfile addProfileWithProfileModel:self.profileModel];
     }
+}
+
+- (NSString *)getSelectedProfileEmail {
+    
+    return [self.daoProfile getSelectedProfileEmail];
+}
+
+- (NSString *)getSelectedProfileUserID {
+    
+    return [self.daoProfile getSelectedProfileUserId];
 }
 
 @end

@@ -21,6 +21,7 @@
 @property NSString *token;
 @property NSString *bodyTemplate;
 @property long long templateLastUpdateDate;
+@property BOOL selected;
 
 - (instancetype)initWithProfileModel:(ProfileModel *)model;
 

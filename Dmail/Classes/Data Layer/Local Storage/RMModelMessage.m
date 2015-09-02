@@ -35,6 +35,7 @@
         self.subject = modelMessage.subject;
         self.fromName = modelMessage.fromName;
         self.fromEmail = modelMessage.fromEmail;
+        self.profile = modelMessage.profile;
         
         self.status = modelMessage.status;
         self.read = NO;

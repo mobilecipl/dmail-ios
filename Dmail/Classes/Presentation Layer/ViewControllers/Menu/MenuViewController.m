@@ -118,7 +118,7 @@
 
 - (void)setupController {
     
-    self.labelName.text = [[ServiceProfile sharedInstance] fullName];
+    self.labelName.text = self.serviceProfile.fullName;
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
 }
@@ -139,7 +139,7 @@
 
 - (void)getProfileImage {
     
-    NSString *urlString = [[ServiceProfile sharedInstance] imageUrl];
+    NSString *urlString = self.serviceProfile.imageUrl;
     [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:urlString] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {

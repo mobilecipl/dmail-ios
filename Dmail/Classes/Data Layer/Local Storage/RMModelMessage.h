@@ -29,6 +29,7 @@
 @property NSString *fromEmail;
 @property NSString *subject;
 @property NSString *publicKey;
+@property NSString *profile;
 
 
 @property (nonatomic) NSString *body;

@@ -20,6 +20,7 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *email;
 @property (nonatomic) NSString *type;
+@property (nonatomic) NSString *profile;
 @property long long position;
 
 - (instancetype)initWithRealm:(RMModelRecipient *)realm;

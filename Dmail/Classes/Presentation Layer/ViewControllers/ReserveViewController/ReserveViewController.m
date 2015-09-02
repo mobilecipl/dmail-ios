@@ -18,12 +18,23 @@
 @interface ReserveViewController () <GIDSignInDelegate>
 
 @property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
 
 @end
 
 @implementation ReserveViewController
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceSync = [[ServiceSync alloc] init];
+        _serviceProfile = [[ServiceProfile alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -64,8 +75,7 @@
         return;
     }
     else {
-        [[ServiceProfile sharedInstance] updateUserDetails:user];
-        self.serviceSync = [[ServiceSync alloc] init];
+        [self.serviceProfile updateUserDetails:user];
         [self.serviceSync sync];
         [self performSegueWithIdentifier:@"fromReserveToQueu" sender:self];
     }

@@ -24,6 +24,7 @@
         _type = realm.type;
         _position = realm.position;
         _recipient = realm.recipient;
+        _profile = realm.profile;
     }
     return self;
 }

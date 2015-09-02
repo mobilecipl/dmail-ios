@@ -28,6 +28,7 @@
 
 @interface ServiceSync ()
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
 
 @property (nonatomic, strong) DAOSync *daoSync;
 @property (nonatomic, strong) DAOMessage *daoMessage;
@@ -68,6 +69,7 @@
                 _daoAddressBook = [[DAOAddressBook alloc] init];
                 
                 _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+                _serviceProfile = [[ServiceProfile alloc] init];
                 
                 [self setupNotifications];
                 [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"syncStarted"];
@@ -100,8 +102,8 @@
     
     if (!self.syncInProgressDmail) {
         self.syncInProgressDmail = YES;
-        NSString *email = [[ServiceProfile sharedInstance] email];
-        NSNumber *position = [self.daoMessage getLastDmailPosition];
+        NSString *email = [self.serviceProfile getSelectedProfileEmail];
+        NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:email];
         NSNumber *count = @1000; //TODO: add paging
         if (email) {
             @weakify(self);
@@ -126,7 +128,7 @@
     if (!self.syncInProgressGmail) {
         self.syncInProgressGmail = YES;
         RMModelMessage *message = [self.daoMessage getLastGmailUniqueId];
-        NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+        NSString *userId = [self.serviceProfile getSelectedProfileUserID];//[[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
         if (message.messageIdentifier) {
             @weakify(self);
             [self.serviceGmailMessage getMessageIdWithUniqueId:message.messageIdentifier userId:userId serverId:message.serverId completionBlock:^(id data, ErrorDataModel *error) {
@@ -181,7 +183,7 @@
     
     if (!self.syncInProgressContact) {
         self.syncInProgressContact = YES;
-        NSString *email = [[ServiceProfile sharedInstance] email];
+        NSString *email = [self.serviceProfile email];
         NSString *startIndex = @"1";
         NSString *maxResult = @"200";
         if (email) {

@@ -48,4 +48,49 @@
     [realm commitWriteTransaction];
 }
 
+- (void)removeProfileWithEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        
+    }
+}
+
+- (ProfileModel *)getSelectedProfile {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
+    RMModelProfile *profile = [results firstObject];
+    if (profile) {
+        ProfileModel *profileModel = [[ProfileModel alloc] initWithRealProfile:profile];
+        return profileModel;
+    }
+    
+    return nil;
+}
+    
+- (NSString *)getSelectedProfileEmail {
+    
+    NSString *email;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
+    RMModelProfile *profile = [results firstObject];
+    email = profile.email;
+    
+    return email;
+}
+
+- (NSString *)getSelectedProfileUserId {
+    
+    NSString *userId;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
+    RMModelProfile *profile = [results firstObject];
+    userId = profile.googleId;
+    
+    return userId;
+}
+
+
 @end

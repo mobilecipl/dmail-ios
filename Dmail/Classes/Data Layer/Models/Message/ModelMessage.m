@@ -43,6 +43,7 @@
         _internalDate = realm.internalDate;
         _publicKey = realm.publicKey;
         _read = realm.read;
+        _profile = realm.profile;
     }
     return self;
 }

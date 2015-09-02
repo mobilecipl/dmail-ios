@@ -31,6 +31,8 @@
                     return;
                 }
                 if (success) {
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"touchId"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                     [self.imageViewTouchId setImage:[UIImage imageNamed:@"imageFingerTouch"]];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
                                                                     message:@"You are the device owner!"

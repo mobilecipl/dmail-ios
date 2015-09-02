@@ -7,6 +7,7 @@
 //
 
 #import "DAOGmailMessage.h"
+#import "DAOProfile.h"
 
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
@@ -28,6 +29,7 @@
 @interface DAOGmailMessage ()
 
 @property (nonatomic, strong) NetworkGmailMessage *networkGmailMessage;
+@property (nonatomic, strong) DAOProfile *daoProfile;
 
 @end
 
@@ -38,6 +40,7 @@
     self = [super init];
     if (self) {
         _networkGmailMessage = [[NetworkGmailMessage alloc] init];
+        _daoProfile = [[DAOProfile alloc] init];
     }
     
     return self;
@@ -99,7 +102,8 @@
 - (void)updateMessageWithUniqueId:(NSString *)uniqueId gmailId:(NSString *)gmailId serverId:(NSString *)serverId {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"serverId = %@", serverId];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"serverId = %@ AND profile = %@", serverId, profile];
     [realm beginWriteTransaction];
     for (RMModelMessage *realmModel in results) {
         realmModel.gmailId = gmailId;
@@ -111,7 +115,8 @@
 - (void)deleteMessageWithIdentifier:(NSString *)identifier {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@ AND profile = %@", identifier, profile];
     [realm beginWriteTransaction];
     [realm deleteObjects:results];
     [realm commitWriteTransaction];
@@ -126,19 +131,11 @@
     [realm commitWriteTransaction];
 }
 
-- (void)saveMessageInRealm:(ModelMessage *)modelMessage {
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    RMModelMessage *realmModel = [[RMModelMessage alloc] initWithModel:modelMessage];
-    [realm beginWriteTransaction];
-    [RMModelMessage createOrUpdateInRealm:realm withValue:realmModel];
-    [realm commitWriteTransaction];
-}
-
 - (void)updateMessageWithGmailId:(NSString *)gmailId gmailModel:(ModelGmailMessage *)modelGmailMessage{
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"gmailId = %@", gmailId];
+    NSString *profile = [self.daoProfile getSelectedProfileEmail];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"gmailId = %@ AND profile = %@", gmailId, profile];
     RMModelMessage *rmMessage = [results firstObject];
     [realm beginWriteTransaction];
     rmMessage.messageIdentifier = modelGmailMessage.payload.messageIdentifier;

@@ -29,6 +29,7 @@
         self.name = modelRecipient.name;
         self.email = modelRecipient.email;
         self.type = modelRecipient.type;
+        self.profile = modelRecipient.profile;
     }
     
     return self;

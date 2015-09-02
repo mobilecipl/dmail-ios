@@ -18,10 +18,21 @@
 @interface LoginViewController () <GIDSignInDelegate>
 
 @property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
 
 @end
 
 @implementation LoginViewController
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceSync = [[ServiceSync alloc] init];
+        _serviceProfile = [[ServiceProfile alloc] init];
+    }
+    return self;
+}
 
 #pragma mark - IBAction Methods
 - (IBAction)gmailLoginClicked:(id)sender {
@@ -55,12 +66,11 @@
         return;
     }
     else {
-        [[ServiceProfile sharedInstance] updateUserDetails:user];
+        [self.serviceProfile updateUserDetails:user];
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
             [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
         }
         else {
-            self.serviceSync = [[ServiceSync alloc] init];
             [self.serviceSync sync];
             [self performSegueWithIdentifier:@"fromLoginToInbox" sender:self];
         }

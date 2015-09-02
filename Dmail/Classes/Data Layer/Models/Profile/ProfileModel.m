@@ -11,7 +11,13 @@
 
 @implementation ProfileModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName googleId:(NSString *)googleId imageUrl:(NSString *)imageUrl contactLastUpdateDate:(NSString *)contactLastUpdateDate token:(NSString *)token {
+- (instancetype)initWithEmail:(NSString *)email
+                     fullName:(NSString *)fullName
+                     googleId:(NSString *)googleId
+                     imageUrl:(NSString *)imageUrl
+        contactLastUpdateDate:(NSString *)contactLastUpdateDate
+                        token:(NSString *)token
+                     selected:(BOOL)selected {
     
     self = [super init];
     if (self) {
@@ -21,6 +27,7 @@
         _imageUrl = imageUrl;
         _contactLastUpdateDate = contactLastUpdateDate;
         _token = token;
+        _selected = selected;
     }
     
     return self;
@@ -38,6 +45,7 @@
         _contactLastUpdateDate = rmModelProfile.contactLastUpdateDate;
         _bodyTemplate = rmModelProfile.bodyTemplate;
         _templateLastUpdateDate = rmModelProfile.templateLastUpdateDate;
+        _selected = rmModelProfile.selected;
     }
     
     return self;

@@ -30,6 +30,7 @@
         _contactLastUpdateDate = model.contactLastUpdateDate;
         _bodyTemplate = model.bodyTemplate;
         _templateLastUpdateDate = model.templateLastUpdateDate;
+        _selected = model.selected;
     }
     
     return self;

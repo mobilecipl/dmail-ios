@@ -18,8 +18,10 @@
 @property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, assign) BOOL signedIn;
 
-+ (ServiceProfile *)sharedInstance;
+//+ (ServiceProfile *)sharedInstance;
 
 - (void)updateUserDetails:(GIDGoogleUser *)user;
+- (NSString *)getSelectedProfileEmail;
+- (NSString *)getSelectedProfileUserID;
 
 @end

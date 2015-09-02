@@ -8,11 +8,13 @@
 
 #import "DAOSync.h"
 
+//DAO
+#import "DAOProfile.h"
+
 // network
 #import "NetworkMessage.h"
 
 // model
-//#import "ModelDmailMessage.h"
 #import "ModelMessage.h"
 #import "ModelRecipient.h"
 
@@ -24,7 +26,10 @@
 #import "RMModelProfile.h"
 
 @interface DAOSync ()
+
 @property (nonatomic, strong) NetworkMessage *networkMessage;
+@property (nonatomic, strong) DAOProfile *daoProfile;
+
 @end
 
 @implementation DAOSync
@@ -34,6 +39,7 @@
     self = [super init];
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
+        _daoProfile = [[DAOProfile alloc] init];
     }
     
     return self;
@@ -52,9 +58,11 @@
                     BOOL hasNewData = NO;
                     for (NSDictionary *dict in recipients) {
                         ModelRecipient *recipient = [[ModelRecipient alloc] initWithDictionary:dict];
+                        recipient.profile = recipientEmail;
                         [self saveRecipient:recipient];
                         RLMRealm *realm = [RLMRealm defaultRealm];
                         ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
+                        message.profile = [self.daoProfile getSelectedProfileEmail];
                         RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
                         if (!tempMessage) {
                             hasNewData = YES;
