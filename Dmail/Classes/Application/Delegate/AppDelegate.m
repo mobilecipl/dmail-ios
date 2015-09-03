@@ -94,14 +94,14 @@
 #pragma mark - Private Methods
 - (void)realmMigration {
     
-    [RLMRealm setSchemaVersion:1 forRealmAtPath:[RLMRealm defaultRealmPath] withMigrationBlock:^(RLMMigration *migration, uint64_t oldSchemaVersion) {
-        // We haven’t migrated anything yet, so oldSchemaVersion == 0
+    [RLMRealmConfiguration defaultConfiguration].schemaVersion = 1;
+    [RLMRealmConfiguration defaultConfiguration].migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
         if (oldSchemaVersion < 1) {
             // Nothing to do!
             // Realm will automatically detect new properties and removed properties
             // And will update the schema on disk automatically
         }
-    }];
+    };
     NSLog(@"RLMRealm path: %@", [RLMRealm defaultRealm].path);
 }
 

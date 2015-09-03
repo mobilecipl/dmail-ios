@@ -75,7 +75,7 @@
 - (void)getQueue {
     
     [self showLoadingView];
-    NSString *deviceId = @"D";//[[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *deviceId = @"H";//[[[UIDevice currentDevice] identifierForVendor] UUIDString];
     if (!self.startRequest) {
         self.startRequest = YES;
         [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
@@ -85,6 +85,7 @@
                 if ([[data allKeys] containsObject:@"access"]) {
                     if ([data[@"access"] isEqualToString:@"GRANTED"]) {
                         [self.timer invalidate];
+                        self.timer = nil;
                         [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
                     }
                 }
@@ -96,7 +97,11 @@
                 }
             }
             else {
-                [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
+                if (self.timer) {
+                    [self.timer invalidate];
+                    self.timer = nil;
+                    [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
+                }
             }
         }];
     }

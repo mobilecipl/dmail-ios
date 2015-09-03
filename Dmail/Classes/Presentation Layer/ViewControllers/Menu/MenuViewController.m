@@ -131,9 +131,9 @@
     [self.serviceMessage clearAllData];
     
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyBoard instantiateViewControllerWithIdentifier:@"loginView"];
-    LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
-    [self.navigationController setViewControllers:@[loadingViewController,loginViewController]];
+    LoginViewController *reserveViewController = [storyBoard instantiateViewControllerWithIdentifier:@"reserveView"];
+//    LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
+    [self.navigationController setViewControllers:@[reserveViewController]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

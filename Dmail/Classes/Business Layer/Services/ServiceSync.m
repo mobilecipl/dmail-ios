@@ -103,22 +103,24 @@
     if (!self.syncInProgressDmail) {
         self.syncInProgressDmail = YES;
         NSString *email = [self.serviceProfile getSelectedProfileEmail];
-        NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:email];
-        NSNumber *count = @1000; //TODO: add paging
-        if (email) {
-            @weakify(self);
-            [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
-                @strongify(self);
-                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                if (appDelegate.signedIn) {
-                    self.syncInProgressDmail = NO;
-                    if ([hasNewData isEqual:@(YES)]) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
+        if(email) {
+            NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:email];
+            NSNumber *count = @1000; //TODO: add paging
+            if (email) {
+                @weakify(self);
+                [self.daoSync syncMessagesForEmail:email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
+                    @strongify(self);
+                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                    if (appDelegate.signedIn) {
+                        self.syncInProgressDmail = NO;
+                        if ([hasNewData isEqual:@(YES)]) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
+                        }
                     }
-                }
-            }];
-        } else {
-            self.syncInProgressDmail = NO;
+                }];
+            } else {
+                self.syncInProgressDmail = NO;
+            }
         }
     }
 }
@@ -138,9 +140,12 @@
                 if (appDelegate.signedIn) {
                     if ([data isEqual:@(YES)]) {
                         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                        if (appDelegate.signedIn || message.gmailId) {
-                            NSDictionary *dict = @{@"gmailId" : message.gmailId};
-                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailIdFetched object:nil userInfo:dict];
+                        if (appDelegate.signedIn || message.gmailId ) {
+                            NSString *userId = [self.serviceProfile getSelectedProfileUserID];
+                            if (userId) {
+                                NSDictionary *dict = @{@"gmailId" : message.gmailId};
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailIdFetched object:nil userInfo:dict];
+                            }
                         }
                     }
                     else {
@@ -213,6 +218,10 @@
 - (void)stopSync {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"syncStarted"];
     [self.timerSyncDmailMessages invalidate];
     self.timerSyncDmailMessages = nil;
     [self.timerSyncGoogleContacts invalidate];
@@ -220,8 +229,6 @@
     [self.daoMessage cancelAllRequests];
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.signedIn = NO;
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"syncStarted"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
