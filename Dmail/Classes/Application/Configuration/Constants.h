@@ -64,6 +64,7 @@ static NSInteger kProfileImageSize = 50;
 static NSString * const GetStarted = @"getStarted";
 static NSString * const OnboardingWasShowed = @"onboardingWasShowed";
 static NSString * const SetupPin = @"setupPin";
+static NSString * const TouchId = @"touchId";
 static NSString * const Token = @"token";
 static NSString * const ActivatePushNotification = @"activatePushNotification";
 

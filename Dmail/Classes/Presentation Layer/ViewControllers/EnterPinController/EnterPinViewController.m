@@ -231,7 +231,7 @@
                              }
                              completion:^(BOOL finished) {
                                  sleep(1);
-                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"touchId"]) {
+                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:TouchId]) {
                                      [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
                                  }
                                  else {
@@ -261,7 +261,7 @@
                          }];
     }
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"setupPin"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

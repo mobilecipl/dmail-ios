@@ -10,14 +10,12 @@
 
 // service
 #import "ServiceProfile.h"
-#import "ServiceSync.h"
 
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
 
 @interface ReserveViewController () <GIDSignInDelegate>
 
-@property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
 
 @end
@@ -29,7 +27,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _serviceSync = [[ServiceSync alloc] init];
         _serviceProfile = [[ServiceProfile alloc] init];
     }
     return self;
@@ -76,7 +73,6 @@
     }
     else {
         [self.serviceProfile updateUserDetails:user];
-        [self.serviceSync sync];
         [self performSegueWithIdentifier:@"fromReserveToQueu" sender:self];
     }
 }

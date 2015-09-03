@@ -31,7 +31,7 @@
                     return;
                 }
                 if (success) {
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"touchId"];
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TouchId];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                     [self.imageViewTouchId setImage:[UIImage imageNamed:@"imageFingerTouch"]];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"

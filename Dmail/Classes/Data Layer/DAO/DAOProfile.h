@@ -15,6 +15,7 @@
 - (ProfileModel *)getProfile;
 - (void)addProfileWithProfileModel:(ProfileModel *)profileModel;
 - (void)removeProfileWithEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
+- (NSArray *)getAllProfiles;
 - (ProfileModel *)getSelectedProfile;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserId;

@@ -67,7 +67,7 @@
     }
     else {
         [self.serviceProfile updateUserDetails:user];
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
             [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
         }
         else {

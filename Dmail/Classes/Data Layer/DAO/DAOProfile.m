@@ -57,6 +57,17 @@
     }
 }
 
+- (NSArray *)getAllProfiles {
+    
+    NSMutableArray *arrayAllProfiles = [[NSMutableArray alloc] init];
+    RLMResults *results = [RMModelProfile allObjects];
+    for (RMModelProfile *profile in results) {
+        ProfileModel *profileModel = [[ProfileModel alloc] initWithRealProfile:profile];
+        [arrayAllProfiles addObject:profileModel];
+    }
+    return [NSArray arrayWithArray:arrayAllProfiles];
+}
+
 - (ProfileModel *)getSelectedProfile {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -77,6 +88,9 @@
     RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
     RMModelProfile *profile = [results firstObject];
     email = profile.email;
+    if(email.length == 0) {
+        email = nil;
+    }
     
     return email;
 }

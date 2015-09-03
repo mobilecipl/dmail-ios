@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 
 // service
+#import "ServiceProfilesSyncing.h"
 #import "ServiceSync.h"
 #import "ServiceProfile.h"
 
@@ -21,6 +22,7 @@
 @interface LoadingViewController () <GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
+@property (nonatomic, strong) ServiceProfilesSyncing *serviceProfilesSyncing;
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
 
@@ -34,6 +36,7 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
+        _serviceProfilesSyncing = [[ServiceProfilesSyncing alloc] init];
         _serviceSync = [[ServiceSync alloc] init];
         _serviceProfile = [[ServiceProfile alloc] init];
     }
@@ -45,14 +48,21 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
-    self.serviceProfile = [[ServiceProfile alloc] init];
-    
-    if (self.serviceProfile.googleId) {
+    if ([self.serviceProfilesSyncing hasProfile]) {
+        [self.serviceProfilesSyncing sync];
         [self autoSignIn];
     }
-    else {  
+    else {
         [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
     }
+//    self.serviceProfile = [[ServiceProfile alloc] init];
+    
+//    if (self.serviceProfile.googleId) {
+//        [self autoSignIn];
+//    }
+//    else {  
+//        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
+//    }
 }
 
 
@@ -79,7 +89,7 @@
         // TODO: sync
         [self.serviceProfile updateUserDetails:user];
         [self.serviceSync sync];
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"onboardingWasShowed"]) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
             [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
         }
         else {

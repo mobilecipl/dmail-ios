@@ -44,6 +44,8 @@
 		9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4031B943EE40091958B /* NetworkQueue.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
+		9CDAB1CB1B987EFB00DE6621 /* ServiceProfilesSyncing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAB1CA1B987EFB00DE6621 /* ServiceProfilesSyncing.m */; };
+		9CDAB1CE1B987F1A00DE6621 /* DAOProfilesSyncing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAB1CD1B987F1A00DE6621 /* DAOProfilesSyncing.m */; };
 		9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */; };
 		9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15531B4A6DE300E54CE1 /* DAOProfile.m */; };
 		9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD15571B4A6E8C00E54CE1 /* ProfileModel.m */; };
@@ -196,6 +198,10 @@
 		9CCFD4051B94B2200091958B /* Dmail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Dmail.entitlements; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9CDAB1C91B987EFB00DE6621 /* ServiceProfilesSyncing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfilesSyncing.h; sourceTree = "<group>"; };
+		9CDAB1CA1B987EFB00DE6621 /* ServiceProfilesSyncing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProfilesSyncing.m; sourceTree = "<group>"; };
+		9CDAB1CC1B987F1A00DE6621 /* DAOProfilesSyncing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfilesSyncing.h; sourceTree = "<group>"; };
+		9CDAB1CD1B987F1A00DE6621 /* DAOProfilesSyncing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOProfilesSyncing.m; sourceTree = "<group>"; };
 		9CDD05BF1B9098E50056E341 /* EnableTouchIdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnableTouchIdViewController.h; sourceTree = "<group>"; };
 		9CDD05C01B9098E50056E341 /* EnableTouchIdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnableTouchIdViewController.m; sourceTree = "<group>"; };
 		9CDD15521B4A6DE300E54CE1 /* DAOProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOProfile.h; sourceTree = "<group>"; };
@@ -660,6 +666,8 @@
 				C09C27C61B4BEF700067B7F2 /* ServiceSync.m */,
 				9CCFD3FC1B943E650091958B /* ServiceQueue.h */,
 				9CCFD3FD1B943E650091958B /* ServiceQueue.m */,
+				9CDAB1C91B987EFB00DE6621 /* ServiceProfilesSyncing.h */,
+				9CDAB1CA1B987EFB00DE6621 /* ServiceProfilesSyncing.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -924,6 +932,8 @@
 				C09C27C91B4BFE440067B7F2 /* DAOSync.m */,
 				9CCFD3FF1B943EAE0091958B /* DAOQueue.h */,
 				9CCFD4001B943EAE0091958B /* DAOQueue.m */,
+				9CDAB1CC1B987F1A00DE6621 /* DAOProfilesSyncing.h */,
+				9CDAB1CD1B987F1A00DE6621 /* DAOProfilesSyncing.m */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -1345,6 +1355,7 @@
 				C08C2DCF1B41AB1C00295A94 /* AutoDefaultsRMLObject.m in Sources */,
 				C08C2DD11B41AB1C00295A94 /* BaseService.m in Sources */,
 				C00B20E11B4EB90400D892DA /* ModelGmailHeader.m in Sources */,
+				9CDAB1CB1B987EFB00DE6621 /* ServiceProfilesSyncing.m in Sources */,
 				C08C2DC81B41AB1C00295A94 /* AlphabetTableViewSectionDataSource.m in Sources */,
 				C08C2DD71B41AB1C00295A94 /* BaseViewModel.m in Sources */,
 				C09C27CA1B4BFE440067B7F2 /* DAOSync.m in Sources */,
@@ -1423,6 +1434,7 @@
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,
 				C08C2DBE1B41AB1C00295A94 /* ServiceProfile.m in Sources */,
 				9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */,
+				9CDAB1CE1B987F1A00DE6621 /* DAOProfilesSyncing.m in Sources */,
 				9CDD05C11B9098E50056E341 /* EnableTouchIdViewController.m in Sources */,
 				C09C27C71B4BEF700067B7F2 /* ServiceSync.m in Sources */,
 				C08C2DF11B41AB1C00295A94 /* MessageItem.m in Sources */,

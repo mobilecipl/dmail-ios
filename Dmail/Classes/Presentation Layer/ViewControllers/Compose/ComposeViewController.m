@@ -386,7 +386,7 @@
     NSLog(@"dateToFire ==== %f", timeInterval);
     timeInterval = [now timeIntervalSince1970];
     NSLog(@"now ==== %f", timeInterval);
-    self.timer = timeInterval;
+//    self.timer = timeInterval;
     
     if ([self validateEmails]) {
         [self.serviceMessage sendMessage:encyptedBody clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {

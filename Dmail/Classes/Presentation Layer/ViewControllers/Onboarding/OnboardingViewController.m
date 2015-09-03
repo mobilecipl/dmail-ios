@@ -53,7 +53,7 @@
         [self performSegueWithIdentifier:@"fromOnboardingToSetPin" sender:self];
     }
     else {
-        [self performSegueWithIdentifier:@"fromOnboardingToInbox" sender:self];
+        [self performSegueWithIdentifier:@"fromOnboardingToLoading" sender:self];
     }
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OnboardingWasShowed];

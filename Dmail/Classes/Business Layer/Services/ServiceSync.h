@@ -10,6 +10,7 @@
 
 @interface ServiceSync : BaseService
 
+- (instancetype)initWithEmail:(NSString *)email userId:(NSString *)userId;
 - (void)sync;
 - (void)stopSync;
 

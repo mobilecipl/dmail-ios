@@ -31,6 +31,7 @@
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
             <string>ProximaNova-Light</string>
+            <string>ProximaNova-Light</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
@@ -138,7 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971.5" y="409.5"/>
+            <point key="canvasLocation" x="885.5" y="409.5"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="ujc-U8-3eI">
@@ -1194,8 +1195,8 @@
                         <outlet property="buttonLetsGo" destination="rR4-JG-IBx" id="NRA-AH-b0m"/>
                         <outlet property="pageControll" destination="qCM-z7-kkg" id="3vz-Rc-CmS"/>
                         <outlet property="scrollView" destination="rAi-n8-DQr" id="B4J-Ov-sgW"/>
-                        <segue destination="03h-Yh-uZr" kind="push" identifier="fromOnboardingToInbox" id="bzl-GS-gvY"/>
                         <segue destination="xse-zu-3WN" kind="push" identifier="fromOnboardingToSetPin" id="aBd-hu-zo9"/>
+                        <segue destination="vXZ-lx-hvc" kind="push" identifier="fromOnboardingToLoading" id="UPg-Xi-5BH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kyt-cE-tqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2024,6 +2025,16 @@ Label</string>
                                     <action selector="shareClicked:" destination="kRA-RR-W6h" eventType="touchUpInside" id="KCJ-6C-uHw"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="While you wait:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oR0-Do-VwE">
+                                <rect key="frame" x="30" y="413" width="135" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="135" id="Z3G-7j-vjs"/>
+                                    <constraint firstAttribute="height" constant="21" id="ZZk-sd-jKK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Light" family="Proxima Nova" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2032,7 +2043,9 @@ Label</string>
                             <constraint firstItem="bEo-lC-LUK" firstAttribute="top" secondItem="SJl-Rp-Bk9" secondAttribute="bottom" id="63v-7r-SDE"/>
                             <constraint firstItem="Sbo-jk-r1o" firstAttribute="leading" secondItem="1pI-U2-lM1" secondAttribute="leading" constant="15" id="6QC-tt-Bb5"/>
                             <constraint firstAttribute="trailing" secondItem="tAR-aF-Ggu" secondAttribute="trailing" constant="18" id="9oc-tv-HHm"/>
+                            <constraint firstItem="oR0-Do-VwE" firstAttribute="leading" secondItem="1pI-U2-lM1" secondAttribute="leading" constant="30" id="BXj-gf-r1L"/>
                             <constraint firstItem="Wmx-DE-aRl" firstAttribute="top" secondItem="dH3-lN-vrl" secondAttribute="bottom" id="GNx-8t-GWb"/>
+                            <constraint firstItem="CDA-8F-ZmH" firstAttribute="top" secondItem="oR0-Do-VwE" secondAttribute="bottom" constant="17" id="GYu-2K-CHU"/>
                             <constraint firstItem="Sbo-jk-r1o" firstAttribute="top" secondItem="tAR-aF-Ggu" secondAttribute="bottom" constant="31" id="JZB-e9-4gQ"/>
                             <constraint firstItem="tAR-aF-Ggu" firstAttribute="leading" secondItem="1pI-U2-lM1" secondAttribute="leading" constant="30" id="JZx-KP-tFp"/>
                             <constraint firstItem="SJl-Rp-Bk9" firstAttribute="height" secondItem="1pI-U2-lM1" secondAttribute="height" multiplier="50/667" id="KiN-aQ-yCo"/>
@@ -3341,9 +3354,8 @@ Label</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bzl-GS-gvY"/>
-        <segue reference="Jjg-do-4sL"/>
         <segue reference="COF-Ci-usR"/>
-        <segue reference="xxz-lM-Avx"/>
+        <segue reference="UPg-Xi-5BH"/>
+        <segue reference="Jjg-do-4sL"/>
     </inferredMetricsTieBreakers>
 </document>
