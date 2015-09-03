@@ -20,6 +20,9 @@
 #import "ServiceContact.h"
 #import "ServiceSync.h"
 
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+
 
 @interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
 
@@ -79,6 +82,19 @@
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
     googleSignIn.delegate = self;
     [googleSignIn disconnect];
+}
+
+- (IBAction)addAccount:(id)sender {
+    
+    [GIDSignInButton class];
+    
+    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+    [googleSignIn signOut];
+    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+    googleSignIn.shouldFetchBasicProfile = YES;
+    googleSignIn.allowsSignInWithWebView = NO;
+    googleSignIn.delegate = self;
+    [googleSignIn signIn];
 }
 
 
@@ -208,11 +224,34 @@
         
     } else {
         [self clearAllDBAndRedirectInLoginScreen];
+//        GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+////        [googleSignIn signOut];
+//        googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+//        googleSignIn.shouldFetchBasicProfile = YES;
+//        googleSignIn.allowsSignInWithWebView = NO;
+//        googleSignIn.delegate = self;
+//        [googleSignIn signIn];
     }
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     
+    if (error) {
+        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
+    }
+    else {
+        // TODO: sync
+        [self.serviceProfile updateUserDetails:user];
+        [self.serviceSync sync];
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
+//            [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
+        }
+        else {
+//            [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
+        }
+    }
+
 }
+
 
 @end
