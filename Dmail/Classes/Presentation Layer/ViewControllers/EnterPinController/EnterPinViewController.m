@@ -7,11 +7,13 @@
 //
 
 #import "EnterPinViewController.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface EnterPinViewController ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewPinCircleNumbers;
 @property (nonatomic, weak) IBOutlet UITextField *textField;
+@property (nonatomic, weak) IBOutlet UIView *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIView *viewPins;
 @property (nonatomic, weak) IBOutlet UIView *viewPinConfirmed;
 @property (nonatomic, weak) IBOutlet UIView *viewPin1;
@@ -22,10 +24,12 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelPin2;
 @property (nonatomic, weak) IBOutlet UILabel *labelPin3;
 @property (nonatomic, weak) IBOutlet UILabel *labelPin4;
+@property (nonatomic, weak) IBOutlet UILabel *labelEnterPin;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewStar1;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewStar2;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewStar3;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewStar4;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewBackground;
 
 @property (nonatomic, weak) IBOutlet UIView *viewSwitchContainer;
 @property (nonatomic, weak) IBOutlet UIView *viewSwitch;
@@ -39,9 +43,12 @@
 @property (nonatomic, strong) NSTimer *timer2;
 @property (nonatomic, strong) NSTimer *timer3;
 @property (nonatomic, strong) NSTimer *timer4;
+@property (nonatomic, strong) NSString *tempPin;
 
 @property (nonatomic, assign) NSInteger lastPin;
 @property (nonatomic, assign) BOOL switchOn;
+@property (nonatomic, assign) BOOL pinDidChanged;
+@property (nonatomic, assign) BOOL pinChanged;
 
 @end
 
@@ -53,6 +60,18 @@
     [super viewDidLoad];
     
     [self setupController];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    if (!self.fromSettings) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    }
+    else {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
 }
 
 #pragma mark - Action Methods
@@ -84,19 +103,27 @@
     self.switchOn = !self.switchOn;
 }
 
+- (IBAction)onButtonBackClicked:(id)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - Private Methods
 - (void)setupController {
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"pin"]) {
-        self.viewSwitchContainer.hidden = YES;
-    }
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.textField becomeFirstResponder];
     
-    if (self.fromSettings) {
-        self.viewSwitch.hidden = YES;
+    if (self.fromSettings || ![self isTouchEnabledInDevice]) {
+        if (self.fromSettings && [[NSUserDefaults standardUserDefaults] objectForKey:Pin]) {
+            self.viewNavigation.hidden = NO;
+            self.labelEnterPin.text = @"Type old 4 digit pin";
+        }
+        else {
+            self.pinDidChanged = YES;
+        }
+        self.viewSwitchContainer.hidden = YES;
+        self.labelSwitch.hidden = YES;
     }
     else {
         self.viewSwitch.layer.masksToBounds = YES;
@@ -120,6 +147,17 @@
     
     self.lastPin = 0;
     self.switchOn = YES;
+}
+
+- (BOOL)isTouchEnabledInDevice {
+    
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)rotatePinCircleTo:(NSInteger)pin {
@@ -226,13 +264,15 @@
 - (void)savePinAndGoToNextScreen {
     
     NSString *pin = [NSString stringWithFormat:@"%@%@%@%@",self.labelPin1.text,self.labelPin2.text,self.labelPin3.text,self.labelPin4.text];
-    NSString *savedPin = [[NSUserDefaults standardUserDefaults] objectForKey:@"pin"];
-    if (savedPin && !self.fromSettings) {
-        if ([savedPin isEqualToString:pin]) {
+    NSString *savedPin = [[NSUserDefaults standardUserDefaults] objectForKey:Pin];
+    if (self.tempPin || savedPin) {
+        if ((self.tempPin && [pin isEqualToString:self.tempPin]) || [savedPin isEqualToString:pin]) {
             [UIView animateWithDuration:0.3
                              animations:^{
+                                 self.imageViewBackground.alpha = 0;
                                  self.viewPins.alpha = 0;
                                  self.viewPinConfirmed.alpha = 1;
+                                 [self.textField resignFirstResponder];
                              }
                              completion:^(BOOL finished) {
                                  sleep(1);
@@ -243,36 +283,98 @@
                                      [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
                                  }
                              }];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         else {
             [self showErrorAlertWithTitle:@"Error" message:@"You typed wrong pin"];
         }
     }
     else {
-        [[NSUserDefaults standardUserDefaults] setObject:pin forKey:@"pin"];
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             self.viewPins.alpha = 0;
-                             self.viewPinConfirmed.alpha = 1;
-                         }
-                         completion:^(BOOL finished) {
-                             sleep(1);
-                             if (self.fromSettings) {
-                                 [self.navigationController popViewControllerAnimated:YES];
-                             }
-                             else {
-                                 if (self.switchOn) {
-                                     [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
-                                 }
-                                 else {
-                                     [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
-                                 }
-                             }
-                         }];
+        [self.textField resignFirstResponder];
+        self.tempPin = pin;
+        [self clearAllFields];
+        [self showLoadingView];
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(confirmation) userInfo:nil repeats:NO];
     }
+}
+
+- (void)changePin {
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSString *oldPin = [NSString stringWithFormat:@"%@%@%@%@",self.labelPin1.text,self.labelPin2.text,self.labelPin3.text,self.labelPin4.text];
+    if(!self.pinDidChanged && !self.pinChanged) {
+        if ([oldPin isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:Pin]]) {
+            [self.textField resignFirstResponder];
+            [self showLoadingView];
+            [self clearAllFields];
+            self.pinDidChanged = YES;
+            [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(setNewPin) userInfo:nil repeats:NO];
+        }
+        else {
+            [self showErrorAlertWithTitle:@"Error" message:@"You typed wrong pin"];
+        }
+    }
+    else if (self.pinDidChanged && !self.pinChanged){
+        self.tempPin = oldPin;
+        [self.textField resignFirstResponder];
+        [self showLoadingView];
+        [self clearAllFields];
+        self.pinDidChanged = NO;
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(setNewPin) userInfo:nil repeats:NO];
+        self.pinChanged = YES;
+    }
+    else if (self.pinChanged){
+        if ([self.tempPin isEqualToString:oldPin]) {
+            [UIView animateWithDuration:0.3
+                             animations:^{
+                                 self.imageViewBackground.alpha = 0;
+                                 self.viewPins.alpha = 0;
+                                 self.viewPinConfirmed.alpha = 1;
+                                 [self.textField resignFirstResponder];
+                             }
+                             completion:^(BOOL finished) {
+                                 sleep(1);
+                                 [self.navigationController popViewControllerAnimated:YES];
+                             }];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
+            [[NSUserDefaults standardUserDefaults] setObject:oldPin forKey:Pin];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        else {
+            [self showErrorAlertWithTitle:@"Error" message:@"You typed wrong pin"];
+        }
+    }
+}
+
+- (void)clearAllFields {
+    
+    self.textField.text = nil;
+    self.labelPin1.text = @"";
+    self.labelPin2.text = @"";
+    self.labelPin3.text = @"";
+    self.labelPin4.text = @"";
+    for (NSInteger i = 1; i < 5; i++) {
+        [self hideStar:i - 1];
+    }
+}
+
+- (void)confirmation {
+    
+    self.labelEnterPin.text = @"Confirm your 4 digit pin";
+    [self hideLoadingView];
+    [self.textField becomeFirstResponder];
+}
+
+- (void)setNewPin {
+    
+    if (self.pinDidChanged) {
+        self.labelEnterPin.text = @"Enter your new 4 digit pin";
+    }
+    else {
+        self.labelEnterPin.text = @"Confirm your 4 digit pin";
+    }
+    [self hideLoadingView];
+    [self.textField becomeFirstResponder];
 }
 
 #pragma mark - UITextFieldDelegate Methods 
@@ -347,7 +449,12 @@
                     if (!self.timer4) {
                         self.timer4 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(showStar:) userInfo:[NSString stringWithFormat:@"%lu",(unsigned long)textField.text.length] repeats:NO];
                     }
-                    [self savePinAndGoToNextScreen];
+                    if(self.fromSettings) {
+                        [self changePin];
+                    }
+                    else {
+                        [self savePinAndGoToNextScreen];
+                    }
                     break;
                     
                 default:

@@ -48,12 +48,15 @@
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController;
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:InQueue]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         viewController = [storyBoard instantiateViewControllerWithIdentifier:@"queue"];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.window.rootViewController = navController;
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:GetStarted]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
             viewController = [storyBoard instantiateViewControllerWithIdentifier:@"onboarding"];
         }

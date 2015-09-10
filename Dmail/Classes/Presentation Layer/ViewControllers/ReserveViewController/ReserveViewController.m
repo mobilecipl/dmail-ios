@@ -7,6 +7,7 @@
 //
 
 #import "ReserveViewController.h"
+#import "AppDelegate.h"
 
 // service
 #import "ServiceProfile.h"
@@ -44,11 +45,30 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark - Private Methods
 - (void)presentSignInViewController:(UIViewController *)viewController {
     
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    
+    [self hideLoadingView];
 }
 
 

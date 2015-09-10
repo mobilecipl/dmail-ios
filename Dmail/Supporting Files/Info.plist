@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>70_LIVE</string>
+	<string>72_DEV</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
