@@ -160,7 +160,6 @@
     if (!self.syncInProgressGmail) {
         self.syncInProgressGmail = YES;
         RMModelMessage *message = [self.daoMessage getLastGmailUniqueId];
-//        NSString *userId = [self.serviceProfile getSelectedProfileUserID];//[[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
         if (message.messageIdentifier) {
             @weakify(self);
             [self.serviceGmailMessage getMessageIdWithUniqueId:message.messageIdentifier userId:self.userId serverId:message.serverId completionBlock:^(id data, ErrorDataModel *error) {
@@ -194,7 +193,6 @@
     if (!self.syncInProgressGmailMessages && [notification userInfo]) {
         self.syncInProgressGmailMessages = YES;
         NSString *gmailMessageId = [[notification userInfo] valueForKey:@"gmailId"];//[self.daoMessage getLastGmailMessageId];
-//        NSString *userId = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
         if (gmailMessageId) {
             @weakify(self);
             [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:self.userId completionBlock:^(id data, ErrorDataModel *error) {

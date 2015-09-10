@@ -168,11 +168,17 @@ static NSString * const kUrlTemplate = @"view/templateBase64";
 - (void)sentEmail:(NSString *)senderEmail messageId:(NSString *)messageId messageIdentifier:(NSString *)messageIdentifier timer:(long long)timer completionBlock:(CompletionBlock)completionBlock {
     
     NSDictionary *parameters;
-    if (timer != 0) {
+    if (timer != 0 && timer != -1) {
         parameters = @{@"message_id" : messageId,
                        @"message_identifier" : messageIdentifier,
                        @"sender_email" : senderEmail,
                        @"timer" : [NSNumber numberWithLongLong:timer]};
+    }
+    else if(timer == -1){
+        parameters = @{@"message_id" : messageId,
+                       @"message_identifier" : messageIdentifier,
+                       @"sender_email" : senderEmail,
+                       @"single_view" : @"true"};
     }
     else {
         parameters = @{@"message_id" : messageId,

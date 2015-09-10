@@ -24,7 +24,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 
 
-@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate>
+@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
@@ -77,22 +77,29 @@
 #pragma mark - Action Methods
 - (IBAction)logOutButtonHandler:(id)sender {
     
-    [GIDSignInButton class];
-    
-    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.delegate = self;
-    [googleSignIn disconnect];
+//    [GIDSignInButton class];
+//    
+//    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
+//    googleSignIn.delegate = self;
+//    [googleSignIn disconnect];
+
+//    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UIViewController *viewController = [storyBoard instantiateViewControllerWithIdentifier:@"queue"];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [self performSegueWithIdentifier:@"fromMenuToSettings" sender:self];
 }
 
 - (IBAction)addAccount:(id)sender {
     
     [GIDSignInButton class];
     
-    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    [googleSignIn signOut];
+    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
+    
     googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
     googleSignIn.shouldFetchBasicProfile = YES;
-    googleSignIn.allowsSignInWithWebView = NO;
+    googleSignIn.clientID = kGoogleClientID;
+    googleSignIn.allowsSignInWithWebView = YES;
+    googleSignIn.uiDelegate = self;
     googleSignIn.delegate = self;
     [googleSignIn signIn];
 }
@@ -190,18 +197,6 @@
         [self.tableViewMenuu endUpdates];
         self.selectedCellIndex = indexPath.row;
     }
-//    switch (indexPath.row) {
-//        case 0: {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationInbox object:nil];
-//            break;
-//        }
-//        case 1: {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSent object:nil];
-//            break;
-//        }
-//        default:
-//            break;
-//    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -224,13 +219,6 @@
         
     } else {
         [self clearAllDBAndRedirectInLoginScreen];
-//        GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-////        [googleSignIn signOut];
-//        googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
-//        googleSignIn.shouldFetchBasicProfile = YES;
-//        googleSignIn.allowsSignInWithWebView = NO;
-//        googleSignIn.delegate = self;
-//        [googleSignIn signIn];
     }
 }
 
@@ -252,6 +240,31 @@
     }
 
 }
+
+// a spinner or other "please wait" element.
+- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
+    
+    
+}
+
+// If implemented, this method will be invoked when sign in needs to display a view controller.
+// The view controller should be displayed modally (via UIViewController's |presentViewController|
+// method, and not pushed unto a navigation controller's stack.
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    
+    [self presentViewController:viewController animated:YES completion:^{
+        
+    }];
+}
+
+// If implemented, this method will be invoked when sign in needs to dismiss a view controller.
+// Typically, this should be implemented by calling |dismissViewController| on the passed
+// view controller.
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    
+    
+}
+
 
 
 @end

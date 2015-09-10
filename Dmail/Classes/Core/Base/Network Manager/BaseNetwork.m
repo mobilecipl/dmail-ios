@@ -54,23 +54,13 @@
             }
         }];
         AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-//        if ([url containsString:@"https://apps-apis.google.com/a/feeds/emailsettings"]) {
-//            [requestSerializer setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-Type"];
-//        }
-//        else {
-//            [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//        }
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-//        [requestSerializer setValue:@"text/html; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [requestSerializer setHTTPShouldHandleCookies:NO];
         
         manager.requestSerializer = requestSerializer;
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-//        cStore = [CredentialStore sharedInstance];
     }
     
     return  self;

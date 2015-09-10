@@ -50,7 +50,8 @@
     [self.indicator startAnimating];
     if ([self.serviceProfilesSyncing hasProfile]) {
         [self.serviceProfilesSyncing sync];
-        [self autoSignIn];
+//        [self autoSignIn];
+        [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
     else {
         [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];

@@ -19,26 +19,6 @@
 
 @implementation ServiceProfile
 
-//+ (ServiceProfile *)sharedInstance {
-//    static ServiceProfile *sharedInstance;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        sharedInstance = [[ServiceProfile alloc] init];
-//        
-//        DAOProfile *daoProfile = [[DAOProfile alloc] init];
-//        ProfileModel *model = [daoProfile getProfile];
-//        if (model) {
-//            sharedInstance.email = model.email;
-//            sharedInstance.fullName = model.fullName;
-//            sharedInstance.googleId = model.googleId;
-//            sharedInstance.imageUrl = model.imageUrl;
-//            sharedInstance.token = model.token;
-//        }
-//    });
-//    
-//    return sharedInstance;
-//}
-
 - (instancetype)init {
     
     self = [super init];

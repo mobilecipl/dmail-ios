@@ -13,10 +13,23 @@
 @interface EnableTouchIdViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewTouchId;
+@property (nonatomic, weak) IBOutlet UIButton *buttonEnableTouchId;
+@property (nonatomic, weak) IBOutlet UIButton *buttonMaybeLater;
 
 @end
 
 @implementation EnableTouchIdViewController
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:TouchId]) {
+        self.buttonEnableTouchId.hidden = YES;
+        self.buttonMaybeLater.hidden = YES;
+        [self enableTouchIdClicked:nil];
+    }
+}
 
 - (IBAction)enableTouchIdClicked:(id)sender {
     
@@ -53,14 +66,26 @@
 
 - (IBAction)maybeLaterClicked:(id)sender {
     
-    [self performSegueWithIdentifier:@"fromTouchToLoading" sender:self];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TouchId];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (self.fromSettings) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromTouchToLoading" sender:self];
+    }
 }
 
 
 #pragma mark - UIAlertViewDelegate Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    [self performSegueWithIdentifier:@"fromTouchToLoading" sender:self];
+    if (self.fromSettings) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [self performSegueWithIdentifier:@"fromTouchToLoading" sender:self];
+    }
 }
 
 @end

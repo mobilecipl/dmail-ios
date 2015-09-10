@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.science.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>com.science-inc.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -24,10 +24,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.science.Dmail</string>
+			<string>com.science-inc.Dmail</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.science.Dmail</string>
+				<string>com.science-inc.Dmail</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>59_Live</string>
+	<string>70_LIVE</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

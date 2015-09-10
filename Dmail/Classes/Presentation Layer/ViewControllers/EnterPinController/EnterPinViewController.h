@@ -11,4 +11,6 @@
 
 @interface EnterPinViewController : BaseViewController
 
+@property (nonatomic, assign) BOOL fromSettings;
+
 @end

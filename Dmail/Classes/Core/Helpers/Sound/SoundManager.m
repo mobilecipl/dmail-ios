@@ -18,8 +18,8 @@
 @implementation SoundManager
 
 // Get the shared instance and create it using GCD.
-+ (SoundManager *)sharedInstance
-{
++ (SoundManager *)sharedInstance {
+    
     static SoundManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

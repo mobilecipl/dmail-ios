@@ -28,7 +28,6 @@ static NSString * const NotificationNewMessageSentError = @"NotificationNewMessa
 static NSString * const NotificationDestroySuccess = @"NotificationDestroySuccess";
 static NSString * const NotificationDestroyFailed = @"NotificationDestroyFailed";
 static NSString * const NotificationGetDecryptedMessage = @"NotificationGetDecryptedMessage";
-static NSString * const NotificationToken = @"NotificationToken";
 static NSString * const NotificationMenuOpened = @"menuOpened";
 static NSString * const NotificationMenuClosed = @"menuClosed";
 
@@ -61,6 +60,7 @@ static NSInteger kProfileImageSize = 50;
 
 
 #pragma mark - User Defoults
+static NSString * const InQueue = @"inQueue";
 static NSString * const GetStarted = @"getStarted";
 static NSString * const OnboardingWasShowed = @"onboardingWasShowed";
 static NSString * const SetupPin = @"setupPin";

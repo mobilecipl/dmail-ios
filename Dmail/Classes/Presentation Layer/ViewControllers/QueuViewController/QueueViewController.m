@@ -40,22 +40,25 @@
     
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [self setupController];
     [self getQueue];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getQueue) userInfo:nil repeats:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)dealloc {
     
-    [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getToken:) name:NotificationToken object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 
 
 #pragma mark - Private Methods
 - (void)setupController {
     
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:InQueue];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     self.buttonShare.layer.masksToBounds = YES;
     self.buttonShare.layer.cornerRadius = 5;
     
@@ -72,10 +75,26 @@
     }
 }
 
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    
+    if (!self.timer) {
+        [self getQueue];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getQueue) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)appDidEnterBackground:(NSNotification *)notification {
+    
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+}
+
 - (void)getQueue {
     
     [self showLoadingView];
-    NSString *deviceId = @"H";//[[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     if (!self.startRequest) {
         self.startRequest = YES;
         [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
@@ -86,6 +105,8 @@
                     if ([data[@"access"] isEqualToString:@"GRANTED"]) {
                         [self.timer invalidate];
                         self.timer = nil;
+                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:InQueue];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
                         [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
                     }
                 }
@@ -107,28 +128,6 @@
     }
 }
 
-- (void)sendDeviceToken {
-    
-    [self showLoadingView];
-    [[AppDelegate sharedDelegate] registerNotifications];
-}
-
-- (void)getToken:(NSNotification *)notification {
-    
-    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    NSString *token = [[notification userInfo] valueForKey:Token];
-    if (token && token.length > 0) {
-        [self.serviceQueue sendTokenWithDeviceId:deviceId token:token completionBlock:^(id data, ErrorDataModel *error) {
-            [self hideLoadingView];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ActivatePushNotification];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }];
-    }
-    else {
-        [self hideLoadingView];
-    }
-}
-
 
 #pragma mark - Action Methods
 - (IBAction)setupSecurityPinClicked:(id)sender {
@@ -136,9 +135,9 @@
     BOOL setupPin = [[NSUserDefaults standardUserDefaults] boolForKey:SetupPin];
     if (!setupPin) {
         [self.buttonSetupPin setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction)getNotifiedClicked:(id)sender {
@@ -146,9 +145,11 @@
     BOOL getNotified = [[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification];
     if (!getNotified) {
         [self.buttonGetNotified setImage:[UIImage imageNamed:@"iconCheckMark"] forState:UIControlStateNormal];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ActivatePushNotification];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    [self sendDeviceToken];
+    [[AppDelegate sharedDelegate] registerNotifications];
 }
 
 - (IBAction)shareClicked:(id)sender {

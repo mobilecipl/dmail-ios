@@ -10,4 +10,6 @@
 
 @interface EnableTouchIdViewController : BaseViewController
 
+@property (nonatomic, assign) BOOL fromSettings;
+
 @end

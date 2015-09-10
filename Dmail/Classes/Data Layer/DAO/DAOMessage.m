@@ -113,8 +113,9 @@
                 NSString *publicKey = [self getClientKeyWithMessageId:messageId];
                 NSString *gmailMessageBody = [self createMessageBodyForGmailWithArrayTo:to arrayCC:cc arrayBCC:bcc subject:messageSubject dmailId:messageId publicKey:publicKey];
                 NSString *base64EncodedMessage = [self encodeBase64:gmailMessageBody];
-                NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-                [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+                NSString *userID = [self.daoProfile getSelectedProfileUserId]; //[[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+                NSString *token = [self.daoProfile getSelectedProfileToken];
+                [self.daoGmailMessage sendWithEncodedBody:base64EncodedMessage userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
                     if (data) {
                         NSString *gmailId = data[@"id"];
                         [self saveMessageWithMessageId:messageId gmailId:gmailId];
@@ -551,8 +552,9 @@
     RMModelMessage *realmModel = [results firstObject];
     gmailId = realmModel.gmailId;
     
-    NSString * userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    NSString *userID = [self.daoProfile getSelectedProfileUserId];//[[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *token = [self.daoProfile getSelectedProfileToken];
+    [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
         BOOL success = NO;
         if ([data isEqual:@(YES)]) {
             success = YES;

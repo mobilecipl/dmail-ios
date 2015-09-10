@@ -29,9 +29,8 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
     return self;
 }
 
-- (void)getMessageIdWithUniqueId:(NSString *)uniqueId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageIdWithUniqueId:(NSString *)uniqueId userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
             case 200: {
@@ -66,11 +65,12 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
     queryString = [queryString stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
     queryString = [queryString stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
     
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     NSString *requestUrl = [NSString stringWithFormat:kUrlMessagesWithQuery, userID, queryString, kGoogleClientSecret];
     [self makeGetRequest:requestUrl withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
@@ -96,11 +96,11 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
         }
     };
     
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     [self makeGetRequest:[NSString stringWithFormat:kUrlMessagesWithId, userID, messageId, kGoogleClientSecret] withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)getMessageLabelsWithMessageId:(NSString *)messageID userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageLabelsWithMessageId:(NSString *)messageID userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
@@ -126,11 +126,11 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
         }
     };
     
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     [self makeGetRequest:[NSString stringWithFormat:kUrlMessagesLabelsWithId, userID, messageID, kGoogleClientSecret] withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
@@ -156,12 +156,12 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
         }
     };
     
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     NSDictionary *params = @{@"removeLabelIds" : labels};
     [self makePostRequest:[NSString stringWithFormat:kURLMessageDeleteLabels, userID, messageID] withParams:params success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"sendResponse JSON: %@", responseObject);
@@ -191,11 +191,11 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
     
     NSDictionary *parameters = @{@"raw" : encodedBody};
     NSString *url = [NSString stringWithFormat:kUrlMessagesSend, userID, kGoogleClientSecret];
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     [self makePostRequest:url withParams:parameters success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 
-- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         switch (operation.response.statusCode) {
@@ -212,7 +212,7 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
     };
     
     NSString *urlString = [NSString stringWithFormat:kUrlMessagesDelete, userID, gmailId, kGoogleClientSecret];
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@", [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"authentication.accessToken"] description]] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"OAuth %@",token] forHTTPHeaderField:@"Authorization"];
     [self makeDeleteRequest:urlString withParams:nil success:successBlock failure:[self constructFailureBlockWithBlock:completionBlock]];
 }
 

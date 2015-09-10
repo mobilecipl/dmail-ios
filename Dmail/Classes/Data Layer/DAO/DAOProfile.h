@@ -19,5 +19,6 @@
 - (ProfileModel *)getSelectedProfile;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserId;
+- (NSString *)getSelectedProfileToken;
 
 @end

@@ -106,5 +106,16 @@
     return userId;
 }
 
+- (NSString *)getSelectedProfileToken {
+    
+    NSString *userId;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
+    RMModelProfile *profile = [results firstObject];
+    userId = profile.token;
+    
+    return userId;
+}
+
 
 @end

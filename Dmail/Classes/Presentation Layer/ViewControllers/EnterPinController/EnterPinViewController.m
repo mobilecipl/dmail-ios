@@ -95,6 +95,14 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.textField becomeFirstResponder];
     
+    if (self.fromSettings) {
+        self.viewSwitch.hidden = YES;
+    }
+    else {
+        self.viewSwitch.layer.masksToBounds = YES;
+        self.viewSwitch.layer.cornerRadius = self.viewSwitch.frame.size.height/2;
+    }
+    
     self.viewPin1.layer.masksToBounds = YES;
     self.viewPin1.layer.cornerRadius = 5;
     
@@ -109,9 +117,6 @@
     
     self.viewPinConfirmed.layer.masksToBounds = YES;
     self.viewPinConfirmed.layer.cornerRadius = self.viewPinConfirmed.frame.size.height/2;
-    
-    self.viewSwitch.layer.masksToBounds = YES;
-    self.viewSwitch.layer.cornerRadius = self.viewSwitch.frame.size.height/2;
     
     self.lastPin = 0;
     self.switchOn = YES;
@@ -222,7 +227,7 @@
     
     NSString *pin = [NSString stringWithFormat:@"%@%@%@%@",self.labelPin1.text,self.labelPin2.text,self.labelPin3.text,self.labelPin4.text];
     NSString *savedPin = [[NSUserDefaults standardUserDefaults] objectForKey:@"pin"];
-    if (savedPin) {
+    if (savedPin && !self.fromSettings) {
         if ([savedPin isEqualToString:pin]) {
             [UIView animateWithDuration:0.3
                              animations:^{
@@ -252,11 +257,16 @@
                          }
                          completion:^(BOOL finished) {
                              sleep(1);
-                             if (self.switchOn) {
-                                 [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
+                             if (self.fromSettings) {
+                                 [self.navigationController popViewControllerAnimated:YES];
                              }
                              else {
-                                 [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
+                                 if (self.switchOn) {
+                                     [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
+                                 }
+                                 else {
+                                     [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
+                                 }
                              }
                          }];
     }

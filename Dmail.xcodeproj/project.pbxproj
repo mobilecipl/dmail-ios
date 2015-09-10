@@ -27,7 +27,9 @@
 		9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D881B53E6B700464883 /* RMModelRecipient.m */; };
 		9C607D8C1B53E76600464883 /* ModelRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8B1B53E76600464883 /* ModelRecipient.m */; };
 		9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8E1B540F8600464883 /* ModelSentMessage.m */; };
+		9C609E5C1B9F065F002D7146 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C609E5B1B9F065F002D7146 /* SettingsViewController.m */; };
 		9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C60DC011B4FB2090081DFF9 /* ModelMessage.m */; };
+		9C620AAC1B9D669800F277DB /* GoogleOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C620AAB1B9D669800F277DB /* GoogleOAuth.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
 		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
 		9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE6461B58FFB000F3CE89 /* BaseNavigationController.m */; };
@@ -166,8 +168,12 @@
 		9C607D8B1B53E76600464883 /* ModelRecipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelRecipient.m; sourceTree = "<group>"; };
 		9C607D8D1B540F8600464883 /* ModelSentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelSentMessage.h; sourceTree = "<group>"; };
 		9C607D8E1B540F8600464883 /* ModelSentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelSentMessage.m; sourceTree = "<group>"; };
+		9C609E5A1B9F065F002D7146 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		9C609E5B1B9F065F002D7146 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		9C60DC001B4FB2090081DFF9 /* ModelMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelMessage.h; sourceTree = "<group>"; };
 		9C60DC011B4FB2090081DFF9 /* ModelMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelMessage.m; sourceTree = "<group>"; };
+		9C620AAA1B9D669800F277DB /* GoogleOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleOAuth.h; sourceTree = "<group>"; };
+		9C620AAB1B9D669800F277DB /* GoogleOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleOAuth.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 		9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailMessage.h; sourceTree = "<group>"; };
@@ -438,6 +444,24 @@
 				9C4F23591B4C2A2B004F9AFC /* SWRevealViewController.m */,
 			);
 			path = SlideOutMenuFiles;
+			sourceTree = "<group>";
+		};
+		9C609E591B9ED8DF002D7146 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9C609E5A1B9F065F002D7146 /* SettingsViewController.h */,
+				9C609E5B1B9F065F002D7146 /* SettingsViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9C620AA91B9D669800F277DB /* GoogleOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				9C620AAA1B9D669800F277DB /* GoogleOAuth.h */,
+				9C620AAB1B9D669800F277DB /* GoogleOAuth.m */,
+			);
+			path = GoogleOAuth;
 			sourceTree = "<group>";
 		};
 		9C6CA55B1B4AA4F000679E67 /* Contacts */ = {
@@ -841,6 +865,7 @@
 		C08C2D4D1B41AB1C00295A94 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9C620AA91B9D669800F277DB /* GoogleOAuth */,
 				9C216E6F1B675D3100C531BA /* AES256JS */,
 				9C8AE6481B592C5400F3CE89 /* CustomAlertView */,
 				9C4F23571B4C2A2B004F9AFC /* SlideOutMenuFiles */,
@@ -1004,6 +1029,7 @@
 		C08C2D791B41AB1C00295A94 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9C609E591B9ED8DF002D7146 /* Settings */,
 				9C41C51E1B8F3050004C8A0C /* ReserveViewController */,
 				9C41C5221B8F346A004C8A0C /* QueuViewController */,
 				9C41C5261B8F5889004C8A0C /* GetStartViewController */,
@@ -1348,6 +1374,7 @@
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
 				C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
+				9C620AAC1B9D669800F277DB /* GoogleOAuth.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
@@ -1368,6 +1395,7 @@
 				C00B20E41B4FE58B00D892DA /* VMSentMessageItem.m in Sources */,
 				C08C2DF81B41AB1C00295A94 /* InboxViewController.m in Sources */,
 				C08C2DC41B41AB1C00295A94 /* BaseDAO.m in Sources */,
+				9C609E5C1B9F065F002D7146 /* SettingsViewController.m in Sources */,
 				C00B20EA1B50113100D892DA /* VMSentMessage.m in Sources */,
 				C08C2DFB1B41AB1C00295A94 /* MenuViewController.m in Sources */,
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
@@ -1541,8 +1569,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1552,7 +1580,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 			};
 			name = Debug;
 		};
@@ -1562,8 +1590,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Karen Petrosyan (E4MACLYFV9)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1573,7 +1601,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 			};
 			name = Release;
 		};

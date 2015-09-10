@@ -32,8 +32,10 @@
 @property (nonatomic, weak) IBOutlet UIButton *buttonSend;
 @property (nonatomic, weak) IBOutlet UIButton *buttonCcBcc;
 @property (nonatomic, weak) IBOutlet UIButton *buttonUpArrow;
+@property (nonatomic, weak) IBOutlet UILabel *labelSelfDestroy;
+@property (nonatomic, weak) IBOutlet UIView *viewSelfDestruct;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
-@property (nonatomic, weak) IBOutlet UITextView *textViewBody;
+@property (nonatomic, weak) IBOutlet TextViewPlaceHolder *textViewBody;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitBottomTextView;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldTo;
@@ -54,6 +56,7 @@
 @property (nonatomic, strong) NSMutableArray *arrayTempBcc;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
 
+@property (nonatomic, assign) NSInteger selfDestructTime;
 @property (nonatomic, assign) CGFloat textViewHeight;
 @property (nonatomic, assign) CGFloat keyboardHeight;
 @property (nonatomic, assign) CGFloat scrollViewContentOffset;
@@ -150,12 +153,41 @@
     [self defineTextViewFrame];
 }
 
+- (IBAction)selfDestructClicked:(id)sender {
+    
+    UIButton *button = (UIButton *)sender;
+    NSInteger buttonTag = button.tag;
+    self.labelSelfDestroy.text = [NSString stringWithFormat:@"Self destruct %@", button.titleLabel.text];
+    switch (buttonTag) {
+        case 0:
+            self.selfDestructTime = 0;
+            break;
+        case 1:
+            self.selfDestructTime = 60*60;
+            break;
+        case 2:
+            self.selfDestructTime = 60*60*24;
+            break;
+        case 3:
+            self.selfDestructTime = 60*60*24*7;
+            break;
+        case 4:
+            self.selfDestructTime = -1;
+            break;
+        default:
+            break;
+    }
+    [self tapOnSelfDestruct];
+}
+
 
 #pragma mark - Private Methods
 - (void)setupController {
     
     [self setupViewLayers];
     [self setupRecipientsFields];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnSelfDestruct)];
+    [self.labelSelfDestroy addGestureRecognizer:tapGesture];
     
     if (self.replyedMessageSubject) {
         self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
@@ -173,7 +205,7 @@
     
     self.viewMessageCompose.layer.masksToBounds = YES;
     self.viewMessageCompose.layer.cornerRadius = 5;
-    self.viewMessageCompose.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
+    self.viewMessageCompose.layer.borderColor = [UIColor colorWithRed:81.0/255.0 green:184.0/255.0 blue:178.0/255.0 alpha:1].CGColor;
     self.viewMessageCompose.layer.borderWidth = 1;
     
     self.tableViewContacts.layer.masksToBounds = YES;
@@ -181,6 +213,11 @@
     self.tableViewContacts.layer.borderColor = [UIColor colorWithRed:197.0/255.0 green:215.0/255.0 blue:227.0/255.0 alpha:1].CGColor;
     self.tableViewContacts.layer.borderWidth = 1;
     self.tableViewContacts.hidden = YES;
+}
+
+- (void)tapOnSelfDestruct {
+    
+    self.viewSelfDestruct.hidden = !self.viewSelfDestruct.hidden;
 }
 
 - (void)setupRecipientsFields {
@@ -380,13 +417,18 @@
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
     [formatter setTimeZone:timeZone];
     
-    NSDate *now = [NSDate date];
-    NSDate *dateToFire = [now dateByAddingTimeInterval:1*60];
-    NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
-    NSLog(@"dateToFire ==== %f", timeInterval);
-    timeInterval = [now timeIntervalSince1970];
-    NSLog(@"now ==== %f", timeInterval);
-//    self.timer = timeInterval;
+    if (self.selfDestructTime != 0 && self.selfDestructTime != -1) {
+        NSDate *now = [NSDate date];
+        NSDate *dateToFire = [now dateByAddingTimeInterval:5*60];
+        NSTimeInterval timeInterval = [now timeIntervalSince1970];
+        NSLog(@"now ==== %f", timeInterval);
+        timeInterval = [dateToFire timeIntervalSince1970];
+        NSLog(@"dateToFire ==== %f", timeInterval);
+        self.timer = timeInterval*1000;
+    }
+    else if (self.selfDestructTime == -1){
+        self.timer = -1;
+    }
     
     if ([self validateEmails]) {
         [self.serviceMessage sendMessage:encyptedBody clientKey:clientKey messageSubject:self.textFieldSubject.text to:self.arrayTo cc:self.arrayCc bcc:self.arrayBcc timer:self.timer completionBlock:^(id data, ErrorDataModel *error) {

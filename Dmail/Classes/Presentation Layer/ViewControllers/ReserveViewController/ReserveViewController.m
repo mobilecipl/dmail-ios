@@ -12,11 +12,16 @@
 #import "ServiceProfile.h"
 
 // google
+#import "GoogleOAuth.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 
-@interface ReserveViewController () <GIDSignInDelegate>
+@interface ReserveViewController () <GoogleOAuthDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
+@property (nonatomic, strong) GoogleOAuth *googleOAuth;
+
+@property (nonatomic, strong) NSMutableArray *arrProfileInfo;
+@property (nonatomic, strong) NSMutableArray *arrProfileInfoLabel;
 
 @end
 
@@ -52,16 +57,78 @@
     
     [self showLoadingView];
     
-    [GIDSignInButton class];
+//    self.googleOAuth = [[GoogleOAuth alloc] initWithFrame:self.view.frame];
+//    [self.googleOAuth setGOAuthDelegate:self];
+//    [self.googleOAuth authorizeUserWithClienID:kGoogleClientID
+//                           andClientSecret:kGoogleClientSecret
+//                             andParentView:self.view
+//                                 andScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]
+//     ];
     
+    [GIDSignInButton class];
     GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
     googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+    googleSignIn.clientID = kGoogleClientID;
     googleSignIn.shouldFetchBasicProfile = YES;
     googleSignIn.allowsSignInWithWebView = NO;
     googleSignIn.delegate = self;
     [googleSignIn signIn];
 }
 
+
+#pragma mark - GoogleOAuth Delegate methods
+- (void)authorizationWasSuccessful {
+    
+//    [self.googleOAuth callAPI:@"https://www.googleapis.com/oauth2/v1/userinfo" withHttpMethod:httpMethod_GET postParameterNames:nil postParameterValues:nil];
+    [self.googleOAuth callAPI:@"https://mail.google.com" withHttpMethod:httpMethod_GET postParameterNames:nil postParameterValues:nil];
+}
+
+
+- (void)accessTokenWasRevoked {
+    
+    [self showErrorAlertWithTitle:@"Error!" message:@"Your access was revoked!"];
+}
+
+- (void)responseFromServiceWasReceived:(NSString *)responseJSONAsString andResponseJSONAsData:(NSData *)responseJSONAsData {
+    
+    [self hideLoadingView];
+    if ([responseJSONAsString rangeOfString:@"family_name"].location != NSNotFound) {
+        NSError *error;
+        NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:responseJSONAsData options:NSJSONReadingMutableContainers error:&error];
+        if (error) {
+            NSLog(@"An error occured while converting JSON data to dictionary.");
+            return;
+        }
+        else{
+            if (_arrProfileInfoLabel != nil) {
+                _arrProfileInfoLabel = nil;
+                _arrProfileInfo = nil;
+                _arrProfileInfo = [[NSMutableArray alloc] init];
+            }
+            
+            _arrProfileInfoLabel = [[NSMutableArray alloc] initWithArray:[dictionary allKeys] copyItems:YES];
+            for (int i=0; i<[_arrProfileInfoLabel count]; i++) {
+                [_arrProfileInfo addObject:[dictionary objectForKey:[_arrProfileInfoLabel objectAtIndex:i]]];
+            }
+        }
+        NSLog(@"_arrProfileInfo === %@", _arrProfileInfo);
+    }
+}
+
+
+-(void)errorOccuredWithShortDescription:(NSString *)errorShortDescription andErrorDetails:(NSString *)errorDetails {
+    
+    [self hideLoadingView];
+    NSLog(@"%@", errorShortDescription);
+    NSLog(@"%@", errorDetails);
+}
+
+
+-(void)errorInResponseWithBody:(NSString *)errorMessage {
+    
+    [self hideLoadingView];
+    NSLog(@"%@", errorMessage);
+}
 
 #pragma mark - GIDSignInDelegate Methods
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
@@ -75,6 +142,25 @@
         [self.serviceProfile updateUserDetails:user];
         [self performSegueWithIdentifier:@"fromReserveToQueu" sender:self];
     }
+}
+
+- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
+    
+    [self hideLoadingView];
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    
+    [self presentViewController:viewController animated:YES completion:^{
+        
+    }];
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 

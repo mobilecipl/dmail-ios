@@ -48,7 +48,8 @@
 
 - (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkGmailMessage getMessageIdWithUniqueId:messageIdentifier userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    NSString *token = [self.daoProfile getSelectedProfileToken];
+    [self.networkGmailMessage getMessageIdWithUniqueId:messageIdentifier userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
         if (!error) {
             NSArray *messages = data[@"messages"];
             if ([messages isKindOfClass:[NSArray class]]) {
@@ -75,7 +76,8 @@
 
 - (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkGmailMessage getMessageWithMessageId:messageId userId:userID completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+    NSString *token = [self.daoProfile getSelectedProfileToken];
+    [self.networkGmailMessage getMessageWithMessageId:messageId userId:userID token:token completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         RLMRealm *realm = [RLMRealm defaultRealm];
         RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
         RMModelProfile *profile = [resultsProfiles firstObject];
@@ -91,9 +93,9 @@
     }];
 }
 
-- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkGmailMessage sendWithEncodedBody:encodedBody userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    [self.networkGmailMessage sendWithEncodedBody:encodedBody userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }
@@ -155,18 +157,19 @@
     [realm commitWriteTransaction];
 }
 
-- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)deleteWithGmailId:(NSString *)gmailId userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    [self.networkGmailMessage deleteWithGmailId:gmailId userId:userID token:Token completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }
 
 - (void)getMessageLabelsWithMessageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *userID = [self.daoProfile getSelectedProfileUserId];//[[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
+    NSString *token = [self.daoProfile getSelectedProfileToken];
     
-    [self.networkGmailMessage getMessageLabelsWithMessageId:messageID userId:userID completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+    [self.networkGmailMessage getMessageLabelsWithMessageId:messageID userId:userID token:token completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         if (!error) {
             if ([data[@"labelIds"] isKindOfClass:[NSArray class]]) {
                 completionBlock(data[@"labelIds"], nil);
@@ -181,8 +184,9 @@
 
 - (void)deleteMessageLabels:(NSArray *)labels messageId:(NSString *)messageID completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *userID = [[[GIDSignIn sharedInstance].currentUser valueForKeyPath:@"userID"] description];
-    [self.networkGmailMessage deleteMessageLabels:labels messageId:messageID userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    NSString *userID = [self.daoProfile getSelectedProfileUserId];
+    NSString *token = [self.daoProfile getSelectedProfileToken];
+    [self.networkGmailMessage deleteMessageLabels:labels messageId:messageID userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }

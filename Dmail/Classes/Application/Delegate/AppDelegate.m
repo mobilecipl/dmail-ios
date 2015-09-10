@@ -15,12 +15,19 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
+//Realm
 #import <Realm.h>
+
+
+//Service
+#import "ServiceQueue.h"
 
 //DAO
 #import "DAOAddressBook.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) ServiceQueue *serviceQueue;
 
 @end
 
@@ -37,9 +44,16 @@
     //Google
     [self setupGoogleSignIn];
     
+    [self registerNotifications];
+    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:GetStarted]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:InQueue]) {
+        viewController = [storyBoard instantiateViewControllerWithIdentifier:@"queue"];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        self.window.rootViewController = navController;
+    }
+    else if ([[NSUserDefaults standardUserDefaults] boolForKey:GetStarted]) {
         if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
             viewController = [storyBoard instantiateViewControllerWithIdentifier:@"onboarding"];
         }
@@ -54,6 +68,7 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.window.rootViewController = navController;
     }
+    
     return YES;
 }
 
@@ -64,6 +79,11 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -80,14 +100,25 @@
         
         [[NSUserDefaults standardUserDefaults] setObject:token forKey:Token];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        NSDictionary *dict = @{Token : token};
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationToken object:nil userInfo:dict];
+        
+        self.serviceQueue = [[ServiceQueue alloc] init];
+        NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        [self.serviceQueue sendTokenWithDeviceId:deviceId token:token completionBlock:^(id data, ErrorDataModel *error) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ActivatePushNotification];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }];
     }
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     
     [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandlerx {
+    
+    
+    completionHandlerx(UIBackgroundFetchResultNewData);
 }
 
 
@@ -120,12 +151,14 @@
 
 - (void)registerNotifications {
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification]) {
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        }
+        else {
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+        }
     }
 }
 
