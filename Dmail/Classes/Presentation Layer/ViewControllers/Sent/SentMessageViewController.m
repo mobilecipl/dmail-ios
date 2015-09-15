@@ -42,7 +42,7 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeightMessageBody;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
-@property (nonatomic, weak) IBOutlet UIWebView *webViewDecryption;
+@property (nonatomic, weak) IBOutlet UIWebView *webViewMessageBody;
 
 @property (nonatomic, strong) NSArray *arrayTo;
 @property (nonatomic, strong) NSArray *arrayCc;
@@ -151,6 +151,33 @@
     self.textViewBody.text = [self cleanText:decryptedBody];
     [self hideLoadingView];
     [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewBody.text];
+    
+    NSString *htmlString = [self changeFontFromHTML:self.textViewBody.text];
+    NSString *convertedString = [NSString stringWithFormat:@"<font face='ProximaNova-Light' size='3'>%@", htmlString];
+    [self.webViewMessageBody loadHTMLString:convertedString baseURL:nil];
+    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:htmlString];
+    
+}
+
+- (NSString *)changeFontFromHTML:(NSString *)htmlCode {
+    
+    NSString *result = htmlCode;
+    NSArray *array = [htmlCode componentsSeparatedByString:@"font face=\""];
+    if ([array count] > 1) {
+        for (NSInteger i = 1; i < [array count]; i++) {
+            NSString *_str = [array objectAtIndex:i];
+            NSRange rr3 = [_str rangeOfString:@"\">"];
+            NSInteger lengt = rr3.location;
+            NSInteger location = 0;
+            NSRange aa;
+            aa.location = location;
+            aa.length = lengt;
+            NSString *theString = [_str substringWithRange:aa];
+            result = [result stringByReplacingOccurrencesOfString:theString withString:@"Proximanova-Light"];
+        }
+    }
+    
+    return result;
 }
 
 - (void)loadData {
@@ -205,7 +232,14 @@
     }
     else {
         self.textViewBody.text = [self cleanText:self.modelMessage.body];
+        [self.webViewMessageBody loadHTMLString:self.textViewBody.text baseURL:nil];
+        
+        NSString *htmlString = [self changeFontFromHTML:self.textViewBody.text];
+        NSString *convertedString = [NSString stringWithFormat:@"<font face='ProximaNova-Light' size='3'>%@", htmlString];
+        [self.webViewMessageBody loadHTMLString:convertedString baseURL:nil];
+        [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:htmlString];
     }
+    
     CGFloat bodyHeight = [self textHeightWithText:self.textViewBody.text width:self.textViewBody.frame.size.width fontName:@"ProximaNova-Light" fontSize:14];
     if (bodyHeight > self.constraitHeightMessageBody.constant) {
         self.constraitHeightMessageBody.constant = bodyHeight + 70;

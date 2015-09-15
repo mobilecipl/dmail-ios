@@ -58,7 +58,7 @@ static NSString * const kURLMessageDeleteLabels = @"%@/messages/%@/modify";
         }
     };
     
-    NSString *queryString = [NSString stringWithFormat:@"yu:%@",uniqueId];
+    NSString *queryString = [NSString stringWithFormat:@"rfc822msgid:%@",uniqueId];
     queryString = [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     queryString = [queryString stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
     queryString = [queryString stringByReplacingOccurrencesOfString:@":" withString:@"%3A"];

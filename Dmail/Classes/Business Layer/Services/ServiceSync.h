@@ -10,6 +10,8 @@
 
 @interface ServiceSync : BaseService
 
+@property (nonatomic, strong) NSString *email;
+
 - (instancetype)initWithEmail:(NSString *)email userId:(NSString *)userId;
 - (void)sync;
 - (void)stopSync;

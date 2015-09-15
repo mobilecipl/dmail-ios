@@ -54,6 +54,11 @@
     }
 }
 
+- (NSArray *)getAllProfiles {
+    
+    return [self.daoProfile getAllProfiles];
+}
+
 - (NSString *)getSelectedProfileEmail {
     
     return [self.daoProfile getSelectedProfileEmail];

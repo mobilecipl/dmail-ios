@@ -24,6 +24,7 @@
 @property (nonatomic, strong) DAOAddressBook *daoAddressBook;
 @property (nonatomic, strong) DAOMessage *daoMessage;
 @property (nonatomic, strong) NSArray *arrayAllProfiles;
+@property (nonatomic, strong) NSMutableArray *arraySyncsProfiles;
 
 @end
 
@@ -54,8 +55,10 @@
 - (void)sync {
     
     self.arrayAllProfiles = [self.daoProfilesSyncing getAllProfiles];
+    self.arraySyncsProfiles = [[NSMutableArray alloc] init];
     for (ProfileModel *model in self.arrayAllProfiles) {
         ServiceSync *serviceSync = [[ServiceSync alloc] initWithEmail:model.email userId:model.googleId];
+        [self.arraySyncsProfiles addObject:serviceSync];
         [serviceSync sync];
     }
     
@@ -73,6 +76,15 @@
 - (void)syncAddressBookContacts {
     
     [self.daoAddressBook syncAddressBook];
+}
+
+- (void)logOutProfileWithEmail:(NSString *)email {
+    
+    for (ServiceSync *serviceSync in self.arraySyncsProfiles) {
+        if ([serviceSync.email isEqualToString:email]) {
+            [serviceSync stopSync];
+        }
+    }
 }
 
 

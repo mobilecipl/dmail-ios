@@ -30,6 +30,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelTime;
 @property (nonatomic, weak) IBOutlet UITextView *textViewMessageBody;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewProfile;
+@property (nonatomic, weak) IBOutlet UIWebView *webViewMessageBody;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
@@ -100,7 +101,10 @@
     NSString *decryptedBody = [[notification userInfo] valueForKey:@"decryptedMessage"];
     self.textViewMessageBody.text = [self cleanText:decryptedBody];
     [self hideLoadingView];
-    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:self.textViewMessageBody.text];
+    NSString *htmlString = [self changeFontFromHTML:self.textViewMessageBody.text];
+    NSString *convertedString = [NSString stringWithFormat:@"<font face='ProximaNova-Light' size='3'>%@", htmlString];
+    [self.webViewMessageBody loadHTMLString:convertedString baseURL:nil];
+    [self.serviceMessage writeDecryptedBodyWithMessageId:self.messageId body:htmlString];
 }
 
 - (void)setupController {
@@ -148,6 +152,10 @@
         else {
             self.textViewMessageBody.text = [self cleanText:modelMessage.body];
         }
+        NSString *htmlString = [self changeFontFromHTML:self.textViewMessageBody.text];
+        NSString *convertedString = [NSString stringWithFormat:@"<font face='ProximaNova-Light' size='3'>%@", htmlString];
+        [self.webViewMessageBody loadHTMLString:convertedString baseURL:nil];
+        
         if (!modelMessage.read) {
             NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:modelMessage.messageId];
             [self.serviceGmailMessage deleteMessageLabels:@[@"UNREAD"] messageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
@@ -157,6 +165,27 @@
             }];
         }
     }
+}
+
+- (NSString *)changeFontFromHTML:(NSString *)htmlCode {
+    
+    NSString *result = htmlCode;
+    NSArray *array = [htmlCode componentsSeparatedByString:@"font face=\""];
+    if ([array count] > 1) {
+        for (NSInteger i = 1; i < [array count]; i++) {
+            NSString *_str = [array objectAtIndex:i];
+            NSRange rr3 = [_str rangeOfString:@"\">"];
+            NSInteger lengt = rr3.location;
+            NSInteger location = 0;
+            NSRange aa;
+            aa.location = location;
+            aa.length = lengt;
+            NSString *theString = [_str substringWithRange:aa];
+            result = [result stringByReplacingOccurrencesOfString:theString withString:@"Proximanova-Light"];
+        }
+    }
+    
+    return result;
 }
 
 - (NSString *)cleanText:(NSString *)body {

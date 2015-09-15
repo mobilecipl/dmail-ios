@@ -34,7 +34,6 @@
 @property (nonatomic, strong) DAOMessage *daoMessage;
 @property (nonatomic, strong) DAOContact *daoContact;
 @property (nonatomic, strong) DAOAddressBook *daoAddressBook;
-@property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *userId;
 
 @property (nonatomic, strong) NSTimer *timerSyncDmailMessages;
@@ -135,18 +134,18 @@
 //        NSString *email = [self.serviceProfile getSelectedProfileEmail];
         if(self.email) {
             NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:self.email];
-            NSNumber *count = @1000; //TODO: add paging
+            NSNumber *count = @2000; //TODO: add paging
             if (self.email) {
                 @weakify(self);
                 [self.daoSync syncMessagesForEmail:self.email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
                     @strongify(self);
-                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                    if (appDelegate.signedIn) {
+//                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//                    if (appDelegate.signedIn) {
                         self.syncInProgressDmail = NO;
                         if ([hasNewData isEqual:@(YES)]) {
                             [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
                         }
-                    }
+//                    }
                 }];
             } else {
                 self.syncInProgressDmail = NO;

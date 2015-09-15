@@ -32,6 +32,7 @@
 		9C620AAC1B9D669800F277DB /* GoogleOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C620AAB1B9D669800F277DB /* GoogleOAuth.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
 		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
+		9C87D52B1BA6CF860096D20F /* MenuSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C87D52A1BA6CF860096D20F /* MenuSectionView.m */; };
 		9C8AE6471B58FFB000F3CE89 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE6461B58FFB000F3CE89 /* BaseNavigationController.m */; };
 		9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AE64A1B592C5400F3CE89 /* CustomAlertView.m */; };
 		9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C979E6C1B68F45500008C6A /* OnboardingViewController.m */; };
@@ -178,6 +179,8 @@
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 		9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailMessage.h; sourceTree = "<group>"; };
 		9C7285801B4D15C000996A35 /* ModelGmailMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelGmailMessage.m; sourceTree = "<group>"; };
+		9C87D5291BA6CF860096D20F /* MenuSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSectionView.h; sourceTree = "<group>"; };
+		9C87D52A1BA6CF860096D20F /* MenuSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSectionView.m; sourceTree = "<group>"; };
 		9C8AE6451B58FFB000F3CE89 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		9C8AE6461B58FFB000F3CE89 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		9C8AE6491B592C5400F3CE89 /* CustomAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertView.h; sourceTree = "<group>"; };
@@ -471,6 +474,15 @@
 				9C6CA55D1B4AA51200679E67 /* ContactCell.m */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		9C87D5281BA6CF590096D20F /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				9C87D5291BA6CF860096D20F /* MenuSectionView.h */,
+				9C87D52A1BA6CF860096D20F /* MenuSectionView.m */,
+			);
+			path = Sections;
 			sourceTree = "<group>";
 		};
 		9C8AE6441B58FF9600F3CE89 /* BaseNavigationController */ = {
@@ -982,17 +994,9 @@
 				C09C27CE1B4C2B620067B7F2 /* Message */,
 				9CDD15551B4A6E7B00E54CE1 /* Profile */,
 				9CC2D0EC1B46CB7600182C2B /* Contact */,
-				C08C2D711B41AB1C00295A94 /* Compose */,
 				C08C2D741B41AB1C00295A94 /* Inbox */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		C08C2D711B41AB1C00295A94 /* Compose */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Compose;
 			sourceTree = "<group>";
 		};
 		C08C2D741B41AB1C00295A94 /* Inbox */ = {
@@ -1118,6 +1122,7 @@
 		C08C2D941B41AB1C00295A94 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9C87D5281BA6CF590096D20F /* Sections */,
 				C08C2D951B41AB1C00295A94 /* Cells */,
 			);
 			path = Views;
@@ -1425,6 +1430,7 @@
 				C08C2DCC1B41AB1C00295A94 /* TableViewSectionDataSource.m in Sources */,
 				C09C27D41B4D7A140067B7F2 /* ModelGmailPayload.m in Sources */,
 				C08C2DE51B41AB1C00295A94 /* AFHTTPRequestOperationManager+Timeout.m in Sources */,
+				9C87D52B1BA6CF860096D20F /* MenuSectionView.m in Sources */,
 				C08C2DE31B41AB1C00295A94 /* BaseTextView.m in Sources */,
 				9C41C5251B8F3474004C8A0C /* QueueViewController.m in Sources */,
 				C08C2DC21B41AB1C00295A94 /* UIColor+AppColors.m in Sources */,

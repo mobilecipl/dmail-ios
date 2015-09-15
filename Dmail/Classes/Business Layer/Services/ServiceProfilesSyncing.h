@@ -12,5 +12,6 @@
 
 - (BOOL)hasProfile;
 - (void)sync;
+- (void)logOutProfileWithEmail:(NSString *)email;
 
 @end

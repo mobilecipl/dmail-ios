@@ -283,6 +283,7 @@
                                      [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
                                  }
                              }];
+            [[NSUserDefaults standardUserDefaults] setObject:self.tempPin forKey:Pin];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }

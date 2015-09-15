@@ -13,6 +13,8 @@
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
+#import "MenuSectionView.h"
+#import "ProfileModel.h"
 
 // Services
 #import "ServiceProfile.h"
@@ -24,19 +26,24 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 
 
-@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
+@interface MenuViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate, MenuSectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
-@property (weak, nonatomic) IBOutlet UILabel *labelName;
-@property (weak, nonatomic) IBOutlet UITableView *tableViewMenuu;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewMenu;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSettingsIcon;
+@property (weak, nonatomic) IBOutlet UIButton *buttonAddAccount;
 
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceContact *serviceContact;
+@property (nonatomic, strong) NSArray *arrayProfiles;
+@property (nonatomic, strong) NSMutableArray *arraySectionViews;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
 @property (nonatomic, strong) NSArray *arrayCellIds;
 @property (nonatomic, assign) NSInteger selectedCellIndex;
+@property (nonatomic, assign) NSInteger selectedSection;
+@property (nonatomic, assign) BOOL arrowUp;
 
 @end
 
@@ -56,33 +63,35 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    self.tableViewMenuu.delegate = self;
-    self.tableViewMenuu.dataSource = self;
+    self.tableViewMenu.delegate = self;
+    self.tableViewMenu.dataSource = self;
     
-    self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:
-                                   @{@"image" : @"imageInbox", @"text" : @"Inbox", @"color" : [UIColor cellSelected]},
-                                   @{@"image" : @"imageSent", @"text" : @"Sent", @"color" : [UIColor whiteColor]}, nil];
-    
-    self.arrayCellIds = @[@"InboxCellID", @"SentCellID"];
-    
-    [self setupController];
     self.selectedCellIndex = 0;
+    self.selectedSection = -1;
     
-    [self getProfileImage];
+    
+    self.arrayProfiles = [self.serviceProfile getAllProfiles];
+    self.arraySectionViews = [[NSMutableArray alloc] init];
+    for (ProfileModel *profileModel in self.arrayProfiles) {
+        MenuSectionView *menuSectionView = [[MenuSectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 65) email:profileModel.email profileImageUrl:profileModel.imageUrl selected:profileModel.selected];
+        menuSectionView.delegate = self;
+        [self.arraySectionViews addObject:menuSectionView];
+    }
 }
 
 
 #pragma mark - Action Methods
-- (IBAction)logOutButtonHandler:(id)sender {
+- (IBAction)buttonSettingsClicked:(id)sender {
     
 //    [GIDSignInButton class];
 //    
 //    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
 //    googleSignIn.delegate = self;
 //    [googleSignIn disconnect];
-
+//
 //    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
 //    UIViewController *viewController = [storyBoard instantiateViewControllerWithIdentifier:@"queue"];
 //    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
@@ -139,13 +148,6 @@
     [self.arrayDataTableViewMenu replaceObjectAtIndex:self.selectedCellIndex withObject:dictionary];
 }
 
-- (void)setupController {
-    
-    self.labelName.text = self.serviceProfile.fullName;
-    self.imageViewProfile.layer.masksToBounds = YES;
-    self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
-}
-
 - (void)clearAllDBAndRedirectInLoginScreen {
     
     //Clear all info.
@@ -160,31 +162,51 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)getProfileImage {
-    
-    NSString *urlString = self.serviceProfile.imageUrl;
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:urlString] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-        if (image) {
-            [self.imageViewProfile setImage:image];
-        }
-    }];
-}
-
 
 #pragma mark - TableView DataSource & Delegate Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return [self.arraySectionViews count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 65;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+
+    return [self.arraySectionViews objectAtIndex:section];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.arrayDataTableViewMenu.count;
+    NSInteger rows = 0;
+    if (self.arrowUp) {
+        if (section == [self.arraySectionViews count] - 1) {
+            rows = 0;
+        }
+        else {
+            rows = self.arrayDataTableViewMenu.count;
+        }
+    }
+    else {
+        rows = self.arrayDataTableViewMenu.count;
+    }
+    return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *cellId = [self.arrayCellIds objectAtIndex:indexPath.row];
-    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    [cell configureCell:[self.arrayDataTableViewMenu objectAtIndex:indexPath.row]];
-    return cell;
+    if (self.selectedSection != -1 && self.selectedSection == indexPath.section) {
+        NSString *cellId = [self.arrayCellIds objectAtIndex:indexPath.row];
+        MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        [cell configureCell:[self.arrayDataTableViewMenu objectAtIndex:indexPath.row]];
+        return cell;
+    }
+    else {
+        return nil;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -192,9 +214,9 @@
     if (self.selectedCellIndex != indexPath.row) {
         [self changeSelectedCellWith:indexPath.row];
         NSIndexPath *indexPathSelected = [NSIndexPath indexPathForRow:self.selectedCellIndex inSection:0];
-        [self.tableViewMenuu beginUpdates];
-        [self.tableViewMenuu reloadRowsAtIndexPaths:@[indexPath, indexPathSelected] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableViewMenuu endUpdates];
+        [self.tableViewMenu beginUpdates];
+        [self.tableViewMenu reloadRowsAtIndexPaths:@[indexPath, indexPathSelected] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableViewMenu endUpdates];
         self.selectedCellIndex = indexPath.row;
     }
 }
@@ -209,6 +231,69 @@
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
         };
     }
+}
+
+
+#pragma mark - MenuSectionViewDelegate Methods 
+- (void)onArrowClicked:(id)menuSection {
+    
+    MenuSectionView *menuSectionView = (MenuSectionView *)menuSection;
+    if (menuSectionView.arrowUp) {
+        self.arrowUp = YES;
+        self.selectedSection = [self.arraySectionViews indexOfObject:menuSectionView];
+        self.arrayDataTableViewMenu = [[NSMutableArray alloc] initWithObjects:
+                                       @{@"image" : @"imageInbox", @"text" : @"Dmails Received", @"color" : [UIColor cellSelected]},
+                                       @{@"image" : @"imageSent", @"text" : @"Dmails Sent", @"color" : [UIColor whiteColor]}, nil];
+        
+        self.arrayCellIds = @[@"InboxCellID", @"SentCellID"];
+        MenuSectionView *menuSectionView = [[MenuSectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 65)];
+        [self.arraySectionViews addObject:menuSectionView];
+        
+        NSArray *paths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:self.selectedSection],[NSIndexPath indexPathForRow:1 inSection:self.selectedSection],nil];
+        [self.tableViewMenu beginUpdates];
+        [self.tableViewMenu insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableViewMenu insertSections:[NSIndexSet indexSetWithIndex:[self.arraySectionViews count]-1] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableViewMenu endUpdates];
+        
+        [self showSettingsIconWithAnimation];
+    }
+    else {
+        self.arrowUp = NO;
+        self.arrayDataTableViewMenu = nil;
+        self.arrayCellIds = nil;
+        [self.arraySectionViews removeObjectAtIndex:[self.arraySectionViews count]-1];
+        
+        NSArray *paths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:self.selectedSection],[NSIndexPath indexPathForRow:1 inSection:self.selectedSection],nil];
+        [self.tableViewMenu beginUpdates];
+        [self.tableViewMenu deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableViewMenu deleteSections:[NSIndexSet indexSetWithIndex:[self.arraySectionViews count]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableViewMenu endUpdates];
+        self.selectedSection = -1;
+        
+        [self hideSettingsIconWithAnimation];
+    }
+}
+
+- (void)showSettingsIconWithAnimation {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.buttonAddAccount.alpha = 0;
+        self.buttonSettings.alpha = 1;
+        self.buttonSettingsIcon.alpha = 0;
+    }];
+}
+
+- (void)hideSettingsIconWithAnimation {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.buttonAddAccount.alpha = 1;
+        self.buttonSettings.alpha = 0;
+        self.buttonSettingsIcon.alpha = 1;
+    }];
+}
+
+- (void)onAddAccountClicked {
+    
 }
 
 

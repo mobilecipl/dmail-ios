@@ -11,6 +11,9 @@
 // google
 #import <GoogleSignIn/GoogleSignIn.h>
 
+//Leanplum
+#import <Leanplum/Leanplum.h>
+
 // fabric
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -31,6 +34,8 @@
 
 @end
 
+DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
+
 @implementation AppDelegate
 
 
@@ -45,6 +50,8 @@
     [self setupGoogleSignIn];
     
     [self registerNotifications];
+    
+    self.serviceProfilesSyncing = [[ServiceProfilesSyncing alloc] init];
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController;
@@ -71,6 +78,19 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.window.rootViewController = navController;
     }
+    
+#ifdef DEBUG
+    LEANPLUM_USE_ADVERTISING_ID;
+    [Leanplum setAppId:@"app_awUO5zXzZsvHX83Qv1l3WdwcHaJDvxyykuNF1uwuWo8" withDevelopmentKey:@"dev_bHCcm15KKEvqBBRpaaVe0tNiezEOEQj6Bo1jEMKQyiE"];
+#else
+    [Leanplum setAppId:@"app_awUO5zXzZsvHX83Qv1l3WdwcHaJDvxyykuNF1uwuWo8" withProductionKey:@"prod_0QrMhGuGOxeqlDQYsdWNpMFoZpWZENdaIzDaNQ1g6Lo"];
+#endif
+    [Leanplum start];
+    
+    [Leanplum onVariablesChanged:^{
+        NSLog(@"%@", welcomeMessage.stringValue);
+        [Leanplum track:@"Launch"];
+    }];
     
     return YES;
 }
@@ -120,7 +140,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandlerx {
     
-    
+    [Leanplum handleNotification:userInfo fetchCompletionHandler:completionHandlerx];
     completionHandlerx(UIBackgroundFetchResultNewData);
 }
 
@@ -162,6 +182,13 @@
         else {
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
         }
+    }
+}
+
+- (void)setupProfilesSync {
+    
+    if ([self.serviceProfilesSyncing hasProfile]) {
+        [self.serviceProfilesSyncing sync];
     }
 }
 

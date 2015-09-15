@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL signedIn;
 
 - (void)updateUserDetails:(GIDGoogleUser *)user;
+- (NSArray *)getAllProfiles;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserID;
 

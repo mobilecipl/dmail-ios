@@ -9,14 +9,35 @@
 #import "SettingsViewController.h"
 #import "EnterPinViewController.h"
 #import "EnableTouchIdViewController.h"
+#import "ProfileModel.h"
+#import "ReserveViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "AppDelegate.h"
 
-@interface SettingsViewController ()
+// Services
+#import "ServiceProfile.h"
+#import "ServiceMessage.h"
+#import "ServiceContact.h"
+#import "ServiceSync.h"
+#import "ServiceProfilesSyncing.h"
+
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+
+
+@interface SettingsViewController () <GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) ServiceProfile *serviceProfile;
+@property (nonatomic, strong) ServiceMessage *serviceMessage;
+@property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceContact *serviceContact;
+@property (nonatomic, strong) ServiceProfilesSyncing *serviceProfilesSyncing;
 @property (nonatomic, strong) NSArray *arraytableSectoions;
 @property (nonatomic, strong) NSArray *arrayFirstSectionItems;
 @property (nonatomic, strong) NSArray *arraySecondSectionItems;
+@property (nonatomic, strong) NSArray *arrayProfiles;
+@property (nonatomic, strong) ProfileModel *logOutProfileModel;
 @property (nonatomic, strong) UISwitch *switchControll;
 @property (nonatomic, assign) BOOL deviceHasTouch;
 
@@ -26,13 +47,27 @@
 @implementation SettingsViewController
 
 #pragma mark - Class Methods
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _serviceProfile = [[ServiceProfile alloc] init];
+        _serviceMessage = [[ServiceMessage alloc] init];
+        _serviceContact = [[ServiceContact alloc] init];
+        _serviceProfilesSyncing = [[ServiceProfilesSyncing alloc] init];
+        _serviceSync = [[ServiceSync alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
-    self.arraytableSectoions = [NSArray arrayWithObjects:@"SECURITY",@"MORE", nil];
+    self.arraytableSectoions = [NSArray arrayWithObjects:@"SECURITY", @"MORE", @"MANAGE ACCOUNTS", nil];
     self.arrayFirstSectionItems = [NSArray arrayWithObjects:@"Touch ID",@"Change pin number",nil];
     self.arraySecondSectionItems = [NSArray arrayWithObjects:@"About",@"FAQ",@"Contact us", nil];
+    self.arrayProfiles = [self.serviceProfile getAllProfiles];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.navigationController.navigationBar.hidden = YES;
     self.deviceHasTouch = [self isTouchEnabledInDevice];
@@ -71,6 +106,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)buttonLogOutClicked:(id)sender {
+    
+    UIButton *button = (UIButton *)sender;
+    self.logOutProfileModel = [self.arrayProfiles objectAtIndex:button.tag];
+    [GIDSignInButton class];
+    
+    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
+    googleSignIn.delegate = self;
+    [googleSignIn disconnect];
+}
+
 
 #pragma mark - Private Methods
 - (BOOL)isTouchEnabledInDevice {
@@ -84,10 +130,24 @@
     }
 }
 
+- (void)clearAllDBAndRedirectInLoginScreen {
+    
+    //Clear all info.
+    [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email];
+//    [self.serviceSync stopSync];
+    [self.serviceContact cancelAllRequests];
+    [self.serviceMessage clearAllData];
+    
+    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ReserveViewController *reserveViewController = [storyBoard instantiateViewControllerWithIdentifier:@"reserveView"];
+    [self.navigationController setViewControllers:@[reserveViewController]];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - UITableViewDelegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 2;
+    return [self.arraytableSectoions count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -99,6 +159,9 @@
             break;
         case 1:
             rows = 3;
+            break;
+        case 2:
+            rows = [self.arrayProfiles count];
             break;
         default:
             break;
@@ -157,6 +220,20 @@
                 cell.textLabel.textColor = [UIColor blackColor];
             }
             break;
+        case 2: {
+            ProfileModel *profileModel = [self.arrayProfiles objectAtIndex:indexPath.row];
+            cell.textLabel.text = profileModel.email;
+            
+            UIImage *imageLogOut = [UIImage imageNamed:@"buttonLogOut.png"];
+            UIButton *buttonLogOut = [UIButton buttonWithType:UIButtonTypeCustom];
+            buttonLogOut.frame = CGRectMake(self.view.frame.size.width - imageLogOut.size.width - 20, 0, imageLogOut.size.width, imageLogOut.size.height);
+            [buttonLogOut setImage:imageLogOut forState:UIControlStateNormal];
+            buttonLogOut.center = CGPointMake(buttonLogOut.center.x, cell.center.y);
+            buttonLogOut.tag = indexPath.row;
+            [buttonLogOut addTarget:self action:@selector(buttonLogOutClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:buttonLogOut];
+        }
+            break;
             
         default:
             break;
@@ -202,4 +279,14 @@
     }
 }
 
+
+#pragma mark - GIDSignInDelegate Methods
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    if (error) {
+        
+    } else {
+        [self clearAllDBAndRedirectInLoginScreen];
+    }
+}
 @end

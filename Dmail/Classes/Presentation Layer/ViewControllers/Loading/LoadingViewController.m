@@ -7,12 +7,12 @@
 //
 
 #import "LoadingViewController.h"
+#import "AppDelegate.h"
 
 // controller
 #import "LoginViewController.h"
 
 // service
-#import "ServiceProfilesSyncing.h"
 #import "ServiceSync.h"
 #import "ServiceProfile.h"
 
@@ -22,7 +22,6 @@
 @interface LoadingViewController () <GIDSignInDelegate>
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
-@property (nonatomic, strong) ServiceProfilesSyncing *serviceProfilesSyncing;
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
 
@@ -36,7 +35,6 @@
     
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _serviceProfilesSyncing = [[ServiceProfilesSyncing alloc] init];
         _serviceSync = [[ServiceSync alloc] init];
         _serviceProfile = [[ServiceProfile alloc] init];
     }
@@ -48,14 +46,20 @@
     [super viewDidLoad];
     
     [self.indicator startAnimating];
-    if ([self.serviceProfilesSyncing hasProfile]) {
-        [self.serviceProfilesSyncing sync];
-//        [self autoSignIn];
+    if ([[AppDelegate sharedDelegate].serviceProfilesSyncing hasProfile]) {
+        [[AppDelegate sharedDelegate].serviceProfilesSyncing sync];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
     else {
         [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
     }
+    
+//    if ([self.serviceProfilesSyncing hasProfile]) {
+//        [self.serviceProfilesSyncing sync];
+//    }
+//    else {
+//        [self performSegueWithIdentifier:@"fromLoadingToLogin" sender:self];
+//    }
 //    self.serviceProfile = [[ServiceProfile alloc] init];
     
 //    if (self.serviceProfile.googleId) {
