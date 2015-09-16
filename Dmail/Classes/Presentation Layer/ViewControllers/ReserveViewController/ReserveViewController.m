@@ -35,6 +35,7 @@
     if (self) {
         _serviceProfile = [[ServiceProfile alloc] init];
     }
+    
     return self;
 }
 

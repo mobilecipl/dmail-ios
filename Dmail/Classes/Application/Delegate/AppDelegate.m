@@ -42,6 +42,25 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 #pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+//#ifdef DEBUG
+//    LEANPLUM_USE_ADVERTISING_ID;
+//    [Leanplum setAppId:@"app_3EKzJwLyPoTnqf6RKDt6HwvKgKo6Po24TIikaXBriR8" withDevelopmentKey:@"dev_WjqsczuHzMnipWsBLii5akroqdSLScmnK4njpqvmFeI"];
+//#else
+//    [Leanplum setAppId:@"app_3EKzJwLyPoTnqf6RKDt6HwvKgKo6Po24TIikaXBriR8" withProductionKey:@"prod_UNoEXt221i3EAkI3KiklJKjSK6xcwQryszhWrd87OGw"];
+//#endif
+    [Leanplum setAppId:@"app_fgyJFfChJqC7nAE6JyHqznb6lK10vUg6MuniGfav0W0" withProductionKey:@"prod_iE4U9plc5dMiFD41YiGrulgPbA0qS3jTcdyyUbIkhCE"];
+    [Leanplum start];
+    
+//    [Leanplum onVariablesChanged:^{
+//        NSLog(@"%@", welcomeMessage.stringValue);
+//        [Leanplum track:@"Launch"];
+//    }];
+    
+    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSLog(@"=========================== deviceId ========================== %@",deviceId);
+//    [Leanplum setUserId:deviceId];
+    [Leanplum setDeviceId:deviceId];
+    
     [Fabric with:@[CrashlyticsKit]];
 
     //Realm
@@ -78,19 +97,6 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.window.rootViewController = navController;
     }
-    
-#ifdef DEBUG
-    LEANPLUM_USE_ADVERTISING_ID;
-    [Leanplum setAppId:@"app_awUO5zXzZsvHX83Qv1l3WdwcHaJDvxyykuNF1uwuWo8" withDevelopmentKey:@"dev_bHCcm15KKEvqBBRpaaVe0tNiezEOEQj6Bo1jEMKQyiE"];
-#else
-    [Leanplum setAppId:@"app_awUO5zXzZsvHX83Qv1l3WdwcHaJDvxyykuNF1uwuWo8" withProductionKey:@"prod_0QrMhGuGOxeqlDQYsdWNpMFoZpWZENdaIzDaNQ1g6Lo"];
-#endif
-    [Leanplum start];
-    
-    [Leanplum onVariablesChanged:^{
-        NSLog(@"%@", welcomeMessage.stringValue);
-        [Leanplum track:@"Launch"];
-    }];
     
     return YES;
 }
@@ -130,6 +136,8 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ActivatePushNotification];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }];
+        
+        NSLog(@"=========================== TOKEN ========================== %@", token);
     }
 }
 
@@ -174,7 +182,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 
 - (void)registerNotifications {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification]) {
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification]) {
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
             [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -182,7 +190,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
         else {
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
         }
-    }
+//    }
 }
 
 - (void)setupProfilesSync {

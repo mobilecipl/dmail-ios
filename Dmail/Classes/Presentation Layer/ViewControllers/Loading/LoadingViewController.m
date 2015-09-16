@@ -47,6 +47,7 @@
     
     [self.indicator startAnimating];
     if ([[AppDelegate sharedDelegate].serviceProfilesSyncing hasProfile]) {
+        [self autoSignIn];
         [[AppDelegate sharedDelegate].serviceProfilesSyncing sync];
         [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
     }
