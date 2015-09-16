@@ -22,10 +22,10 @@
 #import "ServiceProfilesSyncing.h"
 
 // google
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
 
-@interface SettingsViewController () <GIDSignInDelegate>
+@interface SettingsViewController ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
@@ -110,11 +110,11 @@
     
     UIButton *button = (UIButton *)sender;
     self.logOutProfileModel = [self.arrayProfiles objectAtIndex:button.tag];
-    [GIDSignInButton class];
-    
-    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
-    googleSignIn.delegate = self;
-    [googleSignIn disconnect];
+//    [GIDSignInButton class];
+//    
+//    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
+//    googleSignIn.delegate = self;
+//    [googleSignIn disconnect];
 }
 
 
@@ -280,13 +280,13 @@
 }
 
 
-#pragma mark - GIDSignInDelegate Methods
-- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    if (error) {
-        
-    } else {
-        [self clearAllDBAndRedirectInLoginScreen];
-    }
-}
+//#pragma mark - GIDSignInDelegate Methods
+//- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+//    
+//    if (error) {
+//        
+//    } else {
+//        [self clearAllDBAndRedirectInLoginScreen];
+//    }
+//}
 @end

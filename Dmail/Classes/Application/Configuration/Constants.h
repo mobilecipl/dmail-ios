@@ -11,6 +11,10 @@
 
 typedef void(^mainCompletionBlock)(NSDictionary *requestData, NSInteger statusCode);
 
+
+#pragma mark - Google scope
+static NSString *kGoogleClientScope = @"https://www.google.com/m8/feeds/ https://mail.google.com/ https://apps-apis.google.com/a/feeds/emailsettings/2.0/ https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks";
+
 #pragma mark - Messages
 static NSString * kGlobalAlertMessageBasicFailure = @"Something went wrong\nPlease try again.";
 static NSString * kGlobalAlertMessageRequestTimeOutReplaceler = @"Looks like there's a bad connection. Please try again in a minute or so!";

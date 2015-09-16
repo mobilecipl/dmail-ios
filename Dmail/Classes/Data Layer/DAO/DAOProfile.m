@@ -117,5 +117,20 @@
     return userId;
 }
 
+- (void)selectProfileWithEmail:(NSString *)email {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"selected = YES"];
+    RMModelProfile *selectedProfile = [results firstObject];
+    RMModelProfile *profile = [RMModelProfile objectForPrimaryKey:email];
+    [realm beginWriteTransaction];
+    if (selectedProfile) {
+        selectedProfile.selected = NO;
+    }
+    if (profile) {
+        profile.selected = YES;
+    }
+    [realm commitWriteTransaction];
+}
 
 @end

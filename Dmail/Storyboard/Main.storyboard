@@ -611,7 +611,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="58" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ju2-7U-oMR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="65" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ju2-7U-oMR">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="515"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -700,6 +700,9 @@
                                 <state key="normal" image="buttonAddAccount">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="addAccount:" destination="IWv-50-gMB" eventType="touchUpInside" id="TUA-B1-L6I"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ttm-Xe-CIN">
                                 <rect key="frame" x="14" y="527" width="113" height="22"/>
@@ -717,7 +720,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dwf-5E-yRc" userLabel="Setting icon">
-                                <rect key="frame" x="172" y="523" width="42" height="32"/>
+                                <rect key="frame" x="213" y="523" width="42" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="9hl-Gz-pLd"/>
                                     <constraint firstAttribute="width" constant="42" id="liR-sF-xjH"/>
@@ -729,21 +732,32 @@
                                     <action selector="buttonSettingsClicked:" destination="IWv-50-gMB" eventType="touchUpInside" id="bTx-au-fXJ"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZnK-Kf-pgW">
+                                <rect key="frame" x="255" y="527" width="65" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6bb-Ar-gEV"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.18823529411764706" green="0.2196078431372549" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZnK-Kf-pgW" secondAttribute="trailing" id="DT0-GI-9jz"/>
                             <constraint firstAttribute="trailing" secondItem="Ju2-7U-oMR" secondAttribute="trailing" id="HoN-PX-MCv"/>
-                            <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="Dwf-5E-yRc" secondAttribute="bottom" constant="13" id="KFx-JD-rPz"/>
                             <constraint firstItem="Ttm-Xe-CIN" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" constant="14" id="W8N-o2-MgS"/>
                             <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="SCd-1g-A3M" secondAttribute="bottom" constant="16" id="cCW-N0-LtS"/>
-                            <constraint firstItem="Ju2-7U-oMR" firstAttribute="top" secondItem="Q9k-Fk-VZ4" secondAttribute="top" id="fso-Em-Ngs"/>
+                            <constraint firstItem="ZnK-Kf-pgW" firstAttribute="top" secondItem="Ju2-7U-oMR" secondAttribute="bottom" constant="12" id="i9f-On-64f"/>
+                            <constraint firstItem="ZnK-Kf-pgW" firstAttribute="width" secondItem="Q9k-Fk-VZ4" secondAttribute="width" multiplier="65/320" id="ie4-RA-Jfa"/>
                             <constraint firstItem="Ju2-7U-oMR" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" id="nKW-qM-u7A"/>
-                            <constraint firstItem="Dwf-5E-yRc" firstAttribute="leading" secondItem="Ttm-Xe-CIN" secondAttribute="trailing" constant="45" id="pDC-Xv-YYd"/>
+                            <constraint firstItem="ZnK-Kf-pgW" firstAttribute="leading" secondItem="Dwf-5E-yRc" secondAttribute="trailing" id="nLu-mL-bbe"/>
+                            <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="ZnK-Kf-pgW" secondAttribute="bottom" constant="11" id="so2-p5-XcC"/>
                             <constraint firstItem="SCd-1g-A3M" firstAttribute="leading" secondItem="Q9k-Fk-VZ4" secondAttribute="leading" constant="14" id="vLf-Z5-OpD"/>
                             <constraint firstItem="TNf-yX-Ofy" firstAttribute="top" secondItem="Ttm-Xe-CIN" secondAttribute="bottom" constant="19" id="w4G-cf-Swc"/>
+                            <constraint firstItem="Ju2-7U-oMR" firstAttribute="top" secondItem="Q9k-Fk-VZ4" secondAttribute="topMargin" id="wVn-fe-bQa"/>
                             <constraint firstItem="Dwf-5E-yRc" firstAttribute="top" secondItem="Ju2-7U-oMR" secondAttribute="bottom" constant="8" id="yoa-Uy-KyG"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <connections>
                         <outlet property="buttonAddAccount" destination="SCd-1g-A3M" id="cRt-RQ-8hu"/>

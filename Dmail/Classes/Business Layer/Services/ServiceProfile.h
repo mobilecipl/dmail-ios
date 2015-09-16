@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
 @interface ServiceProfile : NSObject
 
@@ -18,7 +18,8 @@
 @property (nonatomic, strong) NSString *imageUrl;
 @property (nonatomic, assign) BOOL signedIn;
 
-- (void)updateUserDetails:(GIDGoogleUser *)user;
+- (void)updateUserDetails:(NSDictionary *)userParameters;
+- (void)selectProfileWithEmail:(NSString *)email;
 - (NSArray *)getAllProfiles;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserID;

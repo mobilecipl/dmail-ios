@@ -29,7 +29,6 @@
 		9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C607D8E1B540F8600464883 /* ModelSentMessage.m */; };
 		9C609E5C1B9F065F002D7146 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C609E5B1B9F065F002D7146 /* SettingsViewController.m */; };
 		9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C60DC011B4FB2090081DFF9 /* ModelMessage.m */; };
-		9C620AAC1B9D669800F277DB /* GoogleOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C620AAB1B9D669800F277DB /* GoogleOAuth.m */; };
 		9C6CA55E1B4AA51200679E67 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CA55D1B4AA51200679E67 /* ContactCell.m */; };
 		9C7285811B4D15C000996A35 /* ModelGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7285801B4D15C000996A35 /* ModelGmailMessage.m */; };
 		9C87D52B1BA6CF860096D20F /* MenuSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C87D52A1BA6CF860096D20F /* MenuSectionView.m */; };
@@ -38,6 +37,12 @@
 		9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C979E6C1B68F45500008C6A /* OnboardingViewController.m */; };
 		9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */; };
 		9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */; };
+		9CB07D7B1BA960F000DCC699 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB07D721BA960F000DCC699 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9CB07D7C1BA960F000DCC699 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB07D741BA960F000DCC699 /* GTMOAuth2Authentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9CB07D7D1BA960F000DCC699 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB07D761BA960F000DCC699 /* GTMOAuth2SignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9CB07D7E1BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB07D791BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9CB07D7F1BA960F000DCC699 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CB07D7A1BA960F000DCC699 /* GTMOAuth2ViewTouch.xib */; };
+		9CB07D811BA9617400DCC699 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CB07D801BA9617400DCC699 /* Security.framework */; };
 		9CBD9D3F1B8C5C60007A30E2 /* DAOAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */; };
 		9CC2D0EF1B46CB8A00182C2B /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0EE1B46CB8A00182C2B /* ContactModel.m */; };
 		9CC2D0F61B46D47E00182C2B /* RMModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2D0F51B46D47E00182C2B /* RMModelContact.m */; };
@@ -173,8 +178,6 @@
 		9C609E5B1B9F065F002D7146 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		9C60DC001B4FB2090081DFF9 /* ModelMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelMessage.h; sourceTree = "<group>"; };
 		9C60DC011B4FB2090081DFF9 /* ModelMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelMessage.m; sourceTree = "<group>"; };
-		9C620AAA1B9D669800F277DB /* GoogleOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleOAuth.h; sourceTree = "<group>"; };
-		9C620AAB1B9D669800F277DB /* GoogleOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleOAuth.m; sourceTree = "<group>"; };
 		9C6CA55C1B4AA51200679E67 /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
 		9C6CA55D1B4AA51200679E67 /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 		9C72857F1B4D15C000996A35 /* ModelGmailMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelGmailMessage.h; sourceTree = "<group>"; };
@@ -190,6 +193,16 @@
 		9C9E2AF21B2AEB64008F3C8E /* Dmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9CB07D711BA960F000DCC699 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		9CB07D721BA960F000DCC699 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		9CB07D731BA960F000DCC699 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		9CB07D741BA960F000DCC699 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		9CB07D751BA960F000DCC699 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		9CB07D761BA960F000DCC699 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		9CB07D781BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		9CB07D791BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
+		9CB07D7A1BA960F000DCC699 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		9CB07D801BA9617400DCC699 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9CBD9D3D1B8C5C60007A30E2 /* DAOAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOAddressBook.h; sourceTree = "<group>"; };
 		9CBD9D3E1B8C5C60007A30E2 /* DAOAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOAddressBook.m; sourceTree = "<group>"; };
 		9CC2D0ED1B46CB8A00182C2B /* ContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModel.h; sourceTree = "<group>"; };
@@ -374,6 +387,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CB07D811BA9617400DCC699 /* Security.framework in Frameworks */,
 				9C9E2B241B2AF9E3008F3C8E /* SystemConfiguration.framework in Frameworks */,
 				9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */,
 				9C9E2B221B2AF9DB008F3C8E /* AddressBook.framework in Frameworks */,
@@ -458,15 +472,6 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		9C620AA91B9D669800F277DB /* GoogleOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				9C620AAA1B9D669800F277DB /* GoogleOAuth.h */,
-				9C620AAB1B9D669800F277DB /* GoogleOAuth.m */,
-			);
-			path = GoogleOAuth;
-			sourceTree = "<group>";
-		};
 		9C6CA55B1B4AA4F000679E67 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +548,38 @@
 				C08C2DA71B41AB1C00295A94 /* Supporting Files */,
 			);
 			path = Dmail;
+			sourceTree = "<group>";
+		};
+		9CB07D6F1BA960F000DCC699 /* GoogleOAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				9CB07D701BA960F000DCC699 /* GTMHTTPFetcher */,
+				9CB07D731BA960F000DCC699 /* GTMOAuth2Authentication.h */,
+				9CB07D741BA960F000DCC699 /* GTMOAuth2Authentication.m */,
+				9CB07D751BA960F000DCC699 /* GTMOAuth2SignIn.h */,
+				9CB07D761BA960F000DCC699 /* GTMOAuth2SignIn.m */,
+				9CB07D771BA960F000DCC699 /* Touch */,
+			);
+			path = GoogleOAuth2;
+			sourceTree = "<group>";
+		};
+		9CB07D701BA960F000DCC699 /* GTMHTTPFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				9CB07D711BA960F000DCC699 /* GTMHTTPFetcher.h */,
+				9CB07D721BA960F000DCC699 /* GTMHTTPFetcher.m */,
+			);
+			path = GTMHTTPFetcher;
+			sourceTree = "<group>";
+		};
+		9CB07D771BA960F000DCC699 /* Touch */ = {
+			isa = PBXGroup;
+			children = (
+				9CB07D781BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.h */,
+				9CB07D791BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.m */,
+				9CB07D7A1BA960F000DCC699 /* GTMOAuth2ViewTouch.xib */,
+			);
+			path = Touch;
 			sourceTree = "<group>";
 		};
 		9CC2D0EC1B46CB7600182C2B /* Contact */ = {
@@ -877,7 +914,7 @@
 		C08C2D4D1B41AB1C00295A94 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				9C620AA91B9D669800F277DB /* GoogleOAuth */,
+				9CB07D6F1BA960F000DCC699 /* GoogleOAuth2 */,
 				9C216E6F1B675D3100C531BA /* AES256JS */,
 				9C8AE6481B592C5400F3CE89 /* CustomAlertView */,
 				9C4F23571B4C2A2B004F9AFC /* SlideOutMenuFiles */,
@@ -1219,6 +1256,7 @@
 		D83BFC4667FC4E4708232089 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9CB07D801BA9617400DCC699 /* Security.framework */,
 				9C9E2B231B2AF9E3008F3C8E /* SystemConfiguration.framework */,
 				9C9E2B211B2AF9DB008F3C8E /* AddressBook.framework */,
 				5914951D3488C2D289EEE715 /* libPods-Dmail.a */,
@@ -1309,6 +1347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CB07D7F1BA960F000DCC699 /* GTMOAuth2ViewTouch.xib in Resources */,
 				C08C2E041B41AB1C00295A94 /* Main.storyboard in Resources */,
 				9C216E731B675D3100C531BA /* GiberishEnc.html in Resources */,
 				C08C2DAE1B41AB1C00295A94 /* ProximaNova-Thin.ttf in Resources */,
@@ -1376,10 +1415,10 @@
 				9CDD15581B4A6E8C00E54CE1 /* ProfileModel.m in Sources */,
 				C08C2DE71B41AB1C00295A94 /* Base64.m in Sources */,
 				C08C2DED1B41AB1C00295A94 /* MTReachabilityManager.m in Sources */,
+				9CB07D7C1BA960F000DCC699 /* GTMOAuth2Authentication.m in Sources */,
 				C08C2DCA1B41AB1C00295A94 /* CollectionViewSectionDataSource.m in Sources */,
 				C00B20DE1B4EB67800D892DA /* RMModelMessage.m in Sources */,
 				C08C2DE21B41AB1C00295A94 /* BaseTextField.m in Sources */,
-				9C620AAC1B9D669800F277DB /* GoogleOAuth.m in Sources */,
 				C08C2DE41B41AB1C00295A94 /* BaseView.m in Sources */,
 				C09C27C41B4BDE390067B7F2 /* SentViewController.m in Sources */,
 				9C60DC021B4FB2090081DFF9 /* ModelMessage.m in Sources */,
@@ -1406,6 +1445,7 @@
 				C08C2DDC1B41AB1C00295A94 /* BaseLayer.m in Sources */,
 				9C607D8F1B540F8600464883 /* ModelSentMessage.m in Sources */,
 				C08C2DC11B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
+				9CB07D7B1BA960F000DCC699 /* GTMHTTPFetcher.m in Sources */,
 				9CC2D0F91B46D49400182C2B /* RMModelProfile.m in Sources */,
 				C00B20DB1B4EB44900D892DA /* VMInboxMessageItem.m in Sources */,
 				9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */,
@@ -1455,6 +1495,7 @@
 				C08C2DE11B41AB1C00295A94 /* BaseTableViewCell.m in Sources */,
 				9C8AE64B1B592C5400F3CE89 /* CustomAlertView.m in Sources */,
 				9C979E6D1B68F45500008C6A /* OnboardingViewController.m in Sources */,
+				9CB07D7E1BA960F000DCC699 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 				C08C2DDF1B41AB1C00295A94 /* BaseSegmentedControl.m in Sources */,
 				9C41C51D1B8EF4D5004C8A0C /* EnterPinViewController.m in Sources */,
 				C08C2DF91B41AB1C00295A94 /* LoadingViewController.m in Sources */,
@@ -1463,6 +1504,7 @@
 				C08C2DFD1B41AB1C00295A94 /* SentMessageViewController.m in Sources */,
 				C08C2DE61B41AB1C00295A94 /* CALayer+UIColorToCGColor.m in Sources */,
 				58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */,
+				9CB07D7D1BA960F000DCC699 /* GTMOAuth2SignIn.m in Sources */,
 				9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */,
 				9CE2B5E41B55114A0020A2E0 /* ModelInboxMessage.m in Sources */,
 				9CDD15541B4A6DE300E54CE1 /* DAOProfile.m in Sources */,

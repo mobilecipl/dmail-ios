@@ -16,6 +16,7 @@ const NSInteger imageBorderWidth = 2;
 @interface MenuSectionView ()
 
 @property (nonatomic,strong ) UIButton *buttonArrow;
+@property (nonatomic,strong ) UIImageView *imageViewProfile;
 
 @end
 
@@ -26,23 +27,18 @@ const NSInteger imageBorderWidth = 2;
     self = [super initWithFrame:frame];
     
     if (self) {
+        self.email = email;
         UIView *viewImageBorder = [[UIView alloc] initWithFrame:CGRectMake(15, (self.frame.size.height - 30)/2, 30, 30)];
         viewImageBorder.backgroundColor = [UIColor participantsColor];
         viewImageBorder.layer.masksToBounds = YES;
         viewImageBorder.layer.cornerRadius = viewImageBorder.frame.size.width/2;
         
-        UIImageView *imageViewProfile = [[UIImageView alloc] initWithFrame:CGRectMake(imageBorderWidth, imageBorderWidth, viewImageBorder.frame.size.width - 2*imageBorderWidth, viewImageBorder.frame.size.height - 2*imageBorderWidth)];
-        [viewImageBorder addSubview:imageViewProfile];
-        imageViewProfile.layer.masksToBounds = YES;
-        imageViewProfile.layer.cornerRadius = imageViewProfile.frame.size.width/2;
+        self.imageViewProfile = [[UIImageView alloc] initWithFrame:CGRectMake(imageBorderWidth, imageBorderWidth, viewImageBorder.frame.size.width - 2*imageBorderWidth, viewImageBorder.frame.size.height - 2*imageBorderWidth)];
+        [viewImageBorder addSubview:self.imageViewProfile];
+        self.imageViewProfile.layer.masksToBounds = YES;
+        self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
+        [self fetchProfileImageWithImageUrl:profileImageUrl];
         
-        [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:profileImageUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            if (image) {
-                [imageViewProfile setImage:image];
-            }
-        }];
         
         CGFloat labelWidth = 120;
         if (self.frame.size.width > 320) {
@@ -62,7 +58,7 @@ const NSInteger imageBorderWidth = 2;
             [self addSubview:viewLine];
         }
         else {
-            viewImageBorder.hidden = YES;
+            viewImageBorder.backgroundColor = [UIColor clearColor];
             labelEmail.textColor = [UIColor colorWithRed:167.0/255.0 green:181.0/255.0 blue:192.0/255.0 alpha:1];
             self.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:56.0/255.0 blue:61.0/255.0 alpha:1];
         }
@@ -81,6 +77,24 @@ const NSInteger imageBorderWidth = 2;
     return self;
 }
 
+- (void)fetchProfileImageWithImageUrl:(NSString *)imageUrl {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:imageUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (image) {
+                    [self.imageViewProfile setImage:image];
+                }
+                else {
+                    [self fetchProfileImageWithImageUrl:imageUrl];
+                }
+            });
+        }];
+    });
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
@@ -97,6 +111,13 @@ const NSInteger imageBorderWidth = 2;
     return self;
 }
 
+- (void)closeSection {
+    
+    self.arrowUp = NO;
+    [self.buttonArrow setImage:[UIImage imageNamed:@"buttonArrowDown.png"] forState:UIControlStateNormal];
+    self.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:56.0/255.0 blue:61.0/255.0 alpha:1];
+}
+
 - (void)buttonArrowClicked {
     
     if (self.arrowUp) {
@@ -104,6 +125,8 @@ const NSInteger imageBorderWidth = 2;
     }
     else {
         [self.buttonArrow setImage:[UIImage imageNamed:@"buttonArrowUp.png"] forState:UIControlStateNormal];
+        self.backgroundColor = [UIColor colorWithRed:29.0/255.0 green:35.0/255.0 blue:38.0/255.0 alpha:1];
+        
     }
     
     self.arrowUp = !self.arrowUp;

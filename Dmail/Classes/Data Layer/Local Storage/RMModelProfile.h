@@ -19,6 +19,7 @@
 @property NSString *googleId;
 @property NSString *imageUrl;
 @property NSString *token;
+@property NSString *refreshToken;
 @property NSString *bodyTemplate;
 @property long long templateLastUpdateDate;
 @property BOOL selected;

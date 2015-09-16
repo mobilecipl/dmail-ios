@@ -17,6 +17,7 @@
                      imageUrl:(NSString *)imageUrl
         contactLastUpdateDate:(NSString *)contactLastUpdateDate
                         token:(NSString *)token
+                 refreshToken:(NSString *)refreshToken
                      selected:(BOOL)selected {
     
     self = [super init];
@@ -27,6 +28,7 @@
         _imageUrl = imageUrl;
         _contactLastUpdateDate = contactLastUpdateDate;
         _token = token;
+        _refreshToken = refreshToken;
         _selected = selected;
     }
     
@@ -42,6 +44,7 @@
         _googleId = rmModelProfile.googleId;
         _imageUrl = rmModelProfile.imageUrl;
         _token = rmModelProfile.token;
+        _refreshToken = rmModelProfile.refreshToken;
         _contactLastUpdateDate = rmModelProfile.contactLastUpdateDate;
         _bodyTemplate = rmModelProfile.bodyTemplate;
         _templateLastUpdateDate = rmModelProfile.templateLastUpdateDate;

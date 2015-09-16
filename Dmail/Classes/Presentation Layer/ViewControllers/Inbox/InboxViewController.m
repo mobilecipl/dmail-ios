@@ -71,13 +71,13 @@
     [super viewDidLoad];
     
     [self setupController];
-    [self setupTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
+    [self setupTableView];
     [self registerNotifications];
     [self loadMessages];
 }

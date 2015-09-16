@@ -37,18 +37,17 @@
     return self;
 }
 
-
-- (void)updateUserDetails:(GIDGoogleUser *)user {
+- (void)updateUserDetails:(NSDictionary *)userParameters {
     
-    NSString *imageUrl = [[user.profile imageURLWithDimension:kProfileImageSize] absoluteString];
-    NSString *token = [[user valueForKeyPath:@"authentication.accessToken"] description];
-    self.profileModel = [[ProfileModel alloc] initWithEmail:user.profile.email fullName:user.profile.name googleId:user.userID imageUrl:imageUrl contactLastUpdateDate:nil token:token selected:YES];
+    self.profileModel = [[ProfileModel alloc] initWithEmail:userParameters[@"email"]
+                                                   fullName:userParameters[@"fullName"]
+                                                   googleId:userParameters[@"userID"]
+                                                   imageUrl:userParameters[@"imageUrl"]
+                                      contactLastUpdateDate:nil
+                                                      token:userParameters[@"access_token"]
+                                               refreshToken:userParameters[@"refresh_token"]
+                                                   selected:YES];
     if (self.profileModel) {
-        self.email = self.profileModel.email;
-        self.fullName = self.profileModel.fullName;
-        self.googleId = self.profileModel.googleId;
-        self.token = self.profileModel.token;
-        self.imageUrl = self.profileModel.imageUrl;
         self.daoProfile = [[DAOProfile alloc] init];
         [self.daoProfile addProfileWithProfileModel:self.profileModel];
     }
@@ -67,6 +66,11 @@
 - (NSString *)getSelectedProfileUserID {
     
     return [self.daoProfile getSelectedProfileUserId];
+}
+
+- (void)selectProfileWithEmail:(NSString *)email {
+    
+    [self.daoProfile selectProfileWithEmail:email];
 }
 
 @end

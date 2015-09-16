@@ -17,9 +17,9 @@
 #import "ServiceProfile.h"
 
 // google
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface LoadingViewController () <GIDSignInDelegate>
+@interface LoadingViewController ()
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) ServiceSync *serviceSync;
@@ -75,33 +75,33 @@
 #pragma mark - Private Methods
 - (void)autoSignIn {
     
-    [GIDSignInButton class];
-    
-    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
-    googleSignIn.delegate = self;
-    [googleSignIn signInSilently];
+//    [GIDSignInButton class];
+//    
+//    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+//    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+//    googleSignIn.delegate = self;
+//    [googleSignIn signInSilently];
 }
 
 
-#pragma mark - GIDSignInDelegate Methods
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    [self.indicator stopAnimating];
-    if (error) {
-        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
-    }
-    else {
-        // TODO: sync
-        [self.serviceProfile updateUserDetails:user];
-        [self.serviceSync sync];
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
-            [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
-        }
-        else {
-            [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
-        }
-    }
-}
+//#pragma mark - GIDSignInDelegate Methods
+//- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+//    
+//    [self.indicator stopAnimating];
+//    if (error) {
+//        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
+//    }
+//    else {
+//        // TODO: sync
+//        [self.serviceProfile updateUserDetails:user];
+//        [self.serviceSync sync];
+//        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
+//            [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
+//        }
+//        else {
+//            [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
+//        }
+//    }
+//}
 
 @end

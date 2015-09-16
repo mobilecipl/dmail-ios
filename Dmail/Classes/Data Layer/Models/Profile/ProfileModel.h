@@ -17,6 +17,7 @@
 @property NSString *fullName;
 @property NSString *googleId;
 @property NSString *token;
+@property NSString *refreshToken;
 @property NSString *imageUrl;
 @property NSString *bodyTemplate;
 @property NSString *lastContactsUpdate;
@@ -29,6 +30,7 @@
                      imageUrl:(NSString *)imageUrl
         contactLastUpdateDate:(NSString *)contactLastUpdateDate
                         token:(NSString *)token
+                 refreshToken:(NSString *)refreshToken
                      selected:(BOOL)selected;
 - (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 

@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 // google
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
 //Leanplum
 #import <Leanplum/Leanplum.h>
@@ -101,10 +101,10 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    
-    return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
-}
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//    
+//    return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 
@@ -169,8 +169,8 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 
 - (void)setupGoogleSignIn {
     
-    [GIDSignIn sharedInstance].clientID = kGoogleClientID;
-    [[GIDSignIn sharedInstance] setScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]];
+//    [GIDSignIn sharedInstance].clientID = kGoogleClientID;
+//    [[GIDSignIn sharedInstance] setScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]];
 }
 
 
@@ -182,7 +182,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 
 - (void)registerNotifications {
     
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ActivatePushNotification]) {
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
             [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -190,7 +190,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
         else {
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
         }
-//    }
+    }
 }
 
 - (void)setupProfilesSync {

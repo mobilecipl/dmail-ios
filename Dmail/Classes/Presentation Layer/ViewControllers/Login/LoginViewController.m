@@ -13,9 +13,9 @@
 #import "ServiceSync.h"
 
 // google
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface LoginViewController () <GIDSignInDelegate>
+@interface LoginViewController ()
 
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
@@ -39,14 +39,14 @@
     
     [self showLoadingView];
 
-    [GIDSignInButton class];
-    
-    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
-    googleSignIn.shouldFetchBasicProfile = YES;
-    googleSignIn.allowsSignInWithWebView = NO;
-    googleSignIn.delegate = self;
-    [googleSignIn signIn];
+//    [GIDSignInButton class];
+//    
+//    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
+//    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
+//    googleSignIn.shouldFetchBasicProfile = YES;
+//    googleSignIn.allowsSignInWithWebView = NO;
+//    googleSignIn.delegate = self;
+//    [googleSignIn signIn];
 }
 
 
@@ -57,24 +57,24 @@
 }
 
 
-#pragma mark - GIDSignInDelegate Methods
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    [self hideLoadingView];
-    if (error) {
-        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
-        return;
-    }
-    else {
-        [self.serviceProfile updateUserDetails:user];
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
-            [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
-        }
-        else {
-            [self.serviceSync sync];
-            [self performSegueWithIdentifier:@"fromLoginToInbox" sender:self];
-        }
-    }
-}
+//#pragma mark - GIDSignInDelegate Methods
+//- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+//    
+//    [self hideLoadingView];
+//    if (error) {
+//        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
+//        return;
+//    }
+//    else {
+//        [self.serviceProfile updateUserDetails:user];
+//        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
+//            [self performSegueWithIdentifier:@"fromLoginToOnboarding" sender:self];
+//        }
+//        else {
+//            [self.serviceSync sync];
+//            [self performSegueWithIdentifier:@"fromLoginToInbox" sender:self];
+//        }
+//    }
+//}
 
 @end

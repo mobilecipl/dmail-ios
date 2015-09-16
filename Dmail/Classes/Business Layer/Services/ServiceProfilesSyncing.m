@@ -78,6 +78,13 @@
     [self.daoAddressBook syncAddressBook];
 }
 
+- (void)addProfileWithEmail:(NSString *)email googleId:(NSString *)googleId {
+    
+    ServiceSync *serviceSync = [[ServiceSync alloc] initWithEmail:email userId:googleId];
+    [self.arraySyncsProfiles addObject:serviceSync];
+    [serviceSync sync];
+}
+
 - (void)logOutProfileWithEmail:(NSString *)email {
     
     for (ServiceSync *serviceSync in self.arraySyncsProfiles) {

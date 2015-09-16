@@ -35,7 +35,7 @@
 
 // service
 #import <NSDate+DateTools.h>
-#import <GoogleSignIn/GoogleSignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
 @interface DAOMessage () <UIWebViewDelegate>
 
@@ -315,7 +315,7 @@
 - (NSArray *)getInboxMessages {
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
-    ProfileModel *modelProfile = [daoProfile getProfile];
+    ProfileModel *modelProfile = [daoProfile getSelectedProfile];
     NSMutableArray *arrayItems = [@[] mutableCopy];
     if (modelProfile.email) {
         RLMRealm *realm = [RLMRealm defaultRealm];
@@ -346,7 +346,7 @@
 - (NSArray *)getSentMessages {
     
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
-    ProfileModel *modelProfile = [daoProfile getProfile];
+    ProfileModel *modelProfile = [daoProfile getSelectedProfile];
     NSMutableArray *arrayItems = [@[] mutableCopy];
     if (modelProfile.email) {
         RLMRealm *realm = [RLMRealm defaultRealm];

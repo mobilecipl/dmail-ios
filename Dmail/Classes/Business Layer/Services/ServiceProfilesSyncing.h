@@ -10,6 +10,7 @@
 
 @interface ServiceProfilesSyncing : NSObject
 
+- (void)addProfileWithEmail:(NSString *)email googleId:(NSString *)googleId;
 - (BOOL)hasProfile;
 - (void)sync;
 - (void)logOutProfileWithEmail:(NSString *)email;
