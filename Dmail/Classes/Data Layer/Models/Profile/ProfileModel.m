@@ -18,6 +18,8 @@
         contactLastUpdateDate:(NSString *)contactLastUpdateDate
                         token:(NSString *)token
                  refreshToken:(NSString *)refreshToken
+                 keychainName:(NSString *)keychainName
+              tokenExpireTime:(NSInteger)tokenExpireTime
                      selected:(BOOL)selected {
     
     self = [super init];
@@ -30,6 +32,12 @@
         _token = token;
         _refreshToken = refreshToken;
         _selected = selected;
+        _keychainName = keychainName;
+        
+        NSDate *now = [NSDate date];
+        NSDate *dateToFire = [now dateByAddingTimeInterval:tokenExpireTime];
+        NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
+        self.tokenLastUpdatedate = timeInterval;
     }
     
     return self;
@@ -49,6 +57,8 @@
         _bodyTemplate = rmModelProfile.bodyTemplate;
         _templateLastUpdateDate = rmModelProfile.templateLastUpdateDate;
         _selected = rmModelProfile.selected;
+        _keychainName = rmModelProfile.keychainName;
+        _tokenLastUpdatedate = rmModelProfile.tokenLastUpdatedate;
     }
     
     return self;

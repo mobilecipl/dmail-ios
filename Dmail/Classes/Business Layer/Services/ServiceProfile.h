@@ -23,5 +23,12 @@
 - (NSArray *)getAllProfiles;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserID;
+- (NSString *)getKeychainWithEmail:(NSString *)email;
+- (NSString *)getTokenWithEmail:(NSString *)email;
+- (void)updateTokenWithEmail:(NSString *)email token:(NSString *)token;
+- (BOOL)tokenExpireForEmail:(NSString *)email;
+- (void)updateTokenExpireDateWithEmail:(NSString *)email expireDate:(long long)expireDate;
+- (NSString *)getLastProfileKeychanName;
+- (void)removeProfileWithEmail:(NSString *)email;
 
 @end

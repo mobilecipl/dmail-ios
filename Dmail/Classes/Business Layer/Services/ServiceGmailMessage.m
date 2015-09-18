@@ -28,16 +28,16 @@
     return self;
 }
 
-- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier profileEmail:(NSString *)profileEmail userId:(NSString *)userID serverId:(NSString *)serverId token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoGmailMessage getMessageIdWithUniqueId:messageIdentifier userId:userID serverId:serverId completionBlock:^(id data, ErrorDataModel *error) {
+    [self.daoGmailMessage getMessageIdWithUniqueId:messageIdentifier profileEmail:profileEmail userId:userID serverId:serverId token:token completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }
 
-- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageWithMessageId:(NSString *)messageId profileEmail:(NSString *)profileEmail userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
-    [self.daoGmailMessage getMessageWithMessageId:messageId userId:userID completionBlock:^(id data, ErrorDataModel *error) {
+    [self.daoGmailMessage getMessageWithMessageId:messageId profileEmail:profileEmail userId:userID completionBlock:^(id data, ErrorDataModel *error) {
         completionBlock(data, error);
     }];
 }

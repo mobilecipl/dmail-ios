@@ -10,9 +10,6 @@
 
 @interface DAOSync : BaseDAO
 
-- (void)syncMessagesForEmail:(NSString *)recipientEmail
-                    position:(NSNumber *)position
-                       count:(NSNumber *)count
-             completionBlock:(CompletionBlock)completionBlock;
+- (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock;
 
 @end

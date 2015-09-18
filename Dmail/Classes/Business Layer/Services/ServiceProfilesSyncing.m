@@ -37,6 +37,7 @@
         _daoProfilesSyncing = [[DAOProfilesSyncing alloc] init];
         _daoAddressBook = [[DAOAddressBook alloc] init];
         _daoMessage = [[DAOMessage alloc] init];
+        [self syncAddressBookContacts];
     }
     
     return self;
@@ -58,12 +59,13 @@
     self.arraySyncsProfiles = [[NSMutableArray alloc] init];
     for (ProfileModel *model in self.arrayAllProfiles) {
         ServiceSync *serviceSync = [[ServiceSync alloc] initWithEmail:model.email userId:model.googleId];
+        serviceSync.email = model.email;
+        serviceSync.token = model.token;
         [self.arraySyncsProfiles addObject:serviceSync];
         [serviceSync sync];
     }
     
     [self syncTemplate];
-    [self syncAddressBookContacts];
 }
 
 - (void)syncTemplate {
@@ -90,8 +92,13 @@
     for (ServiceSync *serviceSync in self.arraySyncsProfiles) {
         if ([serviceSync.email isEqualToString:email]) {
             [serviceSync stopSync];
+            [serviceSync logOut];
+            [self.arraySyncsProfiles removeObject:serviceSync];
+            break;
         }
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ProfileRemoved" object:nil];
 }
 
 

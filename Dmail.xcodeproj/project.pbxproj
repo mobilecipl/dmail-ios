@@ -50,6 +50,7 @@
 		9CCFD3FE1B943E650091958B /* ServiceQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD3FD1B943E650091958B /* ServiceQueue.m */; };
 		9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4001B943EAE0091958B /* DAOQueue.m */; };
 		9CCFD4041B943EE40091958B /* NetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCFD4031B943EE40091958B /* NetworkQueue.m */; };
+		9CD7A0711BAB23A5004E4B53 /* RMModelApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7A0701BAB23A5004E4B53 /* RMModelApplication.m */; };
 		9CD8EA2C1B383DFB0052210D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2A1B383DFB0052210D /* Fabric.framework */; };
 		9CD8EA2D1B383DFB0052210D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */; };
 		9CDAB1CB1B987EFB00DE6621 /* ServiceProfilesSyncing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAB1CA1B987EFB00DE6621 /* ServiceProfilesSyncing.m */; };
@@ -218,6 +219,8 @@
 		9CCFD4021B943EE40091958B /* NetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkQueue.h; sourceTree = "<group>"; };
 		9CCFD4031B943EE40091958B /* NetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkQueue.m; sourceTree = "<group>"; };
 		9CCFD4051B94B2200091958B /* Dmail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Dmail.entitlements; sourceTree = "<group>"; };
+		9CD7A06F1BAB23A5004E4B53 /* RMModelApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelApplication.h; sourceTree = "<group>"; };
+		9CD7A0701BAB23A5004E4B53 /* RMModelApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMModelApplication.m; sourceTree = "<group>"; };
 		9CD8EA2A1B383DFB0052210D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9CD8EA2B1B383DFB0052210D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9CDAB1C91B987EFB00DE6621 /* ServiceProfilesSyncing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProfilesSyncing.h; sourceTree = "<group>"; };
@@ -604,6 +607,8 @@
 				9CC2D0F51B46D47E00182C2B /* RMModelContact.m */,
 				9CC2D0F71B46D49400182C2B /* RMModelProfile.h */,
 				9CC2D0F81B46D49400182C2B /* RMModelProfile.m */,
+				9CD7A06F1BAB23A5004E4B53 /* RMModelApplication.h */,
+				9CD7A0701BAB23A5004E4B53 /* RMModelApplication.m */,
 			);
 			path = "Local Storage";
 			sourceTree = "<group>";
@@ -1463,6 +1468,7 @@
 				9C21B8891B46A2DF0080B132 /* NetworkContacts.m in Sources */,
 				C08C2DF01B41AB1C00295A94 /* DmailEntityItem.m in Sources */,
 				C08C2DB01B41AB1C00295A94 /* AppDelegate.m in Sources */,
+				9CD7A0711BAB23A5004E4B53 /* RMModelApplication.m in Sources */,
 				9C607D891B53E6B700464883 /* RMModelRecipient.m in Sources */,
 				9C21B8861B46A2780080B132 /* DAOContact.m in Sources */,
 				C08C2DDE1B41AB1C00295A94 /* BaseSearchBar.m in Sources */,
@@ -1617,8 +1623,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Science Mobile, LLC (X24QFW733V)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Science Mobile, LLC (X24QFW733V)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1628,7 +1635,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45dd9482-95b5-448b-aa6b-03b8eef308f6";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 			};
 			name = Debug;
 		};
@@ -1638,8 +1645,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Science Mobile, LLC (X24QFW733V)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Science Mobile, LLC (X24QFW733V)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1649,7 +1657,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45dd9482-95b5-448b-aa6b-03b8eef308f6";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 			};
 			name = Release;
 		};

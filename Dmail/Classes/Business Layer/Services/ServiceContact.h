@@ -14,7 +14,7 @@
 
 - (NSMutableArray *)getContactsWithName:(NSString *)name;
 
-- (void)getContactsWithPagingForEmail:(NSString *)email maxResult:(NSString *)maxResult completionBlock:(CompletionBlock)completionBlock;
+- (void)getContactsWithPagingForEmail:(NSString *)email maxResult:(NSString *)maxResult token:(NSString *)token completionBlock:(CompletionBlock)completionBlock;
 
 - (void)cancelAllRequests;
 

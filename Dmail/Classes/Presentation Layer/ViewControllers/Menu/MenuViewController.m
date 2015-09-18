@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "MenuSectionView.h"
 #import "ProfileModel.h"
+#import "AppDelegate.h"
 
 // Services
 #import "ServiceProfile.h"
@@ -41,6 +42,7 @@
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceContact *serviceContact;
+@property (nonatomic, retain) GTMOAuth2Authentication *auth;
 @property (nonatomic, strong) NSArray *arrayProfiles;
 @property (nonatomic, strong) NSMutableArray *arraySectionViews;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
@@ -79,12 +81,15 @@
     self.tableViewMenu.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated{
     
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(profileRemoved) name:@"ProfileRemoved" object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
     self.tableViewMenu.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
@@ -102,6 +107,13 @@
 
 
 #pragma mark - Private Methods
+- (void)profileRemoved {
+    
+    [self createProfilesTable];
+    [self.tableViewMenu reloadData];
+    self.tableViewMenu.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
 - (void)createProfilesTable {
     
     self.arrayProfiles = [self.serviceProfile getAllProfiles];
@@ -146,32 +158,7 @@
     [self.arrayDataTableViewMenu replaceObjectAtIndex:self.selectedCellIndex withObject:dictionary];
 }
 
-- (void)clearAllDBAndRedirectInLoginScreen {
-    
-    //Clear all info.
-    [self.serviceSync stopSync];
-    [self.serviceContact cancelAllRequests];
-    [self.serviceMessage clearAllData];
-    
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *reserveViewController = [storyBoard instantiateViewControllerWithIdentifier:@"reserveView"];
-//    LoadingViewController *loadingViewController = (LoadingViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"loadingView"];
-    [self.navigationController setViewControllers:@[reserveViewController]];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)signInToGoogle {
-    
-    // For Google APIs, the scope strings are available
-    // in the service constant header files.
-    NSString *scope = kGoogleClientScope;
-    
-    // Typically, applications will hardcode the client ID and client secret
-    // strings into the source code; they should not be user-editable or visible.
-    //
-    // But for this sample code, they are editable.
-    NSString *clientID = kGoogleClientID;
-    NSString *clientSecret = kGoogleClientSecret;
     
     // Note:
     // GTMOAuth2ViewControllerTouch is not designed to be reused. Make a new
@@ -180,14 +167,16 @@
     // Display the autentication view.
     SEL finishedSel = @selector(viewController:finishedWithAuth:error:);
     
+    NSString *keychainName = [self.serviceProfile getLastProfileKeychanName];
     GTMOAuth2ViewControllerTouch *viewController;
-    viewController = [GTMOAuth2ViewControllerTouch controllerWithScope:scope
-                                                              clientID:clientID
-                                                          clientSecret:clientSecret
-                                                      keychainItemName:nil
+    viewController = [GTMOAuth2ViewControllerTouch controllerWithScope:kGoogleClientScope
+                                                              clientID:kGoogleClientID
+                                                          clientSecret:kGoogleClientSecret
+                                                      keychainItemName:keychainName
                                                               delegate:self
                                                       finishedSelector:finishedSel];
     viewController.signIn.shouldFetchGoogleUserProfile = YES;
+    
     // You can set the title of the navigationItem of the controller here, if you
     // want.
     
@@ -245,16 +234,43 @@
         NSLog(@"Authentication error: %@", error);
         NSData *responseData = [[error userInfo] objectForKey:@"data"]; // kGTMHTTPFetcherStatusDataKey
         if ([responseData length] > 0) {
-            NSString *str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+            // show the body of the server's authentication failure response
+            NSString *str = [[NSString alloc] initWithData:responseData
+                                                  encoding:NSUTF8StringEncoding];
             NSLog(@"%@", str);
         }
+        
+        self.auth = nil;
     } else {
+        // Authentication succeeded
+        //
+        // At this point, we either use the authentication object to explicitly
+        // authorize requests, like
+        //
+        //  [auth authorizeRequest:myNSURLMutableRequest
+        //       completionHandler:^(NSError *error) {
+        //         if (error == nil) {
+        //           // request here has been authorized
+        //         }
+        //       }];
+        //
+        // or store the authentication object into a fetcher or a Google API service
+        // object like
+        //
+        //   [fetcher setAuthorizer:auth];
+        
+        // save the authentication object
+        self.auth = auth;
         NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:auth.parameters];
+        
         NSLog(@"auth success %@", auth);
         NSLog(@"auth.parameters success %@", auth.parameters);
+        
         NSURL *url = [NSURL URLWithString:@"https://www.googleapis.com/plus/v1/people/me/activities/public"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [auth authorizeRequest:request completionHandler:^(NSError *error) {
+        
+        
+        [self.auth authorizeRequest:request completionHandler:^(NSError *error) {
             NSString *output = nil;
             if (error) {
                 output = [error description];
@@ -273,10 +289,12 @@
                         NSDictionary *userInfo = dict[@"actor"];
                         [userInfoDict setObject:userInfo[@"displayName"] forKey:@"fullName"];
                         [userInfoDict setObject:userInfo[@"image"][@"url"] forKey:@"imageUrl"];
+                        NSString *keychanName = [self.serviceProfile getLastProfileKeychanName];
+                        [userInfoDict setObject:keychanName forKey:@"keychainName"];
                         [self.serviceProfile updateUserDetails:userInfoDict];
-                        
                         [self createProfilesTable];
                         [self.tableViewMenu reloadData];
+                        [[AppDelegate sharedDelegate].serviceProfilesSyncing addProfileWithEmail:userInfoDict[@"email"] googleId:userInfoDict[@"userID"]];
                     }
                 }
             }
@@ -350,7 +368,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    MenuSectionView *profileSection = [self.arraySectionViews objectAtIndex:self.selectedSection];
+    MenuSectionView *profileSection;
+    if (self.selectedSection != -1) {
+        profileSection = [self.arraySectionViews objectAtIndex:self.selectedSection];
+        
+    }
+    else {
+        profileSection = [self.arraySectionViews firstObject];
+    }
     [self.serviceProfile selectProfileWithEmail:profileSection.email];
     
     if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
@@ -364,7 +389,7 @@
 }
 
 
-#pragma mark - MenuSectionViewDelegate Methods 
+#pragma mark - MenuSectionViewDelegate Methods
 - (void)onArrowClicked:(id)menuSection {
     
     MenuSectionView *menuSectionView = (MenuSectionView *)menuSection;
@@ -434,61 +459,6 @@
 - (void)onAddAccountClicked {
     
 }
-
-
-//#pragma mark - GIDSignInDelegate Methods
-//- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-//    
-//    if (error) {
-//        
-//    } else {
-//        [self clearAllDBAndRedirectInLoginScreen];
-//    }
-//}
-//
-//- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-//    
-//    if (error) {
-//        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
-//    }
-//    else {
-//        // TODO: sync
-//        [self.serviceProfile updateUserDetails:user];
-//        [self.serviceSync sync];
-//        if (![[NSUserDefaults standardUserDefaults] boolForKey:OnboardingWasShowed]) {
-////            [self performSegueWithIdentifier:@"fromLodaingToOnboarding" sender:self];
-//        }
-//        else {
-////            [self performSegueWithIdentifier:@"fromLoadingToRoot" sender:self];
-//        }
-//    }
-//
-//}
-//
-//// a spinner or other "please wait" element.
-//- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
-//    
-//    
-//}
-//
-//// If implemented, this method will be invoked when sign in needs to display a view controller.
-//// The view controller should be displayed modally (via UIViewController's |presentViewController|
-//// method, and not pushed unto a navigation controller's stack.
-//- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-//    
-//    [self presentViewController:viewController animated:YES completion:^{
-//        
-//    }];
-//}
-//
-//// If implemented, this method will be invoked when sign in needs to dismiss a view controller.
-//// Typically, this should be implemented by calling |dismissViewController| on the passed
-//// view controller.
-//- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-//    
-//    
-//}
-//
 
 
 @end

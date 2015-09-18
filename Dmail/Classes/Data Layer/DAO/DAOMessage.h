@@ -27,11 +27,11 @@
 
 - (NSString *)getLastGmailMessageId;
 
-- (NSNumber *)getLastDmailPositionWithEmail:(NSString *)email;
+- (NSNumber *)getLastDmailPositionWithEmail:(NSString *)email forProfile:(NSString *)profile;
 
 - (ModelMessage *)getMessageWithMessageId:(NSString *)messageId;
 
-- (RMModelMessage *)getLastGmailUniqueId;
+- (RMModelMessage *)getLastGmailUniqueIdForProfile:(NSString *)profile;
 
 - (void)sendMessage:(NSString *)encryptedBopdy clientKey:(NSString *)clientKey messageSubject:(NSString *)messageSubject to:(NSArray *)to cc:(NSArray *)cc bcc:(NSArray *)bcc timer:(long long)timer completionBlock:(CompletionBlock)completionBlock;
 
@@ -47,7 +47,9 @@
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
-- (void)clearAllData;
+- (void)removeMessagesForProfile:(NSString *)profileEmail;
+
+- (void)removeResipientsForProfile:(NSString *)profileEmail;
 
 - (NSString *)generatePublicKey;
 

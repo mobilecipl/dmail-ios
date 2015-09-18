@@ -107,30 +107,33 @@
         [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
             self.startRequest = NO;
             [self hideLoadingView];
-            if (data && [data isKindOfClass:[NSDictionary class]]) {
-                if ([[data allKeys] containsObject:@"access"]) {
-                    if ([data[@"access"] isEqualToString:@"GRANTED"]) {
-                        [self.timer invalidate];
-                        self.timer = nil;
-                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:InQueue];
-                        [[NSUserDefaults standardUserDefaults] synchronize];
-                        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
-                    }
-                }
-                else {
-                    NSInteger position = [data[@"position"] integerValue];
-                    NSInteger queueSize = [data[@"queueSize"] integerValue];
-                    self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)position];
-                    self.labelTotalInLine.text = [NSString stringWithFormat:@"%ld", (long)queueSize];
-                }
-            }
-            else {
-                if (self.timer) {
-                    [self.timer invalidate];
-                    self.timer = nil;
-                    [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
-                }
-            }
+            [self.timer invalidate];
+            self.timer = nil;
+            [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+//            if (data && [data isKindOfClass:[NSDictionary class]]) {
+//                if ([[data allKeys] containsObject:@"access"]) {
+//                    if ([data[@"access"] isEqualToString:@"GRANTED"]) {
+//                        [self.timer invalidate];
+//                        self.timer = nil;
+//                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:InQueue];
+//                        [[NSUserDefaults standardUserDefaults] synchronize];
+//                        [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+//                    }
+//                }
+//                else {
+//                    NSInteger position = [data[@"position"] integerValue];
+//                    NSInteger queueSize = [data[@"queueSize"] integerValue];
+//                    self.labelCurrentPlace.text = [NSString stringWithFormat:@"%ld", (long)position];
+//                    self.labelTotalInLine.text = [NSString stringWithFormat:@"%ld", (long)queueSize];
+//                }
+//            }
+//            else {
+//                if (self.timer) {
+//                    [self.timer invalidate];
+//                    self.timer = nil;
+//                    [self showErrorAlertWithTitle:@"Error" message:@"Unable to connect with server. Please try again."];
+//                }
+//            }
         }];
     }
 }

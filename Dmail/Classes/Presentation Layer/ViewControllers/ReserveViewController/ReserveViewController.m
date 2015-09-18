@@ -69,17 +69,6 @@
 #pragma mark - Private Methods
 - (void)signInToGoogle {
     
-    // For Google APIs, the scope strings are available
-    // in the service constant header files.
-    NSString *scope = kGoogleClientScope;
-    
-    // Typically, applications will hardcode the client ID and client secret
-    // strings into the source code; they should not be user-editable or visible.
-    //
-    // But for this sample code, they are editable.
-    NSString *clientID = kGoogleClientID;
-    NSString *clientSecret = kGoogleClientSecret;
-    
     // Note:
     // GTMOAuth2ViewControllerTouch is not designed to be reused. Make a new
     // one each time you are going to show it.
@@ -87,14 +76,16 @@
     // Display the autentication view.
     SEL finishedSel = @selector(viewController:finishedWithAuth:error:);
     
+    NSString *keychainName = @"1";
     GTMOAuth2ViewControllerTouch *viewController;
-    viewController = [GTMOAuth2ViewControllerTouch controllerWithScope:scope
-                                                              clientID:clientID
-                                                          clientSecret:clientSecret
-                                                      keychainItemName:nil
+    viewController = [GTMOAuth2ViewControllerTouch controllerWithScope:kGoogleClientScope
+                                                              clientID:kGoogleClientID
+                                                          clientSecret:kGoogleClientSecret
+                                                      keychainItemName:keychainName
                                                               delegate:self
                                                       finishedSelector:finishedSel];
     viewController.signIn.shouldFetchGoogleUserProfile = YES;
+    
     // You can set the title of the navigationItem of the controller here, if you
     // want.
     
@@ -186,6 +177,8 @@
         
         NSURL *url = [NSURL URLWithString:@"https://www.googleapis.com/plus/v1/people/me/activities/public"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+
+
         [self.auth authorizeRequest:request completionHandler:^(NSError *error) {
             NSString *output = nil;
             if (error) {
@@ -205,6 +198,7 @@
                         NSDictionary *userInfo = dict[@"actor"];
                         [userInfoDict setObject:userInfo[@"displayName"] forKey:@"fullName"];
                         [userInfoDict setObject:userInfo[@"image"][@"url"] forKey:@"imageUrl"];
+                        [userInfoDict setObject:@"1" forKey:@"keychainName"];
                         [self.serviceProfile updateUserDetails:userInfoDict];
                         [self performSegueWithIdentifier:@"fromReserveToQueu" sender:self];
                     }
@@ -229,24 +223,6 @@
 - (IBAction)reserveMySpotClicked:(id)sender {
     
     [self showLoadingView];
-    
-//    self.googleOAuth = [[GoogleOAuth alloc] initWithFrame:self.view.frame];
-//    [self.googleOAuth setGOAuthDelegate:self];
-//    [self.googleOAuth authorizeUserWithClienID:kGoogleClientID
-//                           andClientSecret:kGoogleClientSecret
-//                             andParentView:self.view
-//                                 andScopes:@[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"]
-//     ];
-    
-//    [GIDSignInButton class];
-//    GIDSignIn *googleSignIn = [GIDSignIn sharedInstance];
-//    googleSignIn.scopes = @[@"https://www.google.com/m8/feeds/", @"https://mail.google.com/", @"https://apps-apis.google.com/a/feeds/emailsettings/2.0/"];
-//    googleSignIn.clientID = kGoogleClientID;
-//    googleSignIn.shouldFetchBasicProfile = YES;
-//    googleSignIn.allowsSignInWithWebView = NO;
-//    googleSignIn.delegate = self;
-//    [googleSignIn signIn];
-    
     [self signInToGoogle];
 }
 
@@ -304,39 +280,5 @@
     [self hideLoadingView];
     NSLog(@"%@", errorMessage);
 }
-
-//#pragma mark - GIDSignInDelegate Methods
-//- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-//    
-//    [self hideLoadingView];
-//    if (error) {
-//        [self showErrorAlertWithTitle:@"Error!" message:@"Unable to sign in to Google. Please try again."];
-//        return;
-//    }
-//    else {
-//        [self.serviceProfile updateUserDetails:user];
-//        [self performSegueWithIdentifier:@"fromReserveToQueu" sender:self];
-//    }
-//}
-//
-//- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
-//    
-//    [self hideLoadingView];
-//}
-//
-//- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-//    
-//    [self presentViewController:viewController animated:YES completion:^{
-//        
-//    }];
-//}
-//
-//- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-//    
-//    [self dismissViewControllerAnimated:YES completion:^{
-//        
-//    }];
-//}
-
 
 @end

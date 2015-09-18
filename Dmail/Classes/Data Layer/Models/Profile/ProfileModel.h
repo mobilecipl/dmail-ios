@@ -20,8 +20,10 @@
 @property NSString *refreshToken;
 @property NSString *imageUrl;
 @property NSString *bodyTemplate;
+@property NSString *keychainName;
 @property NSString *lastContactsUpdate;
 @property long long templateLastUpdateDate;
+@property long long tokenLastUpdatedate;
 @property BOOL selected;
 
 - (instancetype)initWithEmail:(NSString *)email
@@ -31,7 +33,10 @@
         contactLastUpdateDate:(NSString *)contactLastUpdateDate
                         token:(NSString *)token
                  refreshToken:(NSString *)refreshToken
+                 keychainName:(NSString *)keychainName
+              tokenExpireTime:(NSInteger)tokenExpireTime
                      selected:(BOOL)selected;
+
 - (instancetype)initWithRealProfile:(RMModelProfile *)RMModelProfile;
 
 @end

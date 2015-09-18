@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CFD6AB4BDC8F246BCA04126843E1EB88F8D42670",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "4acb82bf-45c4-459c-a24d-65e7752386e7++5833" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "CFD6AB4BDC8F246BCA04126843E1EB88F8D42670" : 0,
+    "4acb82bf-45c4-459c-a24d-65e7752386e7++5833" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "900E6BC2-83BA-47E0-9FFF-921EA4B96115",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "CFD6AB4BDC8F246BCA04126843E1EB88F8D42670" : "Dmail",
+    "4acb82bf-45c4-459c-a24d-65e7752386e7++5833" : "Dmail\/Dmail\/Classes\/Core\/Helpers\/Base64\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Dmail",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Dmail.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/repo.flipdevnet.com\/svn\/osx",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4acb82bf-45c4-459c-a24d-65e7752386e7++5833"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/science-yerevan\/ios-dmail.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CFD6AB4BDC8F246BCA04126843E1EB88F8D42670"
+    }
+  ]
+}

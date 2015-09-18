@@ -15,5 +15,6 @@
                  startIndex:(NSString *)startIndex
                   maxResult:(NSString *)maxResult
                  updatedMin:(NSString *)updatedMin
+                      token:(NSString *)token
             completionBlock:(CompletionBlock)completionBlock;
 @end

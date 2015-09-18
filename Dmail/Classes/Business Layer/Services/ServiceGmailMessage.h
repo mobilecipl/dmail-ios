@@ -7,12 +7,13 @@
 //
 
 #import "BaseService.h"
+#import "GTMOAuth2Authentication.h"
 
 @interface ServiceGmailMessage : BaseService
 
-- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier profileEmail:(NSString *)profileEmail userId:(NSString *)userID serverId:(NSString *)serverId token:(NSString *)token completionBlock:(CompletionBlock)completionBlock;
 
-- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
+- (void)getMessageWithMessageId:(NSString *)messageId profileEmail:(NSString *)profileEmail userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock;
 
 - (void)sendWithEncodedBody:(NSString *)encodedBody userId:(NSString *)userID token:(NSString *)token completionBlock:(CompletionBlock)completionBlock;
 

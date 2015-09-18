@@ -31,6 +31,8 @@
         _bodyTemplate = model.bodyTemplate;
         _templateLastUpdateDate = model.templateLastUpdateDate;
         _selected = model.selected;
+        _keychainName = model.keychainName;
+        _tokenLastUpdatedate = model.tokenLastUpdatedate;
     }
     
     return self;

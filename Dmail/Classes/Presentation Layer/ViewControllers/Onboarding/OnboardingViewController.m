@@ -7,7 +7,7 @@
 //
 
 #import "OnboardingViewController.h"
-#import "ServiceSync.h"
+#import "ServiceProfilesSyncing.h"
 
 @interface OnboardingViewController ()
 
@@ -15,7 +15,7 @@
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControll;
 @property (nonatomic, weak) IBOutlet UIButton *buttonLetsGo;
 
-@property (nonatomic, strong) ServiceSync *serviceSync;
+@property (nonatomic, strong) ServiceProfilesSyncing *serviceProfilesSyncing;
 
 @end
 
@@ -27,7 +27,7 @@
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    self.serviceSync = [[ServiceSync alloc] init];
+    self.serviceProfilesSyncing = [[ServiceProfilesSyncing alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -59,7 +59,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OnboardingWasShowed];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.serviceSync sync];
+//    [self.serviceProfilesSyncing sync];
 }
 
 - (IBAction)pageControllClicked:(id)sender {

@@ -12,6 +12,8 @@
 #import <Realm/Realm.h>
 #import "RMModelProfile.h"
 
+#import <NSDate+DateTools.h>
+
 @interface DAOProfile ()
 
 @end
@@ -48,13 +50,13 @@
     [realm commitWriteTransaction];
 }
 
-- (void)removeProfileWithEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock {
+- (void)removeProfileWithEmail:(NSString *)email {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
-    if ([results count] > 0) {
-        
-    }
+    [realm beginWriteTransaction];
+    [realm deleteObjects:results];
+    [realm commitWriteTransaction];
 }
 
 - (NSArray *)getAllProfiles {
@@ -131,6 +133,87 @@
         profile.selected = YES;
     }
     [realm commitWriteTransaction];
+}
+
+- (NSString *)getKeychainWithEmail:(NSString *)email {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        return profile.keychainName;
+    }
+    
+    return nil;
+}
+
+- (NSString *)getTokenWithEmail:(NSString *)email {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        return profile.token;
+    }
+    
+    return nil;
+}
+
+- (void)updateTokenWithEmail:(NSString *)email token:(NSString *)token {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        [realm beginWriteTransaction];
+        profile.token = token;
+        [realm commitWriteTransaction];
+    }
+}
+
+- (void)updateTokenExpireDateWithEmail:(NSString *)email expireDate:(long long)expireDate {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        [realm beginWriteTransaction];
+        profile.tokenLastUpdatedate = expireDate;
+        [realm commitWriteTransaction];
+    }
+}
+
+- (BOOL)tokenExpireForEmail:(NSString *)email {
+    
+    BOOL success = NO;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        NSDate *expireDate = [NSDate dateWithTimeIntervalSince1970:profile.tokenLastUpdatedate];
+        NSDate *nowDate = [NSDate date];
+        success = [nowDate isLaterThan:expireDate];
+    }
+    
+    return success;
+}
+
+- (NSString *)getLastProfileKeychanName {
+    
+    NSString *keychanName;
+    NSInteger keychanNumber = 0;
+    RLMResults *results = [RMModelProfile allObjects];
+    if ([results count] > 0) {
+        for (RMModelProfile *profileModel in results) {
+            if ([profileModel.keychainName integerValue] > keychanNumber) {
+                keychanNumber = [profileModel.keychainName integerValue];
+            }
+        }
+        keychanNumber++;
+        keychanName = [NSString stringWithFormat:@"%ld", (long)keychanNumber];
+    }
+    
+    return keychanName;
 }
 
 @end

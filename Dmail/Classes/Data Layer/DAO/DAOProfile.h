@@ -14,12 +14,18 @@
 
 - (ProfileModel *)getProfile;
 - (void)addProfileWithProfileModel:(ProfileModel *)profileModel;
-- (void)removeProfileWithEmail:(NSString *)email completionBlock:(CompletionBlock)completionBlock;
+- (void)removeProfileWithEmail:(NSString *)email;
 - (NSArray *)getAllProfiles;
 - (ProfileModel *)getSelectedProfile;
 - (NSString *)getSelectedProfileEmail;
 - (NSString *)getSelectedProfileUserId;
 - (NSString *)getSelectedProfileToken;
 - (void)selectProfileWithEmail:(NSString *)email;
+- (NSString *)getKeychainWithEmail:(NSString *)email;
+- (void)updateTokenWithEmail:(NSString *)email token:(NSString *)token;
+- (NSString *)getTokenWithEmail:(NSString *)email;
+- (BOOL)tokenExpireForEmail:(NSString *)email;
+- (void)updateTokenExpireDateWithEmail:(NSString *)email expireDate:(long long)expireDate;
+- (NSString *)getLastProfileKeychanName;
 
 @end

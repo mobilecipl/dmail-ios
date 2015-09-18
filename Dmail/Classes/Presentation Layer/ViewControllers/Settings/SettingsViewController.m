@@ -21,10 +21,6 @@
 #import "ServiceSync.h"
 #import "ServiceProfilesSyncing.h"
 
-// google
-//#import <GoogleSignIn/GoogleSignIn.h>
-
-
 @interface SettingsViewController ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -36,7 +32,7 @@
 @property (nonatomic, strong) NSArray *arraytableSectoions;
 @property (nonatomic, strong) NSArray *arrayFirstSectionItems;
 @property (nonatomic, strong) NSArray *arraySecondSectionItems;
-@property (nonatomic, strong) NSArray *arrayProfiles;
+@property (nonatomic, strong) NSMutableArray *arrayProfiles;
 @property (nonatomic, strong) ProfileModel *logOutProfileModel;
 @property (nonatomic, strong) UISwitch *switchControll;
 @property (nonatomic, assign) BOOL deviceHasTouch;
@@ -67,7 +63,7 @@
     self.arraytableSectoions = [NSArray arrayWithObjects:@"SECURITY", @"MORE", @"MANAGE ACCOUNTS", nil];
     self.arrayFirstSectionItems = [NSArray arrayWithObjects:@"Touch ID",@"Change pin number",nil];
     self.arraySecondSectionItems = [NSArray arrayWithObjects:@"About",@"FAQ",@"Contact us", nil];
-    self.arrayProfiles = [self.serviceProfile getAllProfiles];
+    self.arrayProfiles = [NSMutableArray arrayWithArray:[self.serviceProfile getAllProfiles]];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.navigationController.navigationBar.hidden = YES;
     self.deviceHasTouch = [self isTouchEnabledInDevice];
@@ -110,11 +106,9 @@
     
     UIButton *button = (UIButton *)sender;
     self.logOutProfileModel = [self.arrayProfiles objectAtIndex:button.tag];
-//    [GIDSignInButton class];
-//    
-//    GIDSignIn *googleSignIn = [[GIDSignIn alloc] init];
-//    googleSignIn.delegate = self;
-//    [googleSignIn disconnect];
+    [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email];
+    [self.arrayProfiles removeObjectAtIndex:button.tag];
+    [self.tableView reloadData];
 }
 
 
@@ -130,19 +124,6 @@
     }
 }
 
-- (void)clearAllDBAndRedirectInLoginScreen {
-    
-    //Clear all info.
-    [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email];
-//    [self.serviceSync stopSync];
-    [self.serviceContact cancelAllRequests];
-    [self.serviceMessage clearAllData];
-    
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ReserveViewController *reserveViewController = [storyBoard instantiateViewControllerWithIdentifier:@"reserveView"];
-    [self.navigationController setViewControllers:@[reserveViewController]];
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 #pragma mark - UITableViewDelegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -279,14 +260,4 @@
     }
 }
 
-
-//#pragma mark - GIDSignInDelegate Methods
-//- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-//    
-//    if (error) {
-//        
-//    } else {
-//        [self clearAllDBAndRedirectInLoginScreen];
-//    }
-//}
 @end

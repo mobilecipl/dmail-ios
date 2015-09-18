@@ -12,7 +12,7 @@
 //#import <GoogleSignIn/GoogleSignIn.h>
 
 //Leanplum
-#import <Leanplum/Leanplum.h>
+//#import <Leanplum/Leanplum.h>
 
 // fabric
 #import <Fabric/Fabric.h>
@@ -34,7 +34,7 @@
 
 @end
 
-DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
+//DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 
 @implementation AppDelegate
 
@@ -48,8 +48,8 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 //#else
 //    [Leanplum setAppId:@"app_3EKzJwLyPoTnqf6RKDt6HwvKgKo6Po24TIikaXBriR8" withProductionKey:@"prod_UNoEXt221i3EAkI3KiklJKjSK6xcwQryszhWrd87OGw"];
 //#endif
-    [Leanplum setAppId:@"app_fgyJFfChJqC7nAE6JyHqznb6lK10vUg6MuniGfav0W0" withProductionKey:@"prod_iE4U9plc5dMiFD41YiGrulgPbA0qS3jTcdyyUbIkhCE"];
-    [Leanplum start];
+//    [Leanplum setAppId:@"app_fgyJFfChJqC7nAE6JyHqznb6lK10vUg6MuniGfav0W0" withProductionKey:@"prod_iE4U9plc5dMiFD41YiGrulgPbA0qS3jTcdyyUbIkhCE"];
+//    [Leanplum start];
     
 //    [Leanplum onVariablesChanged:^{
 //        NSLog(@"%@", welcomeMessage.stringValue);
@@ -59,7 +59,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
     NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     NSLog(@"=========================== deviceId ========================== %@",deviceId);
 //    [Leanplum setUserId:deviceId];
-    [Leanplum setDeviceId:deviceId];
+//    [Leanplum setDeviceId:deviceId];
     
     [Fabric with:@[CrashlyticsKit]];
 
@@ -148,7 +148,7 @@ DEFINE_VAR_STRING(welcomeMessage, @"Welcome to Leanplum!");
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandlerx {
     
-    [Leanplum handleNotification:userInfo fetchCompletionHandler:completionHandlerx];
+//    [Leanplum handleNotification:userInfo fetchCompletionHandler:completionHandlerx];
     completionHandlerx(UIBackgroundFetchResultNewData);
 }
 

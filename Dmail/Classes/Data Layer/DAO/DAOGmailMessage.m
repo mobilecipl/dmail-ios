@@ -46,9 +46,8 @@
     return self;
 }
 
-- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier userId:(NSString *)userID serverId:(NSString *)serverId completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageIdWithUniqueId:(NSString *)messageIdentifier profileEmail:(NSString *)profileEmail userId:(NSString *)userID serverId:(NSString *)serverId token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *token = [self.daoProfile getSelectedProfileToken];
     [self.networkGmailMessage getMessageIdWithUniqueId:messageIdentifier userId:userID token:token completionBlock:^(id data, ErrorDataModel *error) {
         if (!error) {
             NSArray *messages = data[@"messages"];
@@ -59,13 +58,13 @@
                     RLMResults *resultsProfiles = [RMModelProfile allObjectsInRealm:realm];
                     RMModelProfile *profile = [resultsProfiles firstObject];
                     if (gmailId && profile.email) {
-                        [self updateMessageWithUniqueId:messageIdentifier gmailId:gmailId serverId:serverId];
+                        [self updateMessageWithUniqueId:messageIdentifier gmailId:gmailId serverId:serverId profileEmail:profileEmail];
                     }
                 }
                 completionBlock(@(YES), nil);
             } else {
-                [self deleteMessageWithIdentifier:messageIdentifier];
-                [self deleterecipientsWithIdentifier:messageIdentifier];
+                [self deleteMessageWithIdentifier:messageIdentifier profileEmail:profileEmail];
+                [self deleteRecipientsWithIdentifier:messageIdentifier profileEmail:profileEmail];
                 completionBlock(@(NO), nil);
             }
         } else {
@@ -74,7 +73,7 @@
     }];
 }
 
-- (void)getMessageWithMessageId:(NSString *)messageId userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
+- (void)getMessageWithMessageId:(NSString *)messageId profileEmail:(NSString *)profileEmail userId:(NSString *)userID completionBlock:(CompletionBlock)completionBlock {
     
     NSString *token = [self.daoProfile getSelectedProfileToken];
     [self.networkGmailMessage getMessageWithMessageId:messageId userId:userID token:token completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
@@ -84,7 +83,8 @@
         if(profile.email) {
             if (!error) {
                 ModelGmailMessage *modelGmailMessage = [[ModelGmailMessage alloc] initWithDictionary:data];
-                [self updateMessageWithGmailId:messageId gmailModel:modelGmailMessage];
+                NSLog(@"================ profileEmail ==================== %@", profileEmail);
+                [self updateMessageWithGmailId:messageId gmailModel:modelGmailMessage profileEmail:profileEmail];
                 completionBlock(modelGmailMessage.payload.messageIdentifier, nil);
             } else {
                 completionBlock(nil, error);
@@ -101,11 +101,10 @@
 }
 
 
-- (void)updateMessageWithUniqueId:(NSString *)uniqueId gmailId:(NSString *)gmailId serverId:(NSString *)serverId {
+- (void)updateMessageWithUniqueId:(NSString *)uniqueId gmailId:(NSString *)gmailId serverId:(NSString *)serverId profileEmail:(NSString *)profileEmail {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    NSString *profile = [self.daoProfile getSelectedProfileEmail];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"serverId = %@ AND profile = %@", serverId, profile];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"serverId = %@ AND profile = %@", serverId, profileEmail];
     [realm beginWriteTransaction];
     for (RMModelMessage *realmModel in results) {
         realmModel.gmailId = gmailId;
@@ -114,30 +113,28 @@
     [realm commitWriteTransaction];
 }
 
-- (void)deleteMessageWithIdentifier:(NSString *)identifier {
+- (void)deleteMessageWithIdentifier:(NSString *)identifier profileEmail:(NSString *)profileEmail {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    NSString *profile = [self.daoProfile getSelectedProfileEmail];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@ AND profile = %@", identifier, profile];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"messageIdentifier = %@ AND profile = %@", identifier, profileEmail];
     [realm beginWriteTransaction];
     [realm deleteObjects:results];
     [realm commitWriteTransaction];
 }
 
-- (void)deleterecipientsWithIdentifier:(NSString *)identifier {
+- (void)deleteRecipientsWithIdentifier:(NSString *)identifier profileEmail:(NSString *)profileEmail {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"messageIdentifier = %@", identifier];
+    RLMResults *results = [RMModelRecipient objectsInRealm:realm where:@"messageIdentifier = %@ AND email = %@", identifier, profileEmail];
     [realm beginWriteTransaction];
     [realm deleteObjects:results];
     [realm commitWriteTransaction];
 }
 
-- (void)updateMessageWithGmailId:(NSString *)gmailId gmailModel:(ModelGmailMessage *)modelGmailMessage{
+- (void)updateMessageWithGmailId:(NSString *)gmailId gmailModel:(ModelGmailMessage *)modelGmailMessage profileEmail:(NSString *)profileEmail {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
-    NSString *profile = [self.daoProfile getSelectedProfileEmail];
-    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"gmailId = %@ AND profile = %@", gmailId, profile];
+    RLMResults *results = [RMModelMessage objectsInRealm:realm where:@"gmailId = %@ AND profile = %@", gmailId, profileEmail];
     RMModelMessage *rmMessage = [results firstObject];
     [realm beginWriteTransaction];
     rmMessage.messageIdentifier = modelGmailMessage.payload.messageIdentifier;

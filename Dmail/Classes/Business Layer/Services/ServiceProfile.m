@@ -45,7 +45,9 @@
                                                    imageUrl:userParameters[@"imageUrl"]
                                       contactLastUpdateDate:nil
                                                       token:userParameters[@"access_token"]
-                                               refreshToken:userParameters[@"refresh_token"]
+                                               refreshToken:userParameters[@"access_token"]
+                                               keychainName:userParameters[@"refresh_token"]
+                                            tokenExpireTime:[userParameters[@"expires_in"] integerValue]
                                                    selected:YES];
     if (self.profileModel) {
         self.daoProfile = [[DAOProfile alloc] init];
@@ -71,6 +73,41 @@
 - (void)selectProfileWithEmail:(NSString *)email {
     
     [self.daoProfile selectProfileWithEmail:email];
+}
+
+- (NSString *)getKeychainWithEmail:(NSString *)email {
+    
+    return [self.daoProfile getKeychainWithEmail:email];
+}
+
+- (NSString *)getTokenWithEmail:(NSString *)email {
+    
+    return [self.daoProfile getTokenWithEmail:email];
+}
+
+- (void)updateTokenWithEmail:(NSString *)email token:(NSString *)token {
+    
+    [self.daoProfile updateTokenWithEmail:email token:token];
+}
+
+- (void)updateTokenExpireDateWithEmail:(NSString *)email expireDate:(long long)expireDate {
+    
+    [self.daoProfile updateTokenExpireDateWithEmail:email expireDate:expireDate];
+}
+
+- (BOOL)tokenExpireForEmail:(NSString *)email {
+    
+    return [self.daoProfile tokenExpireForEmail:email];
+}
+
+- (NSString *)getLastProfileKeychanName {
+    
+    return [self.daoProfile getLastProfileKeychanName];
+}
+
+- (void)removeProfileWithEmail:(NSString *)email {
+    
+    [self.daoProfile removeProfileWithEmail:email];
 }
 
 @end

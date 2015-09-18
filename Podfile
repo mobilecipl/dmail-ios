@@ -33,7 +33,7 @@ pod 'libextobjc/EXTScope'
 
 
 #Leanplum
-pod 'Leanplum-iOS-SDK'
+#pod 'Leanplum-iOS-SDK'
 
 
 # analytics

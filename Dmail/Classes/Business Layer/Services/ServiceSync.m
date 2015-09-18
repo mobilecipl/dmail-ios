@@ -25,8 +25,14 @@
 #import "RMModelMessage.h"
 #import "RMModelRecipient.h"
 
+// GoogleOauth2
+#import "GTMOAuth2ViewControllerTouch.h"
+#import "GTMOAuth2SignIn.h"
+
 
 @interface ServiceSync ()
+
+@property (nonatomic, strong) GTMOAuth2Authentication *auth;
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
 @property (nonatomic, strong) ServiceProfile *serviceProfile;
 
@@ -35,9 +41,12 @@
 @property (nonatomic, strong) DAOContact *daoContact;
 @property (nonatomic, strong) DAOAddressBook *daoAddressBook;
 @property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSString *keychainName;
 
 @property (nonatomic, strong) NSTimer *timerSyncDmailMessages;
 @property (nonatomic, strong) NSTimer *timerSyncGoogleContacts;
+@property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, assign) BOOL syncStoped;
 
 @property __block BOOL syncInProgressDmail;
 @property __block BOOL syncInProgressGmail;
@@ -52,63 +61,31 @@
     
     self = [super init];
     if (self) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        appDelegate.signedIn = YES;
+        
+        _syncInProgressDmail = NO;
+        _syncInProgressGmail = NO;
+        _syncInProgressGmailMessages = NO;
+        _syncInProgressContact = NO;
+        
+        _daoSync = [[DAOSync alloc] init];
+        _daoMessage = [[DAOMessage alloc] init];
+        _daoContact = [[DAOContact alloc] init];
+        
+        _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
+        _serviceProfile = [[ServiceProfile alloc] init];
+        
+        [self setupNotifications];
+        
         self.email = email;
         self.userId = userId;
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if(!appDelegate.signedIn) {
-            appDelegate.signedIn = YES;
-            
-            _syncInProgressDmail = NO;
-            _syncInProgressGmail = NO;
-            _syncInProgressGmailMessages = NO;
-            _syncInProgressContact = NO;
-            
-            _daoSync = [[DAOSync alloc] init];
-            _daoMessage = [[DAOMessage alloc] init];
-            _daoContact = [[DAOContact alloc] init];
-//            _daoAddressBook = [[DAOAddressBook alloc] init];
-            
-            _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
-            _serviceProfile = [[ServiceProfile alloc] init];
-            
-            [self setupNotifications];
-//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"syncStarted"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
+        self.keychainName = [self.serviceProfile getKeychainWithEmail:email];
+        self.token = [self.serviceProfile getTokenWithEmail:email];
     }
     
     return self;
 }
-
-//- (instancetype)init {
-//    
-//    self = [super init];
-//    if (self) {
-//        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//        if(!appDelegate.signedIn) {
-//            appDelegate.signedIn = YES;
-//            
-//            _syncInProgressDmail = NO;
-//            _syncInProgressGmail = NO;
-//            _syncInProgressGmailMessages = NO;
-//            _syncInProgressContact = NO;
-//            
-//            _daoSync = [[DAOSync alloc] init];
-//            _daoMessage = [[DAOMessage alloc] init];
-//            _daoContact = [[DAOContact alloc] init];
-//            _daoAddressBook = [[DAOAddressBook alloc] init];
-//            
-//            _serviceGmailMessage = [[ServiceGmailMessage alloc] init];
-//            _serviceProfile = [[ServiceProfile alloc] init];
-//            
-//            [self setupNotifications];
-//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"syncStarted"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//        }
-//    }
-//    
-//    return self;
-//}
 
 - (void)setupNotifications {
     
@@ -120,6 +97,9 @@
     
 //    [self syncTemplate];
 //    [self syncAddressBookContacts];
+    if ([self.serviceProfile tokenExpireForEmail:self.email]) {
+        [self refreshAccessToken];
+    }
     [self syncGoogleContacts];
     [self syncDmailMessages];
     
@@ -131,22 +111,26 @@
     
     if (!self.syncInProgressDmail) {
         self.syncInProgressDmail = YES;
-//        NSString *email = [self.serviceProfile getSelectedProfileEmail];
         if(self.email) {
-            NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:self.email];
+            NSNumber *position = [self.daoMessage getLastDmailPositionWithEmail:self.email forProfile:self.email];
             NSNumber *count = @2000; //TODO: add paging
             if (self.email) {
                 @weakify(self);
-                [self.daoSync syncMessagesForEmail:self.email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
-                    @strongify(self);
-//                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//                    if (appDelegate.signedIn) {
+                if (!self.syncStoped) {
+                    NSLog(@"++++++++ syncDmailMessages ==== %@", self.email);
+                    [self.daoSync syncMessagesForEmail:self.email position:position count:count completionBlock:^(id hasNewData, ErrorDataModel *error) {
+                        @strongify(self);
+                        //                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                        //                    if (appDelegate.signedIn) {
                         self.syncInProgressDmail = NO;
                         if ([hasNewData isEqual:@(YES)]) {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
+                            if (!self.syncStoped) {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
+                            }
                         }
-//                    }
-                }];
+                        //                    }
+                    }];
+                }
             } else {
                 self.syncInProgressDmail = NO;
             }
@@ -158,31 +142,37 @@
     
     if (!self.syncInProgressGmail) {
         self.syncInProgressGmail = YES;
-        RMModelMessage *message = [self.daoMessage getLastGmailUniqueId];
-        if (message.messageIdentifier) {
-            @weakify(self);
-            [self.serviceGmailMessage getMessageIdWithUniqueId:message.messageIdentifier userId:self.userId serverId:message.serverId completionBlock:^(id data, ErrorDataModel *error) {
-                @strongify(self);
-                self.syncInProgressGmail = NO;
-                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                if (appDelegate.signedIn) {
-                    if ([data isEqual:@(YES)]) {
-                        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                        if (appDelegate.signedIn || message.gmailId ) {
-                            if (self.userId) {
-                                NSDictionary *dict = @{@"gmailId" : message.gmailId};
-                                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailIdFetched object:nil userInfo:dict];
+        if (!self.syncStoped) {
+            RMModelMessage *message = [self.daoMessage getLastGmailUniqueIdForProfile:self.email];
+            if (message.messageIdentifier) {
+                @weakify(self);
+                if (!self.syncStoped) {
+                    NSLog(@"++++++++ syncGmailUniqueMessages ==== %@", self.email);
+                    [self.serviceGmailMessage getMessageIdWithUniqueId:message.messageIdentifier profileEmail:self.email userId:self.userId serverId:message.serverId token:self.token completionBlock:^(id data, ErrorDataModel *error) {
+                        @strongify(self);
+                        self.syncInProgressGmail = NO;
+                        if (!self.syncStoped) {
+                            if ([data isEqual:@(YES)]) {
+                                if (!self.syncStoped && message) {
+                                    if (self.userId) {
+                                        NSLog(@"message.gmailId ==== %@", message.gmailId);
+                                        if (message.gmailId) {
+                                            NSDictionary *dict = @{@"gmailId" : message.gmailId};
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailIdFetched object:nil userInfo:dict];
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil userInfo:nil];
                             }
                         }
-                    }
-                    else {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil userInfo:nil];
-                    }
+                    }];
                 }
-            }];
-        }
-        else {
-            self.syncInProgressGmail = NO;
+            }
+            else {
+                self.syncInProgressGmail = NO;
+            }
         }
     }
 }
@@ -194,10 +184,10 @@
         NSString *gmailMessageId = [[notification userInfo] valueForKey:@"gmailId"];//[self.daoMessage getLastGmailMessageId];
         if (gmailMessageId) {
             @weakify(self);
-            [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId userId:self.userId completionBlock:^(id data, ErrorDataModel *error) {
+            NSLog(@"++++++++ syncGmailMessages ==== %@", self.email);
+            [self.serviceGmailMessage getMessageWithMessageId:gmailMessageId profileEmail:self.email userId:self.userId completionBlock:^(id data, ErrorDataModel *error) {
                 @strongify(self);
-                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                if (appDelegate.signedIn) {
+                if (!self.syncStoped) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailUniqueFetched object:nil];
                     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationGmailMessageFetched object:nil];
                     self.syncInProgressGmailMessages = NO;
@@ -214,12 +204,11 @@
     
     if (!self.syncInProgressContact) {
         self.syncInProgressContact = YES;
-        NSString *email = [self.serviceProfile email];
         NSString *startIndex = @"1";
         NSString *maxResult = @"200";
-        if (email) {
+        if (self.email && self.token) {
             @weakify(self);
-            [self.daoContact getContactsForEmail:email startIndex:startIndex maxResult:maxResult completionBlock:^(id data, ErrorDataModel *error) {
+            [self.daoContact getContactsForEmail:self.email startIndex:startIndex maxResult:maxResult token:self.token completionBlock:^(id data, ErrorDataModel *error) {
                 @strongify(self);
                 self.syncInProgressContact = NO;
             }];
@@ -241,20 +230,106 @@
     }];
 }
 
+- (void)refreshAccessToken {
+    
+    self.auth = nil;
+    self.auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:self.keychainName clientID:kGoogleClientID clientSecret:kGoogleClientSecret];
+    if(self.auth.canAuthorize) {
+        NSLog(@"canAuthorize");
+    }
+    
+    NSString *requestString = [NSString stringWithFormat:@"https://accounts.google.com/o/oauth2/token"];
+    NSString *string = [NSString stringWithFormat:@"client_id=%@&client_secret=%@&refresh_token=%@&grant_type=refresh_token",kGoogleClientID,kGoogleClientSecret,self.auth.refreshToken];
+    NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestString]];
+    NSLog(@"\n request str : %@",request);
+    
+    NSLog(@"\n refresh token value is %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"refreshToken"]);
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];//connectionWithRequest:request delegate:self];
+    if(connection)
+    {
+        NSLog(@"Connection Successful");
+    }
+    else
+    {
+        NSLog(@"Connection could not be made");
+    }
+    
+    [connection start];
+}
+
+- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response {
+    
+    NSLog(@"Did Receive Response %@", response);
+    //NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+    self.data = [NSMutableData data];
+}
+
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+    
+    NSLog(@"Did Receive Data %@", data);
+    [self.data appendData:data];
+}
+
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+    
+    NSLog(@"Did Fail %@",error);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
+    NSLog(@"Did Finish");
+    // Do something with responseData
+    NSError *err;
+    id JSon = [NSJSONSerialization JSONObjectWithData:self.data options:kNilOptions error:&err];
+    if (err) {
+        NSLog(@"%@",err);
+    }
+    else {
+        NSLog(@"Json %@",JSon);
+        if ([JSon valueForKey:@"access_token"]) {
+            [self.serviceProfile updateTokenWithEmail:self.email token:[JSon valueForKey:@"access_token"]];
+            NSDate *now = [NSDate date];
+            NSDate *dateToFire = [now dateByAddingTimeInterval:[[JSon valueForKey:@"expires_in"] integerValue]];
+            NSTimeInterval timeInterval = [dateToFire timeIntervalSince1970];
+            [self.serviceProfile updateTokenExpireDateWithEmail:self.email expireDate:timeInterval];
+        }
+    }
+}
+
+- (void)logOut {
+    
+    if ([self.auth.serviceProvider isEqual:kGTMOAuth2ServiceProviderGoogle]) {
+        // remove the token from Google's servers
+        [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
+    }
+    
+    // remove the stored Google authentication from the keychain, if any
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:self.keychainName];
+    
+    // Discard our retained authentication object.
+    self.auth = nil;
+}
+
 - (void)stopSync {
     
+    self.syncStoped = YES;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    //    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     [[NSUserDefaults standardUserDefaults] synchronize];
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"syncStarted"];
+    //    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"syncStarted"];
     [self.timerSyncDmailMessages invalidate];
     self.timerSyncDmailMessages = nil;
     [self.timerSyncGoogleContacts invalidate];
     self.timerSyncGoogleContacts = nil;
     [self.daoMessage cancelAllRequests];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.signedIn = NO;
+    [self.serviceProfile removeProfileWithEmail:self.email];
+    [self.daoMessage removeMessagesForProfile:self.email];
+    [self.daoMessage removeResipientsForProfile:self.email];
 }
 
 @end

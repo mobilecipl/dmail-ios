@@ -46,7 +46,7 @@
 
 - (void)changeMessageStatusToReadWithMessageId:(NSString *)messageId;
 
-- (void)clearAllData;
+- (void)removeMessagesForProfile:(NSString *)profileEmail;
 
 - (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body;
 

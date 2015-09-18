@@ -154,10 +154,9 @@
     [self.daoMessage changeMessageStatusToReadWithMessageId:messageId];
 }
 
-- (void)clearAllData {
+- (void)removeMessagesForProfile:(NSString *)profileEmail {
     
-    
-    [self.daoMessage clearAllData];
+    [self.daoMessage removeMessagesForProfile:profileEmail];
 }
 
 - (void)writeDecryptedBodyWithMessageId:(NSString *)messageId body:(NSString *)body {

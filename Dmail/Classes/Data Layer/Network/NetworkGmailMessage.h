@@ -7,6 +7,7 @@
 //
 
 #import "BaseNetwork.h"
+#import "GTMOAuth2Authentication.h"
 
 @interface NetworkGmailMessage : BaseNetwork
 

@@ -78,17 +78,17 @@ const NSInteger contactsUpdateTime = 12;
 
 
 #pragma mark - Private Methods
-- (void)getContactsForEmail:(NSString *)email startIndex:(NSString *)startIndex maxResult:(NSString *)maxResult completionBlock:(CompletionBlock)completionBlock {
+- (void)getContactsForEmail:(NSString *)email startIndex:(NSString *)startIndex maxResult:(NSString *)maxResult token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
     
-    NSString *updatedMinTime = [self getLastUpdateTime];
+    NSString *updatedMinTime = [self getLastUpdateTimeWithEmail:email];
     
-    [self.networkContacts getContactsForEmail:email startIndex:startIndex maxResult:maxResult updatedMin:updatedMinTime completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
+    [self.networkContacts getContactsForEmail:email startIndex:startIndex maxResult:maxResult updatedMin:updatedMinTime token:token completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         if (!error) {
             NSArray *contacts = [self parseContactsWithDictionary:data];
             [self saveContacts:contacts];
             if (contacts == nil || contacts.count < maxResult.intValue) {
                 //finishLoading
-                [self saveLastUpdateTimeWithDictionaryIfNeeded:data];
+                [self saveLastUpdateTimeWithDictionaryIfNeeded:data email:email];
             }
             completionBlock(contacts, nil);
         } else {
@@ -169,25 +169,26 @@ const NSInteger contactsUpdateTime = 12;
     [realm commitWriteTransaction];
 }
 
-- (NSString *)getLastUpdateTime {
+- (NSString *)getLastUpdateTimeWithEmail:(NSString *)email {
 
     RLMRealm *realm = [RLMRealm defaultRealm];
-    RLMResults *profiles = [RMModelProfile allObjectsInRealm:realm];
-    RMModelProfile *profile = [profiles firstObject];
-
-    if (!([profile.contactLastUpdateDate isEqualToString:@""] || profile.contactLastUpdateDate == nil)) {
-        return profile.contactLastUpdateDate;
+    RLMResults *results = [RMModelProfile objectsInRealm:realm where:@"email = %@", email];
+    if ([results count] > 0) {
+        RMModelProfile *profile = [results firstObject];
+        if (!([profile.contactLastUpdateDate isEqualToString:@""] || profile.contactLastUpdateDate == nil)) {
+            return profile.contactLastUpdateDate;
+        }
     }
 
     return @"2001-03-16T00:00:00";
 }
 
-- (void)saveLastUpdateTimeWithDictionaryIfNeeded:(NSDictionary *)data {
+- (void)saveLastUpdateTimeWithDictionaryIfNeeded:(NSDictionary *)data email:(NSString *)email{
     
     NSDictionary *dictFeed = data[@"feed"];
     NSDictionary *updatedDict = dictFeed[@"updated"];
     NSString *updatedTime = updatedDict[@"$t"];
-    NSString *updatedTimeRM = [self getLastUpdateTime];
+    NSString *updatedTimeRM = [self getLastUpdateTimeWithEmail:email];
     
     NSComparisonResult result = [updatedTime compare:updatedTimeRM];
     if (result == NSOrderedDescending) { // stringOne > stringTwo

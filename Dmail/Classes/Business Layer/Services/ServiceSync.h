@@ -11,9 +11,12 @@
 @interface ServiceSync : BaseService
 
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *token;
 
 - (instancetype)initWithEmail:(NSString *)email userId:(NSString *)userId;
 - (void)sync;
+- (void)logOut;
 - (void)stopSync;
+- (void)refreshAccessToken;
 
 @end

@@ -62,7 +62,7 @@
                         [self saveRecipient:recipient];
                         RLMRealm *realm = [RLMRealm defaultRealm];
                         ModelMessage *message = [[ModelMessage alloc] initWithDictionary:dict];
-                        message.profile = [self.daoProfile getSelectedProfileEmail];
+                        message.profile = recipientEmail;//[self.daoProfile getSelectedProfileEmail];
                         RMModelMessage *tempMessage = [RMModelMessage objectInRealm:realm forPrimaryKey:message.messageId];
                         if (!tempMessage) {
                             hasNewData = YES;
