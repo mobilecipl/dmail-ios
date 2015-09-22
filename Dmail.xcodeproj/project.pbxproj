@@ -13,6 +13,8 @@
 		58CFBBAD1B4BFF20005DA506 /* ServiceGmailMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CFBBAC1B4BFF20005DA506 /* ServiceGmailMessage.m */; };
 		58E4BC081B4D7E08003BDD52 /* ModelContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E4BC071B4D7E08003BDD52 /* ModelContact.m */; };
 		58FB2B761B42C5EA005B9541 /* NetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FB2B751B42C5EA005B9541 /* NetworkMessage.m */; };
+		9C163D541BB18EB1005E4EF6 /* ServiceGoogleOauth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C163D531BB18EB1005E4EF6 /* ServiceGoogleOauth2.m */; settings = {ASSET_TAGS = (); }; };
+		9C163D571BB1B9A3005E4EF6 /* NetworkProfileAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C163D561BB1B9A3005E4EF6 /* NetworkProfileAuth.m */; settings = {ASSET_TAGS = (); }; };
 		9C216E721B675D3100C531BA /* GibberishAES.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C216E701B675D3100C531BA /* GibberishAES.js */; };
 		9C216E731B675D3100C531BA /* GiberishEnc.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C216E711B675D3100C531BA /* GiberishEnc.html */; };
 		9C21B8831B46A1FF0080B132 /* ServiceContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21B8821B46A1FF0080B132 /* ServiceContact.m */; };
@@ -149,6 +151,10 @@
 		58FB2B751B42C5EA005B9541 /* NetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkMessage.m; sourceTree = "<group>"; };
 		5914951D3488C2D289EEE715 /* libPods-Dmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71F41AE7E78D8F7B844ADA4D /* libPods-DmailTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DmailTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C163D521BB18EB1005E4EF6 /* ServiceGoogleOauth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceGoogleOauth2.h; sourceTree = "<group>"; };
+		9C163D531BB18EB1005E4EF6 /* ServiceGoogleOauth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceGoogleOauth2.m; sourceTree = "<group>"; };
+		9C163D551BB1B9A3005E4EF6 /* NetworkProfileAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkProfileAuth.h; sourceTree = "<group>"; };
+		9C163D561BB1B9A3005E4EF6 /* NetworkProfileAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkProfileAuth.m; sourceTree = "<group>"; };
 		9C216E701B675D3100C531BA /* GibberishAES.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GibberishAES.js; sourceTree = "<group>"; };
 		9C216E711B675D3100C531BA /* GiberishEnc.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = GiberishEnc.html; sourceTree = "<group>"; };
 		9C21B8811B46A1FF0080B132 /* ServiceContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceContact.h; sourceTree = "<group>"; };
@@ -746,6 +752,8 @@
 				9CCFD3FD1B943E650091958B /* ServiceQueue.m */,
 				9CDAB1C91B987EFB00DE6621 /* ServiceProfilesSyncing.h */,
 				9CDAB1CA1B987EFB00DE6621 /* ServiceProfilesSyncing.m */,
+				9C163D521BB18EB1005E4EF6 /* ServiceGoogleOauth2.h */,
+				9C163D531BB18EB1005E4EF6 /* ServiceGoogleOauth2.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1059,6 +1067,8 @@
 				58CFBBA61B4BCC79005DA506 /* NetworkGmailMessage.m */,
 				9CCFD4021B943EE40091958B /* NetworkQueue.h */,
 				9CCFD4031B943EE40091958B /* NetworkQueue.m */,
+				9C163D551BB1B9A3005E4EF6 /* NetworkProfileAuth.h */,
+				9C163D561BB1B9A3005E4EF6 /* NetworkProfileAuth.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1437,6 +1447,7 @@
 				C09C27CA1B4BFE440067B7F2 /* DAOSync.m in Sources */,
 				C08C2DC61B41AB1C00295A94 /* ErrorDataModel.m in Sources */,
 				C08C2DC51B41AB1C00295A94 /* BaseDataModel.m in Sources */,
+				9C163D541BB18EB1005E4EF6 /* ServiceGoogleOauth2.m in Sources */,
 				58CFBBAA1B4BFC80005DA506 /* DAOGmailMessage.m in Sources */,
 				9CBD9D3F1B8C5C60007A30E2 /* DAOAddressBook.m in Sources */,
 				C08C2DE01B41AB1C00295A94 /* BaseTableView.m in Sources */,
@@ -1460,6 +1471,7 @@
 				C08C2DD01B41AB1C00295A94 /* BaseRealmModel.m in Sources */,
 				9CCFD4011B943EAE0091958B /* DAOQueue.m in Sources */,
 				C08C2DFA1B41AB1C00295A94 /* LoginViewController.m in Sources */,
+				9C163D571BB1B9A3005E4EF6 /* NetworkProfileAuth.m in Sources */,
 				C09C27BE1B4BD3D90067B7F2 /* InboxCell.m in Sources */,
 				9C4F235A1B4C2A2B004F9AFC /* SWRevealViewController.m in Sources */,
 				C08C2DEA1B41AB1C00295A94 /* ModalFadeTransitionAnimator.m in Sources */,
@@ -1573,7 +1585,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1611,7 +1623,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "90436279-bb99-4020-8d64-d6667f7e2ec8";
+				PROVISIONING_PROFILE = "ee1409bc-1335-491b-ac85-5a9ea86fadad";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

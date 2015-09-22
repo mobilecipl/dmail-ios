@@ -105,10 +105,14 @@
 - (void)buttonLogOutClicked:(id)sender {
     
     UIButton *button = (UIButton *)sender;
+    NSLog(@"button.tag == %ld",(long)button.tag);
     self.logOutProfileModel = [self.arrayProfiles objectAtIndex:button.tag];
-    [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email];
-    [self.arrayProfiles removeObjectAtIndex:button.tag];
-    [self.tableView reloadData];
+    [self showLoadingView];
+    [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email completion:^(id data, ErrorDataModel *error) {
+        [self hideLoadingView];
+        [self.arrayProfiles removeObjectAtIndex:button.tag];
+        [self.tableView reloadData];
+    }];
 }
 
 
@@ -160,12 +164,7 @@
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    else {
-        return cell;
-    }
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     cell.textLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:16];
     cell.backgroundColor = [UIColor whiteColor];
     

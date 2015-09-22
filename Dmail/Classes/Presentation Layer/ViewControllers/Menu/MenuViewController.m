@@ -22,6 +22,7 @@
 #import "ServiceMessage.h"
 #import "ServiceContact.h"
 #import "ServiceSync.h"
+#import "ServiceGoogleOauth2.h"
 
 // google
 //#import <GoogleSignIn/GoogleSignIn.h>
@@ -42,7 +43,8 @@
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
 @property (nonatomic, strong) ServiceSync *serviceSync;
 @property (nonatomic, strong) ServiceContact *serviceContact;
-@property (nonatomic, retain) GTMOAuth2Authentication *auth;
+@property (nonatomic, strong) ServiceGoogleOauth2 *serviceGoogleOauth2;
+
 @property (nonatomic, strong) NSArray *arrayProfiles;
 @property (nonatomic, strong) NSMutableArray *arraySectionViews;
 @property (nonatomic, strong) NSMutableArray *arrayDataTableViewMenu;
@@ -63,6 +65,7 @@
         _serviceMessage = [[ServiceMessage alloc] init];
         _serviceContact = [[ServiceContact alloc] init];
         _serviceSync = [[ServiceSync alloc] init];
+        _serviceGoogleOauth2 = [[ServiceGoogleOauth2 alloc] init];
     }
     return self;
 }
@@ -160,11 +163,6 @@
 
 - (void)signInToGoogle {
     
-    // Note:
-    // GTMOAuth2ViewControllerTouch is not designed to be reused. Make a new
-    // one each time you are going to show it.
-    
-    // Display the autentication view.
     SEL finishedSel = @selector(viewController:finishedWithAuth:error:);
     
     NSString *keychainName = [self.serviceProfile getLastProfileKeychanName];
@@ -176,128 +174,28 @@
                                                               delegate:self
                                                       finishedSelector:finishedSel];
     viewController.signIn.shouldFetchGoogleUserProfile = YES;
-    
-    // You can set the title of the navigationItem of the controller here, if you
-    // want.
-    
-    // If the keychainItemName is not nil, the user's authorization information
-    // will be saved to the keychain. By default, it saves with accessibility
-    // kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly, but that may be
-    // customized here. For example,
-    //
-    //   viewController.keychainItemAccessibility = kSecAttrAccessibleAlways;
-    
-    // During display of the sign-in window, loss and regain of network
-    // connectivity will be reported with the notifications
-    // kGTMOAuth2NetworkLost/kGTMOAuth2NetworkFound
-    //
-    // See the method signInNetworkLostOrFound: for an example of handling
-    // the notification.
-    
-    // Optional: Google servers allow specification of the sign-in display
-    // language as an additional "hl" parameter to the authorization URL,
-    // using BCP 47 language codes.
-    //
-    // For this sample, we'll force English as the display language.
     NSDictionary *params = [NSDictionary dictionaryWithObject:@"en" forKey:@"hl"];
     viewController.signIn.additionalAuthorizationParameters = params;
-    
-    // By default, the controller will fetch the user's email, but not the rest of
-    // the user's profile.  The full profile can be requested from Google's server
-    // by setting this property before sign-in:
-    //
-    //   viewController.signIn.shouldFetchGoogleUserProfile = YES;
-    //
-    // The profile will be available after sign-in as
-    //
-    //   NSDictionary *profile = viewController.signIn.userProfile;
-    
-    // Optional: display some html briefly before the sign-in page loads
     NSString *html = @"<html><body bgcolor=silver><div align=center>Loading sign-in page...</div></body></html>";
     viewController.initialHTMLString = html;
     
     [[self navigationController] pushViewController:viewController animated:YES];
-    
-    // The view controller will be popped before signing in has completed, as
-    // there are some additional fetches done by the sign-in controller.
-    // The kGTMOAuth2UserSignedIn notification will be posted to indicate
-    // that the view has been popped and those additional fetches have begun.
-    // It may be useful to display a temporary UI when kGTMOAuth2UserSignedIn is
-    // posted, just until the finished selector is invoked.
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
     
     if (error != nil) {
-        // Authentication failed (perhaps the user denied access, or closed the
-        // window before granting access)
         NSLog(@"Authentication error: %@", error);
         NSData *responseData = [[error userInfo] objectForKey:@"data"]; // kGTMHTTPFetcherStatusDataKey
         if ([responseData length] > 0) {
-            // show the body of the server's authentication failure response
-            NSString *str = [[NSString alloc] initWithData:responseData
-                                                  encoding:NSUTF8StringEncoding];
-            NSLog(@"%@", str);
+            NSString *str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+            NSLog(@"ERROR === %@", str);
         }
-        
-        self.auth = nil;
     } else {
-        // Authentication succeeded
-        //
-        // At this point, we either use the authentication object to explicitly
-        // authorize requests, like
-        //
-        //  [auth authorizeRequest:myNSURLMutableRequest
-        //       completionHandler:^(NSError *error) {
-        //         if (error == nil) {
-        //           // request here has been authorized
-        //         }
-        //       }];
-        //
-        // or store the authentication object into a fetcher or a Google API service
-        // object like
-        //
-        //   [fetcher setAuthorizer:auth];
-        
-        // save the authentication object
-        self.auth = auth;
-        NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:auth.parameters];
-        
-        NSLog(@"auth success %@", auth);
-        NSLog(@"auth.parameters success %@", auth.parameters);
-        
-        NSURL *url = [NSURL URLWithString:@"https://www.googleapis.com/plus/v1/people/me/activities/public"];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
-        
-        [self.auth authorizeRequest:request completionHandler:^(NSError *error) {
-            NSString *output = nil;
-            if (error) {
-                output = [error description];
-            } else {
-                NSURLResponse *response = nil;
-                NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                if (data) {
-                    // API fetch succeeded
-                    output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                    NSError* error;
-                    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-                    
-                    NSArray *array=[json objectForKey:@"items"];
-                    if (array.count > 0) {
-                        NSDictionary *dict = [array objectAtIndex:0];
-                        NSDictionary *userInfo = dict[@"actor"];
-                        [userInfoDict setObject:userInfo[@"displayName"] forKey:@"fullName"];
-                        [userInfoDict setObject:userInfo[@"image"][@"url"] forKey:@"imageUrl"];
-                        NSString *keychanName = [self.serviceProfile getLastProfileKeychanName];
-                        [userInfoDict setObject:keychanName forKey:@"keychainName"];
-                        [self.serviceProfile updateUserDetails:userInfoDict];
-                        [self createProfilesTable];
-                        [self.tableViewMenu reloadData];
-                        [[AppDelegate sharedDelegate].serviceProfilesSyncing addProfileWithEmail:userInfoDict[@"email"] googleId:userInfoDict[@"userID"]];
-                    }
-                }
-            }
+        [self.serviceGoogleOauth2 authorizeRequestWithAuth:auth completion:^(id data, ErrorDataModel *error) {
+            [self createProfilesTable];
+            [self.tableViewMenu reloadData];
+            [[AppDelegate sharedDelegate].serviceProfilesSyncing addProfileWithEmail:data[@"email"] googleId:data[@"userID"]];
         }];
     }
 }
@@ -413,6 +311,7 @@
         }
         else {
             MenuSectionView *menuSectionViewAddAccount = [[MenuSectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 65)];
+            menuSectionViewAddAccount.delegate = self;
             [self.arraySectionViews addObject:menuSectionViewAddAccount];
             [self.tableViewMenu insertSections:[NSIndexSet indexSetWithIndex:[self.arraySectionViews count]-1] withRowAnimation:UITableViewRowAnimationFade];
         }
@@ -458,6 +357,7 @@
 
 - (void)onAddAccountClicked {
     
+    [self signInToGoogle];
 }
 
 

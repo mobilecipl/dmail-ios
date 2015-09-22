@@ -122,7 +122,7 @@ static BOOL shouldSyncAddressBookChanges = YES;
             NSString *email = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
             if (email && ![email isEqualToString:profile.email]) {
                 NSString *uniqueId = [NSString stringWithFormat:@"%d_%ld", recordId, i];
-                ContactModel *contact = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:uniqueId urlPhoto:nil addressBook:YES];
+                ContactModel *contact = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:uniqueId  urlPhoto:nil profile:@"" addressBook:YES];
                 if (contact) {
                     [contacts addObject:contact];
                 }

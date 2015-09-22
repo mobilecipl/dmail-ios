@@ -102,6 +102,7 @@
     
     [self showLoadingView];
     NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSLog(@"deviceId ====== %@", deviceId);
     if (!self.startRequest) {
         self.startRequest = YES;
         [self.serviceQueue getQueueWithUserId:deviceId completionBlock:^(id data, ErrorDataModel *error) {
@@ -109,7 +110,10 @@
             [self hideLoadingView];
             [self.timer invalidate];
             self.timer = nil;
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:InQueue];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self performSegueWithIdentifier:@"fromQueuToGetStarted" sender:self];
+            
 //            if (data && [data isKindOfClass:[NSDictionary class]]) {
 //                if ([[data allKeys] containsObject:@"access"]) {
 //                    if ([data[@"access"] isEqualToString:@"GRANTED"]) {

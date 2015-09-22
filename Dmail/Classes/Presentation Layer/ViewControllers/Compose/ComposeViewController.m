@@ -192,7 +192,7 @@
     if (self.replyedMessageSubject) {
         self.textFieldSubject.text = [NSString stringWithFormat:@"Re:%@",self.replyedMessageSubject];
         if (self.replyedRecipientName) {
-            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil addressBook:NO];
+            self.tempContactModel = [[ContactModel alloc] initWithEmail:self.replyedRecipientEmail fullName:self.replyedRecipientName firstName:nil lastName:nil contactId:nil urlPhoto:nil profile:@"" addressBook:NO];
             [self.fieldTo addTokenWithString:self.replyedRecipientName];
         }
         else {

@@ -84,7 +84,7 @@ const NSInteger contactsUpdateTime = 12;
     
     [self.networkContacts getContactsForEmail:email startIndex:startIndex maxResult:maxResult updatedMin:updatedMinTime token:token completionBlock:^(NSDictionary *data, ErrorDataModel *error) {
         if (!error) {
-            NSArray *contacts = [self parseContactsWithDictionary:data];
+            NSArray *contacts = [self parseContactsWithDictionary:data forProfile:email];
             [self saveContacts:contacts];
             if (contacts == nil || contacts.count < maxResult.intValue) {
                 //finishLoading
@@ -97,7 +97,7 @@ const NSInteger contactsUpdateTime = 12;
     }];
 }
 
-- (NSArray *)parseContactsWithDictionary:(NSDictionary *)data {
+- (NSArray *)parseContactsWithDictionary:(NSDictionary *)data forProfile:(NSString *)profileEmail{
     
     //TODO: parse as JSONMODEL
     NSMutableArray *arrayModels = [[NSMutableArray alloc] init];
@@ -146,7 +146,7 @@ const NSInteger contactsUpdateTime = 12;
             }
         }
         
-        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto addressBook:NO];
+        ContactModel *model = [[ContactModel alloc] initWithEmail:email fullName:fullName firstName:firstName lastName:lastName contactId:contactId urlPhoto:urlPhoto profile:profileEmail addressBook:NO];
         if (model) {
             [arrayModels addObject:model];
         }

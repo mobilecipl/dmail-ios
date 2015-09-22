@@ -39,14 +39,15 @@
 
 - (void)updateUserDetails:(NSDictionary *)userParameters {
     
+    NSLog(@"userParameters ===== %@",userParameters);
     self.profileModel = [[ProfileModel alloc] initWithEmail:userParameters[@"email"]
                                                    fullName:userParameters[@"fullName"]
                                                    googleId:userParameters[@"userID"]
                                                    imageUrl:userParameters[@"imageUrl"]
                                       contactLastUpdateDate:nil
                                                       token:userParameters[@"access_token"]
-                                               refreshToken:userParameters[@"access_token"]
-                                               keychainName:userParameters[@"refresh_token"]
+                                               refreshToken:userParameters[@"refresh_token"]
+                                               keychainName:userParameters[@"keychainName"]
                                             tokenExpireTime:[userParameters[@"expires_in"] integerValue]
                                                    selected:YES];
     if (self.profileModel) {

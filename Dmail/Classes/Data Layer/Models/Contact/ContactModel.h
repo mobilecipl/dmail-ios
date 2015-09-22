@@ -18,15 +18,10 @@
 @property NSString *email;
 @property NSString *contactId;
 @property NSString *urlPhoto;
+@property NSString *profile;
 @property BOOL addressBook;
 
-- (instancetype)initWithEmail:(NSString *)email
-                     fullName:(NSString *)fullName
-                    firstName:(NSString *)firstName
-                     lastName:(NSString *)lastName
-                    contactId:(NSString *)contactId
-                     urlPhoto:(NSString *)urlPhoto
-                  addressBook:(BOOL)addressBook;
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName firstName:(NSString *)firstName lastName:(NSString *)lastName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto profile:(NSString *)profile addressBook:(BOOL)addressBook;
 
 - (instancetype)initWithRMModel:(RMModelContact *)rmModel;
 

@@ -13,7 +13,7 @@
 
 + (NSString *)primaryKey {
     
-    return @"email";
+    return @"contactId";
 }
 
 - (instancetype)initWithContactModel:(ContactModel *)model {
@@ -28,6 +28,7 @@
         _contactId = model.contactId;
         _imageUrl = model.urlPhoto;
         _addressBook = model.addressBook;
+        _profile = model.profile;
     }
     
     return self;

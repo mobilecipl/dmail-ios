@@ -322,7 +322,7 @@
         RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
         for (RMModelRecipient *rmRecipient in recipients) {
             RLMResults *messages = [[RMModelMessage objectsInRealm:realm where:@"messageId = %@ AND gmailId != ''",rmRecipient.messageId] sortedResultsUsingProperty:@"position" ascending:NO];
-            ModelMessage *modelMessage = [messages firstObject];
+            ModelMessage *modelMessage = (ModelMessage *)[messages firstObject];
             if (modelMessage) {
                 ModelInboxMessage *modelInbox = [[ModelInboxMessage alloc] init];
                 modelInbox.messageId = rmRecipient.messageId;
@@ -499,13 +499,13 @@
 //    
 //    return imageUrl;
     
-    
     ProfileModel *profileModel = [self.daoProfile getSelectedProfile];
     if ([email isEqualToString:profileModel.email]) {
         return profileModel.imageUrl;
     }
     else {
-        RMModelContact *contact = [RMModelContact objectInRealm:realm forPrimaryKey:email];
+        RLMResults *contacts = [RMModelContact objectsInRealm:realm where:@"email = %@ AND profile = %@", email, [self.daoProfile getSelectedProfileEmail]];
+        RMModelContact *contact = (RMModelContact *)[contacts firstObject];
         if (contact) {
             NSString *imageUrl = [NSString stringWithFormat:@"%@?access_token=%@", contact.imageUrl, profileModel.token];
             return imageUrl;

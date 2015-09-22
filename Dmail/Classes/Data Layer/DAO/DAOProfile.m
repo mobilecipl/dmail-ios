@@ -212,6 +212,9 @@
         keychanNumber++;
         keychanName = [NSString stringWithFormat:@"%ld", (long)keychanNumber];
     }
+    else {
+        keychanName = @"1";
+    }
     
     return keychanName;
 }

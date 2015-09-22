@@ -27,6 +27,7 @@
         _googleId = model.googleId;
         _imageUrl = model.imageUrl;
         _token = model.token;
+        _refreshToken = model.refreshToken;
         _contactLastUpdateDate = model.contactLastUpdateDate;
         _bodyTemplate = model.bodyTemplate;
         _templateLastUpdateDate = model.templateLastUpdateDate;

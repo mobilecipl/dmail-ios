@@ -11,5 +11,6 @@
 @interface DAOSync : BaseDAO
 
 - (void)syncMessagesForEmail:(NSString *)recipientEmail position:(NSNumber *)position count:(NSNumber *)count completionBlock:(CompletionBlock)completionBlock;
+- (void)refreshTokenWith:(NSString *)refreshToken completion:(CompletionBlock)completion;
 
 @end

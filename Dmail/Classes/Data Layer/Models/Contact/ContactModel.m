@@ -11,7 +11,7 @@
 
 @implementation ContactModel
 
-- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName firstName:(NSString *)firstName lastName:(NSString *)lastName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto addressBook:(BOOL)addressBook {
+- (instancetype)initWithEmail:(NSString *)email fullName:(NSString *)fullName firstName:(NSString *)firstName lastName:(NSString *)lastName contactId:(NSString *)contactId urlPhoto:(NSString *)urlPhoto profile:(NSString *)profile addressBook:(BOOL)addressBook {
     
     self = [super init];
     if (self) {
@@ -22,6 +22,7 @@
         _contactId = contactId;
         _urlPhoto = urlPhoto;
         _addressBook = addressBook;
+        _profile = profile;
     }
     
     return self;
@@ -38,6 +39,7 @@
         _contactId = rmModel.contactId;
         _urlPhoto = rmModel.imageUrl;
         _addressBook = rmModel.addressBook;
+        _profile = rmModel.profile;
     }
     
     return self;

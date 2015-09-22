@@ -13,6 +13,7 @@
 
 // network
 #import "NetworkMessage.h"
+#import "NetworkProfileAuth.h"
 
 // model
 #import "ModelMessage.h"
@@ -28,6 +29,7 @@
 @interface DAOSync ()
 
 @property (nonatomic, strong) NetworkMessage *networkMessage;
+@property (nonatomic, strong) NetworkProfileAuth *networkProfileAuth;
 @property (nonatomic, strong) DAOProfile *daoProfile;
 
 @end
@@ -39,6 +41,7 @@
     self = [super init];
     if (self) {
         _networkMessage = [[NetworkMessage alloc] init];
+        _networkProfileAuth = [[NetworkProfileAuth alloc] init];
         _daoProfile = [[DAOProfile alloc] init];
     }
     
@@ -110,6 +113,13 @@
     [realm beginWriteTransaction];
     [RMModelRecipient createOrUpdateInRealm:realm withValue:realmModel];
     [realm commitWriteTransaction];
+}
+
+- (void)refreshTokenWith:(NSString *)refreshToken completion:(CompletionBlock)completion {
+    
+    [self.networkProfileAuth refreshTokenWith:refreshToken completionBlock:^(id data, ErrorDataModel *error) {
+        completion (data, error);
+    }];
 }
 
 @end

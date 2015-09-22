@@ -96,7 +96,6 @@
 - (void)sync {
     
 //    [self syncTemplate];
-//    [self syncAddressBookContacts];
     if ([self.serviceProfile tokenExpireForEmail:self.email]) {
         [self refreshAccessToken];
     }
@@ -238,13 +237,14 @@
         NSLog(@"canAuthorize");
     }
     
+//    [self.daoSync refreshTokenWith:self.auth.refreshToken completion:^(id data, ErrorDataModel *error) {
+//        
+//    }];
+    
     NSString *requestString = [NSString stringWithFormat:@"https://accounts.google.com/o/oauth2/token"];
     NSString *string = [NSString stringWithFormat:@"client_id=%@&client_secret=%@&refresh_token=%@&grant_type=refresh_token",kGoogleClientID,kGoogleClientSecret,self.auth.refreshToken];
     NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestString]];
-    NSLog(@"\n request str : %@",request);
-    
-    NSLog(@"\n refresh token value is %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"refreshToken"]);
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
@@ -328,8 +328,8 @@
     self.timerSyncGoogleContacts = nil;
     [self.daoMessage cancelAllRequests];
     [self.serviceProfile removeProfileWithEmail:self.email];
-    [self.daoMessage removeMessagesForProfile:self.email];
-    [self.daoMessage removeResipientsForProfile:self.email];
+//    [self.daoMessage removeMessagesForProfile:self.email];
+//    [self.daoMessage removeResipientsForProfile:self.email];
 }
 
 @end

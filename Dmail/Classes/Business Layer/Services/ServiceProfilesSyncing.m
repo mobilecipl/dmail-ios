@@ -87,7 +87,7 @@
     [serviceSync sync];
 }
 
-- (void)logOutProfileWithEmail:(NSString *)email {
+- (void)logOutProfileWithEmail:(NSString *)email completion:(CompletionBlock)completionBlock {
     
     for (ServiceSync *serviceSync in self.arraySyncsProfiles) {
         if ([serviceSync.email isEqualToString:email]) {
@@ -97,6 +97,7 @@
             break;
         }
     }
+    completionBlock (nil,nil);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ProfileRemoved" object:nil];
 }
