@@ -318,7 +318,7 @@
         [self.tableViewMenu insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
         [self.tableViewMenu endUpdates];
         
-        [self showSettingsIconWithAnimation];
+//        [self showSettingsIconWithAnimation];
     }
     else {
         self.arrayDataTableViewMenu = nil;
@@ -332,7 +332,7 @@
         [self.tableViewMenu endUpdates];
         self.selectedSection = -1;
         
-        [self hideSettingsIconWithAnimation];
+//        [self hideSettingsIconWithAnimation];
     }
     [self closeAllProfileSectionsExept:menuSectionView.email];
 }

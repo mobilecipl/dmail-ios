@@ -157,6 +157,8 @@
     }
 }
 
+
+#pragma mark - CustomAlertViewDelegate methods
 - (void)customIOS7dialogButtonTouchUpInside:(CustomAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex {
     
     [alertView close];

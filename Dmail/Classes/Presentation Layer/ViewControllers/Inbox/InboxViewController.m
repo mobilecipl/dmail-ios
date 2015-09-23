@@ -29,17 +29,19 @@
 
 // view
 #import "InboxCell.h"
+#import "CustomAlertView.h"
 
 //colors
 #import "UIColor+AppColors.h"
 
-@interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate, InboxCellDelegate>
+@interface InboxViewController () <UITableViewDelegate, TableViewDataSourceDelegate, InboxCellDelegate, CustomAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableViewInbox;
 @property (nonatomic, weak) IBOutlet UIView *viewInboxZero;
 @property (nonatomic, weak) IBOutlet UIView *viewDeactivateScreen;
 @property (nonatomic, weak) IBOutlet UIImageView *imageViewNavigationIcon;
 @property (nonatomic, weak) IBOutlet UIButton *buttonRevealMenu;
+@property (nonatomic, weak) IBOutlet UILabel *labelInboxZero;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
 
 @property (nonatomic, strong) ServiceMessage *serviceMessage;
@@ -49,6 +51,7 @@
 @property (nonatomic, strong) VMInboxMessageItem *selectedMessage;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
+@property (nonatomic, strong) InboxCell *deleted_ArchivedMessageCell;
 
 @property (nonatomic, assign) BOOL menuHasBeenOpened;
 
@@ -170,7 +173,6 @@
 
 - (void)messageFetchedFromGmail {
     
-    self.viewInboxZero.hidden = YES;
     NSArray *arrayNewMessages = [self.serviceMessage getInboxMessages];
     NSInteger itemIndex = 0;
     for (NSInteger i = 0; i<[arrayNewMessages count]; i++) {
@@ -186,6 +188,7 @@
             if (!itemExist) {
                 itemIndex = i;
                 [self.arrayMesages insertObject:item atIndex:i];
+                self.viewInboxZero.hidden = YES;
                 self.dataSourceInbox.items = self.arrayMesages;
                 NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]];
                 [self.tableViewInbox beginUpdates];
@@ -195,6 +198,7 @@
         }
         else {
             [self.arrayMesages addObject:item];
+            self.viewInboxZero.hidden = YES;
             self.dataSourceInbox.items = self.arrayMesages;
             NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]];
             [self.tableViewInbox beginUpdates];
@@ -209,6 +213,66 @@
     [self showMessageSentSuccess];
 }
 
+- (void)showDelete_ArchiveAlertWithMessage:(NSString *)message {
+    
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:message
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    NSDictionary *cancelButton = @{@"title" : @"Ok",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton, nil]];
+    [alertView setDelegate:self];
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
+}
+
+- (void)deleteMessage {
+
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)self.deleted_ArchivedMessageCell];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId completionBlock:^(id data, ErrorDataModel *error) {
+        [self hideLoadingView];
+        if ([data isEqual:@(YES)]) {
+            [self.arrayMesages removeObjectAtIndex:indexPath.row];
+            if ([self.arrayMesages count] > 0) {
+                self.dataSourceInbox.items = self.arrayMesages;
+                [self.tableViewInbox reloadData];
+            }
+            else {
+                self.viewInboxZero.hidden = NO;
+                self.labelInboxZero.text = @"Congrats, you’ve cleared all your Dmails";
+            }
+        }
+        else {
+            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to destroy the message at this time. Please try again."];
+        }
+    }];
+}
+
+- (void)archiveMessage {
+    
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)self.deleted_ArchivedMessageCell];
+    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
+    NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:messageItem.messageId];
+    
+    [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
+        if (data) {
+            [self messageDelete:self.deleted_ArchivedMessageCell];
+        } else {
+            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to archive this message at this time. Please try again."];
+        }
+    }];
+}
 
 #pragma mark - Action Methods
 - (IBAction)buttonHandlerCompose:(id)sender {
@@ -231,34 +295,68 @@
 #pragma mark - InboxCellDelegate Methods
 - (void)messageDelete:(id)cell {
     
-    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)cell];
-    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId completionBlock:^(id data, ErrorDataModel *error) {
-        [self hideLoadingView];
-        if ([data isEqual:@(YES)]) {
-            [self.arrayMesages removeObjectAtIndex:indexPath.row];
-            self.dataSourceInbox.items = self.arrayMesages;
-            [self.tableViewInbox reloadData];
-        }
-        else {
-            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to destroy the message at this time. Please try again."];
-        }
+    self.deleted_ArchivedMessageCell = (InboxCell *)cell;
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:@"Are you sure you want to Delete? This is permanent and cannot be undone."
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    
+    NSDictionary *cancelButton = @{@"title" : @"Cancel",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    NSDictionary *okButton = @{@"title" : @"Delete",
+                                    @"titleColor" : [UIColor whiteColor],
+                                    @"backgroundColor" : [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1],
+                                    @"font" : @"ProximaNova-Regular",
+                                    @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton,okButton, nil]];
+    [alertView setDelegate:self];
+    alertView.tag = 0;
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
     }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
 }
 
 - (void)messageArchive:(id)cell {
     
-    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
-    VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
-    NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:messageItem.messageId];
-    
-    [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
-        if (data) {
-            [self messageDelete:cell];
-        } else {
-            [self showErrorAlertWithTitle:@"Error!" message:@"Unable to archive this message at this time. Please try again."];
-        }
+    self.deleted_ArchivedMessageCell = (InboxCell *)cell;
+    CustomAlertView *alertView = [[CustomAlertView alloc] initWithTitle:@"Dmail"
+                                                               withFont:@"ProximaNova-Semibold"
+                                                               withSize:20
+                                                            withMessage:@"Are you sure you want to Delete? This is permanent and cannot be undone."
+                                                        withMessageFont:@"ProximaNova-Regular"
+                                                    withMessageFontSize:15
+                                                         withDeactivate:NO];
+    NSDictionary *cancelButton = @{@"title" : @"Cancel",
+                                   @"titleColor" : [UIColor whiteColor],
+                                   @"backgroundColor" : [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1],
+                                   @"font" : @"ProximaNova-Regular",
+                                   @"fontSize" : @"15"};
+    NSDictionary *okButton = @{@"title" : @"Archive",
+                               @"titleColor" : [UIColor whiteColor],
+                               @"backgroundColor" : [UIColor colorWithRed:215.0/255.0 green:34.0/255.0 blue:106.0/255.0 alpha:1],
+                               @"font" : @"ProximaNova-Regular",
+                               @"fontSize" : @"15"};
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:cancelButton,okButton, nil]];
+    [alertView setDelegate:self];
+    alertView.tag = 1;
+    [alertView setOnButtonTouchUpInside:^(CustomAlertView *alertView, int buttonIndex) {
+        [alertView close];
     }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
+    
+    
+    
+    
+    
 }
 
 - (void)messageUnread:(id)cell {
@@ -302,5 +400,33 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+
+#pragma mark - CustomAlertViewDelegate methods
+- (void)customIOS7dialogButtonTouchUpInside:(CustomAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex {
+    
+    switch (alertView.tag) {
+        case 0:
+            if (buttonIndex == 0) {
+                [alertView close];
+            }
+            else {
+                [self deleteMessage];
+            }
+            break;
+        case 1:
+            if (buttonIndex == 0) {
+                [alertView close];
+            }
+            else {
+                [self archiveMessage];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 @end

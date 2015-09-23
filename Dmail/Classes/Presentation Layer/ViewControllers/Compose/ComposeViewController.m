@@ -25,6 +25,7 @@
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UITableView *tableViewContacts;
+@property (nonatomic, weak) IBOutlet UITableView *tableViewSelfDestruct;
 @property (nonatomic, weak) IBOutlet UIWebView *webEncryptor;
 @property (nonatomic, weak) IBOutlet UIView *viewMessageCompose;
 @property (nonatomic, weak) IBOutlet UIView *viewSecure;
@@ -33,7 +34,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *buttonCcBcc;
 @property (nonatomic, weak) IBOutlet UIButton *buttonUpArrow;
 @property (nonatomic, weak) IBOutlet UILabel *labelSelfDestroy;
-@property (nonatomic, weak) IBOutlet UIView *viewSelfDestruct;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldSubject;
 @property (nonatomic, weak) IBOutlet TextViewPlaceHolder *textViewBody;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraitHeight;
@@ -42,6 +42,7 @@
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldCc;
 @property (nonatomic, weak) IBOutlet VENTokenField *fieldBcc;
 @property (nonatomic, weak) IBOutlet BaseNavigationController *viewNavigation;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewIconArrow;
 
 @property (nonatomic, strong) VENTokenField *selectedToken;
 @property (nonatomic, strong) ContactModel *tempContactModel;
@@ -55,14 +56,17 @@
 @property (nonatomic, strong) NSMutableArray *arrayTempCc;
 @property (nonatomic, strong) NSMutableArray *arrayTempBcc;
 @property (nonatomic, strong) NSMutableArray *arrayContacts;
+@property (nonatomic, strong) NSArray *arrayMessageDestructs;
 
 @property (nonatomic, assign) NSInteger selfDestructTime;
+@property (nonatomic, assign) NSInteger selectedCell;
 @property (nonatomic, assign) CGFloat textViewHeight;
 @property (nonatomic, assign) CGFloat keyboardHeight;
 @property (nonatomic, assign) CGFloat scrollViewContentOffset;
 @property (nonatomic, assign) long long timer;
 @property (nonatomic, assign) BOOL backClicked;
 @property (nonatomic, assign) BOOL ccBccOpened;
+@property (nonatomic, assign) BOOL selfDestructOpened;
 
 @end
 
@@ -153,12 +157,9 @@
     [self defineTextViewFrame];
 }
 
-- (IBAction)selfDestructClicked:(id)sender {
+- (void)selfDestructClicked:(NSInteger)cellIndex {
     
-    UIButton *button = (UIButton *)sender;
-    NSInteger buttonTag = button.tag;
-    self.labelSelfDestroy.text = [NSString stringWithFormat:@"Self destruct %@", button.titleLabel.text];
-    switch (buttonTag) {
+    switch (cellIndex) {
         case 0:
             self.selfDestructTime = 0;
             break;
@@ -177,7 +178,6 @@
         default:
             break;
     }
-    [self tapOnSelfDestruct];
 }
 
 
@@ -199,6 +199,13 @@
             [self.fieldTo addTokenWithString:self.replyedRecipientEmail];
         }
     }
+    
+    self.arrayMessageDestructs = @[@"Self destruct manually (no timer)",
+                                   @"Self destruct in 1 hour",
+                                   @"Self destruct in 1 day",
+                                   @"Self destruct in 1 week"];
+    self.selectedCell = 0;
+    self.selfDestructTime = 0;
 }
 
 - (void)setupViewLayers {
@@ -217,7 +224,31 @@
 
 - (void)tapOnSelfDestruct {
     
-    self.viewSelfDestruct.hidden = !self.viewSelfDestruct.hidden;
+    self.tableViewSelfDestruct.hidden = self.selfDestructOpened;
+    [self rotateArrowUp:self.selfDestructOpened];
+    self.selfDestructOpened = !self.selfDestructOpened;
+    [self.tableViewSelfDestruct reloadData];
+}
+
+- (void)rotateArrowUp:(BOOL)opened {
+    
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         CATransform3D transformation = CATransform3DIdentity;
+                         CATransform3D xRotation = CATransform3DMakeRotation(0, 1.0, 0, 0);
+                         CATransform3D yRotation = CATransform3DMakeRotation(0, 0.0, 1.0, 0);
+                         CGFloat angle = 0;
+                         if (!opened) {
+                             angle = 180;
+                         }
+                         CATransform3D zRotation = CATransform3DMakeRotation(angle * M_PI/180, 0.0, 0, 1.0);
+                         CATransform3D xYRotation = CATransform3DConcat(xRotation, yRotation);
+                         CATransform3D xyZRotation = CATransform3DConcat(xYRotation, zRotation);
+                         CATransform3D concatenatedTransformation = CATransform3DConcat(xyZRotation, transformation);
+                         self.imageViewIconArrow.layer.transform = concatenatedTransformation;
+                     }
+                     completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)setupRecipientsFields {
@@ -419,11 +450,9 @@
     
     if (self.selfDestructTime != 0 && self.selfDestructTime != -1) {
         NSDate *now = [NSDate date];
-        NSDate *dateToFire = [now dateByAddingTimeInterval:5*60];
+        NSDate *dateToFire = [now dateByAddingTimeInterval:self.selfDestructTime];
         NSTimeInterval timeInterval = [now timeIntervalSince1970];
-        NSLog(@"now ==== %f", timeInterval);
         timeInterval = [dateToFire timeIntervalSince1970];
-        NSLog(@"dateToFire ==== %f", timeInterval);
         self.timer = timeInterval*1000;
     }
     else if (self.selfDestructTime == -1){
@@ -455,30 +484,70 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.arrayContacts count];
+    if (self.selfDestructOpened) {
+        return [self.arrayMessageDestructs count];
+    }
+    else {
+        return [self.arrayContacts count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
-    [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row]];
-    
-    return contactCell;
+    if (self.selfDestructOpened) {
+        static NSString *CellIdentifier = @"Cell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.textLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:16];
+        cell.backgroundColor = [UIColor clearColor];
+        if (self.selectedCell == indexPath.row) {
+            cell.textLabel.textColor = [UIColor colorWithRed:120.0/255.0 green:132.0/255.0 blue:140.0/255.0 alpha:1];
+            if (self.selectedCell == 0) {
+                self.labelSelfDestroy.text = @"Self destruct manually";
+            }
+            else {
+                self.labelSelfDestroy.text = [self.arrayMessageDestructs objectAtIndex:indexPath.row];
+            }
+        }
+        else {
+            cell.textLabel.textColor = [UIColor colorWithRed:167.0/255.0 green:181.0/255.0 blue:192.0/255.0 alpha:1];
+        }
+        cell.textLabel.text = [self.arrayMessageDestructs objectAtIndex:indexPath.row];
+        UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(30, cell.frame.size.height - 1, cell.frame.size.width - 30, 1)];
+        viewLine.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:215.0/255.0 blue:226.0/255.0 alpha:1];
+        [cell addSubview:viewLine];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }
+    else {
+        ContactCell *contactCell = [tableView dequeueReusableCellWithIdentifier:@"ContactCellID"];
+        [contactCell configureCellWithContactModel:[self.arrayContacts objectAtIndex:indexPath.row]];
+        return contactCell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (tableView == self.tableViewContacts) {
-        ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
-        if (contactModel.email) {
-            self.tableViewContacts.hidden = YES;
-            self.selectedToken.selectEmailFromContacts = YES;
-            if (contactModel.fullName.length > 0) {
-                self.tempContactModel = contactModel;
-                [self.selectedToken addTokenWithString:contactModel.fullName];
-            }
-            else {
-                [self.selectedToken addTokenWithString:contactModel.email];
+    if (self.selfDestructOpened) {
+        self.selectedCell = indexPath.row;
+        [self selfDestructClicked:self.selectedCell];
+        [self.tableViewSelfDestruct reloadData];
+    }
+    else {
+        if (tableView == self.tableViewContacts) {
+            ContactModel *contactModel = [self.arrayContacts objectAtIndex:indexPath.row];
+            if (contactModel.email) {
+                self.tableViewContacts.hidden = YES;
+                self.selectedToken.selectEmailFromContacts = YES;
+                if (contactModel.fullName.length > 0) {
+                    self.tempContactModel = contactModel;
+                    [self.selectedToken addTokenWithString:contactModel.fullName];
+                }
+                else {
+                    [self.selectedToken addTokenWithString:contactModel.email];
+                }
             }
         }
     }

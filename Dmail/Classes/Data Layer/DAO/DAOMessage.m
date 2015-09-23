@@ -305,7 +305,7 @@
     RLMRealm *realm = [RLMRealm defaultRealm];
     DAOProfile *daoProfile = [[DAOProfile alloc] init];
     ProfileModel *modelProfile = [daoProfile getProfile];
-    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"(type = %@ || type = %@ || type = %@) AND access = %@ AND recipient = %@", @"TO", @"CC", @"BCC", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
+    RLMResults *recipients = [[RMModelRecipient objectsInRealm:realm where:@"type = %@ AND access = %@ AND recipient = %@", @"TO", @"GRANTED", modelProfile.email] sortedResultsUsingProperty:@"position" ascending:NO];
     if ([recipients count] > 0) {
         success = YES;
     }

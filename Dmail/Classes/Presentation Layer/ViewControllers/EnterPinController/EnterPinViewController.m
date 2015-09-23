@@ -110,10 +110,46 @@
 
 
 #pragma mark - Private Methods
+- (void)enterTouchId {
+    
+    LAContext *context = [[LAContext alloc] init];
+    
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Are you the device owner?" reply:^(BOOL success, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                if (success) {
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TouchId];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                                    message:@"You are the device owner!"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil, nil];
+                    [alert show];
+                } else {
+                    NSDictionary *dict = [error userInfo];
+                    if ([dict[@"NSLocalizedDescription"] isEqualToString:@"Canceled by user."]) {
+                        return;
+                    }
+                    else if([dict[@"NSLocalizedDescription"] isEqualToString:@"Application retry limit exceeded."]) {
+                        [self showErrorAlertWithTitle:@"Error" message:@"You are not the device owner."];
+                    }
+                }
+            });
+        }];
+    } else {
+        [self showErrorAlertWithTitle:@"Error" message:@"Your device cannot authenticate using TouchID."];
+    }
+}
+
 - (void)setupController {
     
     [self.textField becomeFirstResponder];
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:TouchId]) {
+        [self enterTouchId];
+    }
     if (self.fromSettings || ![self isTouchEnabledInDevice]) {
         if (self.fromSettings && [[NSUserDefaults standardUserDefaults] objectForKey:Pin]) {
             self.viewNavigation.hidden = NO;
@@ -126,8 +162,14 @@
         self.labelSwitch.hidden = YES;
     }
     else {
-        self.viewSwitch.layer.masksToBounds = YES;
-        self.viewSwitch.layer.cornerRadius = self.viewSwitch.frame.size.height/2;
+        if([[NSUserDefaults standardUserDefaults] objectForKey:Pin]) {
+            self.viewSwitchContainer.hidden = YES;
+            self.labelSwitch.hidden = YES;
+        }
+        else {
+            self.viewSwitch.layer.masksToBounds = YES;
+            self.viewSwitch.layer.cornerRadius = self.viewSwitch.frame.size.height/2;
+        }
     }
     
     self.viewPin1.layer.masksToBounds = YES;
@@ -276,14 +318,9 @@
                              }
                              completion:^(BOOL finished) {
                                  sleep(1);
-                                 if ([[NSUserDefaults standardUserDefaults] boolForKey:TouchId]) {
-                                     [self performSegueWithIdentifier:@"fromPinToTouchId" sender:self];
-                                 }
-                                 else {
-                                     [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
-                                 }
+                                 [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
                              }];
-            [[NSUserDefaults standardUserDefaults] setObject:self.tempPin forKey:Pin];
+            [[NSUserDefaults standardUserDefaults] setObject:savedPin forKey:Pin];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupPin];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
@@ -384,32 +421,33 @@
     BOOL success = YES;
     if (textField.text.length <= 4) {
         if ([string isEqualToString:@""]) {
-            switch (textField.text.length) {
-                case 4:
-                    success = YES;
-                    self.labelPin4.text = @"";
-                    [self hideStar:textField.text.length - 1];
-                    break;
-                case 3:
-                    success = YES;
-                    self.labelPin3.text = @"";
-                    [self hideStar:textField.text.length - 1];
-                    break;
-                case 2:
-                    success = YES;
-                    self.labelPin2.text = @"";
-                    [self hideStar:textField.text.length - 1];
-                    break;
-                case 1:
-                    success = YES;
-                    self.labelPin1.text = @"";
-                    [self hideStar:textField.text.length - 1];
-                    break;
-                    
-                default:
-                    success = NO;
-                    break;
-            }
+            [self clearAllFields];
+//            switch (textField.text.length) {
+//                case 4:
+//                    success = YES;
+//                    self.labelPin4.text = @"";
+//                    [self hideStar:textField.text.length - 1];
+//                    break;
+//                case 3:
+//                    success = YES;
+//                    self.labelPin3.text = @"";
+//                    [self hideStar:textField.text.length - 1];
+//                    break;
+//                case 2:
+//                    success = YES;
+//                    self.labelPin2.text = @"";
+//                    [self hideStar:textField.text.length - 1];
+//                    break;
+//                case 1:
+//                    success = YES;
+//                    self.labelPin1.text = @"";
+//                    [self hideStar:textField.text.length - 1];
+//                    break;
+//                    
+//                default:
+//                    success = NO;
+//                    break;
+//            }
         }
         else {
             switch (textField.text.length) {
@@ -469,6 +507,19 @@
     }
     
     return success;
+}
+
+
+#pragma mark - UIAlertViewDelegate Methods
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (self.fromSettings) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [self.textField resignFirstResponder];
+        [self performSegueWithIdentifier:@"fromPinToLoading" sender:self];
+    }
 }
 
 @end
