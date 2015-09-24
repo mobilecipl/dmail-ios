@@ -30,6 +30,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)dealloc {

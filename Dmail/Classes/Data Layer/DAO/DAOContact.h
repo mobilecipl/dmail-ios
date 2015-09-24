@@ -19,4 +19,6 @@
 
 - (void)cancelAllRequests;
 
+- (void)removeContactsForProfile:(NSString *)profileEmail;
+
 @end

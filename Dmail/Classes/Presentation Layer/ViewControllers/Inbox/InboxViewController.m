@@ -48,10 +48,10 @@
 @property (nonatomic, strong) ServiceGmailMessage *serviceGmailMessage;
 @property (nonatomic, strong) TableViewDataSource *dataSourceInbox;
 @property (nonatomic, strong) InboxCell *editedCell;
+@property (nonatomic, strong) InboxCell *deleted_ArchivedMessageCell;
 @property (nonatomic, strong) VMInboxMessageItem *selectedMessage;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *arrayMesages;
-@property (nonatomic, strong) InboxCell *deleted_ArchivedMessageCell;
 
 @property (nonatomic, assign) BOOL menuHasBeenOpened;
 
@@ -83,6 +83,13 @@
     [self setupTableView];
     [self registerNotifications];
     [self loadMessages];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [self.tableViewInbox reloadData];
 }
 
 
@@ -238,10 +245,13 @@
 
 - (void)deleteMessage {
 
+    [self closeEditedCellOptions];
+    [self showLoadingView];
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)self.deleted_ArchivedMessageCell];
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
     [self.serviceMessage deleteMessageWithMessageId:messageItem.messageId completionBlock:^(id data, ErrorDataModel *error) {
         [self hideLoadingView];
+        self.deleted_ArchivedMessageCell = nil;
         if ([data isEqual:@(YES)]) {
             [self.arrayMesages removeObjectAtIndex:indexPath.row];
             if ([self.arrayMesages count] > 0) {
@@ -261,13 +271,15 @@
 
 - (void)archiveMessage {
     
+    [self closeEditedCellOptions];
+    [self showLoadingView];
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)self.deleted_ArchivedMessageCell];
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
     NSString *gmailID = [self.serviceMessage getGmailIDWithMessageId:messageItem.messageId];
     
     [self.serviceGmailMessage archiveMessageWithMessageId:gmailID completionBlock:^(id data, ErrorDataModel *error) {
         if (data) {
-            [self messageDelete:self.deleted_ArchivedMessageCell];
+            [self deleteMessage];
         } else {
             [self showErrorAlertWithTitle:@"Error!" message:@"Unable to archive this message at this time. Please try again."];
         }
@@ -284,15 +296,38 @@
 #pragma mark - UITableViewDelegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.editedCell) {
-        [self.editedCell movePanelToLeft];
-    }
     self.selectedMessage = [self.dataSourceInbox itemAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"fromInboxToInboxView" sender:self];
 }
 
 
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    [self closeEditedCellOptions];
+}
+
 #pragma mark - InboxCellDelegate Methods
+- (void)closeEditedCellOptions {
+    
+    if (self.editedCell) {
+        [self.editedCell closeOptions];
+        self.editedCell = nil;
+    }
+}
+
+- (void)cellOptionsAreOpened:(id)cell {
+    
+    self.editedCell = (InboxCell *)cell;
+}
+
+- (void)tapOnCell:(id)cell {
+    
+    NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:(InboxCell *)cell];
+    self.selectedMessage = [self.arrayMesages objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"fromInboxToInboxView" sender:self];
+}
+
 - (void)messageDelete:(id)cell {
     
     self.deleted_ArchivedMessageCell = (InboxCell *)cell;
@@ -352,30 +387,14 @@
     }];
     [alertView setUseMotionEffects:true];
     [alertView show];
-    
-    
-    
-    
-    
 }
 
 - (void)messageUnread:(id)cell {
     
+    [self closeEditedCellOptions];
     NSIndexPath *indexPath = [self.tableViewInbox indexPathForCell:cell];
     VMInboxMessageItem *messageItem = [self.arrayMesages objectAtIndex:indexPath.row];
     [self.serviceMessage unreadMessageWithMessageId:messageItem.messageId];
-}
-
-- (void)panelMovedOnRight:(id)cell {
-    
-    InboxCell *selectedCell = (InboxCell *)cell;
-    if (self.editedCell && selectedCell.row != self.editedCell.row) {
-        [self.editedCell movePanelToLeft];
-        self.editedCell = (InboxCell *)cell;
-    }
-    if (!self.editedCell) {
-        self.editedCell = (InboxCell *)cell;
-    }
 }
 
 

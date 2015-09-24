@@ -7,10 +7,9 @@
 //
 
 #import "MenuViewController.h"
+#import "ReserveViewController.h"
 #import "MenuCell.h"
 #import "UIColor+AppColors.h"
-#import "LoadingViewController.h"
-#import "LoginViewController.h"
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MenuSectionView.h"
@@ -89,6 +88,12 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(profileRemoved) name:@"ProfileRemoved" object:nil];
+    
+    if (![AppDelegate sharedDelegate].signedIn) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ReserveViewController *viewController = [storyBoard instantiateViewControllerWithIdentifier:@"reserveView"];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

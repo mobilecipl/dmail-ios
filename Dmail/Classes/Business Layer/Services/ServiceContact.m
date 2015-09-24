@@ -62,4 +62,8 @@
     [self.daoContact cancelAllRequests];
 }
 
+- (void)removeContactsForProfile:(NSString *)profileEmail {
+    
+    [self.daoContact removeContactsForProfile:profileEmail];
+}
 @end

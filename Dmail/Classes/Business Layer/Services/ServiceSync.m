@@ -328,8 +328,9 @@
     self.timerSyncGoogleContacts = nil;
     [self.daoMessage cancelAllRequests];
     [self.serviceProfile removeProfileWithEmail:self.email];
-//    [self.daoMessage removeMessagesForProfile:self.email];
-//    [self.daoMessage removeResipientsForProfile:self.email];
+    [self.daoMessage removeMessagesForProfile:self.email];
+    [self.daoMessage removeResipientsForProfile:self.email];
+    [self.daoContact removeContactsForProfile:self.email];
 }
 
 @end

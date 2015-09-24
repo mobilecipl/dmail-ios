@@ -20,9 +20,14 @@ NSString *const InboxCellIdentifier = @"InboxCellIdentifier";
 NSInteger const panelLeftSlightLimit = 250;
 NSInteger const panelRightSlightLimit = 100;
 
-@interface InboxCell ()
+@interface InboxCell () <UIScrollViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *viewMain;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewCell;
+@property (weak, nonatomic) IBOutlet UIView *viewCell;
+@property (weak, nonatomic) IBOutlet UIView *viewCellActions;
+
+
+
 @property (weak, nonatomic) IBOutlet UIView *viewBorder;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewProfile;
 @property (weak, nonatomic) IBOutlet UILabel *labelSenderName;
@@ -39,7 +44,9 @@ NSInteger const panelRightSlightLimit = 100;
 #pragma mark - Publioc Methods
 - (void)configureCell:(VMInboxMessageItem *)messageItem {
     
-    self.centerY = self.viewMain.center.y;
+    self.scrollViewCell.contentSize = CGSizeMake(self.frame.size.width + self.viewCellActions.frame.size.width, self.scrollViewCell.contentSize.height);
+    self.scrollViewCell.delegate = self;
+    
     self.cellLeftOriginX = [UIScreen mainScreen].bounds.size.width - 25;
     self.imageViewProfile.layer.masksToBounds = YES;
     self.imageViewProfile.layer.cornerRadius = self.imageViewProfile.frame.size.width/2;
@@ -58,37 +65,28 @@ NSInteger const panelRightSlightLimit = 100;
     
     [self.imageViewProfile sd_setImageWithURL:[NSURL URLWithString:messageItem.imageUrl]];
     
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panCell:)];
-    pan.delegate = self;
-    [self.viewMain addGestureRecognizer:pan];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnCell)];
+    [self.viewCell addGestureRecognizer:tapGesture];
 }
 
-- (void)panCell:(UIPanGestureRecognizer *)panGesture {
+- (void)tapOnCell {
     
-    CGPoint translation = [panGesture translationInView:self];
-    if (translation.x < 0 && self.constraintLeadingMainView.constant > -self.cellLeftOriginX) {
-        self.constraintLeadingMainView.constant = self.constraintLeadingMainView.constant + translation.x;
+    if([self.delegate respondsToSelector:@selector(tapOnCell:)]) {
+        [self.delegate tapOnCell:self];
     }
-    else if (translation.x > 0 && self.constraintLeadingMainView.constant + translation.x >= 0) {
-        self.constraintLeadingMainView.constant = 0;
-    }
-    else if (translation.x > 0 && self.constraintLeadingMainView.constant < 0) {
-        self.constraintLeadingMainView.constant = self.constraintLeadingMainView.constant + translation.x;
-    }
-    [panGesture setTranslation:CGPointMake(0, 0) inView:self];
+}
+
+- (void)closeOptions {
     
-    if (translation.x < 0 && self.constraintLeadingMainView.constant < -panelRightSlightLimit) {
-        [self movePanelToRight];
-    }
-    
-    if (translation.x > 0 && self.constraintLeadingMainView.constant > -panelLeftSlightLimit) {
-        [self movePanelToLeft];
-    }
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.scrollViewCell.contentOffset = CGPointMake(0, self.scrollViewCell.contentOffset.y);
+    } completion:^(BOOL finished) {
+        //some code
+    }];
 }
 
 - (IBAction)buttonDeleteClicked:(id)sender {
     
-    [self movePanelToLeft];
     if([self.delegate respondsToSelector:@selector(messageDelete:)]) {
         [self.delegate messageDelete:self];
     }
@@ -96,7 +94,6 @@ NSInteger const panelRightSlightLimit = 100;
 
 - (IBAction)buttonArchiveClicked:(id)sender {
     
-    [self movePanelToLeft];
     if([self.delegate respondsToSelector:@selector(messageArchive:)]) {
         [self.delegate messageArchive:self];
     }
@@ -104,72 +101,32 @@ NSInteger const panelRightSlightLimit = 100;
 
 - (IBAction)buttonUnreadlicked:(id)sender {
     
-    [self movePanelToLeft];
     self.viewBorder.hidden = NO;
     if([self.delegate respondsToSelector:@selector(messageUnread:)]) {
         [self.delegate messageUnread:self];
     }
 }
 
-- (void)movePanelToLeft {
-    
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         self.constraintLeadingMainView.constant = 0;
-                         [self layoutIfNeeded];
-                     }
-                     completion:^(BOOL finished) {
-                         if (finished) {
-                             [UIView animateWithDuration:0.5
-                                              animations:^{
-                                                  self.viewMain.layer.shadowColor = [[UIColor grayColor] CGColor];
-                                                  self.viewMain.layer.shadowOpacity = 0;
-                                                  self.viewMain.layer.shadowRadius = 0;
-                                                  self.viewMain.layer.shadowOffset = CGSizeMake(0, 0);
-                                              }
-                                              completion:nil];
-                         }
-                     }];
-}
 
-- (void)movePanelToRight {
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         self.constraintLeadingMainView.constant = -self.cellLeftOriginX;
-                         [self layoutIfNeeded];
-                     }
-                     completion:^(BOOL finished) {
-                         if (finished) {
-                             [UIView animateWithDuration:0.5
-                                              animations:^{
-                                                  self.viewMain.layer.shadowColor = [[UIColor grayColor] CGColor];
-                                                  self.viewMain.layer.shadowOpacity = 0.6;
-                                                  self.viewMain.layer.shadowRadius = 2;
-                                                  self.viewMain.layer.shadowOffset = CGSizeMake(1, 0);
-                                              }
-                                              completion:nil];
-                         }
-                     }];
-    
-    if([self.delegate respondsToSelector:@selector(panelMovedOnRight:)]) {
-        [self.delegate panelMovedOnRight:self];
+    NSLog(@"scrollView.contentOffset.x === %f", scrollView.contentOffset.x);
+    if([self.delegate respondsToSelector:@selector(closeEditedCellOptions)]) {
+        [self.delegate closeEditedCellOptions];
     }
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-    
-    // Check for horizontal gesture
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        UIView *cell = [gestureRecognizer view];
-        CGPoint translation = [gestureRecognizer translationInView:[cell superview]];
-        if (fabs(translation.x) > fabs(translation.y)) {
-            return YES;
+    if(scrollView.contentOffset.x > scrollView.contentSize.width - self.scrollViewCell.frame.size.width) {
+        scrollView.contentOffset = CGPointMake(scrollView.contentSize.width - self.scrollViewCell.frame.size.width, 0);
+        self.viewCell.layer.masksToBounds = NO;
+        self.viewCell.layer.shadowOffset = CGSizeMake(1, 1);
+        self.viewCell.layer.shadowRadius = 10;
+        self.viewCell.layer.shadowOpacity = 0.5;
+    }
+    if(scrollView.contentOffset.x == scrollView.contentSize.width - self.scrollViewCell.frame.size.width) {
+        if([self.delegate respondsToSelector:@selector(cellOptionsAreOpened:)]) {
+            [self.delegate cellOptionsAreOpened:self];
         }
-        return NO;
     }
-    return NO;
 }
-
 
 @end

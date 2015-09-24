@@ -212,4 +212,15 @@ const NSInteger contactsUpdateTime = 12;
     [self.networkContacts cancellAllRequests];
 }
 
+- (void)removeContactsForProfile:(NSString *)profileEmail {
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *results = [RMModelContact objectsInRealm:realm where:@"profile = %@", profileEmail];
+    [realm beginWriteTransaction];
+    for (RMModelContact *realmModel in results) {
+        [realm deleteObject:realmModel];
+    }
+    [realm commitWriteTransaction];
+}
+
 @end

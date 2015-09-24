@@ -31,6 +31,9 @@ pod 'DateTools'
 pod 'libextobjc/EXTScope'
 #pod 'DeviceUtil', '~> 1.2'
 
+# analytics
+pod 'FlurrySDK/FlurrySDK', '~> 6.2'
+pod 'AppsFlyer-SDK'
 
 #Leanplum
 #pod 'Leanplum-iOS-SDK'

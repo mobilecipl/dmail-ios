@@ -10,7 +10,6 @@
 #import "EnterPinViewController.h"
 #import "EnableTouchIdViewController.h"
 #import "ProfileModel.h"
-#import "ReserveViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "AppDelegate.h"
 
@@ -111,7 +110,13 @@
     [[AppDelegate sharedDelegate].serviceProfilesSyncing logOutProfileWithEmail:self.logOutProfileModel.email completion:^(id data, ErrorDataModel *error) {
         [self hideLoadingView];
         [self.arrayProfiles removeObjectAtIndex:button.tag];
-        [self.tableView reloadData];
+        if ([self.arrayProfiles count] == 0) {
+            [AppDelegate sharedDelegate].signedIn = NO;
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }
+        else {
+            [self.tableView reloadData];
+        }
     }];
 }
 

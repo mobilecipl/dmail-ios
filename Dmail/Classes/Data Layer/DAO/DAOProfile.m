@@ -22,14 +22,6 @@
 @implementation DAOProfile
 
 #pragma mark - Intsance Methods
-- (instancetype)init {
-    
-    if (self) {
-        
-    }
-    
-    return self;
-}
 
 - (ProfileModel *)getProfile {
     

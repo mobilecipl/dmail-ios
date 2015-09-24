@@ -97,6 +97,7 @@
             break;
         }
     }
+    
     completionBlock (nil,nil);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ProfileRemoved" object:nil];

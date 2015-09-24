@@ -12,10 +12,12 @@ extern NSString *const InboxCellIdentifier;
 
 @protocol InboxCellDelegate <NSObject>
 
+- (void)closeEditedCellOptions;
+- (void)cellOptionsAreOpened:(id)cell;
+- (void)tapOnCell:(id)cell;
 - (void)messageDelete:(id)cell;
 - (void)messageArchive:(id)cell;
 - (void)messageUnread:(id)cell;
-- (void)panelMovedOnRight:(id)cell;
 
 @end
 
@@ -26,6 +28,6 @@ extern NSString *const InboxCellIdentifier;
 @property (nonatomic, assign) id<InboxCellDelegate> delegate;
 @property (nonatomic, assign) NSInteger row;
 
-- (void)movePanelToLeft;
+- (void)closeOptions;
 
 @end
