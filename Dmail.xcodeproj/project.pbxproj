@@ -25,6 +25,67 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>0C6B9727C6D341D9DD2C7476</key>
+		<dict>
+			<key>fileRef</key>
+			<string>71F41AE7E78D8F7B844ADA4D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1A2300C025195442C55B0C49</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>3E043B1165690B01EF175817</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>Copy Pods Resources</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests-resources.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
 		<key>4597283497F7FA2F97D6A282</key>
 		<dict>
 			<key>fileRef</key>
@@ -1061,6 +1122,7 @@
 				<string>9CD8EA2A1B383DFB0052210D</string>
 				<string>9CD8EA2B1B383DFB0052210D</string>
 				<string>9C9E2AF41B2AEB64008F3C8E</string>
+				<string>F6C14F561C18C21D00926119</string>
 				<string>9C9E2AF31B2AEB64008F3C8E</string>
 				<string>EFAF3DA5F47E99AF4EA39098</string>
 				<string>D83BFC4667FC4E4708232089</string>
@@ -1105,6 +1167,13 @@
 							</dict>
 						</dict>
 					</dict>
+					<key>F6C14F541C18C21D00926119</key>
+					<dict>
+						<key>CreatedOnToolsVersion</key>
+						<string>6.4</string>
+						<key>TestTargetID</key>
+						<string>9C9E2AF11B2AEB64008F3C8E</string>
+					</dict>
 				</dict>
 			</dict>
 			<key>buildConfigurationList</key>
@@ -1135,6 +1204,7 @@
 			<key>targets</key>
 			<array>
 				<string>9C9E2AF11B2AEB64008F3C8E</string>
+				<string>F6C14F541C18C21D00926119</string>
 			</array>
 		</dict>
 		<key>9C9E2AED1B2AEB64008F3C8E</key>
@@ -1349,6 +1419,7 @@
 			<key>children</key>
 			<array>
 				<string>9C9E2AF21B2AEB64008F3C8E</string>
+				<string>F6C14F551C18C21D00926119</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -2136,6 +2207,30 @@
 			<string>9CE2B5E31B55114A0020A2E0</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>9EAFA5649CFE6CFDCEB3DE34</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>Embed Pods Frameworks</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-DmailTests/Pods-DmailTests-frameworks.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
 		</dict>
 		<key>B51FD4503439CFC42869C43F</key>
 		<dict>
@@ -5561,6 +5656,239 @@ fi
 			<string>Pods</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C14F511C18C21D00926119</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>F6C14F5A1C18C21D00926119</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>F6C14F521C18C21D00926119</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>0C6B9727C6D341D9DD2C7476</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>F6C14F531C18C21D00926119</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>F6C14F541C18C21D00926119</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>F6C14F5F1C18C21D00926119</string>
+			<key>buildPhases</key>
+			<array>
+				<string>1A2300C025195442C55B0C49</string>
+				<string>F6C14F511C18C21D00926119</string>
+				<string>F6C14F521C18C21D00926119</string>
+				<string>F6C14F531C18C21D00926119</string>
+				<string>9EAFA5649CFE6CFDCEB3DE34</string>
+				<string>3E043B1165690B01EF175817</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>F6C14F5C1C18C21D00926119</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>DmailTests</string>
+			<key>productName</key>
+			<string>DmailTests</string>
+			<key>productReference</key>
+			<string>F6C14F551C18C21D00926119</string>
+			<key>productType</key>
+			<string>com.apple.product-type.bundle.unit-test</string>
+		</dict>
+		<key>F6C14F551C18C21D00926119</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.cfbundle</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>DmailTests.xctest</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>F6C14F561C18C21D00926119</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>F6C14F591C18C21D00926119</string>
+				<string>F6C14F571C18C21D00926119</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DmailTests</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C14F571C18C21D00926119</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>F6C14F581C18C21D00926119</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Supporting Files</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C14F581C18C21D00926119</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C14F591C18C21D00926119</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DmailTests.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C14F5A1C18C21D00926119</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F6C14F591C18C21D00926119</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F6C14F5B1C18C21D00926119</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>9C9E2AEA1B2AEB64008F3C8E</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>9C9E2AF11B2AEB64008F3C8E</string>
+			<key>remoteInfo</key>
+			<string>Dmail</string>
+		</dict>
+		<key>F6C14F5C1C18C21D00926119</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>target</key>
+			<string>9C9E2AF11B2AEB64008F3C8E</string>
+			<key>targetProxy</key>
+			<string>F6C14F5B1C18C21D00926119</string>
+		</dict>
+		<key>F6C14F5D1C18C21D00926119</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>ED20293C14CBDB7F64341C27</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>BUNDLE_LOADER</key>
+				<string>$(TEST_HOST)</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(SDKROOT)/Developer/Library/Frameworks</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>DmailTests/Info.plist</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.4</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>TEST_HOST</key>
+				<string>$(BUILT_PRODUCTS_DIR)/Dmail.app/Dmail</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>F6C14F5E1C18C21D00926119</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>0619A2EC829210ED2EFCD877</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>BUNDLE_LOADER</key>
+				<string>$(TEST_HOST)</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(SDKROOT)/Developer/Library/Frameworks</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>DmailTests/Info.plist</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.4</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>TEST_HOST</key>
+				<string>$(BUILT_PRODUCTS_DIR)/Dmail.app/Dmail</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>F6C14F5F1C18C21D00926119</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>F6C14F5D1C18C21D00926119</string>
+				<string>F6C14F5E1C18C21D00926119</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>
